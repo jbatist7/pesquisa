@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pesquisa Científica: Do Fundamento à Prática</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,800;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1117;
+    --paper: #faf8f3;
+    --cream: #f2ede3;
+    --gold: #c9a84c;
+    --gold-light: #e6ca87;
+    --gold-pale: #f5ead0;
+    --teal: #1a4a4a;
+    --teal-mid: #2d6b6b;
+    --teal-light: #4a9b9b;
+    --teal-pale: #d4eaea;
+    --red: #8b2020;
+    --red-pale: #f5e0e0;
+    --violet: #3d2060;
+    --violet-pale: #e8e0f5;
+    --green: #1a4a1a;
+    --green-pale: #d4ead4;
+    --border: #d4c9b0;
+    --shadow: rgba(15,17,23,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 60px 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(255,255,255,0.025) 40px,
+      rgba(255,255,255,0.025) 41px
+    );
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .header-inner { position: relative; max-width: 900px; margin: 0 auto; }
+  header .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 5vw, 54px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  header h1 em { font-style: italic; color: var(--gold-light); }
+  header p {
+    font-size: 17px;
+    color: rgba(250,248,243,0.82);
+    max-width: 640px;
+    line-height: 1.65;
+  }
+
+  /* ── CHAIN NAVIGATOR ── */
+  .chain-nav {
+    background: var(--ink);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chain-nav::-webkit-scrollbar { display: none; }
+  .chain-btn {
+    flex: 1;
+    min-width: 130px;
+    padding: 14px 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(250,248,243,0.5);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .chain-btn:hover { color: var(--gold-light); background: rgba(255,255,255,0.04); }
+  .chain-btn.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+  .chain-btn .num {
+    display: block;
+    font-size: 18px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+    color: var(--gold);
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .chain-btn.active .num, .chain-btn:hover .num { opacity: 1; }
+
+  /* ── CONTENT ── */
+  main { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
+
+  /* ── SECTION HERO ── */
+  .sec-hero {
+    padding: 56px 0 36px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .sec-hero .tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+  .sec-hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .sec-hero h2 em { font-style: italic; }
+  .sec-hero .lead {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #3a3228;
+    max-width: 700px;
+  }
+  .sec-hero .question {
+    margin-top: 24px;
+    padding: 20px 24px;
+    border-radius: 6px;
+    font-size: 17px;
+    font-style: italic;
+    border-left: 4px solid;
+  }
+
+  /* ── COLORS PER SECTION ── */
+  .s-epist .sec-hero .tag { background: var(--teal-pale); color: var(--teal); }
+  .s-epist .sec-hero h2 em { color: var(--teal-mid); }
+  .s-epist .sec-hero .question { background: var(--teal-pale); border-color: var(--teal-mid); }
+  .s-epist .card-accent { border-color: var(--teal-mid); background: var(--teal-pale); }
+  .s-epist .pill { background: var(--teal-pale); color: var(--teal); border-color: var(--teal-light); }
+  .s-epist .acc-head { border-left: 4px solid var(--teal-mid); }
+  .s-epist .acc-head:hover, .s-epist .acc-head.open { background: var(--teal-pale); }
+
+  .s-metod .sec-hero .tag { background: var(--violet-pale); color: var(--violet); }
+  .s-metod .sec-hero h2 em { color: var(--violet); }
+  .s-metod .sec-hero .question { background: var(--violet-pale); border-color: var(--violet); }
+  .s-metod .card-accent { border-color: var(--violet); background: var(--violet-pale); }
+  .s-metod .pill { background: var(--violet-pale); color: var(--violet); border-color: var(--violet); }
+  .s-metod .acc-head { border-left: 4px solid var(--violet); }
+  .s-metod .acc-head:hover, .s-metod .acc-head.open { background: var(--violet-pale); }
+
+  .s-metodo .sec-hero .tag { background: var(--gold-pale); color: #7a5a10; }
+  .s-metodo .sec-hero h2 em { color: #8a6010; }
+  .s-metodo .sec-hero .question { background: var(--gold-pale); border-color: var(--gold); }
+  .s-metodo .card-accent { border-color: var(--gold); background: var(--gold-pale); }
+  .s-metodo .pill { background: var(--gold-pale); color: #7a5a10; border-color: var(--gold); }
+  .s-metodo .acc-head { border-left: 4px solid var(--gold); }
+  .s-metodo .acc-head:hover, .s-metodo .acc-head.open { background: var(--gold-pale); }
+
+  .s-tec .sec-hero .tag { background: var(--red-pale); color: var(--red); }
+  .s-tec .sec-hero h2 em { color: var(--red); }
+  .s-tec .sec-hero .question { background: var(--red-pale); border-color: var(--red); }
+  .s-tec .card-accent { border-color: var(--red); background: var(--red-pale); }
+  .s-tec .pill { background: var(--red-pale); color: var(--red); border-color: var(--red); }
+  .s-tec .acc-head { border-left: 4px solid var(--red); }
+  .s-tec .acc-head:hover, .s-tec .acc-head.open { background: var(--red-pale); }
+
+  .s-ferr .sec-hero .tag { background: var(--green-pale); color: var(--green); }
+  .s-ferr .sec-hero h2 em { color: var(--green); }
+  .s-ferr .sec-hero .question { background: var(--green-pale); border-color: var(--green); }
+  .s-ferr .card-accent { border-color: var(--green); background: var(--green-pale); }
+  .s-ferr .pill { background: var(--green-pale); color: var(--green); border-color: var(--green); }
+  .s-ferr .acc-head { border-left: 4px solid var(--green); }
+  .s-ferr .acc-head:hover, .s-ferr .acc-head.open { background: var(--green-pale); }
+
+  .s-chain .sec-hero .tag { background: #e0e8e8; color: #1a3a3a; }
+  .s-chain .sec-hero h2 em { color: var(--teal-mid); }
+  .s-chain .sec-hero .question { background: var(--teal-pale); border-color: var(--teal-mid); }
+
+  /* ── BODY CONTENT ── */
+  .content-body { padding-bottom: 24px; }
+  .content-body p { margin-bottom: 20px; font-size: 17px; color: #2a2218; }
+  .content-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    color: var(--ink);
+  }
+  .content-body h4 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 28px 0 10px;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  /* ── CARD ── */
+  .card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    background: white;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .card-accent {
+    border-left: 4px solid;
+    border-radius: 6px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+  .card-accent strong { display: block; margin-bottom: 6px; font-weight: 600; }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 32px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  @media(max-width:680px) { .grid2, .grid3 { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    background: white;
+  }
+  .mini-card .title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .mini-card p { font-size: 15px; color: #444; margin: 0; }
+  .mini-card .ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #999;
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ── PILLS ── */
+  .pill {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+    margin: 3px;
+  }
+
+  /* ── ACCORDION ── */
+  .accordion { margin-bottom: 32px; }
+  .acc-item { border: 1px solid var(--border); border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
+  .acc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 22px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-left: 4px solid;
+    user-select: none;
+  }
+  .acc-head .acc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .acc-head .acc-sub {
+    font-size: 14px;
+    color: #777;
+    font-style: italic;
+    margin-top: 2px;
+  }
+  .acc-arrow {
+    font-size: 20px;
+    transition: transform 0.25s;
+    color: #aaa;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .acc-head.open .acc-arrow { transform: rotate(180deg); }
+  .acc-body {
+    display: none;
+    padding: 24px 26px;
+    border-top: 1px solid var(--border);
+    background: white;
+  }
+  .acc-body.open { display: block; }
+  .acc-body p { font-size: 16px; color: #333; margin-bottom: 14px; }
+  .acc-body ul { margin: 10px 0 16px 22px; }
+  .acc-body li { font-size: 16px; color: #333; margin-bottom: 6px; }
+  .acc-body .example-box {
+    background: var(--cream);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    border: 1px solid var(--border);
+  }
+  .acc-body .example-box strong { font-size: 13px; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 8px; color: #666; font-family: 'JetBrains Mono', monospace; }
+  .acc-body .example-box p { font-size: 15px; color: #444; margin: 0; font-style: italic; }
+
+  /* ── CHAIN DIAGRAM ── */
+  .chain-diagram {
+    margin: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .chain-node {
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    align-items: stretch;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .chain-node:hover { transform: translateX(4px); }
+  .chain-node .node-bar {
+    width: 6px;
+    border-radius: 3px 0 0 3px;
+    flex-shrink: 0;
+  }
+  .chain-node .node-body {
+    flex: 1;
+    padding: 18px 22px;
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    background: white;
+    box-shadow: 0 2px 6px var(--shadow);
+  }
+  .chain-node .node-level {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 4px;
+  }
+  .chain-node .node-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .chain-node .node-q {
+    font-size: 14px;
+    font-style: italic;
+    color: #666;
+  }
+  .chain-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 28px;
+    color: #bbb;
+    font-size: 22px;
+  }
+
+  /* ── EXAMPLE SCENARIO ── */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .scenario-head {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 16px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .scenario-head .icon { font-size: 22px; }
+  .scenario-body { padding: 0; }
+  .scen-row {
+    display: flex;
+    align-items: baseline;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 20px;
+  }
+  .scen-row:last-child { border-bottom: none; }
+  .scen-row:nth-child(even) { background: var(--cream); }
+  .scen-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+  .scen-value { font-size: 16px; color: var(--ink); font-weight: 400; }
+  .scen-value em { color: #666; font-style: italic; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin-bottom: 32px; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  thead tr { background: var(--ink); color: var(--paper); }
+  thead th { padding: 12px 16px; text-align: left; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: var(--cream); }
+  tbody td { padding: 12px 16px; color: #333; }
+  tbody td:first-child { font-weight: 600; color: var(--ink); }
+
+  /* ── QUIZ ── */
+  .quiz-box {
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    padding: 32px;
+    background: var(--gold-pale);
+    margin: 40px 0;
+  }
+  .quiz-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #4a3000;
+  }
+  .quiz-q {
+    margin-bottom: 28px;
+    background: white;
+    border-radius: 8px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+  }
+  .quiz-q .q-text { font-size: 17px; font-weight: 600; margin-bottom: 16px; color: var(--ink); }
+  .quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    font-size: 15px;
+    color: #333;
+  }
+  .quiz-option:hover { background: var(--cream); border-color: var(--border); }
+  .quiz-option input { margin-top: 3px; flex-shrink: 0; accent-color: var(--teal); }
+  .quiz-option.correct { background: var(--green-pale); border-color: var(--green); color: var(--green); font-weight: 600; }
+  .quiz-option.wrong { background: var(--red-pale); border-color: var(--red); color: var(--red); }
+  .quiz-feedback { font-size: 15px; margin-top: 10px; padding: 10px 14px; border-radius: 5px; font-style: italic; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-f { background: var(--green-pale); color: var(--green); }
+  .quiz-feedback.wrong-f { background: var(--red-pale); color: var(--red); }
+  .quiz-btn {
+    background: var(--teal);
+    color: var(--paper);
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .quiz-btn:hover { background: var(--teal-mid); }
+  .quiz-reset { background: transparent; border: 1px solid var(--border); color: #666; margin-left: 10px; }
+  .quiz-reset:hover { background: var(--cream); }
+  .quiz-score { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-top: 16px; display: none; color: var(--teal); }
+  .quiz-score.show { display: block; }
+
+  /* ── PROJECT CHECKLIST ── */
+  .checklist {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 32px 0;
+  }
+  .checklist-head {
+    background: var(--teal);
+    color: var(--paper);
+    padding: 16px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .cl-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .cl-item:last-child { border-bottom: none; }
+  .cl-item:hover { background: var(--cream); }
+  .cl-item input[type=checkbox] { margin-top: 4px; flex-shrink: 0; accent-color: var(--teal); transform: scale(1.3); cursor: pointer; }
+  .cl-item.done .cl-text { text-decoration: line-through; color: #aaa; }
+  .cl-text { font-size: 16px; color: var(--ink); }
+  .cl-text strong { display: block; margin-bottom: 2px; }
+  .cl-text small { color: #888; font-size: 14px; }
+  .cl-progress { padding: 14px 24px; background: var(--cream); display: flex; align-items: center; gap: 16px; }
+  .progress-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--teal-mid); border-radius: 4px; transition: width 0.3s; }
+  .progress-text { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #666; white-space: nowrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: rgba(250,248,243,0.6);
+    text-align: center;
+    padding: 40px 24px;
+    font-size: 14px;
+  }
+  footer strong { color: var(--gold-light); }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout .ico { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .callout .cal-body p { margin: 0; font-size: 16px; }
+  .callout.warn { background: #fff8e1; border: 1px solid #f0c040; }
+  .callout.info { background: var(--teal-pale); border: 1px solid var(--teal-light); }
+  .callout.tip { background: var(--gold-pale); border: 1px solid var(--gold); }
+
+  /* ── COMPARE ── */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  @media(max-width:600px) { .compare { grid-template-columns: 1fr; } }
+  .cmp-col { border-radius: 8px; padding: 20px 22px; border: 1px solid var(--border); }
+  .cmp-col h4 { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+  .cmp-col li { font-size: 15px; color: #444; margin-bottom: 6px; }
+  .cmp-col.good { background: var(--green-pale); }
+  .cmp-col.bad { background: var(--red-pale); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: #c0b090; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="label">Guia Completo · Pesquisa Científica</div>
+    <h1>Da <em>Epistemologia</em><br>à Prática da Pesquisa</h1>
+    <p>Um guia interativo para compreender a arquitetura lógica da ciência: dos fundamentos filosóficos até os instrumentos concretos de coleta e análise de dados.</p>
+    <p style="text-align: center; margin-top: 20px;">
+  João Batista de Oliveira - 2026 - Contato: jbatist7@gmail.com.
+</p>
+</p>
+  </div>
+</header>
+
+<nav class="chain-nav" id="mainNav">
+  <button class="chain-btn active" onclick="showSection('intro','this')" data-section="intro">
+    <span class="num">0</span>Visão Geral
+  </button>
+  <button class="chain-btn" onclick="showSection('epist','this')" data-section="epist">
+    <span class="num">I</span>Epistemologia
+  </button>
+  <button class="chain-btn" onclick="showSection('metod','this')" data-section="metod">
+    <span class="num">II</span>Metodologia
+  </button>
+  <button class="chain-btn" onclick="showSection('metodo','this')" data-section="metodo">
+    <span class="num">III</span>Método
+  </button>
+  <button class="chain-btn" onclick="showSection('tec','this')" data-section="tec">
+    <span class="num">IV</span>Técnicas
+  </button>
+  <button class="chain-btn" onclick="showSection('ferr','this')" data-section="ferr">
+    <span class="num">V</span>Ferramentas
+  </button>
+  <button class="chain-btn" onclick="showSection('proj','this')" data-section="proj">
+    <span class="num">✓</span>Seu Projeto
+  </button>
+</nav>
+
+<main>
+
+<!-- ══════════════════ INTRO ══════════════════ -->
+<section class="section active" id="s-intro">
+  <div class="sec-hero s-chain">
+    <div class="tag" style="background:#e0e8e0;color:#1a4a1a;">Ponto de Partida</div>
+    <h2>A <em>arquitetura lógica</em> da pesquisa científica</h2>
+    <p class="lead">A pesquisa científica não é um conjunto aleatório de passos. É um sistema hierárquico e coerente de decisões, onde cada nível fundamenta o próximo. Entender essa arquitetura é o primeiro passo para produzir conhecimento válido.</p>
+    <div class="question" style="background:#e8f0e8;border-color:#2d6b2d;">💡 <em>Antes de escolher uma técnica ou ferramenta, você precisa saber por que está escolhendo — e isso exige decisões em níveis mais profundos.</em></div>
+  </div>
+
+  <div class="content-body">
+    <h3>A grande questão: como os níveis se conectam?</h3>
+    <p>Cada nível da pesquisa responde a uma pergunta distinta e fundamenta o nível seguinte. Não é possível escolher um método sem antes ter uma metodologia, nem uma metodologia sem uma base epistemológica — mesmo que implicitamente.</p>
+
+    <div class="chain-diagram">
+      <div class="chain-node" onclick="showSection('epist','nav')" style="max-width:560px;">
+        <div class="node-bar" style="background:var(--teal-mid);"></div>
+        <div class="node-body">
+          <div class="node-level">Nível I</div>
+          <div class="node-name" style="color:var(--teal);">Epistemologia</div>
+          <div class="node-q">"Como é possível conhecer a realidade?" — Sua visão de mundo.</div>
+        </div>
+      </div>
+      <div class="chain-arrow">↓</div>
+      <div class="chain-node" onclick="showSection('metod','nav')" style="max-width:480px;">
+        <div class="node-bar" style="background:var(--violet);"></div>
+        <div class="node-body">
+          <div class="node-level">Nível II</div>
+          <div class="node-name" style="color:var(--violet);">Metodologia</div>
+          <div class="node-q">"Por que esta abordagem faz sentido?" — A lógica da investigação.</div>
+        </div>
+      </div>
+      <div class="chain-arrow">↓</div>
+      <div class="chain-node" onclick="showSection('metodo','nav')" style="max-width:400px;">
+        <div class="node-bar" style="background:var(--gold);"></div>
+        <div class="node-body">
+          <div class="node-level">Nível III</div>
+          <div class="node-name" style="color:#7a5a10;">Método</div>
+          <div class="node-q">"Qual caminho seguir?" — A estratégia de investigação.</div>
+        </div>
+      </div>
+      <div class="chain-arrow">↓</div>
+      <div class="chain-node" onclick="showSection('tec','nav')" style="max-width:320px;">
+        <div class="node-bar" style="background:var(--red);"></div>
+        <div class="node-body">
+          <div class="node-level">Nível IV</div>
+          <div class="node-name" style="color:var(--red);">Técnicas</div>
+          <div class="node-q">"Como coletar e analisar?" — Os procedimentos.</div>
+        </div>
+      </div>
+      <div class="chain-arrow">↓</div>
+      <div class="chain-node" onclick="showSection('ferr','nav')" style="max-width:240px;">
+        <div class="node-bar" style="background:var(--green);"></div>
+        <div class="node-body">
+          <div class="node-level">Nível V</div>
+          <div class="node-name" style="color:var(--green);">Ferramentas</div>
+          <div class="node-q">"Com o que executar?" — Os instrumentos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="ico">🔑</div>
+      <div class="cal-body">
+        <p><strong>Princípio central:</strong> A coerência entre os níveis é o que valida uma pesquisa científica. Uma pesquisa pode usar técnicas corretas e ainda assim ser inválida se houver contradição entre a epistemologia e a metodologia adotadas.</p>
+      </div>
+    </div>
+
+    <h3>A metáfora completa</h3>
+    <div class="card">
+      <p style="margin:0;font-size:17px;line-height:1.9;">
+        Se a <strong style="color:var(--teal);">epistemologia</strong> é a sua visão de mundo —<br>
+        a <strong style="color:var(--violet);">metodologia</strong> é a lógica que justifica o percurso —<br>
+        o <strong style="color:#8a6010;">método</strong> é o caminho escolhido —<br>
+        as <strong style="color:var(--red);">técnicas</strong> são o ato de caminhar —<br>
+        e as <strong style="color:var(--green);">ferramentas</strong> são os recursos que viabilizam esse movimento.
+      </p>
+    </div>
+
+    <h3>Três exemplos completos (do real)</h3>
+
+    <div class="scenario">
+      <div class="scenario-head"><span class="icon">🌱</span> Pesquisa em Agroecologia</div>
+      <div class="scenario-body">
+        <div class="scen-row"><div class="scen-label">Epistemologia</div><div class="scen-value">Construtivismo — <em>o conhecimento é construído junto com os agricultores</em></div></div>
+        <div class="scen-row"><div class="scen-label">Metodologia</div><div class="scen-value">Participativa e crítica — <em>pesquisar para transformar a realidade</em></div></div>
+        <div class="scen-row"><div class="scen-label">Método</div><div class="scen-value">Pesquisa-Ação — <em>intervenção + produção de conhecimento simultânea</em></div></div>
+        <div class="scen-row"><div class="scen-label">Técnicas</div><div class="scen-value">Entrevistas, grupos focais, diagnóstico rural participativo</div></div>
+        <div class="scen-row"><div class="scen-label">Ferramentas</div><div class="scen-value">Roteiros, gravador, mapas de campo, diário etnográfico</div></div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-head"><span class="icon">🏥</span> Pesquisa em Saúde Pública</div>
+      <div class="scenario-body">
+        <div class="scen-row"><div class="scen-label">Epistemologia</div><div class="scen-value">Positivismo / Pós-positivismo — <em>realidade objetiva e mensurável</em></div></div>
+        <div class="scen-row"><div class="scen-label">Metodologia</div><div class="scen-value">Analítico-explicativa — <em>busca de causalidade e generalização</em></div></div>
+        <div class="scen-row"><div class="scen-label">Método</div><div class="scen-value">Survey + Estudo Epidemiológico Longitudinal</div></div>
+        <div class="scen-row"><div class="scen-label">Técnicas</div><div class="scen-value">Questionário estruturado, análise estatística inferencial</div></div>
+        <div class="scen-row"><div class="scen-label">Ferramentas</div><div class="scen-value">SPSS, R, formulários digitais, banco de dados</div></div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scenario-head"><span class="icon">🏙️</span> Pesquisa em Educação</div>
+      <div class="scenario-body">
+        <div class="scen-row"><div class="scen-label">Epistemologia</div><div class="scen-value">Fenomenologia — <em>foco na experiência vivida dos sujeitos</em></div></div>
+        <div class="scen-row"><div class="scen-label">Metodologia</div><div class="scen-value">Interpretativa-compreensiva — <em>compreender o sentido dos fenômenos</em></div></div>
+        <div class="scen-row"><div class="scen-label">Método</div><div class="scen-value">Estudo de Caso</div></div>
+        <div class="scen-row"><div class="scen-label">Técnicas</div><div class="scen-value">Entrevista semiestruturada, observação participante, análise documental</div></div>
+        <div class="scen-row"><div class="scen-label">Ferramentas</div><div class="scen-value">Roteiro de entrevista, diário de campo, NVivo ou Atlas.ti</div></div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="ico">📌</div>
+      <div class="cal-body">
+        <p>Selecione cada aba acima para mergulhar em cada nível da pesquisa. No final, a aba <strong>Seu Projeto</strong> oferece um checklist interativo para você estruturar sua própria pesquisa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ EPISTEMOLOGIA ══════════════════ -->
+<section class="section" id="s-epist">
+  <div class="sec-hero s-epist">
+    <div class="tag">Nível I — O Mais Profundo</div>
+    <h2><em>Epistemologia</em>: como você entende a realidade</h2>
+    <p class="lead">A epistemologia é a filosofia do conhecimento. Ela define o que você acredita ser a realidade, o que significa "conhecer" e o que pode ser considerado verdade. Toda pesquisa — consciente ou não — parte de uma posição epistemológica.</p>
+    <div class="question">❓ <em>"Existe uma realidade objetiva independente do observador, ou o conhecimento é sempre construído e situado?"</em></div>
+  </div>
+
+  <div class="content-body s-epist">
+    <h3>Por que a epistemologia importa?</h3>
+    <p>Muitos pesquisadores cometem o erro de ir direto às técnicas sem definir sua base epistemológica. Isso é como construir uma casa sem escolher o terreno. As escolhas metodológicas que você fizer serão diretamente determinadas por sua posição epistemológica.</p>
+
+    <div class="callout warn">
+      <div class="ico">⚠️</div>
+      <div class="cal-body">
+        <p>Mesmo que você nunca declare explicitamente sua epistemologia, ela estará presente nas suas escolhas. A diferença entre o pesquisador ingênuo e o rigoroso é que o segundo a <strong>nomeia e justifica</strong>.</p>
+      </div>
+    </div>
+
+    <h3>Correntes Epistemológicas: Mapa Completo</h3>
+
+    <h4>Bloco 1 — Correntes Objetivistas</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Positivismo</div>
+            <div class="acc-sub">Auguste Comte (séc. XIX)</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A realidade existe de forma objetiva, independente do observador, e pode ser medida, quantificada e explicada por leis universais.</p>
+          <p><strong>O que defende:</strong> A ciência deve ser baseada em fatos observáveis; o conhecimento científico deve ser neutro, verificável e generalizável. A realidade social funciona como a realidade natural — com regularidades e leis.</p>
+          <ul>
+            <li>Separação rígida sujeito/objeto</li>
+            <li>Busca de leis universais</li>
+            <li>Privilegia métodos quantitativos</li>
+            <li>Verificação empírica como critério de validade</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo de pesquisa positivista</strong>
+            <p>"Qual é a correlação entre uso de agrotóxicos e incidência de câncer em populações rurais?" — dados epidemiológicos, análise estatística, busca de padrão causal.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pós-positivismo</div>
+            <div class="acc-sub">Karl Popper (séc. XX)</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A realidade existe objetivamente, mas <em>nunca podemos conhecê-la completamente</em>. O conhecimento científico é sempre provisório e falível.</p>
+          <p><strong>Diferença do positivismo clássico:</strong> Popper substitui "verificação" por <strong>falseabilidade</strong> — uma teoria é científica se puder ser testada e potencialmente refutada. A ciência avança por tentativa e erro, não por acumulação de verdades.</p>
+          <ul>
+            <li>Conhecimento provisório e revisável</li>
+            <li>Método hipotético-dedutivo</li>
+            <li>Falseabilidade como critério científico</li>
+            <li>Objetividade como ideal regulador, não realidade absoluta</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo pós-positivista</strong>
+            <p>"A aplicação do método X aumenta o rendimento agrícola?" — formula hipótese testável, desenha experimento controlado para tentar refutá-la.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Realismo Científico</div>
+            <div class="acc-sub">Roy Bhaskar e outros</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> O mundo real existe independentemente de nossas percepções, mas possui estruturas e mecanismos causais que nem sempre são diretamente observáveis.</p>
+          <p>O realismo científico distingue entre: o que é real (mecanismos subjacentes), o que é atual (o que acontece) e o que é empírico (o que observamos). A ciência busca explicar os mecanismos profundos, não apenas descrever eventos superficiais.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Estudar como relações de poder invisíveis determinam o acesso à terra — os mecanismos causais existem mesmo que não sejam diretamente observáveis.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Bloco 2 — Correntes Interpretativistas</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Fenomenologia</div>
+            <div class="acc-sub">Edmund Husserl, Martin Heidegger, Maurice Merleau-Ponty</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> O conhecimento parte da experiência vivida. A realidade não é algo externo a ser medido, mas algo que se manifesta na consciência dos sujeitos que a vivem.</p>
+          <p><strong>Conceitos-chave:</strong></p>
+          <ul>
+            <li><strong>Epoché (redução fenomenológica):</strong> suspender as suposições prévias para ver o fenômeno como ele é</li>
+            <li><strong>Intencionalidade:</strong> a consciência sempre é "consciência de algo"</li>
+            <li><strong>Mundo-da-vida (Lebenswelt):</strong> a experiência pré-reflexiva como base do conhecimento</li>
+            <li><strong>Heidegger:</strong> acrescenta a dimensão existencial — o ser está sempre "em situação"</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo fenomenológico</strong>
+            <p>"Como os agricultores familiares <em>experienciam</em> a transição para a agroecologia?" — a pergunta foca no significado vivido, não em dados mensuráveis.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Hermenêutica</div>
+            <div class="acc-sub">Wilhelm Dilthey, Hans-Georg Gadamer, Paul Ricoeur</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> Compreender é fundamentalmente um ato de <em>interpretação</em>. Todo texto, prática social ou discurso precisa ser interpretado em seu contexto histórico e cultural.</p>
+          <p><strong>Conceito central — Círculo hermenêutico:</strong> Para entender o todo, precisamos entender as partes; para entender as partes, precisamos entender o todo. É um processo espiral, não linear.</p>
+          <p><strong>Gadamer acrescenta:</strong> toda interpretação é mediada pela nossa "pré-compreensão" histórica — não é um problema a ser eliminado, mas a condição de possibilidade da compreensão.</p>
+          <div class="example-box">
+            <strong>Exemplo hermenêutico</strong>
+            <p>Analisar políticas públicas de reforma agrária: interpretar os textos legais à luz do contexto histórico, político e social em que foram produzidos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Construtivismo / Construcionismo Social</div>
+            <div class="acc-sub">Jean Piaget (construtivismo), Peter Berger & Thomas Luckmann (construcionismo)</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Construtivismo (Piaget):</strong> O conhecimento é ativamente construído pelo sujeito em interação com o mundo. Não recebemos a realidade passivamente — a construímos.</p>
+          <p><strong>Construcionismo social (Berger & Luckmann):</strong> A realidade social é construída coletivamente por meio de interações e práticas sociais compartilhadas. O que chamamos de "realidade objetiva" é na verdade uma construção social historicamente situada.</p>
+          <ul>
+            <li>Realidade como construção social e histórica</li>
+            <li>Linguagem como elemento constitutivo da realidade</li>
+            <li>Múltiplas realidades são possíveis e legítimas</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo construcionista</strong>
+            <p>Estudar como comunidades quilombolas constroem seu entendimento de "território" — esse conceito não é dado, é construído coletivamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Interacionismo Simbólico</div>
+            <div class="acc-sub">George Herbert Mead, Herbert Blumer</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> As pessoas agem em relação ao mundo com base nos significados que atribuem às coisas. Esses significados emergem da interação social e são constantemente modificados pela interpretação.</p>
+          <p>Os três princípios de Blumer: (1) as pessoas agem com base no significado das coisas; (2) os significados são produtos da interação social; (3) os significados são modificados pela interpretação individual.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Como o trabalho de extensão rural é significado pelos técnicos e pelos agricultores — e como esses significados distintos influenciam a relação entre eles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Bloco 3 — Correntes Críticas</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Materialismo Histórico-Dialético</div>
+            <div class="acc-sub">Karl Marx, Friedrich Engels, Antonio Gramsci</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A realidade é moldada por contradições históricas e relações materiais (econômicas, de trabalho, de poder). Para conhecer a realidade, é preciso analisar essas contradições em seu movimento histórico.</p>
+          <p><strong>Dialética:</strong> A realidade se move por oposições — tese, antítese e síntese (embora Marx nunca tenha usado esses termos diretamente). O real é sempre um campo de tensões e contradições.</p>
+          <ul>
+            <li>A realidade é histórica e contraditória</li>
+            <li>O conhecimento é sempre situado em relações de classe</li>
+            <li>Ciência não é neutra — está inserida em relações de poder</li>
+            <li>A transformação da realidade faz parte do processo de conhecê-la</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo marxista</strong>
+            <p>Analisar a concentração fundiária no Brasil à luz das contradições históricas entre latifúndio e reforma agrária — identificando interesses de classe e estruturas de dominação.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Teoria Crítica</div>
+            <div class="acc-sub">Escola de Frankfurt: Theodor Adorno, Max Horkheimer, Jürgen Habermas</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A ciência positivista legitima a dominação ao apresentar relações históricas de poder como "naturais" e "objetivas". Uma ciência crítica deve desmascarar essa ideologia e buscar a emancipação humana.</p>
+          <p><strong>Habermas</strong> desenvolve a teoria do agir comunicativo: o conhecimento válido emerge do diálogo racional e livre de coerção, orientado para o entendimento mútuo.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Estudar como o discurso técnico-científico da "modernização agrícola" serve para legitimar a expropriação de pequenos agricultores.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pós-estruturalismo e Análise do Discurso</div>
+            <div class="acc-sub">Michel Foucault, Jacques Derrida, Judith Butler</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central (Foucault):</strong> O conhecimento e o poder são inseparáveis. Toda "verdade" é produzida por regimes de saber-poder que determinam o que pode ser dito, pensado e pesquisado em uma época.</p>
+          <p><strong>Discurso:</strong> Não é apenas linguagem — é o conjunto de práticas que constitui os objetos de que fala. A realidade social é discursivamente construída.</p>
+          <ul>
+            <li>A "verdade" científica é efeito de poder</li>
+            <li>Os sujeitos são produzidos por discursos</li>
+            <li>A pesquisa deve desconstruir certezas naturalizadas</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo foucaultiano</strong>
+            <p>Analisar como o discurso do "desenvolvimento rural" constitui certos sujeitos como "atrasados" e outros como "modernos", justificando intervenções políticas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Decolonialidade / Epistemologias do Sul</div>
+            <div class="acc-sub">Aníbal Quijano, Walter Mignolo, Boaventura de Sousa Santos</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A ciência moderna ocidental é herdeira da colonialidade — um sistema de poder que hierarquiza conhecimentos, colocando o saber europeu como universal e os saberes locais como inferiores ou inexistentes.</p>
+          <p><strong>Santos</strong> propõe a "ecologia de saberes": o reconhecimento de que existem múltiplas formas válidas de conhecimento (científico, tradicional, popular, indígena) que devem dialogar em igualdade.</p>
+          <ul>
+            <li>Crítica à pretensão de universalidade da ciência ocidental</li>
+            <li>Valorização dos saberes locais, tradicionais e indígenas</li>
+            <li>A pesquisa como ato político de resistência</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo decolonial</strong>
+            <p>Pesquisa que reconhece e sistematiza o conhecimento agroecológico de comunidades indígenas como conhecimento científico legítimo, em diálogo — não subordinação — com a ciência ocidental.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Bloco 4 — Correntes Contemporâneas</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pragmatismo</div>
+            <div class="acc-sub">William James, John Dewey, Richard Rorty</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> O valor de uma ideia ou teoria está em suas consequências práticas. A verdade não é uma correspondência com a realidade absoluta — é o que "funciona" na prática.</p>
+          <p>O pragmatismo fundamenta muitas pesquisas de <strong>métodos mistos</strong>: usa-se o que for mais adequado para responder à pergunta, sem fidelidade dogmática a uma única abordagem.</p>
+          <div class="example-box">
+            <strong>Exemplo pragmatista</strong>
+            <p>Uma pesquisa sobre eficácia de políticas públicas que combina dados estatísticos (para medir alcance) e entrevistas qualitativas (para compreender impactos) — a combinação é justificada pela utilidade para responder à pergunta, não por fidelidade filosófica.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-epist" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Teoria da Complexidade</div>
+            <div class="acc-sub">Edgar Morin, Ilya Prigogine</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Premissa central:</strong> A realidade é constituída por sistemas complexos, não-lineares e auto-organizativos, que não podem ser compreendidos pela simples decomposição em partes (como o paradigma reducionista pressupõe).</p>
+          <p><strong>Morin</strong> propõe o "pensamento complexo": reconhecer a incerteza, a contradição, a interdependência e a recursividade como constitutivas da realidade — não como problemas a serem eliminados.</p>
+          <div class="example-box">
+            <strong>Exemplo da complexidade</strong>
+            <p>Estudar sistemas socioecológicos agrários como totalidades complexas — onde fatores climáticos, econômicos, culturais e políticos interagem de forma não-linear e imprevisível.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Quadro comparativo das epistemologias</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Corrente</th><th>Visão da Realidade</th><th>Como Conhecer</th><th>Papel do Pesquisador</th><th>Abordagem Típica</th></tr></thead>
+        <tbody>
+          <tr><td>Positivismo</td><td>Objetiva, mensurável</td><td>Observação neutra</td><td>Externo, neutro</td><td>Quantitativa</td></tr>
+          <tr><td>Pós-positivismo</td><td>Objetiva, mas inacessível</td><td>Hipóteses falseáveis</td><td>Crítico, provisório</td><td>Quantitativa/mista</td></tr>
+          <tr><td>Fenomenologia</td><td>Vivida, experienciada</td><td>Descrição da experiência</td><td>Intérprete da vivência</td><td>Qualitativa</td></tr>
+          <tr><td>Hermenêutica</td><td>Textual, histórica</td><td>Interpretação circular</td><td>Intérprete situado</td><td>Qualitativa</td></tr>
+          <tr><td>Construtivismo</td><td>Construída socialmente</td><td>Co-construção</td><td>Participante</td><td>Qualitativa</td></tr>
+          <tr><td>Materialismo histórico</td><td>Contraditória, histórica</td><td>Análise das contradições</td><td>Crítico e engajado</td><td>Crítica</td></tr>
+          <tr><td>Pós-estruturalismo</td><td>Discursiva, contingente</td><td>Desconstrução</td><td>Arqueólogo do discurso</td><td>Qualitativa crítica</td></tr>
+          <tr><td>Decolonialidade</td><td>Plural, situada</td><td>Diálogo de saberes</td><td>Comprometido politicamente</td><td>Crítica/participativa</td></tr>
+          <tr><td>Pragmatismo</td><td>Funcional, prática</td><td>O que funciona</td><td>Resolvedor de problemas</td><td>Mista</td></tr>
+          <tr><td>Complexidade</td><td>Sistêmica, não-linear</td><td>Pensamento integrado</td><td>Observador do sistema</td><td>Trans/multidisciplinar</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ METODOLOGIA ══════════════════ -->
+<section class="section" id="s-metod">
+  <div class="sec-hero s-metod">
+    <div class="tag">Nível II — A Lógica da Pesquisa</div>
+    <h2><em>Metodologia</em>: por que este caminho faz sentido?</h2>
+    <p class="lead">A metodologia não é o método — é a sua justificativa filosófica e lógica. É o arcabouço que articula sua visão de mundo (epistemologia) com a estratégia que você vai usar (método). É o coração lógico de qualquer pesquisa.</p>
+    <div class="question">❓ <em>"Por que é este tipo de investigação — e não outro — que me permite responder à minha pergunta?"</em></div>
+  </div>
+
+  <div class="content-body s-metod">
+    <div class="compare">
+      <div class="cmp-col good">
+        <h4 style="color:var(--green);">✅ O que é metodologia</h4>
+        <ul>
+          <li>A lógica que orienta a pesquisa</li>
+          <li>Justificativa das escolhas científicas</li>
+          <li>Articulação entre epistemologia e método</li>
+          <li>O "porquê" das decisões de pesquisa</li>
+        </ul>
+      </div>
+      <div class="cmp-col bad">
+        <h4 style="color:var(--red);">❌ O que não é metodologia</h4>
+        <ul>
+          <li>"Utilizei entrevistas" (isso é técnica)</li>
+          <li>"Fiz um questionário" (isso é instrumento)</li>
+          <li>"Pesquisa de campo" (isso é método)</li>
+          <li>Lista de procedimentos executados</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Família 1 — Metodologias Analítico-Explicativas</h3>
+    <p>Ligadas ao positivismo e pós-positivismo. Buscam explicar fenômenos identificando causas, correlações e padrões generalizáveis. O pesquisador é um observador externo que controla variáveis para garantir objetividade.</p>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">Metodologia Experimental</div>
+        <p>Controle de variáveis para estabelecer relações causais. Existe grupo controle e grupo experimental.</p>
+        <span class="ref">EPISTEMOLOGIA → Pós-positivismo</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Quase-experimental</div>
+        <p>Quando não é possível controle total das variáveis; mantém rigor analítico sem aleatorização completa.</p>
+        <span class="ref">EPISTEMOLOGIA → Pós-positivismo</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Correlacional</div>
+        <p>Identifica relações entre variáveis sem manipulação. Mede força e direção de associações.</p>
+        <span class="ref">EPISTEMOLOGIA → Positivismo</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Comparativa</div>
+        <p>Análise de semelhanças e diferenças entre casos, grupos ou períodos para identificar padrões.</p>
+        <span class="ref">EPISTEMOLOGIA → Positivismo/Realismo</span>
+      </div>
+    </div>
+
+    <h3>Família 2 — Metodologias Interpretativas</h3>
+    <p>Ligadas à fenomenologia, hermenêutica e construtivismo. O foco é na compreensão do sentido — não na explicação causal. O pesquisador é um intérprete que se aproxima do fenômeno para compreendê-lo em sua profundidade.</p>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-metod" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Metodologia Fenomenológica</div>
+            <div class="acc-sub">Compreensão da experiência vivida</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Busca compreender como os sujeitos <em>experienciam</em> um fenômeno. A pergunta de pesquisa é sempre sobre o significado de uma experiência: "O que é para você ser/viver/experienciar X?"</p>
+          <p>O processo exige <strong>epoché</strong> — suspensão das suposições do pesquisador — para deixar o fenômeno se mostrar como é para os sujeitos.</p>
+          <div class="example-box">
+            <strong>Pergunta típica</strong>
+            <p>"Qual é o significado da experiência de transição agroecológica para o agricultor familiar?" — busca a essência vivida, não dados quantificáveis.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metod" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Metodologia Hermenêutica</div>
+            <div class="acc-sub">Interpretação de sentidos e contextos</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Orienta pesquisas que precisam interpretar textos, discursos, práticas sociais e símbolos culturais dentro de seu contexto histórico. A compreensão é sempre parcial, situada e provisória.</p>
+          <p>O <strong>círculo hermenêutico</strong> orienta o processo: o pesquisador vai do todo às partes e das partes ao todo, em espiral crescente de compreensão.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Interpretar documentos históricos sobre posse de terra no sertão nordestino, buscando compreender como as práticas jurídicas refletem relações de poder da época.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metod" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Metodologia Narrativa</div>
+            <div class="acc-sub">Histórias como forma de conhecimento</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Reconhece que os seres humanos organizam a experiência em forma de narrativa. Pesquisar narrativamente significa coletar, analisar e reescrever histórias de vida, trajetórias e relatos para compreender como os sujeitos constroem sentido para suas experiências.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Coletar e analisar narrativas de assentados sobre suas trajetórias — desde a luta pela terra até a consolidação do assentamento — identificando como constroem identidade e sentido de pertencimento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Família 3 — Metodologias Críticas e Transformadoras</h3>
+    <p>Partem do princípio de que conhecer e transformar a realidade são processos inseparáveis. O pesquisador tem compromisso político com a emancipação dos sujeitos pesquisados.</p>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">Metodologia Histórico-Dialética</div>
+        <p>Análise das contradições históricas que constituem o fenômeno. Busca compreender o movimento real das coisas.</p>
+        <span class="ref">BASE → Materialismo histórico</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Participativa</div>
+        <p>Os sujeitos pesquisados são co-pesquisadores. O conhecimento emerge da prática coletiva.</p>
+        <span class="ref">BASE → Construtivismo + Crítica</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Decolonial</div>
+        <p>Questiona a colonialidade do saber e reconhece a pluralidade de epistemologias.</p>
+        <span class="ref">BASE → Epistemologias do Sul</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologias Feministas</div>
+        <p>Tomam o gênero como categoria analítica central; questionam a neutralidade da ciência.</p>
+        <span class="ref">BASE → Teoria crítica + Pós-estruturalismo</span>
+      </div>
+    </div>
+
+    <h3>Família 4 — Metodologias Sistêmicas</h3>
+    <p>Buscam compreender fenômenos como sistemas interdependentes e complexos, superando a fragmentação disciplinar.</p>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">Metodologia da Complexidade</div>
+        <p>Baseada em Edgar Morin; trabalha com incerteza, não-linearidade e interdependência.</p>
+        <span class="ref">BASE → Teoria da complexidade</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Metodologia Transdisciplinar</div>
+        <p>Integra conhecimentos de múltiplas disciplinas, inclusive saberes não-acadêmicos.</p>
+        <span class="ref">BASE → Complexidade + Decolonial</span>
+      </div>
+    </div>
+
+    <h3>Como escolher sua metodologia?</h3>
+    <div class="card-accent s-metod">
+      <strong>3 perguntas decisivas</strong>
+      <p><strong>1. O que você quer fazer com o conhecimento?</strong><br>
+      Medir/generalizar → analítico-explicativa &nbsp;|&nbsp; Compreender/interpretar → interpretativa &nbsp;|&nbsp; Transformar → crítica</p>
+      <p style="margin-top:12px;"><strong>2. Qual é a natureza do seu problema?</strong><br>
+      Problema causal (X causa Y?) → explicativa &nbsp;|&nbsp; Problema de sentido (O que significa X?) → interpretativa &nbsp;|&nbsp; Problema de poder (Quem se beneficia de X?) → crítica</p>
+      <p style="margin-top:12px;"><strong>3. Qual é sua relação com os sujeitos da pesquisa?</strong><br>
+      Distância/controle → explicativa &nbsp;|&nbsp; Escuta e interpretação → interpretativa &nbsp;|&nbsp; Parceria e intervenção → participativa</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ MÉTODO ══════════════════ -->
+<section class="section" id="s-metodo">
+  <div class="sec-hero s-metodo">
+    <div class="tag">Nível III — A Estratégia</div>
+    <h2>O <em>Método</em>: o caminho estruturado da investigação</h2>
+    <p class="lead">O método é o desenho estratégico da pesquisa — a forma como você organiza a investigação do início ao fim. É a ponte entre a lógica (metodologia) e a ação (técnicas). Cada método define: o que será estudado, como será selecionado, e como os dados serão organizados.</p>
+    <div class="question">❓ <em>"Qual estratégia de investigação me permite produzir evidências válidas para responder à minha pergunta?"</em></div>
+  </div>
+
+  <div class="content-body s-metodo">
+    <div class="callout warn">
+      <div class="ico">⚠️</div>
+      <div class="cal-body">
+        <p><strong>Distinção crítica:</strong> Método ≠ Técnica. "Entrevista" é uma técnica. "Estudo de caso" é um método que <em>pode usar</em> entrevistas como técnica. Um método é uma estratégia ampla de investigação; uma técnica é um procedimento específico de coleta ou análise.</p>
+      </div>
+    </div>
+
+    <h3>Também existem métodos de raciocínio científico</h3>
+    <p>Além dos tipos de pesquisa, existe outro nível importante: os métodos lógicos que atravessam a investigação. Eles determinam a forma de raciocínio usada para chegar a conclusões.</p>
+    <div class="grid3">
+      <div class="mini-card">
+        <div class="title">Dedutivo</div>
+        <p>Do geral ao particular. Formula-se uma teoria e deduzem-se hipóteses a serem testadas.</p>
+        <span class="ref">René Descartes</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Indutivo</div>
+        <p>Do particular ao geral. Observações específicas levam à construção de teorias.</p>
+        <span class="ref">Francis Bacon</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Hipotético-dedutivo</div>
+        <p>Formula hipóteses, deduz consequências observáveis e as testa empiricamente.</p>
+        <span class="ref">Karl Popper</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Dialético</div>
+        <p>Analisa contradições e tensões internas dos fenômenos para compreender seu movimento.</p>
+        <span class="ref">Karl Marx</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Abdutivo</div>
+        <p>Inferência para a melhor explicação. A partir de evidências, constrói a hipótese mais plausível.</p>
+        <span class="ref">Charles Sanders Peirce</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Fenomenológico</div>
+        <p>Descrição rigorosa da experiência vivida, suspendendo pressupostos prévios (epoché).</p>
+        <span class="ref">Husserl / Heidegger</span>
+      </div>
+    </div>
+
+    <h3>Métodos de Pesquisa: Mapa Completo</h3>
+
+    <h4>Grupo 1 — Métodos Experimentais</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Método Experimental Clássico</div>
+            <div class="acc-sub">O padrão-ouro da causalidade</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Lógica:</strong> Manipular uma variável independente e observar seus efeitos sobre variáveis dependentes, mantendo todas as outras variáveis controladas. Inclui randomização (divisão aleatória em grupos controle e experimental).</p>
+          <p><strong>Quando usar:</strong> Quando o objetivo é estabelecer relação causal com alto nível de certeza. Muito usado em ciências naturais, medicina (ensaios clínicos) e psicologia experimental.</p>
+          <p><strong>Limitações:</strong> Dificuldade de controle total em contextos sociais; artificialismos do laboratório podem comprometer validade externa (generalização).</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Testar se um novo biofertilizante aumenta a produtividade do milho: grupo experimental (com biofertilizante) vs. grupo controle (sem), em condições idênticas de solo, irrigação e temperatura.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Método Quase-experimental</div>
+            <div class="acc-sub">Quando o controle total não é possível</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Mantém a lógica experimental (grupo controle, grupo intervenção), mas sem randomização completa. Os grupos não são equivalentes por sorteio — o pesquisador trabalha com grupos pré-existentes.</p>
+          <p><strong>Muito usado em:</strong> Políticas públicas, educação, saúde coletiva — contextos onde a randomização é eticamente impossível ou praticamente inviável.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Avaliar o impacto de um programa de extensão agroecológica em municípios que aderiram ao programa vs. municípios similares que não aderiram.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Grupo 2 — Métodos Observacionais e de Survey</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Survey (Levantamento)</div>
+            <div class="acc-sub">Mapeamento de populações</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Coleta de dados sistematizada de uma amostra representativa de uma população, para descrever características ou testar hipóteses sobre essa população. O instrumento principal é o questionário estruturado.</p>
+          <p><strong>Tipos:</strong> Transversal (um ponto no tempo) vs. Longitudinal (múltiplos pontos no tempo, rastreando mudanças).</p>
+          <ul>
+            <li>Grande escala, muitos participantes</li>
+            <li>Permite generalização estatística</li>
+            <li>Não explica "por quê" — apenas "o quê" e "quanto"</li>
+          </ul>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Pesquisa nacional sobre adoção de práticas agroecológicas: aplicação de questionário estruturado a 2.000 agricultores em todas as regiões do Brasil.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Método Comparativo</div>
+            <div class="acc-sub">Aprendendo pelas diferenças e semelhanças</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Compara sistematicamente dois ou mais casos (países, regiões, grupos, períodos históricos) para identificar padrões, causas ou efeitos que só se tornam visíveis na comparação.</p>
+          <p><strong>Lógica de Mill:</strong> Método da concordância (o que os casos com o mesmo resultado têm em comum?) e método da diferença (o que distingue os casos com resultados opostos?).</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Comparar políticas de regularização fundiária no Brasil e na Bolívia — quais fatores explicam resultados diferentes para populações indígenas nos dois países?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Grupo 3 — Métodos Qualitativos de Profundidade</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Estudo de Caso</div>
+            <div class="acc-sub">Robert Yin — profundidade em contexto</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Investigação aprofundada de uma unidade (indivíduo, grupo, comunidade, organização, programa, evento) em seu contexto real, usando múltiplas fontes de evidência.</p>
+          <p><strong>Pergunta típica:</strong> "Como?" e "Por quê?" — não "Quantos?" ou "Qual é a frequência?"</p>
+          <p><strong>Tipos:</strong> Caso único (exploratório, crítico, representativo) e casos múltiplos (comparação de dois ou mais casos).</p>
+          <p><strong>Validade:</strong> Não por representatividade estatística, mas por <em>transferibilidade</em> — outros pesquisadores reconhecem o caso como relevante para seus contextos.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Estudo aprofundado de um assentamento de reforma agrária no Nordeste — histórico, organização social, práticas agrícolas, relações com o MST, conflitos internos, resultados produtivos. Usa entrevistas, observação e documentos.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Etnografia</div>
+            <div class="acc-sub">Bronisław Malinowski, Clifford Geertz — imersão cultural</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>O pesquisador imerge em um contexto cultural por um período prolongado, observando e participando da vida cotidiana, para compreender o mundo <em>de dentro</em> — como os próprios atores o vivem e significam.</p>
+          <p><strong>Geertz:</strong> A etnografia é "descrição densa" — não apenas registrar o que acontece, mas interpretar os sistemas de significados que tornam os comportamentos inteligíveis.</p>
+          <p><strong>Tempo:</strong> Meses ou anos. Exige presença prolongada e confiança dos interlocutores.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Pesquisador que vive durante 8 meses em uma comunidade ribeirinha amazônica, participando das práticas pesqueiras, rituais e assembleias comunitárias para compreender a relação entre saberes tradicionais e gestão ambiental.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Grounded Theory (Teoria Fundamentada)</div>
+            <div class="acc-sub">Glaser & Strauss — teoria emergindo dos dados</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Ao contrário da maioria das abordagens (que partem de teoria para dados), a Grounded Theory constrói teoria <em>a partir</em> dos dados. Não há hipótese inicial — a teoria emerge indutivamente do material empírico.</p>
+          <p><strong>Processo:</strong> Coleta de dados → codificação aberta → categorias → codificação axial → teoria substantiva. O processo é circular: coleta e análise são simultâneas, e continuam até a <em>saturação teórica</em> (quando novos dados não acrescentam novas categorias).</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Entrevistar extensionistas rurais sem hipótese prévia para construir uma teoria sobre como eles tomam decisões em campo — as categorias e relações emergem das falas, não de teorias existentes.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pesquisa Bibliográfica e Documental</div>
+            <div class="acc-sub">O passado como fonte de conhecimento</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Pesquisa bibliográfica:</strong> Revisão e análise sistemática da literatura científica existente sobre um tema. Fundamental em revisões sistemáticas, meta-análises e como base teórica de qualquer pesquisa.</p>
+          <p><strong>Pesquisa documental:</strong> Análise de documentos primários que não passaram por análise científica — leis, decretos, relatórios, correspondências, fotografias, registros históricos, memorandos.</p>
+          <div class="example-box">
+            <strong>Exemplo documental</strong>
+            <p>Analisar os decretos presidenciais sobre reforma agrária de 1964 a 2023, identificando mudanças e continuidades nas concepções de "função social da terra".</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Grupo 4 — Métodos Participativos e de Intervenção</h4>
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pesquisa-Ação</div>
+            <div class="acc-sub">Kurt Lewin — conhecer transformando</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Integra produção de conhecimento e intervenção na realidade. O pesquisador e os participantes identificam problemas, planejam ações, implementam, observam os resultados e refletem — em ciclos contínuos.</p>
+          <p><strong>Ciclo da pesquisa-ação:</strong> Diagnóstico → Planejamento da ação → Ação → Avaliação → Reflexão → novo ciclo.</p>
+          <p><strong>No Brasil:</strong> Paulo Freire influenciou fortemente a pesquisa-ação em contextos de educação popular e extensão rural.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Pesquisador trabalha com agricultores para diagnosticar problemas de comercialização, planeja e implementa uma feira agroecológica, avalia os resultados e ajusta a estratégia com os agricultores.</p>
+          </div>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-head s-metodo" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Pesquisa Participante</div>
+            <div class="acc-sub">Engajamento como princípio metodológico</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Os sujeitos pesquisados participam ativamente do processo de pesquisa — não apenas como informantes, mas como co-pesquisadores. O conhecimento é produzido coletivamente.</p>
+          <p>Difere da pesquisa-ação por não exigir necessariamente uma intervenção programada — o foco é na participação como princípio ético e epistemológico.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Comunidade quilombola como co-pesquisadora: membros ajudam a formular perguntas, coletam dados entre seus pares, interpretam os resultados e decidem como divulgá-los.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Grupo 5 — Métodos Mistos</h4>
+    <div class="card">
+      <p><strong>Métodos mistos (Mixed Methods)</strong> integram dados quantitativos e qualitativos em um mesmo estudo. A justificativa filosófica é geralmente o <strong>pragmatismo</strong> — usa-se o que melhor responde à pergunta de pesquisa.</p>
+      <p><strong>Designs principais:</strong></p>
+      <ul style="margin:10px 0 0 24px;">
+        <li><strong>Sequencial explanatório:</strong> Quantitativo primeiro → qualitativo explica os resultados</li>
+        <li><strong>Sequencial exploratório:</strong> Qualitativo primeiro → quantitativo generaliza os achados</li>
+        <li><strong>Concomitante/triangulação:</strong> Coleta simultânea de dados qualitativos e quantitativos para comparação</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ TÉCNICAS ══════════════════ -->
+<section class="section" id="s-tec">
+  <div class="sec-hero s-tec">
+    <div class="tag">Nível IV — Os Procedimentos</div>
+    <h2><em>Técnicas</em>: como coletar e analisar os dados</h2>
+    <p class="lead">As técnicas são os procedimentos estruturados de coleta e análise de dados. Elas operacionalizam o método — são o ato concreto de caminhar pelo caminho escolhido. A escolha das técnicas deve ser coerente com a metodologia e o método adotados.</p>
+    <div class="question">❓ <em>"Quais procedimentos concretos vou usar para produzir, organizar e analisar os dados desta pesquisa?"</em></div>
+  </div>
+
+  <div class="content-body s-tec">
+
+    <h3>Técnicas de Coleta de Dados</h3>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Entrevista</div>
+            <div class="acc-sub">A técnica qualitativa por excelência</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Interação direta pesquisador-participante para obter informações aprofundadas sobre experiências, percepções, significados e narrativas.</p>
+          <p><strong>Tipos:</strong></p>
+          <ul>
+            <li><strong>Estruturada:</strong> Roteiro fixo, perguntas idênticas para todos. Mais fácil de comparar; menos profundidade.</li>
+            <li><strong>Semiestruturada:</strong> Roteiro como guia, mas com flexibilidade para seguir o raciocínio do entrevistado. Equilíbrio entre comparabilidade e profundidade. <em>A mais usada em pesquisa qualitativa.</em></li>
+            <li><strong>Aberta (não-diretiva):</strong> Mínima orientação; o entrevistado fala livremente. Máxima profundidade; difícil de analisar comparativamente.</li>
+            <li><strong>História de vida:</strong> Reconstrução da trajetória biográfica do entrevistado.</li>
+          </ul>
+          <div class="example-box">
+            <strong>Quando usar</strong>
+            <p>Quando você precisa entender o "porquê" — motivações, valores, experiências subjetivas, processos de tomada de decisão. Não use quando apenas precisar de dados objetivos que um questionário poderia captar.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Questionário</div>
+            <div class="acc-sub">A técnica quantitativa fundamental</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Conjunto estruturado de perguntas aplicado a uma amostra para coleta sistematizada de dados mensuráveis.</p>
+          <p><strong>Tipos de perguntas:</strong></p>
+          <ul>
+            <li><strong>Fechadas:</strong> Opções pré-definidas (sim/não, múltipla escolha, escala Likert). Fáceis de tabelar; perdem nuances.</li>
+            <li><strong>Abertas:</strong> Respostas livres. Mais ricas; mais difíceis de analisar em escala.</li>
+            <li><strong>Escala de Likert:</strong> "Concordo totalmente — Concordo — Neutro — Discordo — Discordo totalmente". Mensura atitudes e opiniões.</li>
+          </ul>
+          <p><strong>Validade:</strong> Exige pré-teste (testar com pequena amostra antes da aplicação definitiva) e validação de conteúdo.</p>
+          <div class="example-box">
+            <strong>Quando usar</strong>
+            <p>Quando você precisar de dados de muitos participantes que possam ser comparados e analisados estatisticamente. Não use para captar experiências subjetivas complexas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Observação</div>
+            <div class="acc-sub">Ver para compreender</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Registro sistemático de comportamentos, práticas, eventos e interações em seu contexto natural.</p>
+          <p><strong>Tipos pelo nível de engajamento:</strong></p>
+          <ul>
+            <li><strong>Observação não participante:</strong> Pesquisador como observador externo, sem integração com o grupo. Menos influência sobre o fenômeno; menos acesso a aspectos internos.</li>
+            <li><strong>Observação participante:</strong> Pesquisador se integra ao grupo, participa das atividades. Mais acesso ao significado; mais risco de perda de perspectiva crítica (<em>going native</em>).</li>
+            <li><strong>Observação sistemática:</strong> Uso de categorias pré-definidas e registro padronizado. Mais comparável; mais rígida.</li>
+          </ul>
+          <p><strong>Instrumento:</strong> Roteiro de observação ou diário de campo.</p>
+          <div class="example-box">
+            <strong>Quando usar</strong>
+            <p>Para captar o que as pessoas fazem (não apenas o que dizem que fazem), práticas cotidianas, interações espontâneas. Fundamental na etnografia e na pesquisa-ação.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Grupo Focal</div>
+            <div class="acc-sub">Conhecimento que emerge do coletivo</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Discussão em grupo (geralmente 6 a 10 participantes) mediada pelo pesquisador em torno de tópicos previamente definidos. O objetivo é captar como as pessoas constroem opiniões e significados coletivamente — o que emerge da interação, não apenas das respostas individuais.</p>
+          <p><strong>Diferença da entrevista coletiva:</strong> No grupo focal, a interação entre os participantes é o dado mais valioso — não apenas as respostas individuais.</p>
+          <p><strong>Vantagens:</strong> Dados mais ricos em menor tempo; revela consensos e controvérsias; simula a construção social do conhecimento. <strong>Limitações:</strong> Possível inibição de opiniões minoritárias; dinâmica de grupo pode desviar o foco.</p>
+          <div class="example-box">
+            <strong>Exemplo</strong>
+            <p>Reunir um grupo de agricultores agroecológicos para discutir os obstáculos ao acesso a mercados — as percepções que surgem da interação entre eles revelam aspectos que entrevistas individuais não captariam.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Análise Documental</div>
+            <div class="acc-sub">Documentos como fontes de evidência</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Exame crítico e sistemático de documentos — escritos, audiovisuais, digitais — para extrair informações relevantes ao problema de pesquisa.</p>
+          <p><strong>Tipos de documentos:</strong></p>
+          <ul>
+            <li><strong>Documentos oficiais:</strong> Leis, decretos, relatórios governamentais, atas de reunião</li>
+            <li><strong>Documentos organizacionais:</strong> Relatórios, planos de negócios, comunicados internos</li>
+            <li><strong>Documentos pessoais:</strong> Diários, cartas, memórias</li>
+            <li><strong>Mídias:</strong> Jornais, revistas, gravações, fotografias</li>
+          </ul>
+          <p><strong>Cuidados:</strong> Avaliar a autenticidade, a representatividade e o contexto de produção de cada documento.</p>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Técnicas Participativas</div>
+            <div class="acc-sub">DRP, mapeamento, linha do tempo e outras</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Conjunto de ferramentas de coleta de dados em que os participantes são agentes ativos do processo. Muito usadas em extensão rural, saúde comunitária e pesquisa social aplicada.</p>
+          <ul>
+            <li><strong>Diagnóstico Rural Participativo (DRP):</strong> Conjunto de técnicas (mapa da comunidade, calendário sazonal, matriz de priorização) para diagnóstico coletivo de realidades rurais.</li>
+            <li><strong>Mapeamento participativo:</strong> Comunidade produz mapas de seu território, recursos e problemas.</li>
+            <li><strong>Linha do tempo:</strong> Grupo constrói cronologia histórica de eventos relevantes.</li>
+            <li><strong>Matriz de priorização:</strong> Classificação coletiva de problemas ou alternativas por critérios definidos pelo grupo.</li>
+            <li><strong>Sociograma:</strong> Mapeamento das relações sociais e redes de influência.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>Técnicas de Análise de Dados</h3>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Análise de Conteúdo</div>
+            <div class="acc-sub">Laurence Bardin — método rigoroso para textos</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Técnica sistemática para analisar o conteúdo de comunicações (entrevistas, documentos, textos midiáticos), identificando frequências, categorias e padrões de significado.</p>
+          <p><strong>Fases (Bardin):</strong></p>
+          <ul>
+            <li><strong>Pré-análise:</strong> Leitura flutuante, definição do corpus, hipóteses iniciais</li>
+            <li><strong>Exploração do material:</strong> Codificação — criação de unidades de análise e categorias</li>
+            <li><strong>Tratamento e interpretação:</strong> Inferências e interpretações a partir das categorias</li>
+          </ul>
+          <p><strong>Pode ser quantitativa</strong> (frequência de palavras/categorias) ou <strong>qualitativa</strong> (análise temática e de sentidos).</p>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Análise do Discurso</div>
+            <div class="acc-sub">Poder, linguagem e produção de verdades</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Analisa como o discurso (oral, escrito, visual) constitui realidades, sujeitos e relações de poder. Não se limita ao "conteúdo" das palavras — investiga as condições de produção, as formações discursivas e os efeitos de sentido.</p>
+          <p><strong>Foucault:</strong> Analisa como certos discursos produzem "regimes de verdade" — o que pode e não pode ser dito em um determinado contexto histórico.</p>
+          <p><strong>Escola francesa (Pêcheux):</strong> Foco nas formações ideológicas que determinam os discursos.</p>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Análise Temática</div>
+            <div class="acc-sub">Braun & Clarke — padrões de significado</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p>Identificação, análise e interpretação de padrões (temas) em dados qualitativos. É mais flexível que a análise de conteúdo e pode ser usada dentro de diferentes bases epistemológicas.</p>
+          <p><strong>Fases:</strong></p>
+          <ul>
+            <li>Familiarização com os dados</li>
+            <li>Geração de códigos iniciais</li>
+            <li>Busca por temas</li>
+            <li>Revisão dos temas</li>
+            <li>Definição e nomeação dos temas</li>
+            <li>Produção do relatório</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-head s-tec" onclick="toggleAcc(this)">
+          <div>
+            <div class="acc-title">Análise Estatística</div>
+            <div class="acc-sub">Descritiva e inferencial</div>
+          </div>
+          <div class="acc-arrow">▾</div>
+        </div>
+        <div class="acc-body">
+          <p><strong>Estatística descritiva:</strong> Descreve os dados da amostra — médias, medianas, desvio padrão, frequências, correlações. Não faz inferências para além da amostra.</p>
+          <p><strong>Estatística inferencial:</strong> Testa hipóteses e faz inferências sobre a população a partir da amostra. Inclui testes paramétricos (t-test, ANOVA) e não-paramétricos (qui-quadrado, Mann-Whitney).</p>
+          <p><strong>Ferramentas:</strong> SPSS, R, Stata, Python (pandas, scipy).</p>
+          <ul>
+            <li><strong>Regressão:</strong> Prediz uma variável a partir de outra(s)</li>
+            <li><strong>Correlação:</strong> Mede a força e direção da associação entre variáveis</li>
+            <li><strong>Análise fatorial:</strong> Identifica estruturas latentes em conjuntos de variáveis</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>Escolhendo técnicas com coerência</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Método</th><th>Técnicas de Coleta Compatíveis</th><th>Técnicas de Análise Compatíveis</th></tr></thead>
+        <tbody>
+          <tr><td>Experimental</td><td>Medição, teste, observação sistemática</td><td>Estatística inferencial</td></tr>
+          <tr><td>Survey</td><td>Questionário estruturado</td><td>Estatística descritiva e inferencial</td></tr>
+          <tr><td>Estudo de caso</td><td>Entrevista, observação, documentos</td><td>Análise de conteúdo, temática</td></tr>
+          <tr><td>Etnografia</td><td>Observação participante, diário de campo</td><td>Análise temática, narrativa</td></tr>
+          <tr><td>Grounded Theory</td><td>Entrevistas em profundidade</td><td>Codificação aberta e axial</td></tr>
+          <tr><td>Pesquisa-Ação</td><td>Técnicas participativas, grupos focais</td><td>Análise temática, reflexiva</td></tr>
+          <tr><td>Documental/Bibliográfico</td><td>Análise documental</td><td>Análise de conteúdo, hermenêutica</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ FERRAMENTAS ══════════════════ -->
+<section class="section" id="s-ferr">
+  <div class="sec-hero s-ferr">
+    <div class="tag">Nível V — Os Instrumentos Concretos</div>
+    <h2><em>Ferramentas</em>: com o que executar a pesquisa</h2>
+    <p class="lead">As ferramentas (ou instrumentos) são os meios materiais e digitais que viabilizam a execução das técnicas. São o nível mais concreto da pesquisa — os objetos físicos e softwares que você vai usar no dia a dia do trabalho de campo e da análise.</p>
+    <div class="question">❓ <em>"Quais instrumentos concretos vou utilizar para executar as técnicas escolhidas?"</em></div>
+  </div>
+
+  <div class="content-body s-ferr">
+
+    <div class="callout info">
+      <div class="ico">💡</div>
+      <div class="cal-body">
+        <p><strong>Distinção final:</strong> Técnica × Ferramenta<br>
+        <em>Técnica:</em> "entrevista semiestruturada" — é um procedimento.<br>
+        <em>Ferramenta:</em> roteiro de entrevista + gravador de áudio + software de transcrição — são os instrumentos que viabilizam essa técnica.</p>
+      </div>
+    </div>
+
+    <h3>Ferramentas de Coleta</h3>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">Roteiro de Entrevista</div>
+        <p>Documento com perguntas-guia para a entrevista. Define os tópicos a cobrir sem engessar a conversa (no caso semiestruturado).</p>
+        <span class="ref">TÉCNICA → Entrevista</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Gravador de Áudio/Vídeo</div>
+        <p>Registro fiel das entrevistas e grupos focais. Permite transcrição precisa e análise posterior.</p>
+        <span class="ref">TÉCNICA → Entrevista, Grupo focal</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Diário de Campo</div>
+        <p>Caderno ou arquivo digital onde o pesquisador registra observações, reflexões e interpretações cotidianas do trabalho de campo.</p>
+        <span class="ref">TÉCNICA → Observação, Etnografia</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Formulários Digitais</div>
+        <p>Google Forms, SurveyMonkey, Kobo Toolbox (para pesquisa de campo offline). Facilitam a coleta e já geram banco de dados automático.</p>
+        <span class="ref">TÉCNICA → Questionário</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Roteiro de Observação</div>
+        <p>Formulário com categorias pré-definidas para observação sistemática. Define o que observar, quando e como registrar.</p>
+        <span class="ref">TÉCNICA → Observação sistemática</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Câmera Fotográfica / Drone</div>
+        <p>Registro visual de territórios, práticas agrícolas, eventos comunitários. Pode ser fonte de dados primários (fotoetnografia).</p>
+        <span class="ref">TÉCNICA → Observação, Etnografia</span>
+      </div>
+    </div>
+
+    <h3>Ferramentas de Análise Qualitativa</h3>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">NVivo</div>
+        <p>Software de análise qualitativa. Permite codificar entrevistas, documentos e outros materiais; criar categorias, nós e mapas visuais de conexões.</p>
+        <span class="ref">Análise de conteúdo, temática, discurso</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Atlas.ti</div>
+        <p>Similar ao NVivo. Muito usado em ciências sociais. Permite trabalhar com texto, imagem, áudio e vídeo.</p>
+        <span class="ref">Análise qualitativa geral</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">MAXQDA</div>
+        <p>Outra opção popular, com interface intuitiva. Suporte a análise de métodos mistos.</p>
+        <span class="ref">Qualitativo e misto</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Otter.ai / Whisper (IA)</div>
+        <p>Ferramentas de transcrição automática de áudio. Reduzem drasticamente o tempo de transcrição de entrevistas.</p>
+        <span class="ref">Transcrição de entrevistas</span>
+      </div>
+    </div>
+
+    <h3>Ferramentas de Análise Quantitativa</h3>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">SPSS</div>
+        <p>Software clássico para análise estatística em ciências sociais e saúde. Interface amigável para quem não programa.</p>
+        <span class="ref">Estatística descritiva e inferencial</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">R + RStudio</div>
+        <p>Linguagem de programação estatística de código aberto. Poderosa, gratuita e com enorme comunidade. Curva de aprendizado maior.</p>
+        <span class="ref">Estatística avançada, visualização</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Python (pandas, scipy)</div>
+        <p>Linguagem de programação geral com excelentes bibliotecas para análise de dados e ciência de dados.</p>
+        <span class="ref">Análise de dados, machine learning</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Excel / Google Sheets</div>
+        <p>Para análises básicas e organização de dados. Suficiente para muitas pesquisas de TCC e artigos simples.</p>
+        <span class="ref">Estatística descritiva básica</span>
+      </div>
+    </div>
+
+    <h3>Ferramentas de Organização e Referências</h3>
+    <div class="grid3">
+      <div class="mini-card">
+        <div class="title">Mendeley / Zotero</div>
+        <p>Gerenciadores de referências bibliográficas. Organizam artigos e geram citações automaticamente.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Notion / Obsidian</div>
+        <p>Para organização do projeto de pesquisa: diário de pesquisa, fichamentos, cronograma, notas de campo.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Google Scholar / Scopus</div>
+        <p>Bases de busca para revisão bibliográfica sistemática. Scopus tem métricas de impacto das revistas.</p>
+      </div>
+    </div>
+
+    <h3>Ferramentas para Pesquisa Espacial e Territorial</h3>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">QGIS</div>
+        <p>Software de SIG (Sistema de Informação Geográfica) gratuito. Para mapeamento, análise espacial e geoprocessamento.</p>
+        <span class="ref">Pesquisa territorial, ambiental</span>
+      </div>
+      <div class="mini-card">
+        <div class="title">Google Earth Engine</div>
+        <p>Plataforma de análise de imagens de satélite em nuvem. Para monitoramento ambiental e análise de uso do solo.</p>
+        <span class="ref">Sensoriamento remoto, agroecologia</span>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <div class="ico">🎯</div>
+      <div class="cal-body">
+        <p><strong>Critério de escolha:</strong> A ferramenta deve servir à técnica, que serve ao método, que serve à metodologia. <em>Nunca escolha uma ferramenta por ser moderna ou impressionante — escolha pela coerência com sua arquitetura de pesquisa.</em></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PROJETO ══════════════════ -->
+<section class="section" id="s-proj">
+  <div class="sec-hero s-chain">
+    <div class="tag" style="background:#e0e8e0;color:#1a4a1a;">Síntese Final</div>
+    <h2>Construa o seu <em>projeto de pesquisa</em></h2>
+    <p class="lead">Agora que você compreende a arquitetura da pesquisa científica, é hora de aplicar. Use os recursos abaixo para verificar sua compreensão com o quiz e estruturar seu próprio projeto com o checklist interativo.</p>
+  </div>
+
+  <div class="content-body">
+
+    <!-- QUIZ -->
+    <div class="quiz-box">
+      <h3>🧪 Quiz de Verificação — Teste seu Entendimento</h3>
+
+      <div class="quiz-q" id="q1">
+        <div class="q-text">1. Um pesquisador afirma: "Utilizei a metodologia de entrevistas semiestruturadas." Qual é o erro nessa afirmação?</div>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Entrevistas semiestruturadas não são usadas em pesquisa científica.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Entrevista semiestruturada é uma <strong>técnica</strong>, não uma metodologia. Metodologia é a lógica que justifica as escolhas de pesquisa.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Só se pode chamar de metodologia quando há mais de uma técnica.</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> O erro é usar "metodologia" em vez de "método".</label>
+        <div class="quiz-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-q" id="q2">
+        <div class="q-text">2. Uma pesquisa que busca compreender o significado da experiência de migração para trabalhadores rurais está mais alinhada a qual epistemologia?</div>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> Positivismo, pois busca generalizar os resultados.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> Materialismo histórico, pois analisa as relações de produção.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> Fenomenologia, pois foca na experiência vivida e no significado subjetivo.</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Pós-estruturalismo, pois questiona os discursos dominantes.</label>
+        <div class="quiz-feedback" id="fb2"></div>
+      </div>
+
+      <div class="quiz-q" id="q3">
+        <div class="q-text">3. Na hierarquia da pesquisa científica, o que a metodologia faz em relação ao método?</div>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> A metodologia e o método são sinônimos.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> O método justifica a metodologia.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> A metodologia fornece a lógica e justificativa para a escolha do método.</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> A metodologia vem depois do método na hierarquia.</label>
+        <div class="quiz-feedback" id="fb3"></div>
+      </div>
+
+      <div class="quiz-q" id="q4">
+        <div class="q-text">4. Um pesquisador imerge por 10 meses em uma comunidade quilombola, participa do cotidiano, registra observações em diário de campo e realiza entrevistas informais. Qual método ele está usando?</div>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> Survey (levantamento)</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> Método experimental</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> Etnografia</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> Pesquisa bibliográfica</label>
+        <div class="quiz-feedback" id="fb4"></div>
+      </div>
+
+      <div class="quiz-q" id="q5">
+        <div class="q-text">5. Qual é a diferença entre NVivo e SPSS como ferramentas de pesquisa?</div>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> NVivo é mais caro e por isso mais preciso.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> NVivo é para análise qualitativa (codificação de textos); SPSS é para análise estatística quantitativa.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> SPSS é usado apenas em física; NVivo é para ciências humanas.</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> São ferramentas equivalentes com interfaces diferentes.</label>
+        <div class="quiz-feedback" id="fb5"></div>
+      </div>
+
+      <div class="quiz-q" id="q6">
+        <div class="q-text">6. A decolonialidade como epistemologia critica principalmente:</div>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> O uso excessivo de métodos quantitativos nas ciências sociais.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> A pretensão de universalidade do conhecimento científico ocidental e a hierarquização dos saberes que invisibiliza conhecimentos locais e indígenas.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> A fenomenologia por ignorar as relações econômicas.</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> O uso de língua portuguesa na academia brasileira.</label>
+        <div class="quiz-feedback" id="fb6"></div>
+      </div>
+
+      <button class="quiz-btn" onclick="checkQuiz()">Verificar Respostas</button>
+      <button class="quiz-btn quiz-reset" onclick="resetQuiz()">Reiniciar</button>
+      <div class="quiz-score" id="quizScore"></div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="checklist" id="projectChecklist">
+      <div class="checklist-head">✅ Checklist: Estruture seu Projeto de Pesquisa</div>
+      <div class="cl-progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-text" id="progressText">0 / 12 concluídos</div>
+      </div>
+
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Definir o tema e o problema de pesquisa</strong>
+          <small>O que você quer investigar? Qual é a questão central? O problema é específico, delimitado e relevante?</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Formular a pergunta de pesquisa</strong>
+          <small>Uma boa pergunta começa com "Como?", "Por que?", "Qual é o significado de?", "Quais são os fatores que...?" e não pode ser respondida com sim ou não.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Definir os objetivos (geral e específicos)</strong>
+          <small>Objetivo geral = responde à pergunta. Objetivos específicos = passos para atingir o objetivo geral. Use verbos no infinitivo (analisar, identificar, compreender, descrever).</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Identificar a epistemologia adotada</strong>
+          <small>Qual é sua visão de mundo? Você acredita em uma realidade objetiva mensurável, ou em múltiplas realidades construídas socialmente? Declare e justifique.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Escolher e justificar a metodologia</strong>
+          <small>Analítico-explicativa, interpretativa, crítica, participativa? A escolha deve ser coerente com a epistemologia e com o que você quer descobrir.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Definir o método (desenho da pesquisa)</strong>
+          <small>Estudo de caso? Survey? Etnografia? Pesquisa-ação? Experimental? O método deve ser compatível com a metodologia e adequado ao problema.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Definir os participantes e o campo (quem/onde)</strong>
+          <small>Quem serão seus participantes? Qual é o universo e a amostra? Como serão selecionados? Por que esse campo/contexto e não outro?</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Selecionar as técnicas de coleta de dados</strong>
+          <small>Entrevista? Questionário? Observação? Análise documental? Técnicas participativas? Justifique a escolha com base no método e na pergunta.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Escolher as ferramentas (instrumentos)</strong>
+          <small>Roteiro de entrevista, gravador, formulário digital? NVivo, SPSS, R? Defina os instrumentos concretos que vai usar.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Definir as técnicas de análise de dados</strong>
+          <small>Análise de conteúdo? Análise temática? Análise estatística inferencial? A técnica de análise deve ser coerente com a de coleta e com a metodologia.</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Verificar a coerência da cadeia lógica</strong>
+          <small>Revisão crítica: cada nível é coerente com o anterior? Epistemologia → Metodologia → Método → Técnicas → Ferramentas formam uma cadeia lógica sem contradições?</small>
+        </div>
+      </div>
+      <div class="cl-item" onclick="toggleCheck(this)">
+        <input type="checkbox">
+        <div class="cl-text">
+          <strong>Considerar aspectos éticos</strong>
+          <small>Consentimento informado dos participantes? Confidencialidade? Riscos e benefícios? Submissão ao Comitê de Ética (CEP/CONEP) se necessário?</small>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <h3>Referências Essenciais para Aprofundamento</h3>
+    <div class="grid2">
+      <div class="mini-card">
+        <div class="title">Antônio Carlos Gil</div>
+        <p>Métodos e Técnicas de Pesquisa Social. A referência mais usada no Brasil para metodologia de pesquisa social.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Eva Lakatos & Marina Marconi</div>
+        <p>Fundamentos de Metodologia Científica. Clássico brasileiro, muito adotado em cursos de graduação e pós.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">John W. Creswell</div>
+        <p>Research Design: Qualitative, Quantitative, and Mixed Methods. Referência internacional para design de pesquisa, especialmente métodos mistos.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Norman Denzin & Yvonna Lincoln</div>
+        <p>O Planejamento da Pesquisa Qualitativa. Enciclopédia dos métodos qualitativos. Referência indispensável.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Boaventura de Sousa Santos</div>
+        <p>Epistemologias do Sul. Referência para pesquisa crítica, decolonial e ecologia de saberes.</p>
+      </div>
+      <div class="mini-card">
+        <div class="title">Thomas Kuhn</div>
+        <p>A Estrutura das Revoluções Científicas. Fundamental para entender como a ciência funciona e muda ao longo do tempo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Guia elaborado para apoio ao desenvolvimento de projetos de pesquisa científica.</p>
+  <p style="margin-top:8px;">Navegue pelos níveis acima · Cada seção aprofunda um nível da <strong>arquitetura lógica da ciência</strong></p>
+</footer>
+
+<script>
+  const answers = { q1:'b', q2:'c', q3:'c', q4:'c', q5:'b', q6:'b' };
+  const feedbacks = {
+    q1: { b: "✅ Correto! Entrevista semiestruturada é uma técnica de coleta de dados. Metodologia é a lógica e justificativa que orienta toda a pesquisa — inclui a epistemologia adotada, o tipo de relação com o objeto e as razões das escolhas investigativas.", default: "❌ Incorreto. O problema é que entrevista semiestruturada é uma técnica, não uma metodologia. Metodologia é o arcabouço lógico-teórico que justifica as escolhas de pesquisa." },
+    q2: { c: "✅ Correto! A fenomenologia é a corrente epistemológica que privilegia a experiência vivida e a compreensão dos significados subjetivos — exatamente o foco desta pesquisa.", default: "❌ Incorreto. A pesquisa descreve uma questão de significado e experiência vivida, o que aponta diretamente para a fenomenologia." },
+    q3: { c: "✅ Correto! A metodologia é a lógica que justifica por que determinado caminho (método) faz sentido dado o problema, a epistemologia e os objetivos da pesquisa. Sem metodologia, a escolha do método é arbitrária.", default: "❌ Incorreto. A metodologia vem antes do método e fornece a fundamentação lógica para a escolha do caminho investigativo." },
+    q4: { c: "✅ Correto! Imersão prolongada no campo, participação na vida cotidiana, diário de campo e entrevistas informais são as características clássicas da etnografia.", default: "❌ Incorreto. A descrição — imersão de longa duração, observação participante, diário de campo — é a definição clássica de etnografia." },
+    q5: { b: "✅ Correto! NVivo é um software de análise qualitativa (codificação de textos, categorias, redes de conceitos), enquanto SPSS é um software de estatística para análise quantitativa.", default: "❌ Incorreto. A distinção fundamental é entre análise qualitativa (NVivo, para codificar textos e categorias) e análise quantitativa (SPSS, para estatísticas)." },
+    q6: { b: "✅ Correto! A decolonialidade questiona a colonialidade do saber — o sistema que hierarquiza conhecimentos colocando o saber científico ocidental como universal e legítimo, enquanto invisibiliza ou marginaliza saberes locais, tradicionais e indígenas.", default: "❌ Incorreto. A crítica central da decolonialidade é à colonialidade do saber: a hierarquização dos conhecimentos que coloca o saber ocidental como universal." }
+  };
+
+  function showSection(id, src) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('s-'+id).classList.add('active');
+    document.querySelectorAll('.chain-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`[data-section="${id}"]`).classList.add('active');
+    window.scrollTo({ top: document.querySelector('.chain-nav').offsetTop - 2, behavior: 'smooth' });
+  }
+
+  // nav buttons onclick fix
+  document.querySelectorAll('.chain-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const sec = this.getAttribute('data-section');
+      showSection(sec, 'nav');
+    });
+  });
+
+  function toggleAcc(head) {
+    const body = head.nextElementSibling;
+    const isOpen = head.classList.contains('open');
+    // close all in same accordion
+    head.closest('.accordion').querySelectorAll('.acc-head').forEach(h => {
+      h.classList.remove('open');
+      h.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      head.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  function checkQuiz() {
+    let score = 0;
+    Object.keys(answers).forEach(qid => {
+      const selected = document.querySelector(`input[name="${qid}"]:checked`);
+      const fb = document.getElementById('fb'+qid.slice(1));
+      const options = document.querySelectorAll(`input[name="${qid}"]`);
+      options.forEach(opt => {
+        opt.closest('.quiz-option').classList.remove('correct','wrong');
+        if (opt.value === answers[qid]) opt.closest('.quiz-option').classList.add('correct');
+      });
+      if (selected) {
+        if (selected.value === answers[qid]) {
+          score++;
+          fb.textContent = feedbacks[qid][selected.value];
+          fb.className = 'quiz-feedback show correct-f';
+        } else {
+          selected.closest('.quiz-option').classList.add('wrong');
+          fb.textContent = feedbacks[qid].default;
+          fb.className = 'quiz-feedback show wrong-f';
+        }
+      } else {
+        fb.textContent = '⚠️ Não respondida. ' + feedbacks[qid].default;
+        fb.className = 'quiz-feedback show wrong-f';
+      }
+      options.forEach(opt => opt.disabled = true);
+    });
+    const scoreEl = document.getElementById('quizScore');
+    const msg = score === 6 ? ' — Excelente domínio do conteúdo! 🎓' : score >= 4 ? ' — Bom entendimento! Revise os erros.' : ' — Revise o material e tente novamente.';
+    scoreEl.textContent = `Resultado: ${score} de 6 acertos${msg}`;
+    scoreEl.className = 'quiz-score show';
+  }
+
+  function resetQuiz() {
+    document.querySelectorAll('input[type=radio]').forEach(r => { r.checked = false; r.disabled = false; });
+    document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('correct','wrong'));
+    document.querySelectorAll('.quiz-feedback').forEach(f => f.className = 'quiz-feedback');
+    document.getElementById('quizScore').className = 'quiz-score';
+  }
+
+  function toggleCheck(item) {
+    const cb = item.querySelector('input[type=checkbox]');
+    cb.checked = !cb.checked;
+    item.classList.toggle('done', cb.checked);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const items = document.querySelectorAll('.cl-item');
+    const done = document.querySelectorAll('.cl-item.done').length;
+    const pct = Math.round((done / items.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = `${done} / ${items.length} concluídos`;
+  }
+</script>
+</body>
+</html>

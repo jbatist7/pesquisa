@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIAPAC - Sistema de Aprendizagem em Pesquisa Acadêmica e Científica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:         #0f1117;
+  --paper:       #faf8f3;
+  --cream:       #f2ede3;
+  --border:      #d4c9b0;
+  --shadow-sm:   0 2px 8px rgba(15,17,23,0.08);
+  --shadow-md:   0 6px 24px rgba(15,17,23,0.13);
+  --shadow-lg:   0 12px 48px rgba(15,17,23,0.18);
+
+  --gold:        #c9a84c;
+  --gold-light:  #e6ca87;
+  --gold-pale:   #f5ead0;
+  --amber:       #b45309;
+
+  --teal:        #1a4a4a;
+  --teal-mid:    #2d6b6b;
+  --teal-light:  #4a9b9b;
+  --teal-pale:   #d4eaea;
+
+  --violet:      #3d2060;
+  --violet-pale: #e8e0f5;
+  --violet-mid:  #6d35b0;
+
+  --green:       #1a4a1a;
+  --green-pale:  #d4ead4;
+  --green-mid:   #2d7a2d;
+
+  --red:         #8b2020;
+  --red-pale:    #f5e0e0;
+
+  --slate:       #1e3a5f;
+  --slate-mid:   #2563eb;
+  --slate-pale:  #dbeafe;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--cream); }
+::-webkit-scrollbar-thumb { background:#c0b090; border-radius:3px; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  background: var(--teal);
+  color: var(--paper);
+  padding: 72px 40px 64px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    repeating-linear-gradient(
+      -55deg, transparent, transparent 60px,
+      rgba(255,255,255,.018) 60px, rgba(255,255,255,.018) 61px
+    );
+}
+.hero::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:4px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: 20px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 40px; height: 1px;
+  background: rgba(230,202,135,.4);
+}
+
+.hero-acronym {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 10vw, 88px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+  margin-bottom: 6px;
+  color: var(--paper);
+}
+.hero-acronym span { color: var(--gold); }
+
+.hero-fullname {
+  font-family: 'Crimson Pro', serif;
+  font-size: clamp(14px, 2vw, 17px);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(250,248,243,.55);
+  margin-bottom: 30px;
+}
+
+.hero-tagline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold-light);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.hero-desc {
+  font-size: 16px;
+  color: rgba(250,248,243,.75);
+  line-height: 1.8;
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: 'Crimson Pro', serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all .2s;
+  box-shadow: 0 4px 16px rgba(201,168,76,.3);
+}
+.hero-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(201,168,76,.4);
+}
+.hero-cta .arr { font-size: 18px; transition: transform .2s; }
+.hero-cta:hover .arr { transform: translateX(4px); }
+
+/* ══════════════════════════════════════
+   WRAPPER
+══════════════════════════════════════ */
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+/* ══════════════════════════════════════
+   SECTION TITLES
+══════════════════════════════════════ */
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 800;
+  color: var(--ink);
+  margin: 64px 0 8px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+  display: flex; align-items: baseline; gap: 12px;
+}
+.sec-title .ico { font-size: 26px; }
+.sec-desc {
+  font-size: 15.5px; color: #666;
+  margin-bottom: 32px; font-style: italic;
+}
+
+/* ══════════════════════════════════════
+   PRESENTATION CARD
+══════════════════════════════════════ */
+.pres-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--gold);
+  border-radius: 10px;
+  padding: 36px 40px;
+  margin: 44px 0 0;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.pres-card::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 160px;
+  color: rgba(201,168,76,.07);
+  position: absolute;
+  top: -20px; left: 20px;
+  line-height: 1;
+  pointer-events: none;
+}
+.pres-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 800;
+  color: var(--amber); margin-bottom: 18px;
+}
+.pres-card p {
+  font-size: 16.5px; color: #2a2218;
+  margin-bottom: 16px; position: relative;
+}
+.pres-card p:last-child { margin-bottom: 0; }
+.pres-card strong { color: var(--teal); }
+.pres-card em { color: var(--amber); font-style: italic; }
+
+/* callout inside pres */
+.pres-callout {
+  background: var(--teal-pale);
+  border-left: 4px solid var(--teal-mid);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  font-size: 16px;
+  color: var(--teal);
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════
+   HOW TO USE — STEPS
+══════════════════════════════════════ */
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 28px 0;
+}
+.how-step {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 20px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.how-step::after {
+  content: '';
+  position: absolute; bottom:0; left:0; right:0; height:3px;
+}
+.how-step:nth-child(1)::after { background: var(--teal-mid); }
+.how-step:nth-child(2)::after { background: var(--violet-mid); }
+.how-step:nth-child(3)::after { background: var(--amber); }
+.how-step:nth-child(4)::after { background: var(--green-mid); }
+
+.hs-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px; font-weight: 800;
+  line-height: 1; margin-bottom: 8px;
+  color: var(--border);
+}
+.hs-icon { font-size: 22px; margin-bottom: 8px; }
+.hs-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 6px; color: var(--ink);
+}
+.hs-text { font-size: 14px; color: #666; line-height: 1.6; }
+
+/* ══════════════════════════════════════
+   MODULE CARDS
+══════════════════════════════════════ */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin: 32px 0 48px;
+}
+
+.mod-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all .25s cubic-bezier(.34,1.3,.64,1);
+  display: flex; flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.mod-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.mod-card-top {
+  padding: 28px 24px 20px;
+  position: relative;
+}
+.mod-card-top::before {
+  content: '';
+  position: absolute; inset:0;
+  opacity: .06;
+}
+
+/* per-module colors */
+.mod-0 .mod-card-top { background: var(--teal); }
+.mod-0 .mod-num      { color: rgba(230,202,135,.6); }
+.mod-0 .mod-icon-bg  { background: rgba(255,255,255,.12); }
+.mod-0 .mod-badge    { background: rgba(201,168,76,.2); color: var(--gold-light); border-color: rgba(201,168,76,.3); }
+
+.mod-1 .mod-card-top { background: var(--slate); }
+.mod-1 .mod-num      { color: rgba(147,197,253,.4); }
+.mod-1 .mod-icon-bg  { background: rgba(255,255,255,.12); }
+.mod-1 .mod-badge    { background: rgba(37,99,235,.2); color: #93c5fd; border-color: rgba(37,99,235,.3); }
+
+.mod-2 .mod-card-top { background: var(--violet); }
+.mod-2 .mod-num      { color: rgba(196,181,253,.4); }
+.mod-2 .mod-icon-bg  { background: rgba(255,255,255,.12); }
+.mod-2 .mod-badge    { background: rgba(109,53,176,.2); color: #c4b5fd; border-color: rgba(109,53,176,.3); }
+
+.mod-3 .mod-card-top { background: var(--green); }
+.mod-3 .mod-num      { color: rgba(134,239,172,.4); }
+.mod-3 .mod-icon-bg  { background: rgba(255,255,255,.12); }
+.mod-3 .mod-badge    { background: rgba(45,122,45,.2); color: #86efac; border-color: rgba(45,122,45,.3); }
+
+.mod-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px; font-weight: 800;
+  line-height: 1; margin-bottom: 12px;
+  position: relative;
+}
+.mod-icon {
+  font-size: 28px; margin-bottom: 10px;
+}
+.mod-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px; font-weight: 800;
+  color: var(--paper); line-height: 1.2;
+  margin-bottom: 6px; position: relative;
+}
+.mod-subtitle {
+  font-size: 13px;
+  color: rgba(250,248,243,.65);
+  font-style: italic;
+  position: relative;
+}
+.mod-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px; border: 1px solid;
+  margin-top: 10px; position: relative;
+}
+
+.mod-card-body {
+  padding: 22px 24px;
+  flex: 1;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+.mod-desc {
+  font-size: 15px; color: #2a2218; line-height: 1.65;
+}
+
+.mod-topics {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 5px;
+}
+.mod-topics li {
+  font-size: 13.5px; color: #555;
+  display: flex; align-items: flex-start; gap: 7px;
+}
+.mod-topics li::before {
+  content: '→';
+  color: var(--gold);
+  flex-shrink: 0; margin-top: 1px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+
+.mod-card-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--cream);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mod-link-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--teal-mid); font-weight: 600;
+}
+.mod-link-arr {
+  font-size: 20px; color: var(--teal-mid);
+  transition: transform .2s;
+}
+.mod-card:hover .mod-link-arr { transform: translateX(5px); }
+
+/* ══════════════════════════════════════
+   ORIENTATION BOX
+══════════════════════════════════════ */
+.orient-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0 40px;
+}
+@media(max-width:640px){ .orient-grid { grid-template-columns:1fr; } }
+
+.orient-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+.orient-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px; font-weight: 700;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.orient-card ul { list-style: none; }
+.orient-card li {
+  font-size: 15px; color: #333;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--border);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.orient-card li:last-child { border-bottom: none; }
+.orient-card li .li-ico { flex-shrink: 0; font-size: 15px; }
+
+/* ══════════════════════════════════════
+   MOTIVATION STRIP
+══════════════════════════════════════ */
+.motiv {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 12px;
+  padding: 40px 44px;
+  margin: 48px 0 56px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.motiv::before {
+  content:'';
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    -45deg,transparent,transparent 40px,
+    rgba(201,168,76,.03) 40px,rgba(201,168,76,.03) 41px
+  );
+}
+.motiv::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));
+}
+.motiv-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: 16px;
+  position: relative;
+}
+.motiv h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800; font-style: italic;
+  color: var(--gold-light);
+  line-height: 1.3; margin-bottom: 16px;
+  position: relative;
+}
+.motiv p {
+  font-size: 16px; color: rgba(250,248,243,.75);
+  max-width: 600px; margin: 0 auto; line-height: 1.75;
+  position: relative;
+}
+
+/* ══════════════════════════════════════
+   FAQ / ORIENTATIONS ACCORDION
+══════════════════════════════════════ */
+details.faq {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+details.faq > summary {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 22px; cursor: pointer; list-style: none;
+  background: var(--cream); transition: background .15s;
+  font-weight: 600; font-size: 16px; gap: 12px; user-select: none;
+}
+details.faq > summary::-webkit-details-marker { display: none; }
+details.faq > summary:hover { background: #ede8de; }
+details.faq[open] > summary { background: var(--ink); color: var(--paper); }
+.faq-arrow { font-size: 14px; color: #aaa; transition: transform .2s; flex-shrink:0; }
+details.faq[open] > summary .faq-arrow { transform: rotate(180deg); color: var(--gold-light); }
+.faq-body {
+  padding: 18px 22px;
+  font-size: 15.5px; color: #2a2218;
+  border-top: 1px solid var(--border);
+  line-height: 1.7;
+  animation: fadeIn .25s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+.faq-body p { margin-bottom: 10px; }
+.faq-body p:last-child { margin-bottom: 0; }
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer {
+  background: var(--ink);
+  color: rgba(250,248,243,.55);
+  padding: 44px 40px 36px;
+  margin-top: 0;
+}
+.footer-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 32px;
+  align-items: end;
+}
+@media(max-width:600px){ .footer-inner { grid-template-columns:1fr; } }
+
+.footer-brand .fb-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 800;
+  color: var(--gold-light); margin-bottom: 4px;
+}
+.footer-brand .fb-full {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(250,248,243,.35); margin-bottom: 14px;
+}
+.footer-brand p {
+  font-size: 13.5px; line-height: 1.6;
+}
+.footer-brand a {
+  color: var(--teal-light); text-decoration: none;
+}
+.footer-brand a:hover { color: var(--gold-light); }
+
+/* visit counter */
+.visit-counter {
+  text-align: right;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px;
+}
+.vc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(250,248,243,.3); margin-bottom: 4px;
+}
+.vc-count {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 800;
+  color: rgba(201,168,76,.6);
+  line-height: 1;
+}
+.vc-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(250,248,243,.2); margin-top: 2px;
+}
+.footer-copy {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,.06);
+  padding-top: 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1px;
+  color: rgba(250,248,243,.2);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Sistema de Aprendizagem</div>
+
+    <div class="hero-acronym">
+      <span>S</span>IAPAC
+    </div>
+    <div class="hero-fullname">
+      Sistema de Aprendizagem em Pesquisa Acadêmica e Científica
+    </div>
+
+    <div class="hero-tagline">
+      Aprenda a pensar antes de pesquisar.
+    </div>
+
+    <p class="hero-desc">
+      Quatro módulos interativos que formam uma base sólida de pensamento científico - do vocabulário essencial às armadilhas epistemológicas que comprometem pesquisas. Criado para estudantes de graduação e pós-graduação que querem fazer pesquisa com consciência e rigor.
+    </p>
+
+    <a href="#modulos" class="hero-cta">
+      Explorar os módulos <span class="arr">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════ -->
+<div class="wrap">
+
+  <!-- PRESENTATION -->
+  <div class="pres-card reveal">
+    <h2>📌 O que é o SIAPAC?</h2>
+    <p>
+      O SIAPAC é um sistema de aprendizagem criado para preencher uma lacuna crítica na formação científica: a maioria dos manuais de pesquisa ensina <strong>como fazer</strong> - quais técnicas usar, como formatar referências, quais passos seguir. Poucos ensinam <strong>como pensar</strong> antes de pesquisar.
+    </p>
+    <p>
+      Pesquisas tecnicamente corretas mas teoricamente frágeis são o resultado de uma formação que saltou etapas. Um estudante pode saber aplicar questionários e desconhecer completamente o que é uma <em>epistemologia</em> - e isso compromete toda a cadeia lógica da investigação.
+    </p>
+    <div class="pres-callout">
+      💡 O SIAPAC inverte essa lógica: começa pelos fundamentos filosóficos e epistemológicos, passa pela estrutura lógica da pesquisa, aprofunda os tipos de revisão de literatura e termina alertando sobre as armadilhas que pesquisadores cometem sem perceber.
+    </div>
+    <p>
+      Os módulos são independentes - você pode acessar qualquer um diretamente - mas a progressão sugerida foi pensada para construir compreensão em camadas. Se você está começando, siga a ordem. Se já tem experiência, use os módulos como referência e consulta.
+    </p>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <h2 class="sec-title reveal"><span class="ico">⚙️</span>Como funciona o sistema</h2>
+  <p class="sec-desc reveal">Cada módulo é uma página independente com conteúdo interativo. Veja como navegar.</p>
+
+  <div class="how-steps reveal">
+    <div class="how-step">
+      <div class="hs-num">01</div>
+      <div class="hs-icon">🖱️</div>
+      <div class="hs-title">Clique no módulo</div>
+      <div class="hs-text">Cada módulo abre em uma nova aba do navegador - você não perde esta página de navegação.</div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">02</div>
+      <div class="hs-icon">📖</div>
+      <div class="hs-title">Leia e interaja</div>
+      <div class="hs-text">Clique nos termos sublinhados para ver definições, expanda os acordeões e explore os exemplos.</div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">03</div>
+      <div class="hs-icon">🧪</div>
+      <div class="hs-title">Faça os quizzes</div>
+      <div class="hs-text">Cada módulo tem quiz e checklist ao final para confirmar sua compreensão antes de avançar.</div>
+    </div>
+    <div class="how-step">
+      <div class="hs-num">04</div>
+      <div class="hs-icon">🔁</div>
+      <div class="hs-title">Retorne quando precisar</div>
+      <div class="hs-text">Os módulos funcionam como material de consulta - volte sempre que tiver dúvidas durante sua pesquisa.</div>
+    </div>
+  </div>
+
+  <!-- MODULES -->
+  <h2 class="sec-title reveal" id="modulos"><span class="ico">🗂️</span>Os quatro módulos</h2>
+  <p class="sec-desc reveal">Clique em qualquer módulo para abrí-lo em uma nova aba. A progressão sugerida é da esquerda para a direita.</p>
+
+  <div class="modules-grid reveal">
+
+    <!-- MODULE 0 -->
+    <!-- ↓↓↓ ADICIONAR LINK VERDADEIRO AQUI - substituir o href="#" pelo URL real do GitHub Pages do arquivo comece_por_aqui.html ↓↓↓ -->
+    <a class="mod-card mod-0" href="#" target="_blank" rel="noopener noreferrer">
+      <div class="mod-card-top">
+        <div class="mod-num">0</div>
+        <div class="mod-icon">🚪</div>
+        <div class="mod-title">Comece por Aqui</div>
+        <div class="mod-subtitle">Portal de entrada no sistema</div>
+        <span class="mod-badge">Módulo Inicial</span>
+      </div>
+      <div class="mod-card-body">
+        <p class="mod-desc">O ponto de partida obrigatório para quem começa a pesquisar. Apresenta o vocabulário essencial com termos clicáveis e a estrutura completa de um artigo científico em três colunas.</p>
+        <ul class="mod-topics">
+          <li>12 conceitos fundamentais com definições em camadas</li>
+          <li>Cadeia lógica da pesquisa (5 níveis)</li>
+          <li>Matriz: elemento × raciocínio × texto exemplo</li>
+          <li>Quiz de entrada e checklist de prontidão</li>
+        </ul>
+      </div>
+      <div class="mod-card-footer">
+        <span class="mod-link-label">Abrir módulo</span>
+        <span class="mod-link-arr">→</span>
+      </div>
+    </a>
+
+    <!-- MODULE 1 -->
+    <!-- ↓↓↓ ADICIONAR LINK VERDADEIRO AQUI — substituir o href="#" pelo URL real do GitHub Pages do arquivo pesquisa_cientifica.html ↓↓↓ -->
+    <a class="mod-card mod-1" href="#" target="_blank" rel="noopener noreferrer">
+      <div class="mod-card-top">
+        <div class="mod-num">I</div>
+        <div class="mod-icon">🔬</div>
+        <div class="mod-title">Da Epistemologia à Prática</div>
+        <div class="mod-subtitle">A arquitetura lógica da pesquisa</div>
+        <span class="mod-badge">Fundamentos</span>
+      </div>
+      <div class="mod-card-body">
+        <p class="mod-desc">Mergulho completo nos níveis da pesquisa científica - das correntes filosóficas (positivismo, fenomenologia, decolonialidade) até as ferramentas concretas de análise.</p>
+        <ul class="mod-topics">
+          <li>10 correntes epistemológicas aprofundadas</li>
+          <li>5 famílias metodológicas com critérios de escolha</li>
+          <li>Métodos: experimental, estudo de caso, etnografia…</li>
+          <li>Técnicas, ferramentas e três exemplos completos</li>
+        </ul>
+      </div>
+      <div class="mod-card-footer">
+        <span class="mod-link-label">Abrir módulo</span>
+        <span class="mod-link-arr">→</span>
+      </div>
+    </a>
+
+    <!-- MODULE 2 -->
+    <!-- ↓↓↓ ADICIONAR LINK VERDADEIRO AQUI — substituir o href="#" pelo URL real do GitHub Pages do arquivo revisao_literatura.html ↓↓↓ -->
+    <a class="mod-card mod-2" href="#" target="_blank" rel="noopener noreferrer">
+      <div class="mod-card-top">
+        <div class="mod-num">II</div>
+        <div class="mod-icon">📚</div>
+        <div class="mod-title">Revisão de Literatura</div>
+        <div class="mod-subtitle">Da citação à síntese crítica</div>
+        <span class="mod-badge">Análise</span>
+      </div>
+      <div class="mod-card-body">
+        <p class="mod-desc">Guia completo dos tipos de revisão de literatura - narrativa, sistemática, de escopo, crítica, integrativa, metanálise e bibliométrica - com critérios para escolha e execução.</p>
+        <ul class="mod-topics">
+          <li>7 tipos de revisão com quando usar e quando NÃO usar</li>
+          <li>Protocolos passo a passo para cada tipo</li>
+          <li>Três casos práticos com decisão justificada</li>
+          <li>Os 6 erros que invalidam uma revisão</li>
+        </ul>
+      </div>
+      <div class="mod-card-footer">
+        <span class="mod-link-label">Abrir módulo</span>
+        <span class="mod-link-arr">→</span>
+      </div>
+    </a>
+
+    <!-- MODULE 3 -->
+    <!-- ↓↓↓ ADICIONAR LINK VERDADEIRO AQUI — substituir o href="#" pelo URL real do GitHub Pages do arquivo vigilancia_epistemologica.html ↓↓↓ -->
+    <a class="mod-card mod-3" href="#" target="_blank" rel="noopener noreferrer">
+      <div class="mod-card-top">
+        <div class="mod-num">III</div>
+        <div class="mod-icon">🛡️</div>
+        <div class="mod-title">Vigilância Epistemológica</div>
+        <div class="mod-subtitle">Armadilhas e como escapar delas</div>
+        <span class="mod-badge">Avançado</span>
+      </div>
+      <div class="mod-card-body">
+        <p class="mod-desc">A camada crítica do sistema: antecipa os erros mais comuns que pesquisadores cometem sem perceber, de ecletismo ingênuo a confusão entre correlação e causalidade.</p>
+        <ul class="mod-topics">
+          <li>13 tópicos: anacronismo, causalidade, métodos mistos…</li>
+          <li>Grounded Theory clássica vs. construtivista (Charmaz)</li>
+          <li>Análise de Conteúdo vs. Análise do Discurso</li>
+          <li>12 referências comentadas com guia de aplicação</li>
+        </ul>
+      </div>
+      <div class="mod-card-footer">
+        <span class="mod-link-label">Abrir módulo</span>
+        <span class="mod-link-arr">→</span>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ORIENTATION -->
+  <h2 class="sec-title reveal"><span class="ico">🧭</span>Orientações para o estudo</h2>
+  <p class="sec-desc reveal">Dicas práticas para tirar o máximo proveito do sistema.</p>
+
+  <div class="orient-grid reveal">
+    <div class="orient-card">
+      <h4 style="color:var(--teal);">✅ Sugestões de uso</h4>
+      <ul>
+        <li><span class="li-ico">🔰</span>Se está começando: siga a ordem dos módulos (0 → I → II → III)</li>
+        <li><span class="li-ico">🎯</span>Se tem dúvida pontual: acesse o módulo específico diretamente</li>
+        <li><span class="li-ico">📌</span>Clique nos termos sublinhados - eles explicam conceitos no momento certo</li>
+        <li><span class="li-ico">🧪</span>Faça os quizzes de cada módulo - eles revelam pontos que parecem claros mas não estão</li>
+        <li><span class="li-ico">🔁</span>Retorne ao material durante sua pesquisa - ele é guia de consulta, não só leitura única</li>
+      </ul>
+    </div>
+    <div class="orient-card">
+      <h4 style="color:var(--red);">⚠️ Erros a evitar</h4>
+      <ul>
+        <li><span class="li-ico">❌</span>Não pule o Módulo 0 mesmo que já tenha experiência em pesquisa</li>
+        <li><span class="li-ico">❌</span>Não escolha técnicas antes de ter sua pergunta de pesquisa clara</li>
+        <li><span class="li-ico">❌</span>Não confunda "li o material" com "compreendi o material" - faça os quizzes</li>
+        <li><span class="li-ico">❌</span>Não use os módulos apenas uma vez - pesquisa exige revisão contínua</li>
+        <li><span class="li-ico">❌</span>Não trate os módulos como regras rígidas - são bússolas, não trilhos</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <h2 class="sec-title reveal"><span class="ico">💬</span>Perguntas frequentes</h2>
+  <p class="sec-desc reveal">Dúvidas comuns de estudantes que chegam ao SIAPAC pela primeira vez.</p>
+
+  <div class="reveal">
+    <details class="faq">
+      <summary>Preciso estudar os módulos em ordem? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">
+        <p>A ordem sugerida (0 → I → II → III) foi pensada para construir compreensão em camadas - cada módulo apoia os seguintes. Para quem está começando, seguir a ordem faz toda a diferença.</p>
+        <p>Se você já tem experiência em pesquisa, pode acessar qualquer módulo diretamente como material de referência. Mas mesmo pesquisadores experientes costumam encontrar perspectivas novas no Módulo III (Vigilância Epistemológica), que é o mais avançado do sistema.</p>
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Os módulos funcionam no celular? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">
+        <p>Sim. Todos os módulos foram desenvolvidos com design responsivo e funcionam bem em telas pequenas. As tabelas se adaptam, os acordeões funcionam por toque e os termos clicáveis abrem normalmente em dispositivos móveis.</p>
+        <p>Para uma experiência ideal, recomendamos tela de tablet ou computador - especialmente para a matriz de três colunas do Módulo 0 e as tabelas comparativas do Módulo II.</p>
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Posso usar este material em sala de aula ou compartilhar com outros estudantes? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">
+        <p>Sim, o material foi desenvolvido com essa finalidade. Você pode compartilhar o link desta página, recomendar módulos específicos para estudantes com dificuldades pontuais, ou usar os exemplos em discussões de orientação.</p>
+        <p>Se quiser utilizar o material em contexto institucional ou citar em trabalhos acadêmicos, entre em contato pelo e-mail disponível no rodapé.</p>
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Os módulos serão atualizados? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">
+        <p>O sistema está em desenvolvimento contínuo. Novos módulos podem ser adicionados cobrindo temas como desenho de instrumentos de pesquisa, análise de dados qualitativos, escrita científica e publicação em periódicos.</p>
+        <p>As atualizações serão incorporadas nos arquivos existentes e novos módulos serão anunciados nesta página de navegação.</p>
+      </div>
+    </details>
+
+    <details class="faq">
+      <summary>Tenho dificuldade com alguns conceitos. O que fazer? <span class="faq-arrow">▾</span></summary>
+      <div class="faq-body">
+        <p>Comece sempre pelo Módulo 0 ("Comece por Aqui") - ele foi especialmente desenhado para introduzir o vocabulário essencial com definições em camadas: linguagem simples, definição técnica, exemplo concreto e erro comum.</p>
+        <p>Use os termos clicáveis ao longo de todos os módulos - eles trazem explicações contextualizadas no momento exato em que você encontra o conceito. E não hesite em retornar: a compreensão se aprofunda na segunda e terceira leitura, especialmente quando você já está com sua pesquisa em andamento.</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- MOTIVATION -->
+  <div class="motiv reveal">
+    <div class="motiv-label">Para o pesquisador que está começando</div>
+    <h3>"Pesquisar é uma das formas mais poderosas<br>de mudar o que você pensa sobre o mundo."</h3>
+    <p>Você não precisa começar sabendo tudo. Precisa começar fazendo as perguntas certas - e com disposição para ser surpreendido pelas respostas. Este sistema está aqui para que você nunca precise tomar decisões metodológicas às cegas.</p>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="fb-name">SIAPAC</div>
+      <div class="fb-full">Sistema de Aprendizagem em Pesquisa Acadêmica e Científica</div>
+      <p>Desenvolvido por <strong style="color:rgba(250,248,243,.75)">João Batista de Oleira</strong><br>
+      <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a></p>
+    </div>
+
+    <!-- CONTADOR DE VISITAS DISCRETO -->
+    <div class="visit-counter">
+      <div class="vc-label">Visitas</div>
+      <div class="vc-count" id="visitCount">—</div>
+      <div class="vc-sub">esta página</div>
+    </div>
+
+    <div class="footer-copy">
+      <span>© 2026 SIAPAC · Todos os direitos reservados</span>
+      <span>Última atualização: Abril 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ══════════════════════════════════════
+   FAQ ACCORDION
+══════════════════════════════════════ */
+document.querySelectorAll('details.faq').forEach(d => {
+  d.addEventListener('toggle', function() {
+    if (this.open) {
+      document.querySelectorAll('details.faq').forEach(s => {
+        if (s !== this) s.open = false;
+      });
+    }
+  });
+});
+
+/* ══════════════════════════════════════
+   VISIT COUNTER
+   Usa localStorage para contar visitas
+   únicas por sessão neste dispositivo.
+   Para contagem real entre dispositivos,
+   substitua por integração com serviço
+   externo (ex: countapi.xyz ou similar).
+══════════════════════════════════════ */
+(function() {
+  const KEY = 'siapac_visits';
+  const SESSION_KEY = 'siapac_session';
+
+  // Conta nova visita apenas se não for a mesma sessão
+  let count = parseInt(localStorage.getItem(KEY) || '0', 10);
+  const hasSession = sessionStorage.getItem(SESSION_KEY);
+
+  if (!hasSession) {
+    count++;
+    localStorage.setItem(KEY, count);
+    sessionStorage.setItem(SESSION_KEY, '1');
+  }
+
+  // Animação de contagem
+  const el = document.getElementById('visitCount');
+  const target = count;
+  let current = Math.max(0, target - 8);
+
+  function animate() {
+    if (current < target) {
+      current++;
+      el.textContent = current.toLocaleString('pt-BR');
+      setTimeout(animate, 60);
+    } else {
+      el.textContent = target.toLocaleString('pt-BR');
+    }
+  }
+
+  setTimeout(animate, 800);
+})();
+</script>
+</body>
+</html>

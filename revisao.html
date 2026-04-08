@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão de Literatura — Guia para Pesquisadores</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0f1117;
+  --paper:      #faf8f3;
+  --cream:      #f2ede3;
+  --border:     #d4c9b0;
+  --shadow-sm:  0 2px 6px rgba(15,17,23,0.08);
+  --shadow-md:  0 4px 16px rgba(15,17,23,0.12);
+
+  --gold:       #c9a84c;
+  --gold-light: #e6ca87;
+  --gold-pale:  #f5ead0;
+  --amber:      #b45309;
+
+  --teal:       #1a4a4a;
+  --teal-mid:   #2d6b6b;
+  --teal-light: #4a9b9b;
+  --teal-pale:  #d4eaea;
+
+  --slate:      #2563eb;
+  --slate-pale: #eff6ff;
+
+  --violet:     #3d2060;
+  --violet-pale:#e8e0f5;
+
+  --green:      #1a4a1a;
+  --green-pale: #d4ead4;
+
+  --red:        #8b2020;
+  --red-pale:   #f5e0e0;
+
+  --pink:       #be185d;
+  --pink-pale:  #fce7f3;
+
+  --amber-pale: #fef3c7;
+  --orange:     #c2410c;
+  --orange-pale:#ffedd5;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--teal);
+  color: var(--paper);
+  padding: 52px 44px 44px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content:'';
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    -55deg, transparent, transparent 50px,
+    rgba(255,255,255,0.025) 50px, rgba(255,255,255,0.025) 51px
+  );
+}
+header::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+.hd-inner { position:relative; max-width:720px; }
+.hd-eyebrow {
+  font-family:'JetBrains Mono', monospace;
+  font-size:10px; letter-spacing:3.5px; text-transform:uppercase;
+  color:var(--gold-light); margin-bottom:14px;
+}
+header h1 {
+  font-family:'Playfair Display', serif;
+  font-size: clamp(26px,4vw,44px);
+  font-weight:800; line-height:1.12; margin-bottom:18px;
+}
+header h1 em { font-style:italic; color:var(--gold-light); }
+header .hd-lead {
+  font-size:16px; color:rgba(250,248,243,.78);
+  max-width:620px; line-height:1.7; margin-bottom:22px;
+}
+.hd-tags {
+  display:flex; flex-wrap:wrap; gap:8px;
+  padding-top:18px; border-top:1px solid rgba(255,255,255,.12);
+}
+.hd-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+  padding:4px 12px; border-radius:20px;
+  border:1px solid rgba(201,168,76,.4);
+  color:var(--gold-light); background:rgba(201,168,76,.08);
+}
+
+/* ── INTRO CARD ── */
+.intro-card {
+  border:1px solid var(--border); border-left:5px solid var(--teal-mid);
+  border-radius:8px; padding:28px 32px;
+  background:white; margin-bottom:40px;
+  box-shadow:var(--shadow-sm);
+}
+.intro-card h2 {
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:700;
+  color:var(--teal); margin-bottom:14px;
+}
+.intro-card p { font-size:16px; color:#2a2218; margin-bottom:12px; }
+.intro-card p:last-child { margin-bottom:0; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,3vw,28px); font-weight:800;
+  color:var(--ink); margin:48px 0 6px;
+  padding-bottom:10px; border-bottom:2px solid var(--border);
+  display:flex; align-items:baseline; gap:12px;
+}
+.sec-title .ico { font-size:22px; }
+.sec-desc { font-size:15px; color:#666; margin-bottom:24px; font-style:italic; }
+
+/* ── BENEFIT CARDS (clickable grid) ── */
+.benefit-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px; margin-bottom:32px;
+}
+.benefit-card {
+  border:1px solid var(--border); border-radius:10px;
+  padding:20px 22px; background:white;
+  cursor:pointer; transition:all .2s;
+  box-shadow:var(--shadow-sm);
+  border-top:3px solid;
+}
+.benefit-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.benefit-card .bc-icon { font-size:24px; margin-bottom:10px; }
+.benefit-card .bc-title {
+  font-family:'Playfair Display',serif; font-size:17px; font-weight:700;
+  margin-bottom:6px;
+}
+.benefit-card .bc-text { font-size:15px; color:#555; }
+.benefit-card .bc-hint {
+  margin-top:10px; font-size:12px; font-family:'JetBrains Mono',monospace;
+  letter-spacing:1px; text-transform:uppercase; color:#aaa;
+}
+
+/* ── ACCORDION ── */
+details.item {
+  border:1px solid var(--border); border-radius:10px;
+  margin-bottom:10px; background:white;
+  box-shadow:var(--shadow-sm); transition:box-shadow .2s; overflow:hidden;
+}
+details.item:hover { box-shadow:var(--shadow-md); }
+
+details.item > summary {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 24px; cursor:pointer; list-style:none;
+  background:var(--cream); transition:background .2s; gap:16px;
+  user-select:none;
+}
+details.item > summary::-webkit-details-marker { display:none; }
+details.item > summary:hover { background:#ede8de; }
+details.item[open] > summary { background:var(--ink); color:var(--paper); }
+
+.sum-left { display:flex; align-items:center; gap:14px; }
+.sum-badge {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px; font-weight:600;
+  flex-shrink:0; white-space:nowrap;
+}
+details.item[open] > summary .sum-badge {
+  background:rgba(201,168,76,.2) !important;
+  color:var(--gold-light) !important; border-color:transparent !important;
+}
+.sum-text .sum-title {
+  font-family:'Playfair Display',serif; font-size:17px; font-weight:700; line-height:1.2;
+}
+.sum-text .sum-sub {
+  font-size:13px; color:#888; font-style:italic; margin-top:2px;
+  font-family:'Crimson Pro',serif;
+}
+details.item[open] > summary .sum-sub { color:rgba(250,248,243,.6); }
+.sum-arrow {
+  font-size:16px; color:#aaa; transition:transform .25s; flex-shrink:0;
+}
+details.item[open] > summary .sum-arrow { transform:rotate(180deg); color:var(--gold-light); }
+
+.item-body {
+  padding:28px 28px 24px; border-top:1px solid var(--border);
+  animation:fadeSlide .3s ease;
+}
+@keyframes fadeSlide { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
+
+/* ── BOXES ── */
+.box {
+  border-radius:8px; padding:18px 22px;
+  margin-bottom:16px; border-left:4px solid;
+}
+.box:last-child { margin-bottom:0; }
+.box-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:2.5px; text-transform:uppercase;
+  font-weight:600; margin-bottom:10px;
+  display:flex; align-items:center; gap:6px;
+}
+.box p { font-size:15.5px; color:#2a2218; margin-bottom:10px; }
+.box p:last-child { margin-bottom:0; }
+.box ul { margin:6px 0 0 22px; }
+.box li { font-size:15.5px; color:#2a2218; margin-bottom:6px; }
+.box strong { color:var(--ink); }
+
+.box-concept  { background:var(--slate-pale); border-color:var(--slate); }
+.box-concept .box-title  { color:var(--slate); }
+.box-example  { background:var(--green-pale); border-color:var(--green); }
+.box-example .box-title  { color:var(--green); }
+.box-tip      { background:var(--pink-pale);  border-color:var(--pink); }
+.box-tip .box-title      { color:var(--pink); }
+.box-warn     { background:var(--amber-pale); border-color:#f59e0b; }
+.box-warn .box-title     { color:var(--amber); }
+.box-insight  { background:var(--gold-pale);  border-color:var(--gold); }
+.box-insight .box-title  { color:var(--amber); }
+.box-when     { background:var(--teal-pale);  border-color:var(--teal-mid); }
+.box-when .box-title     { color:var(--teal); }
+.box-steps    { background:var(--violet-pale);border-color:var(--violet); }
+.box-steps .box-title    { color:var(--violet); }
+.box-limit    { background:var(--red-pale);   border-color:var(--red); }
+.box-limit .box-title    { color:var(--red); }
+
+/* ── STEP LIST ── */
+.steps { margin:14px 0; }
+.step  { display:flex; gap:14px; margin-bottom:12px; align-items:flex-start; }
+.step-num {
+  flex-shrink:0; width:28px; height:28px; border-radius:50%;
+  background:var(--ink); color:var(--gold-light);
+  font-family:'Playfair Display',serif; font-size:14px; font-weight:800;
+  display:flex; align-items:center; justify-content:center; margin-top:2px;
+}
+.step-body { font-size:15.5px; color:#2a2218; }
+.step-body strong { display:block; margin-bottom:2px; }
+
+/* ── COMPARE ── */
+.compare { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:16px 0; }
+@media(max-width:600px){ .compare{grid-template-columns:1fr} }
+.cmp { border-radius:8px; padding:18px 20px; border:1px solid var(--border); }
+.cmp h4 {
+  font-family:'Playfair Display',serif; font-size:15px; font-weight:700;
+  margin-bottom:10px; display:flex; align-items:center; gap:6px;
+}
+.cmp li { font-size:15px; color:#333; margin-bottom:5px; margin-left:18px; }
+.cmp-good { background:var(--green-pale); }
+.cmp-good h4 { color:var(--green); }
+.cmp-bad  { background:var(--red-pale); }
+.cmp-bad  h4 { color:var(--red); }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x:auto; margin:16px 0; border-radius:8px; border:1px solid var(--border); }
+table { width:100%; border-collapse:collapse; font-size:14px; min-width:540px; }
+thead th {
+  background:var(--ink); color:var(--paper); padding:11px 14px; text-align:left;
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase; font-weight:600;
+}
+tbody td { padding:11px 14px; border-bottom:1px solid var(--border); vertical-align:top; color:#333; }
+tbody tr:nth-child(even) { background:var(--cream); }
+tbody td:first-child { font-weight:600; color:var(--ink); }
+tbody tr:last-child td { border-bottom:none; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius:8px; padding:16px 20px; margin:18px 0;
+  display:flex; gap:12px; align-items:flex-start; border:1px solid;
+}
+.callout .cal-ico { font-size:20px; flex-shrink:0; margin-top:1px; }
+.callout .cal-body { font-size:15.5px; }
+.callout.c-info    { background:var(--teal-pale);  border-color:var(--teal-mid); }
+.callout.c-insight { background:var(--gold-pale);  border-color:var(--gold); }
+.callout.c-warn    { background:var(--amber-pale); border-color:#f59e0b; }
+
+/* ── PROTOCOL BLOCK ── */
+.protocol {
+  border:1px solid var(--border); border-radius:10px; overflow:hidden;
+  margin:16px 0;
+}
+.protocol-head {
+  background:var(--ink); color:var(--paper);
+  padding:12px 20px; font-family:'Playfair Display',serif;
+  font-size:15px; font-weight:700; display:flex; align-items:center; gap:10px;
+}
+.protocol-head span { color:var(--gold-light); }
+.proto-row {
+  display:flex; padding:12px 20px; border-bottom:1px solid var(--border);
+  gap:18px; align-items:flex-start;
+}
+.proto-row:last-child { border-bottom:none; }
+.proto-row:nth-child(even) { background:var(--cream); }
+.proto-num {
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:800;
+  color:var(--teal-mid); min-width:28px; flex-shrink:0; line-height:1.2;
+}
+.proto-body { font-size:15px; color:#2a2218; }
+.proto-body strong { display:block; margin-bottom:2px; font-size:14px; font-family:'JetBrains Mono',monospace; letter-spacing:.5px; text-transform:uppercase; color:#666; }
+
+/* ── COMPARISON TABLE (main) ── */
+.cmp-main { margin:0; }
+.cmp-main thead th:first-child { min-width:130px; }
+.badge-cell {
+  display:inline-block; padding:2px 8px; border-radius:12px;
+  font-size:12px; font-weight:600; font-family:'JetBrains Mono',monospace;
+}
+
+/* ── SCENARIO ── */
+.scenario {
+  border:1px solid var(--border); border-radius:10px; overflow:hidden;
+  margin:16px 0; box-shadow:var(--shadow-sm);
+}
+.scen-head {
+  background:var(--ink); color:var(--paper); padding:14px 22px;
+  font-family:'Playfair Display',serif; font-size:16px; font-weight:700;
+  display:flex; align-items:center; gap:10px;
+}
+.scen-head .ico { font-size:20px; }
+.scen-row {
+  display:flex; padding:12px 22px; border-bottom:1px solid var(--border);
+  gap:18px; align-items:baseline;
+}
+.scen-row:last-child { border-bottom:none; }
+.scen-row:nth-child(even) { background:var(--cream); }
+.scen-label {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase; color:#888;
+  min-width:110px; flex-shrink:0;
+}
+.scen-val { font-size:15.5px; color:var(--ink); }
+
+/* ── DIVIDER ── */
+.divider { border:none; border-top:1px solid var(--border); margin:40px 0; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top:48px; padding:24px 0; border-top:1px solid var(--border);
+  text-align:center; font-size:13px; color:#999;
+  font-family:'JetBrains Mono',monospace;
+}
+footer a { color:var(--teal-mid); text-decoration:none; }
+
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:var(--cream); }
+::-webkit-scrollbar-thumb { background:#c0b090; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header>
+	 <div class="hd-inner">
+    <div class="hd-eyebrow custom-eyebrow">Revisão de Literatura</div>
+    <h1>Da Citação à <em>Síntese Crítica</em></h1>
+    <p class="hd-lead">Um guia aprofundado sobre os tipos de revisão de literatura, seus pressupostos metodológicos, etapas operacionais e armadilhas - para que você escolha e execute a revisão certa para o seu problema de pesquisa.</p>
+    <div class="hd-tags">
+	
+      <span class="hd-tag">📖 Revisão Narrativa</span>
+      <span class="hd-tag">🔬 Revisão Sistemática</span>
+      <span class="hd-tag">🗺️ Revisão de Escopo</span>
+      <span class="hd-tag">🔎 Revisão Crítica</span>
+      <span class="hd-tag">🔗 Revisão Integrativa</span>
+      <span class="hd-tag">📊 Metanálise</span>
+	  <span class="hd-tag">📖 bibliométrica</span>
+	</div>
+  </div>
+</header>
+
+<!-- ══════════ INTRO ══════════ -->
+<div class="intro-card">
+  <h2>O que é — e o que não é — Revisão de Literatura</h2>
+  <p>A revisão de literatura não é uma lista de "o que fulano disse sobre X". É um processo rigoroso de mapeamento, avaliação crítica e síntese do conhecimento produzido sobre um fenômeno — com o objetivo de situar sua pesquisa, identificar lacunas, estabelecer o estado da arte e construir o diálogo com o campo científico.</p>
+  <p>Revisão bem feita responde a três perguntas ao mesmo tempo: <strong>O que já se sabe?</strong> (estado da arte) — <strong>Como se sabe?</strong> (avaliação metodológica dos estudos existentes) — <strong>O que ainda não se sabe?</strong> (lacunas que justificam sua pesquisa). Uma revisão que não responde às três não está completa.</p>
+  <p>A escolha do <em>tipo</em> de revisão não é arbitrária — ela deve ser coerente com sua pergunta de pesquisa, com o volume e a maturidade da literatura disponível, e com os objetivos do seu trabalho. Usar uma revisão sistemática quando a pergunta é ampla e exploratória é tão equivocado quanto usar uma revisão narrativa quando se quer síntese de evidências para decisão clínica.</p>
+</div>
+
+<!-- ══════════ FUNÇÕES DA REVISÃO ══════════ -->
+<h2 class="sec-title"><span class="ico">🧱</span>As Três Funções Essenciais da Revisão</h2>
+<p class="sec-desc">Antes de escolher o tipo, entenda para que a revisão serve — e como cada função se manifesta no seu trabalho.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-light);">Função I</div>
+      <div class="sum-text">
+        <div class="sum-title">Fundamentação Teórica — construir o chão conceitual da pesquisa</div>
+        <div class="sum-sub">Não é lista de citações. É diálogo com um campo de debates.</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>A fundamentação teórica é o conjunto de conceitos, teorias e debates que fornece as "lentes" através das quais você vai ler e interpretar o fenômeno que estuda. Não se trata de listar "o que os autores dizem" — trata-se de construir um campo de debates em que você se posiciona.</p>
+      <p>Uma fundamentação forte mostra: que teorias existem sobre o fenômeno, como elas se relacionam (concordam, tensionam, complementam), qual a linhagem epistemológica de cada uma, e como sua pesquisa se situa e contribui nesse campo.</p>
+    </div>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ O erro mais comum</div>
+      <p>Tratá-la como fichamento — uma sequência de "Autor A diz X. Autor B diz Y. Autor C diz Z." sem síntese, sem posicionamento, sem diálogo entre as ideias. Isso não é fundamentação teórica: é uma lista bibliográfica comentada.</p>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo comparativo</div>
+      <p><strong>Frágil:</strong> "Segundo Chayanov (1974), a agricultura familiar funciona com lógica própria. Altieri (2004) defende a agroecologia como alternativa. Caporal e Costabeber (2007) ampliam o conceito."</p>
+      <p style="margin-top:10px;"><strong>Robusto:</strong> "A compreensão da agricultura familiar como sistema dotado de racionalidade própria — distinta da lógica capitalista de maximização do lucro — parte da teoria da campesinidade de Chayanov (1974) e encontra atualização crítica em Shanin (1980). Sobre esse substrato, a agroecologia de Altieri (2004) propõe não apenas uma alternativa produtiva, mas um projeto político de soberania alimentar que, na leitura de Caporal e Costabeber (2007), articula dimensões ecológicas, econômicas e socioculturais. Esta pesquisa tensiona essa perspectiva a partir de uma leitura decolonial (Quijano, 2000), questionando em que medida os modelos agroecológicos hegemônicos reproduzem hierarquias epistêmicas ao invisibilizar saberes indígenas locais."</p>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Estrutura para uma fundamentação forte</div>
+      <ul>
+        <li>Apresente o campo de debates (quais correntes existem e como se relacionam)</li>
+        <li>Posicione-se explicitamente: "esta pesquisa adota... porque..."</li>
+        <li>Use a estrutura ABC: Autor + Base teórica + Contraste/Conexão com sua pesquisa</li>
+        <li>Encerre cada bloco mostrando como aquele debate orienta sua análise</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--violet-pale);color:var(--violet);border:1px solid var(--violet);">Função II</div>
+      <div class="sum-text">
+        <div class="sum-title">Identificação de Lacunas — encontrar a janela de contribuição original</div>
+        <div class="sum-sub">A lacuna justifica academicamente sua pesquisa. Sem ela, sua pesquisa é redundante.</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>Lacuna de pesquisa é o espaço entre o que já foi investigado e o que ainda precisa ser compreendido. Identificá-la com precisão é a principal justificativa da sua pesquisa — é o argumento que responde "por que este estudo é necessário?"</p>
+      <p>Existem diferentes tipos de lacuna: <strong>lacuna de conhecimento</strong> (o fenômeno não foi estudado), <strong>lacuna metodológica</strong> (foi estudado, mas com métodos inadequados ao contexto), <strong>lacuna de população</strong> (foi estudado em outros grupos, não no seu), <strong>lacuna teórica</strong> (foi estudado, mas sem o enquadramento teórico mais adequado), e <strong>lacuna temporal</strong> (foi estudado, mas o contexto mudou significativamente).</p>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo de mapeamento de lacunas</div>
+      <p><strong>Área:</strong> Educação do campo no Nordeste brasileiro. Após revisar 60 artigos (2010–2024):</p>
+      <ul>
+        <li><strong>Lacuna de população:</strong> A maioria dos estudos concentra-se no Sul e Sudeste; comunidades quilombolas do Nordeste são sub-representadas</li>
+        <li><strong>Lacuna teórica:</strong> Poucos estudos adotam perspectiva decolonial; predominam enquadramentos freirianos sem articulação com epistemologias indígenas</li>
+        <li><strong>Lacuna metodológica:</strong> Predominam surveys e estudos documentais; pesquisas participativas com as comunidades são raras</li>
+        <li><strong>Lacuna temporal:</strong> O contexto pós-pandemia gerou novas configurações de escolarização que a literatura ainda não sistematizou</li>
+      </ul>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Como declarar a lacuna com precisão</div>
+      <p>Use construções como: <em>"Embora haja substancial literatura sobre X, estudos que abordem Y [especificidade] em contexto Z [delimitação] com perspectiva W [enquadramento] são escassos/inexistentes."</em></p>
+      <p style="margin-top:8px;">Evite vagas justificativas como "o tema é pouco estudado" — seja específico sobre qual dimensão foi negligenciada e por qual razão isso importa.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--gold-pale);color:var(--amber);border:1px solid var(--gold);">Função III</div>
+      <div class="sum-text">
+        <div class="sum-title">Estado da Arte — onde o campo está e para onde aponta</div>
+        <div class="sum-sub">Posicionar sua pesquisa no debate mais atual, evitando repetir o que já foi superado.</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>O estado da arte é o mapeamento do conhecimento mais atual, relevante e consolidado sobre o tema — respondendo: <em>"O que se sabe hoje, com base nas evidências mais robustas e recentes?"</em> Não é simplesmente "os últimos artigos publicados": é a síntese das tendências, consensos, controvérsias e pontos em aberto que definem o fronteira atual do campo.</p>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo de estado da arte estruturado</div>
+      <p><strong>Tema:</strong> Tecnologias digitais e educação rural (2020–2025).</p>
+      <ul>
+        <li><strong>Consensos emergentes:</strong> Infraestrutura precede formação docente; conectividade é condição, não solução</li>
+        <li><strong>Controvérsias ativas:</strong> Debate entre soluções tecnológicas "de cima para baixo" vs. tecnologias apropriadas co-desenvolvidas com as comunidades</li>
+        <li><strong>Tendências metodológicas:</strong> Crescimento de pesquisas participativas e pesquisas-ação em detrimento de surveys padronizados</li>
+        <li><strong>Questões em aberto:</strong> Impactos de longo prazo; articulação com saberes tradicionais; acesso de populações indígenas</li>
+      </ul>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Como construir o estado da arte com rigor</div>
+      <ul>
+        <li>Filtre bases de dados por data (últimos 5 anos como núcleo; clássicos fundadores como contexto)</li>
+        <li>Priorize revisões sistemáticas e integrativas recentes — elas já sintetizam o campo</li>
+        <li>Identifique os periódicos e grupos de pesquisa de referência na área</li>
+        <li>Organize os achados por temas, não por autores — isso permite ver o campo, não apenas indivíduos</li>
+        <li>Explicite consensos, controvérsias e questões em aberto — não apenas apresente resultados positivos</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════ TIPOS DE REVISÃO ══════════ -->
+<h2 class="sec-title"><span class="ico">🗂️</span>Tipos de Revisão de Literatura</h2>
+<p class="sec-desc">Cada tipo tem pressupostos, finalidades e exigências metodológicas distintas. A escolha deve ser guiada pela sua pergunta de pesquisa — não pela conveniência ou pelo nome mais sofisticado.</p>
+
+<!-- 1. Narrativa -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-light);">Exploratória</div>
+      <div class="sum-text">
+        <div class="sum-title">Revisão Narrativa</div>
+        <div class="sum-sub">A mais usada e a mais frequentemente mal executada</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A revisão narrativa oferece uma síntese ampla e interpretativa da literatura sobre um tema, sem protocolo sistemático pré-definido. Sua força está na flexibilidade — permite capturar a complexidade de debates teóricos, identificar tendências históricas e posicionar o pesquisador em relação ao campo. Sua limitação está no risco de seletividade: sem critérios explícitos de inclusão, o pesquisador pode privilegiar autores que confirmam suas hipóteses.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Temas amplos, emergentes ou pouco consolidados</li>
+        <li>Quando o objetivo é mapear debates teóricos, não sintetizar evidências</li>
+        <li>Introduções e contextualizações teóricas de pesquisas maiores</li>
+        <li>Quando a heterogeneidade dos estudos torna inviável a síntese sistemática</li>
+      </ul>
+    </div>
+
+    <div class="box box-steps">
+      <div class="box-title">⚙️ Como executar com rigor</div>
+      <p>Mesmo sem protocolo sistemático, a revisão narrativa rigorosa exige:</p>
+      <ul>
+        <li>Declaração explícita das bases consultadas e dos descritores usados</li>
+        <li>Critérios de seleção dos textos (mesmo que não sistemáticos, precisam ser declarados)</li>
+        <li>Organização temática — não por autor ou cronologia mecânica</li>
+        <li>Síntese argumentativa: o pesquisador posiciona-se em relação aos debates</li>
+        <li>Identificação de lacunas e pontos de tensão no campo</li>
+      </ul>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">⚠️ Limitações e armadilhas</div>
+      <ul>
+        <li><strong>Viés de confirmação:</strong> tendência inconsciente de selecionar estudos que confirmam ideias prévias</li>
+        <li><strong>Ausência de reprodutibilidade:</strong> outro pesquisador seguindo os mesmos passos pode chegar a resultados diferentes</li>
+        <li><strong>Risco de desatualização silenciosa:</strong> sem data de busca declarada, o leitor não sabe se a revisão contempla o estado atual do campo</li>
+      </ul>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo de uso adequado</div>
+      <p>Um pesquisador que estuda a relação entre reforma agrária e soberania alimentar no Nordeste brasileiro usa revisão narrativa para mapear as tradições teóricas relevantes (economia política agrária, agroecologia política, teorias dos movimentos sociais) e posicionar sua pesquisa em relação a elas — antes de apresentar os dados de campo.</p>
+    </div>
+  </div>
+</details>
+
+<!-- 2. Sistemática -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--green-pale);color:var(--green);border:1px solid var(--green);">Rigorosa</div>
+      <div class="sum-text">
+        <div class="sum-title">Revisão Sistemática</div>
+        <div class="sum-sub">O padrão-ouro da síntese de evidências — exige protocolo, transparência e tempo</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A revisão sistemática segue protocolo rigoroso e pré-registrado para identificar, selecionar, avaliar criticamente e sintetizar todos os estudos relevantes sobre uma pergunta específica. Seu pressuposto epistemológico é positivista-realista: existe um conjunto de evidências que pode ser identificado e sintetizado de forma objetiva e reprodutível, desde que o protocolo seja suficientemente transparente.</p>
+      <p>A marca da revisão sistemática não é apenas o rigor — é a <strong>reprodutibilidade</strong>: outro pesquisador, seguindo o mesmo protocolo, deve chegar a resultados substancialmente equivalentes.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Perguntas clínicas, de eficácia ou de impacto (ex.: "Qual é o efeito de X sobre Y?")</li>
+        <li>Quando existe volume substancial de estudos primários sobre o tema</li>
+        <li>Para subsidiar políticas públicas ou tomada de decisão baseada em evidências</li>
+        <li>Como base para metanálise (quando os dados permitem síntese estatística)</li>
+      </ul>
+    </div>
+
+    <div class="protocol">
+      <div class="protocol-head">⚙️ <span>Protocolo passo a passo</span></div>
+      <div class="proto-row">
+        <div class="proto-num">1</div>
+        <div class="proto-body"><strong>Formulação da pergunta</strong>Use o framework PICO (População, Intervenção, Comparação, Outcome) ou PEO (para estudos qualitativos). A pergunta deve ser específica e operacionalizável.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">2</div>
+        <div class="proto-body"><strong>Registro do protocolo</strong>Registre a priori no PROSPERO (ciências da saúde) ou OSF (ciências sociais). Isso evita alterações post hoc que comprometem a validade.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">3</div>
+        <div class="proto-body"><strong>Estratégia de busca</strong>Defina bases (Scopus, Web of Science, PubMed, LILACS, etc.), descritores controlados (MeSH, DeCS) e operadores booleanos. Documente detalhadamente — deve ser reprodutível.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">4</div>
+        <div class="proto-body"><strong>Critérios de inclusão/exclusão</strong>Defina a priori: idioma, período, tipo de estudo, população, desfecho. Aplique em duas fases (título/resumo; texto completo) com dois revisores independentes.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">5</div>
+        <div class="proto-body"><strong>Avaliação da qualidade metodológica</strong>Use instrumentos validados: GRADE para qualidade das evidências, RoB para risco de viés em ECRs, CASP para estudos qualitativos.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">6</div>
+        <div class="proto-body"><strong>Extração e síntese dos dados</strong>Use formulário padronizado. Síntese narrativa ou metanálise (se dados homogêneos o permitem). Relate seguindo PRISMA 2020.</div>
+      </div>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">⚠️ Limitações e armadilhas</div>
+      <ul>
+        <li><strong>Viés de publicação:</strong> estudos com resultados positivos têm mais chance de serem publicados — a revisão sistemática captura esse viés, mas não o elimina</li>
+        <li><strong>Incomensurabilidade:</strong> nem sempre é possível sintetizar estudos com populações, intervenções e desfechos distintos, mesmo quando abordam o mesmo tema</li>
+        <li><strong>Custo temporal:</strong> uma revisão sistemática rigorosa demanda meses de trabalho — subestimar isso é um erro frequente em projetos de pós-graduação</li>
+        <li><strong>Não é adequada para perguntas amplas ou exploratórias:</strong> o protocolo rígido dificulta a captura de debates teóricos complexos</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<!-- 3. Escopo -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--violet-pale);color:var(--violet);border:1px solid var(--violet);">Mapeamento</div>
+      <div class="sum-text">
+        <div class="sum-title">Revisão de Escopo <em>(Scoping Review)</em></div>
+        <div class="sum-sub">Mapear a extensão e a natureza da literatura — antes de saber se ela pode ser sintetizada</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A revisão de escopo responde à pergunta: <em>"O que existe de literatura sobre este tema, e que natureza ela tem?"</em> Não busca sintetizar evidências — busca mapear o território: que tipos de estudo existem, que populações foram estudadas, que metodologias foram usadas, que lacunas são evidentes. É frequentemente o passo anterior à revisão sistemática.</p>
+      <p>Segue o framework de Arksey &amp; O'Malley (2005), atualizado por Levac et al. (2010) e sistematizado pelo JBI em suas diretrizes mais recentes.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Antes de decidir se uma revisão sistemática é viável e pertinente</li>
+        <li>Para mapear conceitos-chave e definições em uso no campo</li>
+        <li>Quando o campo é heterogêneo demais para síntese quantitativa</li>
+        <li>Para identificar tipos de evidências disponíveis e lacunas de pesquisa</li>
+        <li>Em campos emergentes onde o conhecimento ainda está sendo construído</li>
+      </ul>
+    </div>
+
+    <div class="compare">
+      <div class="cmp cmp-good">
+        <h4>✅ Revisão Sistemática</h4>
+        <ul>
+          <li>Pergunta específica e delimitada</li>
+          <li>Avalia qualidade dos estudos</li>
+          <li>Síntese crítica das evidências</li>
+          <li>Recomendações para prática</li>
+        </ul>
+      </div>
+      <div class="cmp cmp-bad" style="background:var(--violet-pale);">
+        <h4 style="color:var(--violet);">🗺️ Revisão de Escopo</h4>
+        <ul>
+          <li>Pergunta ampla e exploratória</li>
+          <li>Avaliação de qualidade é opcional</li>
+          <li>Mapeamento descritivo</li>
+          <li>Recomendações para pesquisa futura</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">⚠️ Armadilha frequente</div>
+      <p>Usar "revisão de escopo" como substituto de revisão sistemática quando a pergunta é específica e o campo é maduro — geralmente para evitar o rigor da avaliação de qualidade. Isso produz mapeamento quando o campo pede síntese crítica.</p>
+    </div>
+  </div>
+</details>
+
+<!-- 4. Crítica -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--amber-pale);color:var(--amber);border:1px solid #f59e0b;">Analítica</div>
+      <div class="sum-text">
+        <div class="sum-title">Revisão Crítica</div>
+        <div class="sum-sub">Questionar pressupostos, identificar limitações e propor perspectivas alternativas</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A revisão crítica vai além de mapear ou sintetizar — ela questiona os próprios fundamentos epistemológicos dos estudos existentes. Examina não apenas o que a literatura afirma, mas <em>como</em> e <em>por que</em> afirma — avaliando seus pressupostos filosóficos, vieses metodológicos, silêncios e limitações teóricas.</p>
+      <p>Tem especial valor em campos onde há paradigmas dominantes não questionados, onde perspectivas críticas (feministas, decoloniais, pós-coloniais) estão ausentes ou marginalizadas, ou onde a metodologia predominante é inadequada para a complexidade do fenômeno.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Para questionar paradigmas estabelecidos em um campo</li>
+        <li>Quando se quer propor novo enquadramento teórico ou metodológico</li>
+        <li>Em teses e dissertações com forte ênfase teórico-epistemológica</li>
+        <li>Para demonstrar que os estudos existentes têm limitações que justificam nova abordagem</li>
+      </ul>
+    </div>
+
+    <div class="box box-steps">
+      <div class="box-title">⚙️ O que a revisão crítica examina</div>
+      <ul>
+        <li><strong>Pressupostos ontológicos:</strong> que visão de realidade os estudos pressupõem?</li>
+        <li><strong>Pressupostos epistemológicos:</strong> como os estudos definem o que pode ser conhecido e com que métodos?</li>
+        <li><strong>Vieses de produção:</strong> que populações, contextos e perspectivas estão sistematicamente ausentes?</li>
+        <li><strong>Coerência interna:</strong> os métodos são coerentes com os objetivos declarados?</li>
+        <li><strong>Implicações ideológicas:</strong> que relações de poder os estudos reproduzem ou questionam?</li>
+      </ul>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo de contribuição crítica</div>
+      <p>Uma revisão crítica da literatura sobre "extensão rural" no Brasil pode mostrar que a produção predominante (1980-2020) opera dentro de um paradigma difusionista que pressupõe o agricultor como "receptor passivo" de tecnologias — silenciando perspectivas que reconhecem o agricultor como produtor de conhecimento. A revisão crítica não apenas mapeia esse padrão: propõe que uma abordagem decolonial e participativa produziria um campo teórico substantivamente diferente.</p>
+    </div>
+  </div>
+</details>
+
+<!-- 5. Integrativa -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--green-pale);color:var(--green);border:1px solid var(--green);">Sintética</div>
+      <div class="sum-text">
+        <div class="sum-title">Revisão Integrativa</div>
+        <div class="sum-sub">Combinar evidências diversas (quanti, quali, teóricas) em síntese interpretativa coesa</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A revisão integrativa sintetiza estudos de diferentes designs (experimentais, qualitativos, teóricos, mistos) sobre um mesmo fenômeno, produzindo compreensão abrangente que nenhuma fonte isolada poderia fornecer. É o tipo mais adequado para fenômenos complexos e multifacetados — onde a variedade metodológica da literatura é, ela mesma, parte da riqueza do campo.</p>
+      <p>Difere da revisão sistemática ao não exigir homogeneidade metodológica nos estudos incluídos, e da narrativa ao manter critérios explícitos de busca, seleção e síntese. É, nesse sentido, intermediária — com o rigor parcial da sistemática e a abertura hermenêutica da narrativa.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Fenômenos complexos estudados com múltiplas abordagens metodológicas</li>
+        <li>Quando se quer compreensão ampla de um fenômeno, não apenas eficácia de intervenção</li>
+        <li>Especialmente adequada para ciências sociais, educação, saúde coletiva e áreas afins</li>
+        <li>Quando a pergunta integra dimensões quantitativas e qualitativas do fenômeno</li>
+      </ul>
+    </div>
+
+    <div class="protocol">
+      <div class="protocol-head">⚙️ <span>Etapas metodológicas (Whittemore &amp; Knafl, 2005)</span></div>
+      <div class="proto-row">
+        <div class="proto-num">1</div>
+        <div class="proto-body"><strong>Identificação do problema</strong>Defina a pergunta integrativa e os conceitos centrais que a articulam.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">2</div>
+        <div class="proto-body"><strong>Busca na literatura</strong>Estratégia ampla e inclusiva; documente bases, descritores e filtros aplicados.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">3</div>
+        <div class="proto-body"><strong>Avaliação dos dados</strong>Avalie a qualidade metodológica dos estudos incluídos com instrumentos adequados a cada design.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">4</div>
+        <div class="proto-body"><strong>Análise dos dados</strong>Categorização temática dos achados; matriz de extração que permite visualizar padrões entre estudos de diferentes designs.</div>
+      </div>
+      <div class="proto-row">
+        <div class="proto-num">5</div>
+        <div class="proto-body"><strong>Apresentação da síntese</strong>Síntese interpretativa que articula os achados em proposições integradoras — não apenas lista resultados por estudo.</div>
+      </div>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">⚠️ Armadilha frequente</div>
+      <p>Realizar uma revisão narrativa, aplicar a ela critérios superficiais de busca, e chamá-la de "integrativa" para conferir mais legitimidade metodológica. O que diferencia a revisão integrativa da narrativa é a explicitação e a reprodutibilidade dos critérios de busca, seleção, extração e síntese — não apenas o rótulo.</p>
+    </div>
+  </div>
+</details>
+
+<!-- 6. Metanálise -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--red-pale);color:var(--red);border:1px solid var(--red);">Quantitativa</div>
+      <div class="sum-text">
+        <div class="sum-title">Metanálise</div>
+        <div class="sum-sub">Síntese estatística de resultados de múltiplos estudos — quando os dados o permitem</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A metanálise é a síntese estatística dos resultados de múltiplos estudos primários, produzindo uma estimativa combinada de efeito com maior poder estatístico do que qualquer estudo isolado. É sempre conduzida como etapa de uma revisão sistemática — não é um método independente.</p>
+      <p>Seu pressuposto fundamental é que os estudos incluídos são suficientemente homogêneos em termos de população, intervenção e desfecho para que seus resultados possam ser matematicamente combinados. Quando há alta heterogeneidade estatística (I² &gt; 75%), a metanálise pode ser contraindicada — e a síntese narrativa é mais adequada.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar — e quando NÃO usar</div>
+      <p><strong>Use quando:</strong></p>
+      <ul>
+        <li>Existe conjunto de ECRs ou estudos observacionais com desfechos mensuráveis comparáveis</li>
+        <li>A heterogeneidade estatística é baixa a moderada (I² &lt; 50%)</li>
+        <li>O objetivo é estimar magnitude de efeito com máxima precisão</li>
+      </ul>
+      <p style="margin-top:10px;"><strong>Não use quando:</strong></p>
+      <ul>
+        <li>Os estudos são heterogêneos em população, intervenção ou desfecho</li>
+        <li>A pergunta é exploratória, conceitual ou teórica</li>
+        <li>O campo ainda não tem volume suficiente de estudos primários</li>
+      </ul>
+    </div>
+
+    <div class="box box-steps">
+      <div class="box-title">⚙️ Elementos técnicos essenciais</div>
+      <ul>
+        <li><strong>Estimativa de efeito:</strong> Odds Ratio, Risk Ratio, diferença de médias, d de Cohen — dependendo do tipo de desfecho</li>
+        <li><strong>Modelo de análise:</strong> efeitos fixos (pressupõe efeito verdadeiro único) vs. efeitos aleatórios (pressupõe variação do efeito entre estudos)</li>
+        <li><strong>Heterogeneidade:</strong> Teste Q de Cochran + I² — quantifica quanto da variância é atribuível a diferenças reais entre estudos</li>
+        <li><strong>Viés de publicação:</strong> funnel plot (gráfico de funil) + testes de Egger ou Begg</li>
+        <li><strong>Software:</strong> RevMan (Cochrane), R (meta package), Stata, JASP</li>
+      </ul>
+    </div>
+
+    <div class="callout c-warn">
+      <div class="cal-ico">⚠️</div>
+      <div class="cal-body"><strong>"Garbage in, garbage out":</strong> Uma metanálise de estudos metodologicamente frágeis produz uma estimativa combinada metodologicamente frágil — com aparência de precisão que não corresponde à qualidade das evidências. A avaliação rigorosa da qualidade dos estudos incluídos (GRADE, RoB) é condição necessária, não opcional.</div>
+    </div>
+  </div>
+</details>
+
+<!-- 7. Bibliométrica -->
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--orange-pale);color:var(--orange);border:1px solid var(--orange);">Quantitativa</div>
+      <div class="sum-text">
+        <div class="sum-title">Análise Bibliométrica</div>
+        <div class="sum-sub">Mapeamento quantitativo da produção científica — tendências, autores e redes</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Definição e lógica</div>
+      <p>A bibliometria aplica métodos quantitativos para analisar a produção científica de uma área — identificando autores mais influentes, periódicos mais produtivos, países e instituições líderes, palavras-chave emergentes, e redes de colaboração. Usa leis clássicas como a Lei de Bradford (concentração de publicações em poucos periódicos), Lei de Lotka (produtividade dos autores) e Lei de Zipf (frequência de palavras).</p>
+      <p>Não substitui a revisão de conteúdo — ela mapeia a estrutura do campo, não o que o campo sabe. Usada em complementação a outros tipos de revisão, oferece panorama quantitativo valioso.</p>
+    </div>
+
+    <div class="box box-when">
+      <div class="box-title">🕰️ Quando usar</div>
+      <ul>
+        <li>Para mapear a evolução histórica de um campo de pesquisa</li>
+        <li>Quando o volume de produção é muito grande para revisão qualitativa completa</li>
+        <li>Para identificar periódicos e autores centrais antes de iniciar busca mais aprofundada</li>
+        <li>Como estudo complementar que situa a posição de um campo no cenário global</li>
+      </ul>
+    </div>
+
+    <div class="box box-steps">
+      <div class="box-title">⚙️ Ferramentas principais</div>
+      <ul>
+        <li><strong>VOSviewer:</strong> visualização de redes de co-citação, co-autoria e coocorrência de palavras-chave</li>
+        <li><strong>Bibliometrix (R):</strong> análise bibliométrica completa com visualizações avançadas</li>
+        <li><strong>CiteSpace:</strong> análise de surtos de citação e frentes de pesquisa emergentes</li>
+        <li><strong>Bases:</strong> Scopus e Web of Science são as mais adequadas (dados de citação confiáveis)</li>
+      </ul>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">⚠️ Limitações importantes</div>
+      <ul>
+        <li>Subestima produção em línguas não inglesas e periódicos não indexados — especialmente relevante para pesquisa latino-americana</li>
+        <li>Contagem de citações mede impacto formal, não qualidade ou relevância — autores muito criticados também acumulam citações</li>
+        <li>Não captura debates teóricos, controvérsias ou dimensão qualitativa do campo</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════ TABELA COMPARATIVA ══════════ -->
+<h2 class="sec-title"><span class="ico">📊</span>Quadro Comparativo dos Tipos</h2>
+<p class="sec-desc">Use este quadro para identificar qual tipo se alinha ao seu problema e aos recursos disponíveis.</p>
+
+<div class="tbl-wrap">
+  <table class="cmp-main">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Pergunta típica</th>
+        <th>Rigor metodológico</th>
+        <th>Avalia qualidade</th>
+        <th>Tempo estimado</th>
+        <th>Quando NÃO usar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Narrativa</td>
+        <td>Que debates existem sobre X?</td>
+        <td>Flexível (declarado)</td>
+        <td>Implicitamente</td>
+        <td>Semanas</td>
+        <td>Para sintetizar evidências de eficácia</td>
+      </tr>
+      <tr>
+        <td>Sistemática</td>
+        <td>Qual é o efeito de X sobre Y?</td>
+        <td>Muito alto (protocolo)</td>
+        <td>Sim (obrigatório)</td>
+        <td>Meses (6–18)</td>
+        <td>Para perguntas amplas/exploratórias</td>
+      </tr>
+      <tr>
+        <td>Escopo</td>
+        <td>O que existe de literatura sobre X?</td>
+        <td>Alto (framework)</td>
+        <td>Opcional</td>
+        <td>Meses (3–6)</td>
+        <td>Quando a pergunta é específica e o campo maduro</td>
+      </tr>
+      <tr>
+        <td>Crítica</td>
+        <td>Quais são os limites epistemológicos da literatura sobre X?</td>
+        <td>Alto (reflexivo)</td>
+        <td>Sim (epistemológica)</td>
+        <td>Meses</td>
+        <td>Para campos sem volume crítico de literatura</td>
+      </tr>
+      <tr>
+        <td>Integrativa</td>
+        <td>Como estudos de diferentes abordagens iluminam X?</td>
+        <td>Alto (explícito)</td>
+        <td>Sim</td>
+        <td>Meses (3–6)</td>
+        <td>Quando dados são homogêneos o bastante para metanálise</td>
+      </tr>
+      <tr>
+        <td>Metanálise</td>
+        <td>Qual é a magnitude do efeito de X sobre Y?</td>
+        <td>Muito alto (estatístico)</td>
+        <td>Sim (GRADE/RoB)</td>
+        <td>Meses (6–18)</td>
+        <td>Quando estudos são heterogêneos ou de baixa qualidade</td>
+      </tr>
+      <tr>
+        <td>Bibliométrica</td>
+        <td>Como evoluiu a produção científica sobre X?</td>
+        <td>Moderado (quantitativo)</td>
+        <td>Indiretamente</td>
+        <td>Semanas</td>
+        <td>Para síntese de conteúdo ou evidências</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════ COMO ESCOLHER ══════════ -->
+<h2 class="sec-title"><span class="ico">🧭</span>Como Escolher o Tipo Certo</h2>
+<p class="sec-desc">Três perguntas que guiam a decisão — na ordem certa.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--teal-pale);color:var(--teal);border:1px solid var(--teal-light);">Guia Decisório</div>
+      <div class="sum-text">
+        <div class="sum-title">Do problema ao tipo — o raciocínio correto</div>
+        <div class="sum-sub">A pergunta de pesquisa determina o tipo de revisão — nunca o contrário</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+
+    <div class="box box-concept">
+      <div class="box-title">💡 Princípio fundamental</div>
+      <p>O erro mais comum é escolher o tipo de revisão pelo prestígio do nome ou pela familiaridade com o método — e então forçar a pergunta de pesquisa a se adaptar ao tipo escolhido. O caminho correto é o inverso: a pergunta determina o tipo.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Qual é a natureza da minha pergunta?</strong>
+          Exploratória (o que existe? que debates há?) → Narrativa ou Escopo.
+          Específica e causal (qual é o efeito?) → Sistemática ou Metanálise.
+          Crítico-epistemológica (quais são os limites da literatura?) → Crítica.
+          Integradora (como abordagens diferentes iluminam o fenômeno?) → Integrativa.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Qual é o volume e a maturidade da literatura disponível?</strong>
+          Campo emergente, poucos estudos → Narrativa, Escopo ou Crítica.
+          Campo consolidado, muitos estudos → Sistemática, Integrativa ou Metanálise.
+          Campo amplo e heterogêneo → Escopo ou Integrativa.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Quais são meus recursos (tempo, equipe, acesso)?</strong>
+          Revisão sistemática e metanálise exigem equipe (mínimo 2 revisores independentes), acesso a bases pagas e 6–18 meses. Subestimar isso compromete a validade. Se os recursos são limitados, escolha um tipo que possa ser executado com rigor — uma narrativa rigorosa vale mais que uma sistemática malfeita.
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario">
+      <div class="scen-head"><span class="ico">🌱</span>Caso 1 — Mestranda em Educação do Campo</div>
+      <div class="scen-row"><div class="scen-label">Pergunta</div><div class="scen-val">Como a literatura trata os saberes tradicionais quilombolas no currículo escolar do Nordeste?</div></div>
+      <div class="scen-row"><div class="scen-label">Campo</div><div class="scen-val">Emergente; literatura dispersa; predominância de estudos qualitativos</div></div>
+      <div class="scen-row"><div class="scen-label">Recursos</div><div class="scen-val">Pesquisadora individual; 12 meses de mestrado</div></div>
+      <div class="scen-row"><div class="scen-label">Tipo indicado</div><div class="scen-val"><strong>Revisão Crítica ou Integrativa</strong> — permite síntese de estudos qualitativos diversos com posicionamento epistemológico explícito</div></div>
+    </div>
+
+    <div class="scenario" style="margin-top:16px;">
+      <div class="scen-head"><span class="ico">🏥</span>Caso 2 — Doutorando em Saúde Coletiva</div>
+      <div class="scen-row"><div class="scen-label">Pergunta</div><div class="scen-val">Qual é a eficácia de intervenções de Atenção Primária na redução de mortalidade infantil em municípios rurais?</div></div>
+      <div class="scen-row"><div class="scen-label">Campo</div><div class="scen-val">Consolidado; múltiplos ECRs e estudos observacionais; desfecho mensurável</div></div>
+      <div class="scen-row"><div class="scen-label">Recursos</div><div class="scen-val">Equipe de 3 pesquisadores; 18 meses de doutorado; acesso à CAPES</div></div>
+      <div class="scen-row"><div class="scen-label">Tipo indicado</div><div class="scen-val"><strong>Revisão Sistemática + Metanálise</strong> — pergunta específica, campo maduro, recursos adequados, desfecho quantificável</div></div>
+    </div>
+
+    <div class="scenario" style="margin-top:16px;">
+      <div class="scen-head"><span class="ico">🌾</span>Caso 3 — Pesquisador em Agroecologia</div>
+      <div class="scen-row"><div class="scen-label">Pergunta</div><div class="scen-val">Que tipos de evidências existem sobre transição agroecológica e quais dimensões foram mais estudadas?</div></div>
+      <div class="scen-row"><div class="scen-label">Campo</div><div class="scen-val">Amplo e heterogêneo; estudos quanti, quali e teóricos; múltiplos países e contextos</div></div>
+      <div class="scen-row"><div class="scen-label">Recursos</div><div class="scen-val">Equipe de 2; acesso a bases internacionais</div></div>
+      <div class="scen-row"><div class="scen-label">Tipo indicado</div><div class="scen-val"><strong>Revisão de Escopo</strong> — mapear extensão e natureza da literatura antes de decidir se síntese sistemática é viável</div></div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════ ARMADILHAS ══════════ -->
+<h2 class="sec-title"><span class="ico">🕳️</span>Armadilhas Frequentes — O Que Invalida uma Revisão</h2>
+<p class="sec-desc">Erros que comprometem a revisão mesmo quando ela parece metodologicamente correta.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-badge" style="background:var(--red-pale);color:var(--red);border:1px solid var(--red);">Erros Críticos</div>
+      <div class="sum-text">
+        <div class="sum-title">Os seis erros que mais invalidam revisões de literatura</div>
+        <div class="sum-sub">Da escolha do tipo à apresentação dos resultados</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 1. Escolha do tipo por prestígio, não por adequação</div>
+      <p>Usar "revisão sistemática" em pesquisa com pergunta ampla e campo emergente porque soa mais científico. Ou chamar qualquer levantamento de literatura de "revisão integrativa" sem aplicar seus critérios metodológicos. O tipo deve ser escolhido pela pergunta — não pelo marketing acadêmico.</p>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 2. Viés de confirmação na seleção dos estudos</div>
+      <p>Selecionar estudos que confirmam a hipótese e ignorar ou minimizar os que contradizem. Em revisões narrativas, isso é especialmente insidioso porque não há protocolo formal para checar. A solução é documentar os critérios de inclusão e exclusão — e, se possível, que um segundo leitor avalie uma amostra da seleção.</p>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 3. Síntese por justaposição, não por integração</div>
+      <p>Apresentar os achados como "Estudo A encontrou X. Estudo B encontrou Y. Estudo C encontrou Z." — sem síntese argumentativa que integre os achados em proposições mais abrangentes. Isso é fichamento, não revisão. A revisão exige que o pesquisador construa uma narrativa interpretativa própria a partir dos estudos.</p>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 4. Ausência de avaliação crítica da qualidade</div>
+      <p>Tratar todos os estudos incluídos como igualmente confiáveis, independentemente de suas limitações metodológicas. Um estudo com alto risco de viés não pode ter o mesmo peso na síntese que um ensaio controlado randomizado de alta qualidade. Isso não é elitismo metodológico — é responsabilidade com a qualidade do conhecimento produzido.</p>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 5. Não declarar as limitações da própria revisão</div>
+      <p>Toda revisão tem limitações: bases consultadas, idiomas incluídos, período coberto, tipos de estudo incluídos, possibilidade de viés de publicação. Não declará-las não elimina os problemas — apenas os esconde do leitor. Uma revisão honesta sobre seus limites é mais confiável, não menos.</p>
+    </div>
+
+    <div class="box box-limit">
+      <div class="box-title">🕳️ 6. Revisão como capítulo introdutório, não como processo contínuo</div>
+      <p>Tratar a revisão como tarefa a ser concluída antes de "começar a pesquisa de verdade". Na prática, a revisão deve ser contínua — o pesquisador retorna à literatura após a análise dos dados para verificar se novos estudos surgiram, se as categorias emergentes dialogam com o campo, e se a interpretação se sustenta em relação ao que já se sabia.</p>
+    </div>
+  </div>
+</details>
+
+<hr class="divider">
+
+<div class="callout c-insight">
+  <div class="cal-ico">🎯</div>
+  <div class="cal-body">
+    <strong>O critério final de qualidade de qualquer revisão:</strong> ela responde às três perguntas? <em>O que já se sabe?</em> (estado da arte) — <em>Como se sabe, e com que qualidade?</em> (avaliação metodológica) — <em>O que ainda não se sabe, e por quê isso importa?</em> (lacunas e justificativa da pesquisa). Uma revisão que responde às três, com rigor adequado ao tipo escolhido, cumpre sua função científica.
+  </div>
+</div>
+
+<footer>
+  <p>Revisão de Literatura — Guia para Pesquisadores · João Batista de Oleira · <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a> · © 2026</p>
+</footer>
+
+<script>
+document.querySelectorAll('details.item').forEach(d => {
+  d.addEventListener('toggle', function() {
+    if (this.open) {
+      this.parentElement.querySelectorAll('details.item').forEach(s => {
+        if (s !== this) s.open = false;
+      });
+      setTimeout(() => this.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+    }
+  });
+});
+</script>
+</body>
+</html>

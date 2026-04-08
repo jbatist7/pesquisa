@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comece por Aqui — Introdução à Pesquisa Científica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:        #0f1117;
+  --paper:      #faf8f3;
+  --cream:      #f2ede3;
+  --border:     #d4c9b0;
+  --shadow-sm:  0 2px 6px rgba(15,17,23,0.08);
+  --shadow-md:  0 6px 20px rgba(15,17,23,0.14);
+  --shadow-lg:  0 12px 40px rgba(15,17,23,0.18);
+
+  --gold:       #c9a84c;
+  --gold-light: #e6ca87;
+  --gold-pale:  #f5ead0;
+  --amber:      #b45309;
+
+  --teal:       #1a4a4a;
+  --teal-mid:   #2d6b6b;
+  --teal-light: #4a9b9b;
+  --teal-pale:  #d4eaea;
+
+  --slate:      #2563eb;
+  --slate-pale: #eff6ff;
+
+  --violet:     #3d2060;
+  --violet-pale:#e8e0f5;
+
+  --green:      #1a4a1a;
+  --green-pale: #d4ead4;
+
+  --red:        #8b2020;
+  --red-pale:   #f5e0e0;
+
+  --pink:       #be185d;
+  --pink-pale:  #fce7f3;
+
+  --amber-pale: #fef3c7;
+  --orange:     #c2410c;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.78;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:var(--cream); }
+::-webkit-scrollbar-thumb { background:#c0b090; border-radius:3px; }
+
+/* ══════════════════════════════
+   HERO HEADER
+══════════════════════════════ */
+.hero {
+  background: var(--teal);
+  color: var(--paper);
+  padding: 64px 40px 56px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(
+    -55deg,transparent,transparent 50px,
+    rgba(255,255,255,.025) 50px,rgba(255,255,255,.025) 51px
+  );
+}
+.hero::after {
+  content:'';
+  position:absolute; bottom:0; left:0; right:0; height:4px;
+  background: linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));
+}
+.hero-inner { position:relative; max-width:720px; margin:0 auto; }
+.hero-eyebrow {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px; letter-spacing:3.5px; text-transform:uppercase;
+  color:var(--gold-light); margin-bottom:18px;
+}
+.hero h1 {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,5vw,54px); font-weight:800; line-height:1.1;
+  margin-bottom:20px;
+}
+.hero h1 em { font-style:italic; color:var(--gold-light); }
+.hero-lead {
+  font-size:17px; color:rgba(250,248,243,.8);
+  line-height:1.75; margin-bottom:28px; max-width:580px; margin-left:auto; margin-right:auto;
+}
+.hero-badge {
+  display:inline-block; background:rgba(201,168,76,.15);
+  border:1px solid rgba(201,168,76,.4); color:var(--gold-light);
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:6px 18px; border-radius:30px;
+}
+
+/* ══════════════════════════════
+   CONTENT WRAPPER
+══════════════════════════════ */
+.wrap { max-width:960px; margin:0 auto; padding:0 24px; }
+
+/* ══════════════════════════════
+   SECTION TITLES
+══════════════════════════════ */
+.sec-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,3vw,30px); font-weight:800;
+  color:var(--ink); margin:56px 0 8px;
+  padding-bottom:12px; border-bottom:2px solid var(--border);
+  display:flex; align-items:baseline; gap:12px;
+}
+.sec-title .ico { font-size:24px; }
+.sec-desc { font-size:15px; color:#666; margin-bottom:28px; font-style:italic; }
+
+/* ══════════════════════════════
+   FRIENDLY INTRO CARD
+══════════════════════════════ */
+.welcome {
+  background:white; border:1px solid var(--border);
+  border-left:5px solid var(--gold); border-radius:10px;
+  padding:32px 36px; margin:36px 0 0;
+  box-shadow:var(--shadow-sm);
+}
+.welcome h2 {
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:700;
+  color:var(--amber); margin-bottom:16px;
+}
+.welcome p { font-size:16.5px; color:#2a2218; margin-bottom:14px; }
+.welcome p:last-child { margin-bottom:0; }
+.welcome .wl-quote {
+  background:var(--gold-pale); border-left:4px solid var(--gold);
+  border-radius:6px; padding:16px 20px; margin:16px 0;
+  font-size:17px; font-style:italic; color:var(--amber);
+}
+
+/* ══════════════════════════════
+   PROGRESS MAP
+══════════════════════════════ */
+.progress-map {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:14px; margin:28px 0;
+}
+.prog-card {
+  border:1px solid var(--border); border-radius:10px;
+  padding:20px 18px; background:white; text-align:center;
+  box-shadow:var(--shadow-sm); position:relative;
+  transition:all .2s;
+}
+.prog-card:hover { transform:translateY(-2px); box-shadow:var(--shadow-md); }
+.prog-card .pn {
+  font-family:'Playfair Display',serif; font-size:32px; font-weight:800;
+  line-height:1; margin-bottom:8px;
+}
+.prog-card .pt {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;
+}
+.prog-card .pd { font-size:14px; color:#666; }
+.prog-card.active { border-color:var(--teal-mid); background:var(--teal-pale); }
+.prog-card.active .pn { color:var(--teal); }
+.prog-card.active .pt { color:var(--teal-mid); }
+.prog-card.dim .pn { color:#ccc; }
+.prog-card.dim .pt { color:#ccc; }
+.prog-card.dim .pd { color:#bbb; }
+.prog-card .badge-now {
+  position:absolute; top:-8px; left:50%; transform:translateX(-50%);
+  background:var(--teal); color:var(--gold-light);
+  font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px;
+  text-transform:uppercase; padding:2px 10px; border-radius:20px;
+}
+
+/* ══════════════════════════════
+   CLICKABLE TERMS (INLINE)
+══════════════════════════════ */
+.term {
+  color: var(--teal-mid);
+  border-bottom: 2px dotted var(--teal-light);
+  cursor: pointer;
+  font-weight: 600;
+  transition: color .15s, border-color .15s;
+  position: relative;
+}
+.term:hover { color: var(--teal); border-bottom-color: var(--teal); }
+.term::after {
+  content: '?';
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--teal-light);
+  vertical-align: super;
+  margin-left: 1px;
+  line-height: 1;
+}
+
+/* ── TOOLTIP POPUP ── */
+.tooltip-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(15,17,23,.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.tooltip-overlay.show { display: flex; animation: overlayIn .2s ease; }
+@keyframes overlayIn { from{opacity:0} to{opacity:1} }
+
+.tooltip-card {
+  background: white;
+  border-radius: 14px;
+  max-width: 560px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: cardIn .25s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+@keyframes cardIn { from{opacity:0;transform:scale(.9) translateY(10px)} to{opacity:1;transform:none} }
+
+.tt-head {
+  background: var(--ink); color: var(--paper);
+  padding: 20px 24px 16px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap:12px;
+}
+.tt-head::after {
+  content:'';
+  position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));
+}
+.tt-term {
+  font-family:'Playfair Display',serif; font-size:24px;
+  font-weight:800; color:var(--gold-light); line-height:1.1;
+}
+.tt-close {
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+  color: rgba(250,248,243,.7); width:30px; height:30px; border-radius:50%;
+  font-size:16px; cursor:pointer; display:flex; align-items:center;
+  justify-content:center; flex-shrink:0; transition:all .15s;
+  line-height:1;
+}
+.tt-close:hover { background:rgba(255,255,255,.2); color:white; }
+
+.tt-body { padding: 22px 24px 24px; }
+
+.tt-section { margin-bottom: 14px; }
+.tt-section:last-child { margin-bottom: 0; }
+.tt-label {
+  font-family:'JetBrains Mono',monospace; font-size:9px;
+  letter-spacing:2.5px; text-transform:uppercase; font-weight:600;
+  margin-bottom:5px;
+}
+.tt-content { font-size:15.5px; color:#2a2218; line-height:1.65; }
+
+.tt-simple  .tt-label { color:var(--teal-mid); }
+.tt-technical .tt-label { color:var(--violet); }
+.tt-example .tt-label { color:var(--green); }
+.tt-example .tt-content {
+  background:var(--green-pale); border-left:3px solid var(--green);
+  border-radius:5px; padding:10px 14px; font-style:italic;
+}
+.tt-error  .tt-label { color:var(--red); }
+.tt-error  .tt-content {
+  background:var(--red-pale); border-left:3px solid var(--red);
+  border-radius:5px; padding:10px 14px;
+}
+
+/* ══════════════════════════════
+   CONTENT BLOCKS
+══════════════════════════════ */
+.prose {
+  font-size:16.5px; color:#2a2218; max-width:860px;
+  line-height:1.8; margin-bottom:28px;
+}
+.prose p { margin-bottom:16px; }
+.prose p:last-child { margin-bottom:0; }
+
+/* box types */
+.box {
+  border-radius:8px; padding:18px 22px;
+  margin-bottom:16px; border-left:4px solid;
+}
+.box-title {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:2.5px; text-transform:uppercase;
+  font-weight:600; margin-bottom:10px;
+  display:flex; align-items:center; gap:6px;
+}
+.box p { font-size:15.5px; color:#2a2218; margin-bottom:10px; }
+.box p:last-child { margin-bottom:0; }
+.box ul { margin:6px 0 0 22px; }
+.box li { font-size:15.5px; color:#2a2218; margin-bottom:6px; }
+
+.box-insight { background:var(--gold-pale);  border-color:var(--gold); }
+.box-insight .box-title { color:var(--amber); }
+.box-tip    { background:var(--pink-pale);  border-color:var(--pink); }
+.box-tip    .box-title { color:var(--pink); }
+.box-warn   { background:var(--amber-pale); border-color:#f59e0b; }
+.box-warn   .box-title { color:var(--amber); }
+.box-info   { background:var(--teal-pale);  border-color:var(--teal-mid); }
+.box-info   .box-title { color:var(--teal); }
+
+/* callout */
+.callout {
+  border-radius:8px; padding:18px 22px; margin:20px 0;
+  display:flex; gap:14px; align-items:flex-start; border:1px solid;
+}
+.callout .cal-ico { font-size:22px; flex-shrink:0; margin-top:1px; }
+.callout .cal-body { font-size:16px; }
+.callout.c-gold   { background:var(--gold-pale);  border-color:var(--gold); }
+.callout.c-teal   { background:var(--teal-pale);  border-color:var(--teal-mid); }
+.callout.c-warn   { background:var(--amber-pale); border-color:#f59e0b; }
+
+/* ══════════════════════════════
+   CHAIN VISUAL
+══════════════════════════════ */
+.chain-visual {
+  display:flex; flex-direction:column; align-items:flex-start;
+  gap:0; margin:24px 0 32px; max-width:580px;
+}
+.ch-node {
+  display:flex; align-items:stretch; width:100%;
+  cursor:pointer; transition:transform .15s;
+}
+.ch-node:hover { transform:translateX(4px); }
+.ch-bar { width:5px; border-radius:3px 0 0 3px; flex-shrink:0; }
+.ch-body {
+  flex:1; padding:13px 20px;
+  border:1px solid var(--border); border-left:none;
+  border-radius:0 8px 8px 0; background:white;
+  box-shadow:var(--shadow-sm);
+}
+.ch-level {
+  font-family:'JetBrains Mono',monospace; font-size:9px;
+  letter-spacing:2px; text-transform:uppercase; color:#aaa;
+}
+.ch-name { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; }
+.ch-q { font-size:13.5px; font-style:italic; color:#666; }
+.ch-arrow { font-size:20px; color:#ccc; padding-left:12px; line-height:1.2; }
+
+/* ══════════════════════════════
+   ACCORDION
+══════════════════════════════ */
+details.item {
+  border:1px solid var(--border); border-radius:10px;
+  margin-bottom:10px; background:white;
+  box-shadow:var(--shadow-sm); overflow:hidden; transition:box-shadow .2s;
+}
+details.item:hover { box-shadow:var(--shadow-md); }
+details.item > summary {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 24px; cursor:pointer; list-style:none;
+  background:var(--cream); transition:background .2s; gap:14px; user-select:none;
+}
+details.item > summary::-webkit-details-marker { display:none; }
+details.item > summary:hover { background:#ede8de; }
+details.item[open] > summary { background:var(--ink); color:var(--paper); }
+.sum-left { display:flex; align-items:center; gap:14px; }
+.sum-badge {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase;
+  padding:3px 10px; border-radius:20px; font-weight:600; flex-shrink:0;
+}
+details.item[open] > summary .sum-badge {
+  background:rgba(201,168,76,.18)!important;
+  color:var(--gold-light)!important; border-color:transparent!important;
+}
+.sum-title {
+  font-family:'Playfair Display',serif; font-size:17px;
+  font-weight:700; line-height:1.2;
+}
+.sum-sub {
+  font-size:13px; color:#888; font-style:italic; margin-top:2px;
+  font-family:'Crimson Pro',serif;
+}
+details.item[open] > summary .sum-sub { color:rgba(250,248,243,.6); }
+.sum-arrow { font-size:16px; color:#aaa; transition:transform .25s; flex-shrink:0; }
+details.item[open] > summary .sum-arrow { transform:rotate(180deg); color:var(--gold-light); }
+.item-body {
+  padding:28px 28px 24px; border-top:1px solid var(--border);
+  animation:fadeSlide .3s ease;
+}
+@keyframes fadeSlide { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
+
+/* ══════════════════════════════
+   THREE-COLUMN MATRIX
+══════════════════════════════ */
+.matrix-wrap {
+  margin:32px 0;
+  border:1px solid var(--border); border-radius:12px;
+  overflow:hidden; box-shadow:var(--shadow-md);
+}
+.matrix-header {
+  display:grid; grid-template-columns:1fr 1.4fr 1.4fr;
+  background:var(--ink); color:var(--paper);
+}
+.mh-cell {
+  padding:14px 18px; border-right:1px solid rgba(255,255,255,.1);
+}
+.mh-cell:last-child { border-right:none; }
+.mh-cell .mh-num {
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:800;
+  color:var(--gold); line-height:1; margin-bottom:4px;
+}
+.mh-cell .mh-title {
+  font-family:'JetBrains Mono',monospace; font-size:10px;
+  letter-spacing:1.5px; text-transform:uppercase; font-weight:600;
+  color:var(--paper); margin-bottom:2px;
+}
+.mh-cell .mh-sub { font-size:13px; color:rgba(250,248,243,.6); font-style:italic; }
+
+.matrix-row {
+  display:grid; grid-template-columns:1fr 1.4fr 1.4fr;
+  border-top:1px solid var(--border);
+  transition:background .15s;
+}
+.matrix-row:hover { background:rgba(201,168,76,.04); }
+.matrix-row:nth-child(even) > .mc { background:var(--cream); }
+.matrix-row:nth-child(even) > .mc.mc-reason { background:#fafaf5; }
+.matrix-row:nth-child(even) > .mc.mc-text { background:#f5faf5; }
+
+.mc {
+  padding:14px 18px; border-right:1px solid var(--border);
+  vertical-align:top; font-size:15px; line-height:1.65;
+}
+.mc:last-child { border-right:none; }
+
+/* col 1 — element */
+.mc-elem {
+  display:flex; flex-direction:column; gap:4px;
+}
+.mc-elem .elem-num {
+  font-family:'Playfair Display',serif; font-size:18px; font-weight:800;
+  color:var(--teal-mid); line-height:1;
+}
+.mc-elem .elem-name {
+  font-family:'Playfair Display',serif; font-size:15px; font-weight:700;
+  color:var(--ink);
+}
+.mc-elem .elem-tag {
+  font-family:'JetBrains Mono',monospace; font-size:9px;
+  letter-spacing:1.5px; text-transform:uppercase; color:#bbb;
+  margin-top:2px;
+}
+
+/* col 2 — reasoning */
+.mc-reason {
+  color:#2a2218;
+  font-style:italic;
+  border-left:3px solid var(--gold);
+}
+.mc-reason .r-voice {
+  font-family:'JetBrains Mono',monospace; font-size:9.5px;
+  letter-spacing:1px; text-transform:uppercase; color:var(--amber);
+  margin-bottom:5px; font-style:normal;
+}
+
+/* col 3 — text example */
+.mc-text { color:#1a3a1a; }
+.mc-text .t-label {
+  font-family:'JetBrains Mono',monospace; font-size:9.5px;
+  letter-spacing:1px; text-transform:uppercase; color:var(--green);
+  margin-bottom:5px;
+}
+.mc-text .t-quote {
+  background:var(--green-pale); border-left:3px solid var(--green);
+  border-radius:5px; padding:8px 12px;
+  font-size:14.5px; color:var(--ink); font-style:italic;
+  line-height:1.6;
+}
+
+/* expandable row detail */
+.matrix-row .mc-expand {
+  grid-column: 1 / -1;
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px dashed var(--border);
+  background: white;
+}
+.matrix-row.row-open .mc-expand { display: block; }
+.expand-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;
+}
+@media(max-width:580px) { .expand-grid { grid-template-columns:1fr; } }
+.ex-cell {
+  border-radius:7px; padding:12px 16px; font-size:14.5px;
+}
+.ex-good { background:var(--green-pale); border-left:3px solid var(--green); }
+.ex-good strong { color:var(--green); display:block; margin-bottom:4px; font-size:12px; font-family:'JetBrains Mono',monospace; letter-spacing:.5px; text-transform:uppercase; }
+.ex-bad { background:var(--red-pale); border-left:3px solid var(--red); }
+.ex-bad strong { color:var(--red); display:block; margin-bottom:4px; font-size:12px; font-family:'JetBrains Mono',monospace; letter-spacing:.5px; text-transform:uppercase; }
+.ex-tip { background:var(--teal-pale); border-left:3px solid var(--teal-mid); }
+.ex-tip strong { color:var(--teal); display:block; margin-bottom:4px; font-size:12px; font-family:'JetBrains Mono',monospace; letter-spacing:.5px; text-transform:uppercase; }
+.expand-toggle {
+  grid-column:1/-1; text-align:right; font-size:13px;
+  font-family:'JetBrains Mono',monospace; color:var(--teal-mid);
+  cursor:pointer; letter-spacing:.5px;
+  display:flex; align-items:center; justify-content:flex-end; gap:6px;
+  border:none; background:none; padding:6px 18px 2px; width:100%;
+  transition:color .15s;
+}
+.expand-toggle:hover { color:var(--teal); }
+.expand-toggle .et-arrow { transition:transform .2s; }
+.matrix-row.row-open .expand-toggle .et-arrow { transform:rotate(180deg); }
+
+/* mobile matrix */
+@media(max-width:700px) {
+  .matrix-header, .matrix-row {
+    grid-template-columns: 1fr;
+  }
+  .mh-cell { border-right:none; border-bottom:1px solid rgba(255,255,255,.1); }
+  .mc { border-right:none; border-bottom:1px solid var(--border); }
+  .mc:last-child { border-bottom:none; }
+}
+
+/* ══════════════════════════════
+   QUIZ SIMPLE
+══════════════════════════════ */
+.quiz-wrap {
+  background:var(--gold-pale); border:2px solid var(--gold);
+  border-radius:12px; padding:30px 32px; margin:32px 0;
+}
+.quiz-wrap h3 {
+  font-family:'Playfair Display',serif; font-size:22px; font-weight:800;
+  color:var(--amber); margin-bottom:22px;
+}
+.qz {
+  background:white; border-radius:8px; padding:20px 22px;
+  margin-bottom:18px; border:1px solid var(--border);
+}
+.qz .qz-q { font-size:16.5px; font-weight:600; color:var(--ink); margin-bottom:14px; }
+.qz-opt {
+  display:flex; align-items:flex-start; gap:10px; padding:9px 12px;
+  border-radius:6px; cursor:pointer; margin-bottom:7px;
+  border:1px solid transparent; font-size:15px; color:#333;
+  transition:all .15s;
+}
+.qz-opt:hover { background:var(--cream); border-color:var(--border); }
+.qz-opt input { margin-top:3px; flex-shrink:0; accent-color:var(--teal); }
+.qz-opt.correct { background:var(--green-pale); border-color:var(--green); color:var(--green); font-weight:600; }
+.qz-opt.wrong   { background:var(--red-pale);   border-color:var(--red);   color:var(--red); }
+.qz-fb { font-size:14.5px; margin-top:10px; padding:10px 14px; border-radius:5px; font-style:italic; display:none; }
+.qz-fb.show { display:block; }
+.qz-fb.ok  { background:var(--green-pale); color:var(--green); }
+.qz-fb.err { background:var(--red-pale);   color:var(--red); }
+.quiz-btn {
+  background:var(--teal); color:var(--paper); border:none;
+  padding:12px 28px; border-radius:6px; font-family:'Crimson Pro',serif;
+  font-size:16px; cursor:pointer; transition:background .2s; margin-top:6px;
+}
+.quiz-btn:hover { background:var(--teal-mid); }
+.quiz-btn.reset { background:transparent; border:1px solid var(--border); color:#666; margin-left:10px; }
+.quiz-btn.reset:hover { background:var(--cream); }
+.quiz-score { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; margin-top:14px; display:none; color:var(--teal); }
+.quiz-score.show { display:block; }
+
+/* ══════════════════════════════
+   CHECKLIST
+══════════════════════════════ */
+.checklist { border:1px solid var(--border); border-radius:10px; overflow:hidden; margin:24px 0; }
+.cl-head {
+  background:var(--teal); color:var(--paper); padding:16px 24px;
+  font-family:'Playfair Display',serif; font-size:20px; font-weight:700;
+}
+.cl-progress {
+  padding:12px 24px; background:var(--cream);
+  display:flex; align-items:center; gap:16px;
+}
+.prog-bar { flex:1; height:7px; background:var(--border); border-radius:4px; overflow:hidden; }
+.prog-fill { height:100%; background:var(--teal-mid); border-radius:4px; transition:width .3s; }
+.prog-text { font-family:'JetBrains Mono',monospace; font-size:11px; color:#888; white-space:nowrap; }
+.cl-item {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:15px 24px; border-bottom:1px solid var(--border);
+  cursor:pointer; transition:background .15s;
+}
+.cl-item:last-child { border-bottom:none; }
+.cl-item:hover { background:var(--cream); }
+.cl-item input { margin-top:4px; flex-shrink:0; accent-color:var(--teal); transform:scale(1.3); cursor:pointer; }
+.cl-item.done .cl-text { text-decoration:line-through; color:#aaa; }
+.cl-text strong { display:block; margin-bottom:2px; font-size:16px; }
+.cl-text small { font-size:13.5px; color:#888; }
+
+/* ══════════════════════════════
+   MODULE CARDS
+══════════════════════════════ */
+.module-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px; margin:24px 0;
+}
+.mod-card {
+  border:1px solid var(--border); border-radius:10px;
+  padding:22px 20px; background:white; box-shadow:var(--shadow-sm);
+  border-top:3px solid; transition:all .2s; cursor:default;
+}
+.mod-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+.mod-card .mc-num {
+  font-family:'Playfair Display',serif; font-size:30px; font-weight:800;
+  line-height:1; margin-bottom:10px;
+}
+.mod-card .mc-title { font-weight:700; font-size:16px; margin-bottom:6px; }
+.mod-card .mc-desc { font-size:14px; color:#666; }
+
+/* ══════════════════════════════
+   DIVIDER + FOOTER
+══════════════════════════════ */
+.divider { border:none; border-top:1px solid var(--border); margin:48px 0; }
+footer {
+  background:var(--ink); color:rgba(250,248,243,.6);
+  text-align:center; padding:40px 24px;
+  font-size:13px; font-family:'JetBrains Mono',monospace;
+  margin-top:0;
+}
+footer a { color:var(--teal-light); text-decoration:none; }
+
+/* ══════════════════════════════
+   ANIMATIONS
+══════════════════════════════ */
+.fade-in {
+  opacity:0; transform:translateY(16px);
+  animation:entryFade .6s ease forwards;
+}
+.fade-in:nth-child(2){ animation-delay:.1s }
+.fade-in:nth-child(3){ animation-delay:.2s }
+.fade-in:nth-child(4){ animation-delay:.3s }
+@keyframes entryFade { to{ opacity:1; transform:none } }
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HERO ════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Portal de Entrada · Sistema de Pesquisa Científica</div>
+    <h1>Comece <em>por Aqui</em></h1>
+    <p class="hero-lead">Antes de escolher um método, uma técnica ou um software, você precisa entender como a pesquisa científica é organizada — e por quê cada escolha importa. Este módulo é o seu ponto de partida.</p>
+    <span class="hero-badge">Módulo 0 · Introdução</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════ WELCOME ════════════════ -->
+<div class="welcome fade-in">
+  <h2>👋 Bem-vindo, pesquisador</h2>
+  <p>Se você está começando uma pesquisa científica — seja um TCC, uma dissertação ou um artigo — é natural sentir que há muitos conceitos novos para absorver de uma vez: <span class="term" data-term="metodologia">metodologia</span>, <span class="term" data-term="epistemologia">epistemologia</span>, <span class="term" data-term="hipotese">hipótese</span>, <span class="term" data-term="referencial">referencial teórico</span>… São termos que parecem difíceis, mas têm lógica clara quando apresentados na ordem certa.</p>
+  <p>Este módulo existe para isso: <strong>apresentar os conceitos fundamentais antes de entrar nos detalhes técnicos</strong>. Você não precisa memorizar tudo agora. O objetivo é criar uma visão de conjunto — um mapa mental — para que os módulos seguintes façam sentido desde o início.</p>
+  <div class="wl-quote">
+    💡 Uma dica antes de começar: sempre que encontrar um termo sublinhado com traço pontilhado, clique nele. Vai abrir uma explicação rápida com definição simples, definição técnica, exemplo e erro comum.
+  </div>
+  <p>Ao final deste módulo, você será capaz de identificar as partes de uma pesquisa, entender como elas se conectam, reconhecer alguns erros clássicos — e estará pronto para os módulos mais aprofundados.</p>
+</div>
+
+<!-- ════════════════ MAPA DO SISTEMA ════════════════ -->
+<h2 class="sec-title fade-in"><span class="ico">🗺️</span>O sistema de módulos — onde você está</h2>
+<p class="sec-desc fade-in">Este material é organizado em módulos progressivos. Cada um aprofunda um nível da pesquisa científica.</p>
+
+<div class="progress-map fade-in">
+  <div class="prog-card active">
+    <div class="badge-now">Você está aqui</div>
+    <div class="pn" style="color:var(--teal);">0</div>
+    <div class="pt" style="color:var(--teal-mid);">Comece por Aqui</div>
+    <div class="pd">Conceitos fundamentais e vocabulário essencial</div>
+  </div>
+  <div class="prog-card dim">
+    <div class="pn">I</div>
+    <div class="pt">Epistemologia</div>
+    <div class="pd">Correntes filosóficas e visões de conhecimento</div>
+  </div>
+  <div class="prog-card dim">
+    <div class="pn">II</div>
+    <div class="pt">Metodologia</div>
+    <div class="pd">A lógica que justifica as escolhas da pesquisa</div>
+  </div>
+  <div class="prog-card dim">
+    <div class="pn">III</div>
+    <div class="pt">Métodos</div>
+    <div class="pd">Estratégias de investigação científica</div>
+  </div>
+  <div class="prog-card dim">
+    <div class="pn">IV</div>
+    <div class="pt">Revisão</div>
+    <div class="pd">Tipos de revisão de literatura e como escolher</div>
+  </div>
+  <div class="prog-card dim">
+    <div class="pn">V</div>
+    <div class="pt">Vigilância</div>
+    <div class="pd">Armadilhas epistemológicas e como evitá-las</div>
+  </div>
+</div>
+
+<!-- ════════════════ O QUE É PESQUISAR ════════════════ -->
+<h2 class="sec-title"><span class="ico">🔭</span>O que é — e o que não é — pesquisa científica</h2>
+<p class="sec-desc">Antes de qualquer técnica, é preciso entender o que distingue pesquisa de simples busca de informações.</p>
+
+<div class="prose">
+  <p>Pesquisar, no sentido científico, é <strong>produzir conhecimento novo e justificável</strong> sobre um fenômeno. Não é copiar o que outros disseram, nem aplicar técnicas mecânicas. É formular uma <span class="term" data-term="pergunta">pergunta de pesquisa</span> relevante, escolher uma forma coerente de investigá-la, coletar e analisar dados, e chegar a conclusões que possam ser avaliadas criticamente por outros pesquisadores.</p>
+  <p>O que torna a pesquisa <em>científica</em> é a <strong>transparência das decisões</strong>: você precisa ser capaz de explicar por que escolheu determinado caminho — e não apenas qual caminho escolheu. Essa justificativa começa em um nível que a maioria dos iniciantes ignora: a <span class="term" data-term="epistemologia">epistemologia</span>.</p>
+</div>
+
+<div class="callout c-teal">
+  <div class="cal-ico">🧠</div>
+  <div class="cal-body">
+    <strong>Pergunta provocadora para começar:</strong> Você saberia dizer por que escolheu seu método — ou apenas o utilizou porque era o mais conhecido? A maioria dos pesquisadores iniciantes escolhe técnicas antes de ter uma pergunta clara. Este módulo vai inverter essa lógica.
+  </div>
+</div>
+
+<!-- ════════════════ VOCABULÁRIO ════════════════ -->
+<h2 class="sec-title"><span class="ico">📖</span>Vocabulário essencial — os 12 termos que estruturam tudo</h2>
+<p class="sec-desc">Clique em qualquer termo sublinhado para ver sua definição completa. Leia o texto primeiro — os termos estão inseridos em contexto.</p>
+
+<div class="prose">
+  <p>Toda pesquisa científica começa com um <span class="term" data-term="tema">tema</span> — um campo amplo de interesse. O primeiro trabalho do pesquisador é transformar esse tema em um <span class="term" data-term="problema">problema de pesquisa</span> específico e investigável, expresso na forma de uma <span class="term" data-term="pergunta">pergunta de pesquisa</span> clara.</p>
+
+  <p>Para investigar o problema, o pesquisador precisa fazer escolhas em níveis diferentes. O nível mais profundo é a <span class="term" data-term="epistemologia">epistemologia</span> — a visão filosófica sobre o que é a realidade e como ela pode ser conhecida. Dessa base emerge a <span class="term" data-term="metodologia">metodologia</span>, que é a lógica e a justificativa de toda a investigação. A metodologia, por sua vez, orienta a escolha do <span class="term" data-term="metodo">método</span> — o caminho estratégico da pesquisa — que então determina as <span class="term" data-term="tecnicas">técnicas</span> concretas de coleta e análise de dados, executadas com o apoio de <span class="term" data-term="ferramentas">ferramentas</span> específicas.</p>
+
+  <p>Para construir o conhecimento sobre o fenômeno, o pesquisador realiza uma <span class="term" data-term="revisao">revisão de literatura</span>, que não é um simples resumo de textos, mas um mapeamento crítico do que já foi pesquisado. Essa revisão inclui dois elementos distintos: o <span class="term" data-term="referencial">referencial teórico</span> (os autores clássicos e as teorias que fundamentam a análise) e o <span class="term" data-term="estadoarte">estado da arte</span> (os estudos mais recentes que mostram onde o campo está hoje).</p>
+
+  <p>Ao final do processo, o pesquisador apresenta <span class="term" data-term="resultados">resultados</span> (o que os dados mostram), desenvolve uma <span class="term" data-term="discussao">discussão</span> (a interpretação dos resultados em diálogo com a teoria) e elabora <span class="term" data-term="conclusao">conclusões</span> (a resposta fundamentada à pergunta de pesquisa).</p>
+</div>
+
+<!-- ════════════════ CADEIA HIERÁRQUICA ════════════════ -->
+<h2 class="sec-title"><span class="ico">⛓</span>A cadeia hierárquica da pesquisa</h2>
+<p class="sec-desc">Cada nível determina o seguinte. Entender essa hierarquia é o maior salto que um iniciante pode dar.</p>
+
+<div class="prose">
+  <p>O erro mais comum entre pesquisadores iniciantes é começar pela escolha das técnicas — "vou fazer entrevistas", "vou aplicar questionários" — sem ter definido ainda a pergunta, a metodologia ou o método. Isso é como escolher as ferramentas antes de saber o que construir.</p>
+  <p>A pesquisa funciona como uma cadeia: cada nível <strong>fundamenta e justifica</strong> o nível seguinte. Clique em cada item para entender a pergunta que aquele nível responde.</p>
+</div>
+
+<div class="chain-visual">
+  <div class="ch-node" onclick="openTerm('epistemologia')">
+    <div class="ch-bar" style="background:var(--teal-mid);"></div>
+    <div class="ch-body">
+      <div class="ch-level">Nível I — O mais profundo</div>
+      <div class="ch-name" style="color:var(--teal);">Epistemologia</div>
+      <div class="ch-q">"Como você entende a realidade? O que pode ser conhecido?"</div>
+    </div>
+  </div>
+  <div class="ch-arrow">↓ fundamenta</div>
+  <div class="ch-node" onclick="openTerm('metodologia')">
+    <div class="ch-bar" style="background:var(--violet);"></div>
+    <div class="ch-body">
+      <div class="ch-level">Nível II</div>
+      <div class="ch-name" style="color:var(--violet);">Metodologia</div>
+      <div class="ch-q">"Por que esta forma de investigar faz sentido?"</div>
+    </div>
+  </div>
+  <div class="ch-arrow">↓ justifica</div>
+  <div class="ch-node" onclick="openTerm('metodo')">
+    <div class="ch-bar" style="background:var(--gold);"></div>
+    <div class="ch-body">
+      <div class="ch-level">Nível III</div>
+      <div class="ch-name" style="color:#7a5a10;">Método</div>
+      <div class="ch-q">"Qual caminho estratégico de investigação vou seguir?"</div>
+    </div>
+  </div>
+  <div class="ch-arrow">↓ orienta</div>
+  <div class="ch-node" onclick="openTerm('tecnicas')">
+    <div class="ch-bar" style="background:var(--red);"></div>
+    <div class="ch-body">
+      <div class="ch-level">Nível IV</div>
+      <div class="ch-name" style="color:var(--red);">Técnicas</div>
+      <div class="ch-q">"Como vou coletar e analisar os dados?"</div>
+    </div>
+  </div>
+  <div class="ch-arrow">↓ executa com</div>
+  <div class="ch-node" onclick="openTerm('ferramentas')">
+    <div class="ch-bar" style="background:var(--green);"></div>
+    <div class="ch-body">
+      <div class="ch-level">Nível V</div>
+      <div class="ch-name" style="color:var(--green);">Ferramentas</div>
+      <div class="ch-q">"Com quais instrumentos concretos?"</div>
+    </div>
+  </div>
+</div>
+
+<div class="callout c-gold">
+  <div class="cal-ico">🎯</div>
+  <div class="cal-body">
+    <strong>A metáfora que resume tudo:</strong> Se a epistemologia é sua visão de mundo — a metodologia é a lógica que justifica o percurso — o método é o caminho escolhido — as técnicas são o ato de caminhar — e as ferramentas são os recursos que viabilizam esse movimento. Retirar qualquer elo dessa cadeia compromete a coerência de toda a pesquisa.
+  </div>
+</div>
+
+<!-- ════════════════ TRÊS COLUNAS ════════════════ -->
+<h2 class="sec-title"><span class="ico">✍️</span>Por trás da escrita científica — o que o texto não mostra</h2>
+<p class="sec-desc">Cada parte de um artigo ou dissertação é o resultado de uma decisão consciente. Clique em "Ver detalhes" para expandir exemplos e erros de cada elemento.</p>
+
+<div class="matrix-wrap">
+  <div class="matrix-header">
+    <div class="mh-cell">
+      <div class="mh-num">I</div>
+      <div class="mh-title">Elemento da Pesquisa</div>
+      <div class="mh-sub">O que compõe a estrutura</div>
+    </div>
+    <div class="mh-cell">
+      <div class="mh-num">II</div>
+      <div class="mh-title">Raciocínio Científico</div>
+      <div class="mh-sub">O que o pesquisador pensa</div>
+    </div>
+    <div class="mh-cell">
+      <div class="mh-num">III</div>
+      <div class="mh-title">Texto Exemplo</div>
+      <div class="mh-sub">Como aparece no artigo</div>
+    </div>
+  </div>
+
+  <!-- ROW 1 — TEMA -->
+  <div class="matrix-row" id="row-tema">
+    <div class="mc mc-elem">
+      <div class="elem-num">1</div>
+      <div class="elem-name">Tema</div>
+      <div class="elem-tag">Ponto de Partida</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Preciso delimitar um campo amplo de interesse. Ainda não preciso ser preciso — apenas situar o assunto. O tema é propositalmente aberto aqui; a delimitação vem no próximo passo.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Este estudo aborda a relação entre uso de tecnologias digitais e aprendizagem no ensino médio."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-tema')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Bom exemplo</strong>"A relação entre agroecologia e renda de agricultores familiares no semiárido" — campo claro, delimitado geograficamente e temáticamente.</div>
+        <div class="ex-bad"><strong>❌ Erro comum</strong>"Educação" ou "Meio ambiente" — amplo demais para ser investigável. Tema não é título de disciplina.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Um bom tema já aponta o fenômeno (o quê), o contexto (onde/quando) e os sujeitos (quem) — mesmo que ainda de forma geral.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 2 — RECORTE -->
+  <div class="matrix-row" id="row-recorte">
+    <div class="mc mc-elem">
+      <div class="elem-num">2</div>
+      <div class="elem-name">Recorte</div>
+      <div class="elem-tag">Delimitação</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      O tema ainda é amplo demais. Preciso torná-lo viável: tempo disponível, acesso ao campo, recursos. Aqui ocorre uma decisão estratégica de escopo — não é arbitrária, é justificada.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"O foco recai sobre estudantes de escolas públicas urbanas no Nordeste brasileiro, no período de 2020 a 2024."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-recorte')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Bom recorte</strong>Geográfico (Nordeste), temporal (2020–2024), populacional (escolas públicas urbanas). Três eixos articulados que tornam a pesquisa viável.</div>
+        <div class="ex-bad"><strong>❌ Erro comum</strong>Recorte vago: "no Brasil, nos últimos anos". Isso não delimita — apenas desloca o problema.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Recorte não é limitação — é viabilidade. Uma pesquisa bem delimitada é mais rigorosa do que uma pesquisa ampla e superficial.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 3 — PROBLEMA -->
+  <div class="matrix-row" id="row-problema">
+    <div class="mc mc-elem">
+      <div class="elem-num">3</div>
+      <div class="elem-name">Problema de Pesquisa</div>
+      <div class="elem-tag">Núcleo da Pesquisa</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Este é o momento mais importante. Preciso converter o interesse em uma pergunta clara, específica e investigável. Tudo — método, análise, conclusão — responderá a esta pergunta. Se ela for vaga, a pesquisa inteira fica desorientada.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Como o uso de tecnologias digitais influencia os processos de aprendizagem de estudantes do ensino médio em escolas públicas do Nordeste?"</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-problema')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Boa pergunta</strong>Começa com "Como?" ou "Por quê?" — exige explicação, não apenas descrição. É específica e investigável com os recursos disponíveis.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>"A tecnologia é boa para a educação?" — esta pergunta tem resposta de senso comum e não é científica. Uma boa pergunta gera incerteza genuína.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Uma boa pergunta de pesquisa não pode ser respondida com sim/não, não tem resposta óbvia, e delimita o que será investigado — sem mais, nem menos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 4 — REFERENCIAL -->
+  <div class="matrix-row" id="row-ref">
+    <div class="mc mc-elem">
+      <div class="elem-num">4</div>
+      <div class="elem-name">Referencial Teórico</div>
+      <div class="elem-tag">Lentes de Análise</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Não posso analisar o fenômeno sem lentes teóricas — sem elas, só vejo o óbvio. Preciso escolher autores e teorias que me ajudem a interpretar o que observo. Esses autores não são decoração: eles orientam o que vou procurar e como vou interpretar os dados.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"O estudo dialoga com autores da educação crítica (Freire, 1996) e da teoria da aprendizagem mediada (Vygotsky, 2007), articulando-os com pesquisadores contemporâneos da educação digital."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-ref')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Uso adequado</strong>O autor é citado com sua tese específica, e o pesquisador explica como essa tese orienta sua análise. A teoria trabalha a favor do argumento.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Acumular citações sem explicar por que aquelas teorias e não outras. Referencial teórico não é lista — é escolha justificada.</div>
+        <div class="ex-tip"><strong>💡 Dica ABNT</strong>Citação direta curta (até 3 linhas): entre aspas no próprio texto — (AUTOR, ano, p. X). Citação indireta: sem aspas — (AUTOR, ano). Citação longa (mais de 3 linhas): bloco recuado, sem aspas.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 5 — ESTADO DA ARTE -->
+  <div class="matrix-row" id="row-arte">
+    <div class="mc mc-elem">
+      <div class="elem-num">5</div>
+      <div class="elem-name">Estado da Arte</div>
+      <div class="elem-tag">Revisão de Literatura</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      O que já foi pesquisado sobre este tema? Preciso mostrar que conheço o campo — e que minha pesquisa contribui algo que ainda não foi feito. Esta seção justifica a necessidade do estudo ao identificar lacunas na literatura existente.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Estudos recentes (SILVA, 2022; COSTA e LIMA, 2023) indicam que o uso de tecnologias digitais potencializa a aprendizagem quando há mediação docente qualificada. Contudo, poucos estudos investigam especificamente o contexto de escolas públicas rurais do Nordeste."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-arte')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Função real</strong>O estado da arte não apenas lista estudos — ele os sintetiza e, ao final, aponta a lacuna que justifica o novo estudo. "Muito foi feito sobre X, mas pouco sobre Y — e é disso que trata esta pesquisa."</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Apresentar o estado da arte como uma série de resumos de artigos sem síntese. Isso é fichamento, não revisão de literatura.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Priorize os últimos 5 anos para o estado da arte. Clássicos fundadores podem ser mais antigos. Use bases como Google Scholar, Scopus, SciELO.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 6 — METODOLOGIA -->
+  <div class="matrix-row" id="row-metod">
+    <div class="mc mc-elem">
+      <div class="elem-num">6</div>
+      <div class="elem-name">Metodologia</div>
+      <div class="elem-tag">Lógica da Pesquisa</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Preciso declarar minha abordagem geral e justificá-la. Não basta dizer "qualitativa" — preciso explicar por que essa abordagem é coerente com meu problema. A metodologia responde: por que esta e não outra forma de investigar?
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"A pesquisa adota abordagem qualitativa, pois busca compreender os significados atribuídos pelos estudantes ao uso de tecnologias — dimensão que métodos quantitativos não captariam em profundidade."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-metod')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Correto</strong>A abordagem é declarada E justificada: "adoto X porque minha pergunta exige Y, que somente X permite investigar."</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>"A pesquisa é qualitativa." — ponto. Sem justificativa, essa declaração é vazia. Qualquer pesquisa pode ser "qualitativa" por preguiça metodológica.</div>
+        <div class="ex-tip"><strong>💡 Atenção</strong>Metodologia ≠ Método ≠ Técnica. São níveis diferentes. Confundir os três é o erro mais comum em seções metodológicas de TCCs.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 7 — MÉTODO -->
+  <div class="matrix-row" id="row-met">
+    <div class="mc mc-elem">
+      <div class="elem-num">7</div>
+      <div class="elem-name">Método</div>
+      <div class="elem-tag">Estratégia</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Dentro da abordagem qualitativa, qual caminho estratégico vou seguir? Estudo de caso? Etnografia? Pesquisa-ação? Essa escolha determina como o estudo será estruturado do início ao fim — e precisa ser coerente com a metodologia declarada.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Adota-se o método de estudo de caso, que permite a análise aprofundada de um fenômeno em seu contexto real, usando múltiplas fontes de evidência (YIN, 2015)."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-met')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Exemplos de métodos</strong>Estudo de caso, Etnografia, Grounded Theory, Pesquisa-Ação, Survey, Experimento, Pesquisa Documental, Revisão Sistemática.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>"O método utilizado foi a entrevista." — Entrevista é técnica, não método. O método é a estratégia global; as técnicas são os procedimentos específicos dentro dele.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Pergunte: "Como vou estruturar a investigação do início ao fim?" A resposta é o método. "Como vou coletar os dados?" — isso é técnica.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 8 — TÉCNICAS -->
+  <div class="matrix-row" id="row-tec">
+    <div class="mc mc-elem">
+      <div class="elem-num">8</div>
+      <div class="elem-name">Técnicas e Ferramentas</div>
+      <div class="elem-tag">Operacionalização</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Agora sim defino como concretamente vou gerar os dados. As técnicas devem ser coerentes com o método e com a pergunta. As ferramentas são os instrumentos que viabilizam as técnicas — não definem a pesquisa, apenas a apoiam.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Foram realizadas entrevistas semiestruturadas com 12 estudantes, complementadas por observação participante em sala de aula. Os dados foram organizados e analisados com apoio do software NVivo."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-tec')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Exemplos de técnicas</strong>Entrevista (estruturada, semiestruturada, aberta), questionário, observação participante, grupo focal, análise documental, análise de conteúdo, análise estatística.</div>
+        <div class="ex-good"><strong>✅ Exemplos de ferramentas</strong>Gravador, roteiro de entrevista, formulário Google, NVivo, SPSS, R, diário de campo, câmera fotográfica.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Escolher as técnicas antes de definir a pergunta, o método e a metodologia. As técnicas são consequência — não ponto de partida.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 9 — RESULTADOS -->
+  <div class="matrix-row" id="row-res">
+    <div class="mc mc-elem">
+      <div class="elem-num">9</div>
+      <div class="elem-name">Resultados</div>
+      <div class="elem-tag">O que os dados mostram</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Aqui descrevo o que os dados revelaram — sem ainda interpretar profundamente. É o momento de apresentar as evidências de forma organizada e objetiva. A interpretação profunda vem na discussão.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Os resultados indicam que 78% dos estudantes utilizam tecnologias digitais principalmente para entretenimento, e apenas 22% relatam uso sistemático para fins de aprendizagem."</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-res')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Bons resultados</strong>Descrevem o que foi encontrado com precisão, organizam os dados de forma clara, usam tabelas/gráficos quando pertinente. Não julgam — apenas apresentam.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Misturar resultados com discussão — apresentar dados e já interpretá-los no mesmo parágrafo. Isso compromete a clareza da análise.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Pergunte: "Estou descrevendo o que vi, ou estou interpretando o que vi?" Resultados = descrição. Discussão = interpretação.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 10 — DISCUSSÃO -->
+  <div class="matrix-row" id="row-disc">
+    <div class="mc mc-elem">
+      <div class="elem-num">10</div>
+      <div class="elem-name">Discussão</div>
+      <div class="elem-tag">Diálogo com a Teoria</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Este é o momento mais intelectualmente exigente. Preciso conectar os resultados com a teoria, confrontar o que encontrei com o que a literatura esperava, e produzir conhecimento novo. Aqui o pesquisador mostra sua capacidade analítica.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Esses achados dialogam com Freire (1996), que alerta para o risco de usar tecnologias como substitutos da mediação pedagógica, sem transformação da relação educativa. Divergem, contudo, de Silva (2022), que encontrou uso mais intenso para fins acadêmicos…"</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-disc')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Discussão forte</strong>Conecta resultados com teoria (dialoga, confirma, diverge), compara com outros estudos, explica os achados inesperados, aponta implicações práticas e teóricas.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Repetir os resultados com outras palavras, sem interpretação nem diálogo teórico. "Os dados mostram que X. Isso significa que X acontece." — isso não é discussão.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>A discussão deve responder: "O que isso significa? Por que aconteceu assim? Isso confirma ou contradiz o que a teoria esperava? Que implicações isso tem?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 11 — CONCLUSÃO -->
+  <div class="matrix-row" id="row-conc">
+    <div class="mc mc-elem">
+      <div class="elem-num">11</div>
+      <div class="elem-name">Conclusão</div>
+      <div class="elem-tag">Síntese Final</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Preciso responder à pergunta de pesquisa de forma direta e fundamentada. A conclusão não é resumo — é síntese. Deve apontar o que foi aprendido, as limitações do estudo e os caminhos para pesquisas futuras.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">"Conclui-se que o uso de tecnologias digitais, sem mediação pedagógica intencional, reproduz padrões de consumo em vez de aprendizagem. Futuros estudos poderiam investigar estratégias de formação docente…"</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-conc')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Boa conclusão</strong>Responde diretamente à pergunta de pesquisa, sintetiza os principais achados, reconhece limitações do estudo, e indica perspectivas para pesquisas futuras.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Introduzir dados ou argumentos novos na conclusão. O que não foi discutido antes não pode aparecer aqui. Conclusão sintetiza — não acrescenta.</div>
+        <div class="ex-tip"><strong>💡 Teste de coerência</strong>A conclusão responde à pergunta do problema? Se sim, a pesquisa tem coerência. Se não, há algo a revisar na cadeia lógica.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 12 — REFERÊNCIAS -->
+  <div class="matrix-row" id="row-refs">
+    <div class="mc mc-elem">
+      <div class="elem-num">12</div>
+      <div class="elem-name">Referências (ABNT)</div>
+      <div class="elem-tag">Transparência Científica</div>
+    </div>
+    <div class="mc mc-reason">
+      <div class="r-voice">💭 O pesquisador pensa</div>
+      Preciso garantir que qualquer leitor possa localizar e verificar todas as fontes que utilizei. As referências não são formalidade burocrática — são um compromisso ético de transparência e rastreabilidade do conhecimento.
+    </div>
+    <div class="mc mc-text">
+      <div class="t-label">📄 No texto</div>
+      <div class="t-quote">FREIRE, Paulo. <em>Pedagogia da autonomia</em>: saberes necessários à prática educativa. 25. ed. São Paulo: Paz e Terra, 1996.<br><br>SILVA, João. Tecnologias digitais e aprendizagem. <em>Revista Educação</em>, v. 15, n. 2, p. 45–62, 2022.</div>
+    </div>
+    <button class="expand-toggle" onclick="toggleRow('row-refs')"><span>Ver detalhes</span><span class="et-arrow">▾</span></button>
+    <div class="mc-expand">
+      <div class="expand-grid">
+        <div class="ex-good"><strong>✅ Estrutura ABNT — Livro</strong>SOBRENOME, Nome. <em>Título em itálico</em>: subtítulo. Edição. Cidade: Editora, Ano.</div>
+        <div class="ex-good"><strong>✅ Estrutura ABNT — Artigo</strong>SOBRENOME, Nome. Título do artigo. <em>Nome do Periódico</em>, volume, número, páginas, ano.</div>
+        <div class="ex-bad"><strong>❌ Erro clássico</strong>Incluir nas referências apenas os autores que aparecem no texto, mas esquecer autores citados indiretamente — ou incluir autores não citados para "engordar" a lista.</div>
+        <div class="ex-tip"><strong>💡 Dica</strong>Use Zotero ou Mendeley para gerenciar referências automaticamente. Economiza tempo e reduz erros de formatação.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ QUIZ ════════════════ -->
+<h2 class="sec-title"><span class="ico">🧪</span>Verifique sua compreensão</h2>
+<p class="sec-desc">Quatro perguntas para confirmar que os conceitos essenciais ficaram claros.</p>
+
+<div class="quiz-wrap">
+  <h3>🎯 Quiz de Entrada</h3>
+
+  <div class="qz" id="qz1">
+    <div class="qz-q">1. Um estudante diz: "Vou usar entrevista como meu método de pesquisa." O que há de errado com essa afirmação?</div>
+    <label class="qz-opt"><input type="radio" name="qz1" value="a"> Entrevista não é uma técnica válida em pesquisa científica.</label>
+    <label class="qz-opt"><input type="radio" name="qz1" value="b"> Entrevista é uma técnica de coleta de dados, não um método. O método seria, por exemplo, "estudo de caso" ou "etnografia".</label>
+    <label class="qz-opt"><input type="radio" name="qz1" value="c"> O problema é que ele deveria usar questionário em vez de entrevista.</label>
+    <label class="qz-opt"><input type="radio" name="qz1" value="d"> Não há nada errado — método e técnica são sinônimos.</label>
+    <div class="qz-fb" id="fb1"></div>
+  </div>
+
+  <div class="qz" id="qz2">
+    <div class="qz-q">2. Na hierarquia da pesquisa, qual nível deve ser definido PRIMEIRO?</div>
+    <label class="qz-opt"><input type="radio" name="qz2" value="a"> As ferramentas (softwares e instrumentos disponíveis)</label>
+    <label class="qz-opt"><input type="radio" name="qz2" value="b"> As técnicas de coleta de dados</label>
+    <label class="qz-opt"><input type="radio" name="qz2" value="c"> A epistemologia — a visão filosófica sobre o que é a realidade e como pode ser conhecida</label>
+    <label class="qz-opt"><input type="radio" name="qz2" value="d"> O método, porque é o mais importante</label>
+    <div class="qz-fb" id="fb2"></div>
+  </div>
+
+  <div class="qz" id="qz3">
+    <div class="qz-q">3. O estado da arte em uma pesquisa científica serve para:</div>
+    <label class="qz-opt"><input type="radio" name="qz3" value="a"> Resumir os principais livros sobre o tema, em ordem alfabética</label>
+    <label class="qz-opt"><input type="radio" name="qz3" value="b"> Mostrar que o pesquisador leu muito</label>
+    <label class="qz-opt"><input type="radio" name="qz3" value="c"> Mapear o que já foi pesquisado, identificar lacunas e posicionar o novo estudo no campo científico</label>
+    <label class="qz-opt"><input type="radio" name="qz3" value="d"> Listar todas as referências bibliográficas usadas na pesquisa</label>
+    <div class="qz-fb" id="fb3"></div>
+  </div>
+
+  <div class="qz" id="qz4">
+    <div class="qz-q">4. Qual é a diferença entre Resultados e Discussão em um artigo científico?</div>
+    <label class="qz-opt"><input type="radio" name="qz4" value="a"> Resultados são mais longos; Discussão é o resumo dos resultados</label>
+    <label class="qz-opt"><input type="radio" name="qz4" value="b"> Resultados descrevem o que os dados mostram; Discussão interpreta esses dados em diálogo com a teoria</label>
+    <label class="qz-opt"><input type="radio" name="qz4" value="c"> São a mesma coisa, apenas com nomes diferentes por convenção</label>
+    <label class="qz-opt"><input type="radio" name="qz4" value="d"> Resultados aparecem no início; Discussão é a conclusão</label>
+    <div class="qz-fb" id="fb4"></div>
+  </div>
+
+  <button class="quiz-btn" onclick="checkQuiz()">Verificar respostas</button>
+  <button class="quiz-btn reset" onclick="resetQuiz()">Reiniciar</button>
+  <div class="quiz-score" id="qzscore"></div>
+</div>
+
+<!-- ════════════════ CHECKLIST ════════════════ -->
+<h2 class="sec-title"><span class="ico">✅</span>Checklist de partida — você está pronto para avançar?</h2>
+<p class="sec-desc">Marque cada item conforme for se sentindo seguro. Quando completar a lista, você está preparado para os módulos seguintes.</p>
+
+<div class="checklist">
+  <div class="cl-head">📋 Autoavaliação de prontidão</div>
+  <div class="cl-progress">
+    <div class="prog-bar"><div class="prog-fill" id="clFill" style="width:0%"></div></div>
+    <div class="prog-text" id="clText">0 / 8 concluídos</div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Entendo o que é um problema de pesquisa</strong><small>Sei que é uma pergunta específica e investigável — não um tema ou interesse vago.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Sei diferenciar método e técnica</strong><small>Método é estratégia (estudo de caso, etnografia); técnica é procedimento (entrevista, questionário).</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Entendo o que é epistemologia</strong><small>É a visão filosófica sobre a natureza da realidade e do conhecimento — e ela determina tudo o que vem depois.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Compreendo a hierarquia da pesquisa</strong><small>Epistemologia → Metodologia → Método → Técnicas → Ferramentas. Cada nível justifica o seguinte.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Sei o papel do referencial teórico</strong><small>Não é lista de citações — são as lentes teóricas que orientam a análise dos dados.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Entendo o que é estado da arte</strong><small>Mapeamento do que já foi pesquisado e das lacunas que justificam o novo estudo.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Sei diferenciar resultados e discussão</strong><small>Resultados descrevem; discussão interpreta em diálogo com a teoria.</small></div>
+  </div>
+  <div class="cl-item" onclick="toggleCheck(this)">
+    <input type="checkbox">
+    <div class="cl-text"><strong>Não escolho técnicas antes de ter minha pergunta</strong><small>A técnica é consequência da pergunta, da metodologia e do método — nunca o ponto de partida.</small></div>
+  </div>
+</div>
+
+<div class="callout c-teal" style="margin-top:32px;">
+  <div class="cal-ico">🚀</div>
+  <div class="cal-body"><strong>Pronto para avançar?</strong> Se você marcou pelo menos 6 dos 8 itens, está preparado para os módulos seguintes. Se ainda tem dúvidas, releia as seções correspondentes — os termos clicáveis ao longo do texto são seu ponto de consulta rápida a qualquer momento.</div>
+</div>
+
+<div class="divider"></div>
+
+</div><!-- /wrap -->
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <p>Comece por Aqui — Módulo 0 · Sistema de Pesquisa Científica · João Batista de Oleira · <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a> · © 2026</p>
+</footer>
+
+<!-- ════════════════ TOOLTIP OVERLAY ════════════════ -->
+<div class="tooltip-overlay" id="ttOverlay" onclick="closeTT(event)">
+  <div class="tooltip-card" id="ttCard">
+    <div class="tt-head">
+      <div>
+        <div class="tt-term" id="ttTerm">Termo</div>
+      </div>
+      <button class="tt-close" onclick="closeTTBtn()">✕</button>
+    </div>
+    <div class="tt-body" id="ttBody"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   TERM DEFINITIONS
+══════════════════════════════════════ */
+const TERMS = {
+  epistemologia: {
+    term: 'Epistemologia',
+    simple: 'A sua visão sobre o que é o conhecimento e como é possível conhecer a realidade.',
+    technical: 'Ramo da filosofia que investiga a natureza, as origens, os limites e a validade do conhecimento científico. Define o que pode ser considerado "verdade" em uma pesquisa e como essa verdade pode ser alcançada.',
+    example: 'Se você acredita que a realidade existe de forma objetiva e pode ser medida com precisão, sua posição epistemológica é positivista. Se acredita que a realidade é construída socialmente e depende da perspectiva dos sujeitos, é construtivista.',
+    error: 'Ignorar completamente a epistemologia — escolher métodos e técnicas sem declarar qual visão de mundo os sustenta. Toda pesquisa tem uma epistemologia implícita, mesmo quando não declarada.'
+  },
+  metodologia: {
+    term: 'Metodologia',
+    simple: 'A lógica e a justificativa de todo o percurso da pesquisa — o "porquê" das escolhas que você fez.',
+    technical: 'Arcabouço teórico e lógico que articula a epistemologia (visão de mundo) com as decisões práticas da investigação. Justifica por que determinada abordagem, método e técnicas são os mais adequados para responder ao problema de pesquisa.',
+    example: '"A pesquisa adota metodologia interpretativa porque busca compreender significados atribuídos pelos sujeitos, e não medir variáveis objetivas." — Isso é uma declaração metodológica.',
+    error: '"Utilizei a metodologia de entrevistas semiestruturadas." Este é o erro mais comum: confundir metodologia (lógica geral) com técnica (procedimento específico). Entrevista é técnica — não metodologia.'
+  },
+  metodo: {
+    term: 'Método',
+    simple: 'O caminho estratégico que você escolheu para investigar o problema de pesquisa.',
+    technical: 'Estratégia estruturada de investigação que organiza como o fenômeno será estudado — do início ao fim. Define o desenho geral da pesquisa, que tipo de dados serão coletados e como serão organizados.',
+    example: 'Estudo de caso (análise aprofundada de uma unidade em contexto real), Etnografia (imersão prolongada em contexto cultural), Survey (questionário aplicado a uma amostra), Pesquisa-Ação (pesquisa + intervenção simultâneas).',
+    error: '"Meu método foi aplicar questionários." Questionário é técnica, não método. O método seria "Survey" (levantamento), dentro do qual o questionário é um dos instrumentos de coleta.'
+  },
+  tecnicas: {
+    term: 'Técnicas',
+    simple: 'Os procedimentos concretos que você vai usar para coletar e analisar os dados.',
+    technical: 'Procedimentos estruturados de coleta, produção ou análise de dados. As técnicas operacionalizam o método — são o ato concreto de caminhar pelo caminho escolhido. Devem ser coerentes com a metodologia e o método adotados.',
+    example: 'Coleta: entrevista semiestruturada, questionário, observação participante, grupo focal, análise documental. Análise: análise de conteúdo, análise temática, análise estatística inferencial.',
+    error: 'Escolher a técnica antes de definir a pergunta de pesquisa e o método. A técnica é uma consequência da lógica da pesquisa — não seu ponto de partida.'
+  },
+  ferramentas: {
+    term: 'Ferramentas (Instrumentos)',
+    simple: 'Os objetos físicos ou digitais que você vai usar para executar as técnicas.',
+    technical: 'Instrumentos materiais ou digitais que viabilizam a execução das técnicas de pesquisa. São o nível mais concreto da pesquisa — o mais visível, mas o menos determinante para a qualidade científica.',
+    example: 'Para coleta: roteiro de entrevista, gravador de áudio, formulário digital (Google Forms), caderno de campo. Para análise: NVivo (análise qualitativa), SPSS ou R (análise estatística), planilhas.',
+    error: '"Vou usar NVivo como método de análise." NVivo é ferramenta — o método analítico seria, por exemplo, "análise temática" ou "análise de conteúdo". A ferramenta apoia a técnica; não a substitui.'
+  },
+  tema: {
+    term: 'Tema',
+    simple: 'O assunto geral sobre o qual você tem interesse em pesquisar.',
+    technical: 'Campo amplo de interesse que delimita a área do conhecimento em que a pesquisa se situa. É o ponto de partida — ainda aberto, não delimitado. O tema precisa ser transformado em problema de pesquisa para orientar a investigação.',
+    example: '"Educação do campo" é um tema. "A influência das práticas pedagógicas tradicionais na permanência de estudantes quilombolas no ensino médio no Nordeste" é um problema de pesquisa derivado desse tema.',
+    error: 'Confundir tema com problema de pesquisa. O tema é o campo amplo; o problema é a questão específica dentro desse campo. Uma pesquisa sem problema claro não tem direção.'
+  },
+  problema: {
+    term: 'Problema de Pesquisa',
+    simple: 'A pergunta específica que sua pesquisa vai tentar responder.',
+    technical: 'Questão científica específica, delimitada e investigável que orienta toda a pesquisa. É a conversão de um interesse temático em uma pergunta que pode ser respondida por meio de evidências empíricas ou análise teórica rigorosa.',
+    example: '"Como as práticas de extensão agroecológica influenciam a renda e a autonomia de agricultores familiares no semiárido paraibano?" — específica, delimitada e investigável.',
+    error: '"Vou pesquisar sobre agricultura familiar." Isso é tema, não problema. Um problema é sempre uma pergunta — e uma pergunta que não pode ser respondida com sim/não.'
+  },
+  pergunta: {
+    term: 'Pergunta de Pesquisa',
+    simple: 'A formulação direta da questão que sua pesquisa vai responder.',
+    technical: 'Expressão linguística do problema de pesquisa em forma de questão. Uma boa pergunta de pesquisa é: específica (delimitada), investigável (pode ser respondida com evidências), original (não tem resposta óbvia) e relevante (responde a uma necessidade real do campo).',
+    example: '"Como?" e "Por quê?" produzem as melhores perguntas científicas — exigem explicação, não apenas descrição. "Qual é a frequência de X?" produz perguntas descritivas, menos ricas analiticamente.',
+    error: 'Perguntas que começam com "A tecnologia é boa/ruim?" — têm resposta de senso comum e não são científicas. Ou perguntas amplas demais: "Como funciona a educação?" — impossíveis de responder em uma pesquisa.'
+  },
+  hipotese: {
+    term: 'Hipótese',
+    simple: 'Uma resposta provisória e testável à sua pergunta de pesquisa.',
+    technical: 'Proposição que afirma uma relação entre variáveis ou fenômenos, formulada antes da coleta de dados e submetida a teste empírico. Usada principalmente em pesquisas quantitativas e hipotético-dedutivas. Em pesquisas qualitativas, pode ser substituída por "pressupostos" ou "questões norteadoras".',
+    example: '"Estudantes com maior acesso a tecnologia digital têm melhor desempenho acadêmico" — hipótese que pode ser testada estatisticamente, verificando a correlação entre as variáveis.',
+    error: 'Criar hipóteses vagas ("a tecnologia impacta a educação") ou não testáveis. Uma hipótese precisa ser formulada de forma que possa ser confirmada OU refutada pelos dados — esse é o critério de Popper para ciência.'
+  },
+  referencial: {
+    term: 'Referencial Teórico',
+    simple: 'Os autores e teorias que você usa como lentes para interpretar o fenômeno que estuda.',
+    technical: 'Conjunto de conceitos, teorias e perspectivas teóricas que orientam a leitura, análise e interpretação do fenômeno investigado. Não é lista de citações — é o enquadramento intelectual que dá coerência à pesquisa. Inclui autores clássicos (fundadores do campo) e contemporâneos.',
+    example: 'Uma pesquisa sobre conflitos fundiários pode ter como referencial: a teoria da campesinidade (Chayanov), a teoria crítica do desenvolvimento (Santos), e os estudos sobre ação coletiva (Gohn). Cada teoria ilumina uma dimensão diferente do fenômeno.',
+    error: 'Usar autores apenas como "autoridades" que confirmam o que você já pensa, sem dialogar criticamente. Referencial teórico é diálogo — o pesquisador se posiciona em relação às teorias, não apenas as reproduz.'
+  },
+  estadoarte: {
+    term: 'Estado da Arte',
+    simple: 'O mapeamento do que a ciência já sabe hoje sobre o seu tema.',
+    technical: 'Síntese crítica das pesquisas mais recentes e relevantes sobre o tema, identificando consensos, controvérsias, tendências metodológicas e lacunas de conhecimento. Responde: "O que se sabe hoje, com base nas evidências mais robustas?" e "Onde minha pesquisa se encaixa e por que ela é necessária?"',
+    example: 'Após revisar 40 artigos (2020–2025) sobre agroecologia no semiárido, o pesquisador identifica: consenso sobre eficácia técnica, controvérsia sobre viabilidade econômica em pequena escala, lacuna de estudos com abordagem de gênero. Sua pesquisa preenche essa lacuna.',
+    error: 'Confundir estado da arte com resumo de artigos. Estado da arte sintetiza o campo e aponta lacunas — não resume artigo por artigo cronologicamente.'
+  },
+  revisao: {
+    term: 'Revisão de Literatura',
+    simple: 'O processo de mapear, avaliar e sintetizar criticamente o que já foi pesquisado sobre um tema.',
+    technical: 'Processo sistemático de identificação, seleção, avaliação crítica e síntese dos estudos relevantes para uma pergunta de pesquisa. Inclui o referencial teórico (autores clássicos e teorias) e o estado da arte (estudos empíricos recentes). Existem diferentes tipos: narrativa, sistemática, de escopo, integrativa, entre outros.',
+    example: 'Um pesquisador que vai estudar evasão escolar realiza revisão narrativa para construir seu referencial teórico (Bourdieu, Arroyo), e revisão de escopo para mapear o estado da arte dos estudos empíricos recentes sobre o tema.',
+    error: 'Tratar revisão de literatura como "introdução bibliográfica" — um sumário de livros lidos. Revisão é síntese crítica, posicionamento no campo e identificação de lacunas — não compilação de resumos.'
+  },
+  resultados: {
+    term: 'Resultados',
+    simple: 'O que os seus dados mostram — a descrição objetiva dos achados da pesquisa.',
+    technical: 'Seção do trabalho científico que apresenta as evidências produzidas pela pesquisa de forma organizada e objetiva, sem interpretação profunda. Em pesquisas quantitativas: tabelas, gráficos e estatísticas. Em pesquisas qualitativas: categorias temáticas, trechos de entrevistas e padrões identificados.',
+    example: '"Os resultados indicam que 65% dos participantes relataram mudança nas práticas agrícolas após participar do programa, e 40% registraram aumento na diversificação da produção." — Puro dado, sem interpretação.',
+    error: 'Misturar resultados com discussão no mesmo parágrafo. "Os dados mostram X — o que significa que os agricultores são resilientes." O segundo trecho é discussão, não resultado.'
+  },
+  discussao: {
+    term: 'Discussão',
+    simple: 'A interpretação dos seus resultados em diálogo com a teoria — onde você produz conhecimento de fato.',
+    technical: 'Seção onde o pesquisador interpreta os resultados à luz do referencial teórico, compara com achados de outros estudos, explica resultados inesperados e aponta implicações teóricas e práticas. É o momento analítico central — onde os dados se transformam em conhecimento.',
+    example: '"Os dados confirmam a perspectiva de Bourdieu (1989) sobre o capital cultural como mediador do sucesso escolar, mas divergem de Silva (2022) ao demonstrar que, neste contexto específico, o capital social comunitário exerce papel mais determinante que o capital econômico."',
+    error: 'Repetir os resultados com outras palavras, sem interpretação nem diálogo teórico. Ou introduzir argumentos novos que não foram sustentados pelos dados apresentados.'
+  },
+  conclusao: {
+    term: 'Conclusão',
+    simple: 'A resposta fundamentada à sua pergunta de pesquisa, com síntese dos aprendizados e perspectivas futuras.',
+    technical: 'Seção que sintetiza o percurso da pesquisa, responde diretamente ao problema de pesquisa com base nos dados e na discussão, reconhece limitações do estudo e indica caminhos para pesquisas futuras. Não é resumo — é síntese argumentativa que fecha o ciclo aberto pela pergunta inicial.',
+    example: '"Conclui-se que a transição agroecológica em comunidades quilombolas é viável e produz resultados positivos quando apoiada por processos participativos de construção do conhecimento. Os estudos futuros poderiam investigar estratégias de escalonamento dessas experiências."',
+    error: 'Introduzir dados ou argumentos novos que não foram apresentados antes. A conclusão fecha — não abre novos debates. O que não foi discutido no corpo do trabalho não pode aparecer aqui.'
+  }
+};
+
+function openTerm(id) {
+  const d = TERMS[id];
+  if (!d) return;
+  document.getElementById('ttTerm').textContent = d.term;
+  document.getElementById('ttBody').innerHTML = `
+    <div class="tt-section tt-simple">
+      <div class="tt-label">Em linguagem simples</div>
+      <div class="tt-content">${d.simple}</div>
+    </div>
+    <div class="tt-section tt-technical">
+      <div class="tt-label">Definição técnica</div>
+      <div class="tt-content">${d.technical}</div>
+    </div>
+    <div class="tt-section tt-example">
+      <div class="tt-label">Exemplo concreto</div>
+      <div class="tt-content">${d.example}</div>
+    </div>
+    <div class="tt-section tt-error">
+      <div class="tt-label">Erro comum a evitar</div>
+      <div class="tt-content">${d.error}</div>
+    </div>
+  `;
+  document.getElementById('ttOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTT(e) {
+  if (e.target === document.getElementById('ttOverlay')) closeTTBtn();
+}
+function closeTTBtn() {
+  document.getElementById('ttOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTTBtn(); });
+
+// Wire up all .term clicks
+document.querySelectorAll('.term').forEach(el => {
+  el.addEventListener('click', () => openTerm(el.dataset.term));
+});
+
+// Chain nodes also open tooltip
+document.querySelectorAll('.ch-node').forEach(n => {
+  n.style.cursor = 'pointer';
+});
+
+/* ══════════════════════════════════════
+   MATRIX ROW EXPAND
+══════════════════════════════════════ */
+function toggleRow(id) {
+  const row = document.getElementById(id);
+  const btn = row.querySelector('.expand-toggle span:first-child');
+  row.classList.toggle('row-open');
+  btn.textContent = row.classList.contains('row-open') ? 'Ocultar detalhes' : 'Ver detalhes';
+}
+
+/* ══════════════════════════════════════
+   ACCORDION
+══════════════════════════════════════ */
+document.querySelectorAll('details.item').forEach(d => {
+  d.addEventListener('toggle', function() {
+    if (this.open) {
+      this.parentElement.querySelectorAll('details.item').forEach(s => {
+        if (s !== this) s.open = false;
+      });
+      setTimeout(() => this.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+    }
+  });
+});
+
+/* ══════════════════════════════════════
+   QUIZ
+══════════════════════════════════════ */
+const QA = {
+  qz1: { ans:'b', ok:'Exato! Entrevista é uma técnica de coleta de dados, inserida dentro de um método. O método seria, por exemplo, "estudo de caso" ou "pesquisa participante". Confundir os dois é o erro mais frequente em seções de metodologia.', err:'Incorreto. O problema é que entrevista é uma técnica (procedimento de coleta), não um método (estratégia de investigação). Método seria "estudo de caso", "etnografia", "pesquisa-ação" etc.' },
+  qz2: { ans:'c', ok:'Correto! A epistemologia é o fundamento de tudo — ela determina a metodologia, que orienta o método, que guia as técnicas, que são executadas com ferramentas. Inverter essa ordem é o erro estrutural mais grave.', err:'Incorreto. A hierarquia começa pela epistemologia (visão filosófica sobre a realidade), que fundamenta todos os outros níveis. Começar pelas ferramentas ou técnicas é como construir pelo telhado.' },
+  qz3: { ans:'c', ok:'Correto! O estado da arte mapeia o que já foi pesquisado, identifica lacunas e posiciona seu estudo no campo — é a justificativa científica de por que sua pesquisa é necessária.', err:'Incorreto. O estado da arte não é resumo de livros nem demonstração de leitura. É mapeamento crítico do campo, síntese de achados e identificação das lacunas que sua pesquisa preenche.' },
+  qz4: { ans:'b', ok:'Exato! Resultados descrevem o que os dados mostram (puro achado). Discussão interpreta esses achados em diálogo com a teoria — é o momento analítico central da pesquisa.', err:'Incorreto. A distinção é clara: Resultados = descrição dos dados. Discussão = interpretação dos dados em diálogo com a teoria e com outros estudos. São etapas analíticas distintas.' }
+};
+
+function checkQuiz() {
+  let score = 0;
+  Object.keys(QA).forEach(qid => {
+    const sel = document.querySelector(`input[name="${qid}"]:checked`);
+    const fb = document.getElementById('fb'+qid.slice(2));
+    document.querySelectorAll(`input[name="${qid}"]`).forEach(opt => {
+      opt.closest('.qz-opt').classList.remove('correct','wrong');
+      if (opt.value === QA[qid].ans) opt.closest('.qz-opt').classList.add('correct');
+    });
+    if (sel) {
+      if (sel.value === QA[qid].ans) {
+        score++;
+        fb.textContent = '✅ ' + QA[qid].ok;
+        fb.className = 'qz-fb show ok';
+      } else {
+        sel.closest('.qz-opt').classList.add('wrong');
+        fb.textContent = '❌ ' + QA[qid].err;
+        fb.className = 'qz-fb show err';
+      }
+    } else {
+      fb.textContent = '⚠️ Não respondida. ' + QA[qid].err;
+      fb.className = 'qz-fb show err';
+    }
+    document.querySelectorAll(`input[name="${qid}"]`).forEach(o => o.disabled = true);
+  });
+  const sc = document.getElementById('qzscore');
+  const msg = score===4 ? ' — Excelente! Você está pronto para avançar. 🎓' : score>=3 ? ' — Bom! Revise os pontos errados antes de prosseguir.' : ' — Releia as seções com atenção e tente novamente.';
+  sc.textContent = `Resultado: ${score} de 4 acertos${msg}`;
+  sc.className = 'quiz-score show';
+}
+function resetQuiz() {
+  document.querySelectorAll('.qz-opt input').forEach(r => { r.checked=false; r.disabled=false; });
+  document.querySelectorAll('.qz-opt').forEach(o => o.classList.remove('correct','wrong'));
+  document.querySelectorAll('.qz-fb').forEach(f => f.className='qz-fb');
+  document.getElementById('qzscore').className='quiz-score';
+}
+
+/* ══════════════════════════════════════
+   CHECKLIST
+══════════════════════════════════════ */
+function toggleCheck(item) {
+  const cb = item.querySelector('input');
+  cb.checked = !cb.checked;
+  item.classList.toggle('done', cb.checked);
+  const all = document.querySelectorAll('.cl-item');
+  const done = document.querySelectorAll('.cl-item.done').length;
+  document.getElementById('clFill').style.width = Math.round(done/all.length*100)+'%';
+  document.getElementById('clText').textContent = `${done} / ${all.length} concluídos`;
+}
+</script>
+</body>
+</html>

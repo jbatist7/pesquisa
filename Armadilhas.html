@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camada de Vigilância Epistemológica</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f1117;
+  --paper: #faf8f3;
+  --cream: #f2ede3;
+  --gold: #c9a84c;
+  --gold-light: #e6ca87;
+  --gold-pale: #f5ead0;
+  --teal: #1a4a4a;
+  --teal-mid: #2d6b6b;
+  --teal-light: #4a9b9b;
+  --teal-pale: #d4eaea;
+  --red: #8b2020;
+  --red-pale: #f5e0e0;
+  --violet: #3d2060;
+  --violet-pale: #e8e0f5;
+  --green: #1a4a1a;
+  --green-pale: #d4ead4;
+  --slate: #2563eb;
+  --slate-pale: #eff6ff;
+  --amber: #b45309;
+  --amber-pale: #fef3c7;
+  --pink: #be185d;
+  --pink-pale: #fce7f3;
+  --border: #d4c9b0;
+  --shadow-sm: 0 2px 6px rgba(15,17,23,0.08);
+  --shadow-md: 0 4px 16px rgba(15,17,23,0.12);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Crimson Pro', Georgia, serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* ── HEADER ── */
+header {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 52px 44px 44px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -55deg, transparent, transparent 50px,
+    rgba(201,168,76,0.04) 50px, rgba(201,168,76,0.04) 51px
+  );
+}
+header::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+.hd-inner { position: relative; max-width: 760px; }
+.hd-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 14px;
+}
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.12;
+  margin-bottom: 18px;
+}
+header h1 em { font-style: italic; color: var(--gold-light); }
+header .hd-lead {
+  font-size: 16px;
+  color: rgba(250,248,243,0.78);
+  max-width: 620px;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+.hd-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+.hd-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.4);
+  color: var(--gold-light);
+  background: rgba(201,168,76,0.08);
+}
+
+/* ── INTRO CARD ── */
+.intro-card {
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  padding: 28px 32px;
+  background: white;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-sm);
+}
+.intro-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 14px;
+}
+.intro-card p { font-size: 16px; color: #2a2218; margin-bottom: 12px; }
+.intro-card p:last-child { margin-bottom: 0; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  color: var(--ink);
+  margin: 48px 0 6px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.sec-title .ico { font-size: 22px; }
+.sec-desc {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+
+/* ── ACCORDION ── */
+details.item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s;
+  overflow: hidden;
+}
+details.item:hover { box-shadow: var(--shadow-md); }
+
+details.item > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  cursor: pointer;
+  list-style: none;
+  background: var(--cream);
+  transition: background 0.2s;
+  gap: 16px;
+  user-select: none;
+}
+details.item > summary::-webkit-details-marker { display: none; }
+details.item > summary:hover { background: #ede8de; }
+details.item[open] > summary { background: var(--ink); color: var(--paper); }
+
+.sum-left { display: flex; align-items: center; gap: 14px; }
+.sum-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--gold);
+  min-width: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+details.item[open] > summary .sum-num { color: var(--gold-light); }
+.sum-text .sum-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.sum-text .sum-sub {
+  font-size: 13px;
+  color: #888;
+  font-style: italic;
+  margin-top: 2px;
+  font-family: 'Crimson Pro', serif;
+}
+details.item[open] > summary .sum-sub { color: rgba(250,248,243,0.6); }
+.sum-arrow {
+  font-size: 16px;
+  color: #aaa;
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+details.item[open] > summary .sum-arrow { transform: rotate(180deg); color: var(--gold-light); }
+
+.item-body {
+  padding: 28px 28px 24px;
+  border-top: 1px solid var(--border);
+  animation: fadeSlide 0.3s ease;
+}
+@keyframes fadeSlide { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+
+/* ── BOXES ── */
+.box {
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  border-left: 4px solid;
+}
+.box:last-child { margin-bottom: 0; }
+.box-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.box p { font-size: 15.5px; color: #2a2218; margin-bottom: 10px; }
+.box p:last-child { margin-bottom: 0; }
+.box ul { margin: 6px 0 0 22px; }
+.box li { font-size: 15.5px; color: #2a2218; margin-bottom: 6px; }
+
+.box-concept { background: var(--slate-pale); border-color: var(--slate); }
+.box-concept .box-title { color: var(--slate); }
+
+.box-trap { background: var(--amber-pale); border-color: #f59e0b; }
+.box-trap .box-title { color: var(--amber); }
+
+.box-example { background: var(--green-pale); border-color: var(--green); }
+.box-example .box-title { color: var(--green); }
+
+.box-tip { background: var(--pink-pale); border-color: var(--pink); }
+.box-tip .box-title { color: var(--pink); }
+
+.box-warn { background: var(--red-pale); border-color: var(--red); }
+.box-warn .box-title { color: var(--red); }
+
+.box-insight { background: var(--gold-pale); border-color: var(--gold); }
+.box-insight .box-title { color: var(--amber); }
+
+/* ── COMPARE ── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 16px 0;
+}
+@media(max-width:600px) { .compare { grid-template-columns: 1fr; } }
+.cmp { border-radius: 8px; padding: 18px 20px; border: 1px solid var(--border); }
+.cmp h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.cmp li { font-size: 15px; color: #333; margin-bottom: 5px; margin-left: 18px; }
+.cmp-good { background: var(--green-pale); }
+.cmp-good h4 { color: var(--green); }
+.cmp-bad { background: var(--red-pale); }
+.cmp-bad h4 { color: var(--red); }
+
+/* ── TABLE ── */
+.tbl-wrap { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+thead th {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 11px 14px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+tbody td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: top; color: #333; }
+tbody tr:nth-child(even) { background: var(--cream); }
+tbody td:first-child { font-weight: 600; color: var(--ink); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* ── CALLOUT ── */
+.callout {
+  border-radius: 8px; padding: 16px 20px; margin: 18px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  border: 1px solid;
+}
+.callout .cal-ico { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.callout .cal-body { font-size: 15.5px; }
+.callout.c-warn { background: var(--amber-pale); border-color: #f59e0b; }
+.callout.c-info { background: var(--teal-pale); border-color: var(--teal-mid); }
+.callout.c-insight { background: var(--gold-pale); border-color: var(--gold); }
+
+/* ── STEP LIST ── */
+.steps { margin: 14px 0; counter-reset: step; }
+.step {
+  display: flex; gap: 16px; margin-bottom: 14px; align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--gold-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+.step-body { font-size: 15.5px; color: #2a2218; }
+.step-body strong { color: var(--ink); display: block; margin-bottom: 2px; }
+
+/* ── BIBLIO SECTION ── */
+.biblio-header {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 10px 10px 0 0;
+  padding: 20px 28px;
+  margin-top: 48px;
+}
+.biblio-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.biblio-header h2 em { font-style: italic; color: var(--gold-light); }
+.biblio-header p { font-size: 14px; color: rgba(250,248,243,0.65); }
+.biblio-wrap {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+details.bib {
+  border-bottom: 1px solid var(--border);
+  background: white;
+}
+details.bib:last-child { border-bottom: none; }
+details.bib > summary {
+  padding: 16px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  list-style: none;
+  transition: background 0.15s;
+  user-select: none;
+}
+details.bib > summary::-webkit-details-marker { display: none; }
+details.bib > summary:hover { background: var(--cream); }
+details.bib[open] > summary { background: var(--cream); }
+
+.bib-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  background: var(--ink);
+  color: var(--gold-light);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-weight: 600;
+}
+.bib-ref { font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.45; flex: 1; }
+.bib-ref em { font-style: italic; color: #555; }
+.bib-arrow {
+  margin-left: auto;
+  color: #bbb;
+  font-size: 14px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+details.bib[open] > summary .bib-arrow { transform: rotate(180deg); color: var(--teal-mid); }
+
+.bib-body {
+  padding: 22px 28px 24px;
+  border-top: 1px solid var(--border);
+  background: #fdfcf9;
+  animation: fadeSlide 0.3s ease;
+}
+.bib-body p { font-size: 15.5px; color: #2a2218; margin-bottom: 12px; }
+.bib-body p:last-child { margin-bottom: 0; }
+.bib-body strong { color: var(--ink); }
+
+/* ── MATRIX (ABC) ── */
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+@media(max-width:580px) { .matrix { grid-template-columns: 1fr; } }
+.mx-cell {
+  border-radius: 8px;
+  padding: 16px 18px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.mx-cell .mx-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.mx-cell .mx-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+.mx-cell .mx-desc { font-size: 13.5px; color: #555; font-style: italic; }
+.mx-a { background: var(--teal-pale); }
+.mx-a .mx-letter { color: var(--teal); }
+.mx-b { background: var(--violet-pale); }
+.mx-b .mx-letter { color: var(--violet); }
+.mx-c { background: var(--gold-pale); }
+.mx-c .mx-letter { color: var(--amber); }
+
+/* ── CHAIN MINI ── */
+.chain {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 16px 0 20px;
+}
+.ch-node {
+  display: flex;
+  align-items: stretch;
+  max-width: 560px;
+}
+.ch-bar { width: 5px; border-radius: 3px 0 0 3px; flex-shrink: 0; }
+.ch-body {
+  flex: 1;
+  padding: 12px 18px;
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 6px 6px 0;
+  background: white;
+  margin-bottom: 4px;
+}
+.ch-level {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+.ch-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; }
+.ch-q { font-size: 13px; font-style: italic; color: #777; }
+.ch-arrow { font-size: 18px; color: #ccc; padding-left: 14px; line-height: 1.2; }
+
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 56px;
+  padding: 28px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+  font-family: 'JetBrains Mono', monospace;
+}
+footer a { color: var(--teal-mid); text-decoration: none; }
+
+/* ── SCROLL ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: #c0b090; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd-inner">
+    <div class="hd-eyebrow">Portal de Entrada Epistemológico · Pré-leitura Crítica</div>
+    <h1>Camada de "Armadilhas"<br><em>Vigilância Epistemológica</em></h1>
+    <p class="hd-lead">Um espaço de reflexão crítica que todo pesquisador deve atravessar antes de iniciar sua investigação. Aqui você aprende a pensar antes de pesquisar — antecipando armadilhas, explicitando pressupostos e construindo coerência intelectual desde o ponto de partida.</p>
+    <div class="hd-tags">
+      <span class="hd-tag">🛡️ Vigilância Epistemológica</span>
+      <span class="hd-tag">🔄 Consciência Paradigmática</span>
+      <span class="hd-tag">🌍 Ecologia de Saberes</span>
+      <span class="hd-tag">📖 Diálogo Crítico com Autores</span>
+      <span class="hd-tag">⚙️ Coerência Metodológica</span>
+    </div>
+  </div>
+</header>
+
+<div class="intro-card">
+  <h2>⚠️ Por que este guia existe?</h2>
+  <p>A maior parte dos pesquisadores aprende <em>como fazer</em> uma pesquisa - quais passos seguir, quais técnicas usar, como formatar referências. Muito poucos aprendem a <strong>pensar epistemologicamente</strong> antes, durante e depois da investigação.</p>
+  <p>O resultado são pesquisas tecnicamente corretas, mas teoricamente frágeis: que confundem método com metodologia, citam autores sem dialogar com eles, misturam paradigmas incompatíveis sem perceber, e confundem correlação com causalidade.</p>
+  <p>Este guia funciona como uma <strong>câmara de decompressão intelectual</strong>: antes de entrar no estudo dos métodos, você precisa aprender a fazer as perguntas certas sobre seu próprio processo de pensar. Isso é o que Bourdieu chamou de vigilância epistemológica — e é o que separa pesquisadores críticos de executores de procedimentos.</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     SEÇÃO 1 — HIERARQUIA E COERÊNCIA
+══════════════════════════════════════ -->
+
+<h2 class="sec-title"><span class="ico">⛓</span>A Cadeia Lógica da Pesquisa — e Onde ela Rompe</h2>
+<p class="sec-desc">Toda pesquisa é um sistema hierárquico. Conhecê-lo é o primeiro passo para não comprometê-lo.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">1</div>
+      <div class="sum-text">
+        <div class="sum-title">A hierarquia que ninguém te ensinou — mas que define tudo</div>
+        <div class="sum-sub">Epistemologia → Metodologia → Método → Técnicas → Ferramentas</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O princípio central</div>
+      <p>Cada nível da pesquisa é determinado pelo nível superior. Você não escolhe um método porque é moderno, famoso ou porque seu orientador gosta — você o escolhe porque é o mais coerente com sua epistemologia, seu problema e sua metodologia. Inverter essa lógica é o erro mais comum e mais invisível da pesquisa acadêmica.</p>
+    </div>
+
+    <div class="chain">
+      <div class="ch-node">
+        <div class="ch-bar" style="background:var(--teal-mid);"></div>
+        <div class="ch-body">
+          <div class="ch-level">Nível I</div>
+          <div class="ch-name" style="color:var(--teal);">Epistemologia</div>
+          <div class="ch-q">Como você entende a realidade? O que pode ser conhecido?</div>
+        </div>
+      </div>
+      <div class="ch-arrow">↓</div>
+      <div class="ch-node">
+        <div class="ch-bar" style="background:var(--violet);"></div>
+        <div class="ch-body">
+          <div class="ch-level">Nível II — fundamentada pela epistemologia</div>
+          <div class="ch-name" style="color:var(--violet);">Metodologia</div>
+          <div class="ch-q">Por que esta forma de investigar faz sentido?</div>
+        </div>
+      </div>
+      <div class="ch-arrow">↓</div>
+      <div class="ch-node">
+        <div class="ch-bar" style="background:var(--gold);"></div>
+        <div class="ch-body">
+          <div class="ch-level">Nível III — estruturado pela metodologia</div>
+          <div class="ch-name" style="color:#7a5a10;">Método</div>
+          <div class="ch-q">Qual caminho estratégico de investigação?</div>
+        </div>
+      </div>
+      <div class="ch-arrow">↓</div>
+      <div class="ch-node">
+        <div class="ch-bar" style="background:var(--red);"></div>
+        <div class="ch-body">
+          <div class="ch-level">Nível IV — viabilizado pelo método</div>
+          <div class="ch-name" style="color:var(--red);">Técnicas</div>
+          <div class="ch-q">Como coletar e analisar os dados?</div>
+        </div>
+      </div>
+      <div class="ch-arrow">↓</div>
+      <div class="ch-node">
+        <div class="ch-bar" style="background:var(--green);"></div>
+        <div class="ch-body">
+          <div class="ch-level">Nível V — executado pelas técnicas</div>
+          <div class="ch-name" style="color:var(--green);">Ferramentas</div>
+          <div class="ch-q">Com quais instrumentos concretos?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ A armadilha mais comum</div>
+      <p>A maioria dos pesquisadores constrói essa cadeia de baixo para cima: escolhem primeiro as técnicas que já conhecem (entrevista, questionário), depois procuram um "método" para justificar, depois inventam uma "metodologia" qualquer, e nunca chegam a declarar uma epistemologia.</p>
+      <p>O resultado é uma pesquisa invertida: coerente nos procedimentos, incoerente na lógica. Como uma casa construída pelo telhado — parece de pé, mas cai no primeiro argumento sério.</p>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Como construir corretamente</div>
+      <p>Comece sempre pela pergunta mais profunda: <em>"O que eu acredito sobre a natureza da realidade que estou estudando? Ela é objetiva e mensurável? É construída socialmente? É marcada por contradições históricas?"</em> A resposta a essa pergunta determina tudo o que vem depois.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">2</div>
+      <div class="sum-text">
+        <div class="sum-title">Metodologia ≠ Método ≠ Técnica — a confusão que invalida pesquisas</div>
+        <div class="sum-sub">Três conceitos distintos que 90% dos pesquisadores usam como sinônimos</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 A distinção fundamental</div>
+      <p>Essa confusão não é apenas terminológica — ela revela uma confusão de pensamento. Quando um pesquisador diz "utilizei a metodologia de entrevistas semiestruturadas", está cometendo três erros simultaneamente: confundiu método com técnica, eliminou a metodologia da equação, e implicitamente declarou não ter base epistemológica.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Conceito</th><th>O que é</th><th>Pergunta que responde</th><th>Exemplo correto</th><th>Erro frequente</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Epistemologia</td>
+            <td>Fundamento filosófico sobre a natureza do conhecimento e da realidade</td>
+            <td>"O que é possível conhecer e como?"</td>
+            <td>"Adoto perspectiva fenomenológica: a realidade é vivida e experienciada pelos sujeitos"</td>
+            <td>Ignorar completamente; pesquisar sem declarar visão de mundo</td>
+          </tr>
+          <tr>
+            <td>Metodologia</td>
+            <td>Lógica e justificativa teórica que orienta o percurso investigativo</td>
+            <td>"Por que esta forma de investigar faz sentido dado o meu problema?"</td>
+            <td>"Adoto metodologia interpretativa: busco compreender significados, não medir variáveis"</td>
+            <td>"Utilizei metodologia de entrevistas" — confusão com técnica</td>
+          </tr>
+          <tr>
+            <td>Método</td>
+            <td>Estratégia estruturada de investigação; desenho da pesquisa</td>
+            <td>"Como vou organizar a investigação do início ao fim?"</td>
+            <td>"Estudo de caso: análise aprofundada de uma unidade em contexto real"</td>
+            <td>"Meu método foi aplicar questionários" — confusão com técnica</td>
+          </tr>
+          <tr>
+            <td>Técnica</td>
+            <td>Procedimento específico de coleta ou análise de dados</td>
+            <td>"Como vou produzir e tratar os dados?"</td>
+            <td>"Utilizei entrevista semiestruturada e análise temática"</td>
+            <td>Chamar de "método" ou "metodologia"</td>
+          </tr>
+          <tr>
+            <td>Ferramenta</td>
+            <td>Instrumento material ou digital que viabiliza a técnica</td>
+            <td>"Com o quê vou executar as técnicas?"</td>
+            <td>"Roteiro de entrevista, gravador, NVivo para codificação"</td>
+            <td>Confundir com técnica: "usei NVivo como técnica de análise"</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout c-insight">
+      <div class="cal-ico">💡</div>
+      <div class="cal-body"><strong>A metáfora definitiva:</strong> Se a epistemologia é sua visão de mundo, a metodologia é a lógica que justifica o percurso, o método é o caminho escolhido, as técnicas são o ato de caminhar, e as ferramentas são os recursos que viabilizam esse movimento. Retirar qualquer um desses elementos cria uma pesquisa incompleta — ou incoerente.</div>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════
+     SEÇÃO 2 — ARMADILHAS EPISTEMOLÓGICAS
+══════════════════════════════════════ -->
+
+<h2 class="sec-title"><span class="ico">🕳️</span>Armadilhas Epistemológicas — O Mapa dos Erros Invisíveis</h2>
+<p class="sec-desc">Erros que comprometem a validade da pesquisa antes mesmo de ela começar. A maioria nunca é percebida — porque quem os comete não tem categorias para identificá-los.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">3</div>
+      <div class="sum-text">
+        <div class="sum-title">Ecletismo Ingênuo — o erro de "misturar tudo"</div>
+        <div class="sum-sub">Paradigmas incompatíveis disfarçados de pluralismo metodológico</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>Ecletismo ingênuo é a prática de combinar epistemologias ou metodologias estruturalmente incompatíveis, sem perceber as contradições internas que isso gera. Não é pluralismo metodológico — é incoerência disfarçada de flexibilidade.</p>
+      <p>Há uma diferença fundamental: <strong>métodos mistos legítimos</strong> integram abordagens com consciência das tensões e com justificativa explícita dos pontos de integração. O ecletismo ingênuo simplesmente usa o que parece mais conveniente, sem questionar as pressuposições filosóficas conflitantes.</p>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ Exemplos reais de ecletismo ingênuo</div>
+      <ul>
+        <li><strong>Positivismo + Construtivismo sem mediação:</strong> Afirmar que "a realidade é objetiva e mensurável" (positivismo) E que "os dados qualitativos revelam múltiplas verdades construídas socialmente" (construtivismo) no mesmo projeto, sem explicar como essas visões se articulam — pois no fundo são incompatíveis.</li>
+        <li><strong>Fenomenologia com questionário Likert:</strong> Declarar que a pesquisa busca compreender a "experiência vivida" dos sujeitos (fenomenológico) e depois reduzir essa experiência a escalas numéricas (positivista), tratando as médias como se fossem essências vividas.</li>
+        <li><strong>Materialismo histórico + pós-estruturalismo sem tensionamento:</strong> Usar Marx e Foucault como se fossem complementares automáticos, ignorando que há tensões reais entre explicação estrutural (Marx) e desconstrução da causalidade (Foucault).</li>
+        <li><strong>Grounded Theory + marco teórico prévio sólido:</strong> Afirmar que "a teoria emergirá dos dados" (GT clássica) enquanto se tem um referencial teórico pré-estabelecido que inevitavelmente guiará a codificação — isso é contradição metodológica explícita.</li>
+      </ul>
+    </div>
+
+    <div class="compare">
+      <div class="cmp cmp-bad">
+        <h4>❌ Ecletismo Ingênuo</h4>
+        <ul>
+          <li>Combina paradigmas sem tensionamento</li>
+          <li>Usa "pluralismo" como justificativa vaga</li>
+          <li>Não explicita contradições internas</li>
+          <li>A integração é ornamental, não estrutural</li>
+        </ul>
+      </div>
+      <div class="cmp cmp-good">
+        <h4>✅ Método Misto Legítimo</h4>
+        <ul>
+          <li>Declara epistemologia pragmatista</li>
+          <li>Justifica ponto exato de integração</li>
+          <li>Explicita o que cada abordagem responde</li>
+          <li>A soma é maior que as partes isoladas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Como verificar se há coerência</div>
+      <p>Antes de combinar abordagens, escreva em uma frase o pressuposto filosófico de cada uma. Se os pressupostos sobre a natureza da realidade (ontologia) forem contraditórios, você tem um problema de ecletismo. Se forem diferentes mas complementares, e você souber explicar o ponto de articulação, você tem um método misto legítimo.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">4</div>
+      <div class="sum-text">
+        <div class="sum-title">Anacronismo Conceitual — transportar conceitos no tempo sem cuidado</div>
+        <div class="sum-sub">Quando ideias do presente são projetadas sobre contextos do passado</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>Anacronismo conceitual é o ato de aplicar categorias, conceitos ou valores contemporâneos a contextos históricos sem considerar que esses conceitos eram inexistentes, tinham significado radicalmente diferente, ou não faziam sentido naquele momento histórico e cultural.</p>
+      <p>Cada conceito é produto de condições históricas específicas. Ignorar isso é tratar as categorias como se fossem eternas e universais — o que é um pressuposto filosófico muito questionável (e muito frequente).</p>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ Exemplos em diferentes áreas</div>
+      <ul>
+        <li><strong>"Sustentabilidade ambiental" no século XIX:</strong> Atribuir preocupação ecológica contemporânea a autores agrários do século XIX ignora que o conceito de "crise ambiental planetária" só se torna inteligível após o movimento ambientalista dos anos 1960-70 e o relatório Brundtland (1987).</li>
+        <li><strong>"Empreendedorismo" em comunidades pré-capitalistas:</strong> Analisar práticas de troca em sociedades tradicionais usando categorias do empreendedorismo contemporâneo impõe uma lógica mercantil que pode ser radicalmente estranha à racionalidade daquelas comunidades.</li>
+        <li><strong>"Gênero" como categoria binária em contextos históricos:</strong> Projetar a discussão contemporânea sobre identidade de gênero sobre períodos e culturas que operavam com categorias totalmente distintas produz leituras distorcidas da realidade histórica.</li>
+        <li><strong>"Metodologia científica" em textos filosóficos medievais:</strong> Avaliar escritos escolásticos medievais pelos critérios do método científico moderno é anacronismo puro — o conceito de "ciência" como o entendemos hoje é historicamente situado no século XVII.</li>
+      </ul>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ A pergunta hermenêutica fundamental (Gadamer)</div>
+      <p>Antes de aplicar qualquer conceito a um contexto histórico, pergunte: <em>"Este conceito existia naquele contexto? Se existia, tinha o mesmo sentido? Que condições históricas tornaram esse conceito possível e necessário?"</em></p>
+      <p>Isso é o que Gadamer chamava de "fusão de horizontes": o intérprete precisa reconhecer a distância histórica entre seu horizonte presente e o horizonte do texto/contexto que analisa, para então trabalhá-la criticamente — não ignorá-la.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">5</div>
+      <div class="sum-text">
+        <div class="sum-title">Descontextualização Teórica — teoria no lugar errado</div>
+        <div class="sum-sub">Aplicar frameworks produzidos em realidades específicas a contextos radicalmente distintos</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é</div>
+      <p>Toda teoria é produzida em um contexto específico — geográfico, histórico, cultural, institucional. Quando aplicamos essa teoria a realidades radicalmente distintas sem adaptação crítica, estamos fazendo uma violência epistemológica dupla: negamos a especificidade do contexto original e negamos a especificidade do contexto em que aplicamos.</p>
+      <p>Isso é especialmente grave em países do Sul Global, onde predomina o uso acrítico de teorias produzidas nos centros acadêmicos do Norte — como se o conhecimento produzido na Europa ou nos EUA fosse automaticamente universal e neutro.</p>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ Exemplos de descontextualização</div>
+      <ul>
+        <li><strong>Modelos de desenvolvimento econômico europeus aplicados a comunidades quilombolas:</strong> Frameworks que pressupõem acumulação capitalista, trabalho assalariado e mercado formal como normas são inadequados para analisar economias comunitárias baseadas em reciprocidade e gestão coletiva.</li>
+        <li><strong>Psicologia positiva norte-americana em contextos de vulnerabilidade extrema:</strong> Conceitos como "resiliência individual" e "mentalidade de crescimento" podem naturalizar estruturas de opressão ao responsabilizar os sujeitos por condições produzidas por desigualdades sistêmicas.</li>
+        <li><strong>Modelos de "boa governança" do Banco Mundial aplicados a estados pós-coloniais:</strong> Esses modelos pressupõem trajetórias históricas específicas de formação estatal que não correspondem às realidades de países que passaram por colonização.</li>
+        <li><strong>Ecologia de câmpus universitários dos EUA em periferias urbanas brasileiras:</strong> Frameworks sobre "comunidades de aprendizagem" desenvolvidos em contextos de abundância institucional ignoram as condições materiais radicalmente distintas.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-info">
+      <div class="cal-ico">🌍</div>
+      <div class="cal-body"><strong>A contribuição de Boaventura de Sousa Santos:</strong> O que ele chama de "epistemicídio" é a destruição sistêmica de saberes e conhecimentos locais produzida pela imposição acrítica do conhecimento científico ocidental como único válido. A ecologia de saberes propõe não rejeitar o conhecimento científico, mas reconhecer que ele coexiste com outras formas igualmente legítimas de conhecer — e que o diálogo entre elas produz conhecimento mais rico e mais justo.</div>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Perguntas de verificação antes de aplicar uma teoria</div>
+      <ul>
+        <li>Que problema histórico e social essa teoria tentou resolver quando foi formulada?</li>
+        <li>Em que contexto geográfico e cultural foi produzida?</li>
+        <li>Que pressupostos sobre a "normalidade" social ela carrega?</li>
+        <li>O meu contexto de pesquisa compartilha esses pressupostos?</li>
+        <li>Se não, o que precisaria ser adaptado, tensionado ou substituído?</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">6</div>
+      <div class="sum-text">
+        <div class="sum-title">Correlação ≠ Causalidade — o erro que gera políticas ineficazes</div>
+        <div class="sum-sub">Como evitar inferências equivocadas em dados quantitativos e qualitativos</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 A distinção que muda tudo</div>
+      <p>Correlação descreve uma associação entre variáveis — quando X aumenta, Y tende a aumentar (ou diminuir). Causalidade afirma que X <em>produz</em> Y por meio de um mecanismo específico. A confusão entre eles não é apenas técnica: ela gera políticas públicas ineficazes, conclusões equivocadas e intervenções que não funcionam porque não atacam as causas reais.</p>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ Exemplos clássicos de confusão</div>
+      <ul>
+        <li><strong>Tecnologia e desempenho escolar:</strong> Correlação entre presença de computadores e melhor desempenho não prova que computadores causam o desempenho — escolas com mais recursos têm tanto equipamentos quanto professores melhor preparados, currículos mais ricos e alunos com mais suporte familiar. A variável confundidora é o nível socioeconômico da escola.</li>
+        <li><strong>Sorvete e afogamentos:</strong> Ambos aumentam no verão. Correlação perfeita, causalidade zero. A variável confundidora é o calor que causa ambos.</li>
+        <li><strong>Orgânicos e expectativa de vida:</strong> Consumidores de orgânicos tendem a ter maior expectativa de vida — mas isso se deve a que pessoas com renda e educação mais altas tanto consomem orgânicos quanto têm acesso a melhores cuidados de saúde.</li>
+        <li><strong>Participação em extensão rural e aumento de renda:</strong> Correlação entre participar de programas de extensão e ter renda maior não significa que a extensão causou o aumento — agricultores com mais recursos e disposição já eram mais propensos a aderir aos programas (viés de seleção).</li>
+      </ul>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Os quatro princípios de inferência causal (Judea Pearl)</div>
+      <ul>
+        <li><strong>Temporalidade:</strong> A causa deve preceder o efeito no tempo — se X e Y ocorrem simultaneamente, nenhum causa o outro.</li>
+        <li><strong>Mecanismo:</strong> Deve existir uma explicação plausível e testável de como X influencia Y — não apenas a associação.</li>
+        <li><strong>Controle de confundidores:</strong> Variáveis alternativas (Z) que explicam a associação devem ser identificadas e controladas no desenho metodológico.</li>
+        <li><strong>Desenho adequado:</strong> Experimentos controlados, quase-experimentos com grupos comparáveis, ou análises observacionais com controles robustos — cada um com limitações específicas para inferência causal.</li>
+      </ul>
+    </div>
+
+    <div class="callout c-insight">
+      <div class="cal-ico">📐</div>
+      <div class="cal-body"><strong>Para pesquisas qualitativas também:</strong> A confusão entre correlação e causalidade não é exclusiva de pesquisas quantitativas. Em estudos qualitativos, ela aparece quando o pesquisador descreve co-ocorrências de fenômenos e implicitamente sugere relação causal sem identificar mecanismos. A pergunta "como X produz Y?" exige identificar o mecanismo social concreto — e isso se aplica a qualquer abordagem metodológica.</div>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ A pergunta antes de qualquer conclusão causal</div>
+      <p>Antes de escrever "X leva a Y" ou "X influencia Y" ou "a presença de X resultou em Y", responda: <em>Qual é o mecanismo específico que liga X a Y? Há variáveis de confusão que expliquem essa associação? Meu desenho metodológico permite isolar essa relação? Que evidência contrária eu teria que encontrar para abandonar essa hipótese causal?</em></p>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════
+     SEÇÃO 3 — DIÁLOGO COM AUTORES
+══════════════════════════════════════ -->
+
+<h2 class="sec-title"><span class="ico">📖</span>Como Dialogar com Autores — e Não Apenas Citá-los</h2>
+<p class="sec-desc">A diferença entre uma fundamentação teórica fraca e uma forte não é a quantidade de citações — é a qualidade do diálogo intelectual.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">7</div>
+      <div class="sum-text">
+        <div class="sum-title">Citação Ornamental vs. Diálogo Crítico — dois modos de relacionar-se com teorias</div>
+        <div class="sum-sub">A diferença que separa uma revisão de literatura fraca de uma forte</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que é dialogar com autores</div>
+      <p>Dialogar com autores significa inserir-se em um campo de debates teóricos ativos — reconhecer que toda teoria nasceu de um problema histórico específico, carrega pressupostos filosóficos implícitos, e se posiciona em relação a outras teorias. Citar é reproduzir a voz de alguém. Dialogar é posicionar-se em relação a ela.</p>
+      <p>A citação ornamental é um sintoma de que o pesquisador ainda está em modo de consumo passivo da teoria. O diálogo crítico marca a transição para a produção intelectual.</p>
+    </div>
+
+    <div class="compare">
+      <div class="cmp cmp-bad">
+        <h4>❌ Citação Ornamental</h4>
+        <ul>
+          <li>Reproduz o que o autor disse</li>
+          <li>Usa a citação para "provar" algo</li>
+          <li>Ignora o contexto de produção</li>
+          <li>Não se posiciona em relação à teoria</li>
+          <li>Autores são "fontes", não interlocutores</li>
+        </ul>
+      </div>
+      <div class="cmp cmp-good">
+        <h4>✅ Diálogo Crítico</h4>
+        <ul>
+          <li>Explica o que o autor defende e por quê</li>
+          <li>Situa a teoria em seu contexto histórico</li>
+          <li>Identifica com quem o autor debate</li>
+          <li>Posiciona a pesquisa nesse campo de debates</li>
+          <li>Autores são interlocutores, não autoridades</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Exemplo prático — o mesmo autor, dois usos diferentes</div>
+      <p><strong>❌ Citação ornamental:</strong></p>
+      <p><em>"Segundo Gil (2010), a pesquisa deve seguir procedimentos sistemáticos e rigorosos para produzir conhecimento válido."</em> — Essa frase poderia estar em qualquer pesquisa, sobre qualquer tema. Não acrescenta nada específico ao problema do pesquisador.</p>
+      <p style="margin-top:12px;"><strong>✅ Diálogo crítico:</strong></p>
+      <p><em>"Gil (2010), inserido na tradição metodológica positivista brasileira, enfatiza a sistematicidade como condição de validade científica — posição que responde ao contexto histórico de consolidação das ciências sociais no Brasil, onde o rigor procedimental era necessário para legitimar a área frente às ciências naturais. Minayo (2014), por sua vez, problematiza essa herança ao demonstrar que, em pesquisas participativas, a rigidez procedimental pode invisibilizar exatamente o conhecimento que se quer produzir. Esta pesquisa posiciona-se nesse debate: adota sistematicidade na documentação e análise, mas rejeita a ideia de que procedimento padrão garante validade em contextos de alta complexidade social."</em></p>
+    </div>
+
+    <div class="matrix">
+      <div class="mx-cell mx-a">
+        <div class="mx-letter">A</div>
+        <div class="mx-title">Autor</div>
+        <div class="mx-desc">Quem? O que defende especificamente?</div>
+      </div>
+      <div class="mx-cell mx-b">
+        <div class="mx-letter">B</div>
+        <div class="mx-title">Base Teórica</div>
+        <div class="mx-desc">Em que contexto escreveu? Com quem debate?</div>
+      </div>
+      <div class="mx-cell mx-c">
+        <div class="mx-letter">C</div>
+        <div class="mx-title">Contraste / Conexão</div>
+        <div class="mx-desc">Como sua pesquisa se posiciona nesse debate?</div>
+      </div>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ A estrutura ABC de citação crítica</div>
+      <p>Use esta estrutura: <strong>A</strong> (Autor + o que defende) + <strong>B</strong> (Base — contexto histórico e com quem debate) + <strong>C</strong> (Como sua pesquisa se posiciona: concorda, tensiona, adapta, supera). Sem o C, a citação é sempre ornamental.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">8</div>
+      <div class="sum-text">
+        <div class="sum-title">Mini-Guia de Leitura Crítica — as 4 perguntas que transformam leitura em diálogo</div>
+        <div class="sum-sub">Baseado na hermenêutica de Gadamer e na vigilância epistemológica de Bourdieu</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Leitura como prática hermenêutica</div>
+      <p>Para Gadamer, compreender um texto não é "extrair" informações de um objeto inerte — é um encontro entre dois horizontes de sentido: o horizonte do texto (com seus pressupostos, contexto e interlocutores) e o horizonte do leitor (com suas pré-compreensões, posicionamento e perguntas). A leitura crítica é o exercício consciente de reconhecer e trabalhar essa diferença.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>O que este autor assume como "verdade" ou "normal"?</strong>
+          Identifique os pressupostos ontológicos (o que ele acredita que a realidade é), epistemológicos (o que ele acredita que pode ser conhecido), e axiológicos (quais valores orientam sua pesquisa). O que ele nunca questiona — porque para ele é óbvio?
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Em que contexto histórico, político e institucional ele escreve?</strong>
+          Quais crises sociais, debates políticos, disputas acadêmicas ou interesses institucionais moldam o problema que ele escolheu pesquisar? Que financiamentos recebeu? Em que país, em que período, em que campo disciplinar?
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Com quem ele está debatendo — explícita ou implicitamente?</strong>
+          Mapeie o campo intelectual: quem são os aliados teóricos? Quais autores ou correntes ele critica? Que tradição ele representa ou combate? Uma teoria que parece "neutra" frequentemente é uma tomada de posição em um debate que o leitor desconhece.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>O que ele <em>não</em> diz? Quais silêncios estruturais permanecem?</strong>
+          Que vozes, perspectivas, grupos sociais ou dimensões do fenômeno são marginalizadas ou invisíveis na teoria? O que essa teoria sistematicamente não pode ver — por causa de seus próprios pressupostos? Que perguntas ela é incapaz de formular?
+        </div>
+      </div>
+    </div>
+
+    <div class="box box-example">
+      <div class="box-title">🔬 Aplicação prática: analisando Altieri vs. abordagens produtivistas</div>
+      <p><strong>Miguel Altieri</strong> (agroecologia científica, EUA/América Latina, anos 1980-90) escreve em contexto de resistência ao modelo da Revolução Verde. Pressupõe que agricultura sustentável é possível e desejável; debate com agrônomos produtivistas que privilegiam monoculturas e agroquímicos. Seu silêncio: questões de gênero e relações de poder interno nas comunidades.</p>
+      <p style="margin-top:10px;"><strong>Abordagem produtivista</strong> (agronomia mainstream) pressupõe produção como fim central, mercado como regulador natural, e tecnologia como solução universal. Debate com quem questiona o modelo de exportação. Seus silêncios: custos ambientais, desigualdade fundiária, saberes tradicionais.</p>
+      <p style="margin-top:10px;"><strong>Posicionamento crítico da pesquisa:</strong> "Esta pesquisa adota a perspectiva agroecológica de Altieri como ponto de partida, mas a complementa com análise de relações de gênero (invisibilizadas em sua obra) e com saberes tradicionais (Boaventura), reconhecendo que nenhuma das duas abordagens isoladas captura a complexidade da realidade estudada."</p>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Ferramenta prática: matriz de leitura crítica</div>
+      <p>Para cada autor central da sua pesquisa, preencha uma tabela com 4 colunas: <em>Tese Central</em> | <em>Contexto de Produção</em> | <em>Interlocutores e Debates</em> | <em>Limites e Silêncios</em>. Isso converte leitura passiva em diálogo crítico — e a síntese dessas matrizes é o núcleo de uma boa fundamentação teórica.</p>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════
+     SEÇÃO 4 — TEMAS AVANÇADOS
+══════════════════════════════════════ -->
+
+<h2 class="sec-title"><span class="ico">🔬</span>Temas Metodológicos que Exigem Atenção Especial</h2>
+<p class="sec-desc">Pontos onde pesquisadores frequentemente cometem erros por falta de distinções teóricas mais finas.</p>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">9</div>
+      <div class="sum-text">
+        <div class="sum-title">Métodos Mistos — integração real ou justaposição disfarçada?</div>
+        <div class="sum-sub">Como superar a incomensurabilidade epistemológica de forma legítima</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O que exige a integração legítima</div>
+      <p>Métodos mistos não são simplesmente "usar números e palavras". Eles exigem enfrentar o problema da <strong>incomensurabilidade paradigmática</strong>: lógicas positivistas (controle, generalização, mensuração) e lógicas interpretativas (contexto, significado, compreensão) partem de pressupostos filosóficos distintos sobre a natureza da realidade.</p>
+      <p>A solução não é ignorar essa tensão, mas endereçá-la explicitamente. O pragmatismo filosófico (William James, John Dewey) oferece uma base: usar o que funciona para responder à pergunta de pesquisa, desde que os limites de cada abordagem sejam declarados e a integração seja estrutural — não decorativa.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Design</th><th>Sequência</th><th>Finalidade da Integração</th><th>Quando Usar</th><th>Armadilha Típica</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Convergente</td>
+            <td>QUANT e QUAL em paralelo</td>
+            <td>Triangulação: comparar e verificar achados de ambas as fases</td>
+            <td>Quando as duas abordagens respondem à mesma pergunta de ângulos diferentes</td>
+            <td>Apresentar os resultados em capítulos separados sem síntese comparativa</td>
+          </tr>
+          <tr>
+            <td>Explicativo Sequencial</td>
+            <td>QUANT → QUAL</td>
+            <td>Fase qualitativa explica, aprofunda ou contextualiza achados estatísticos</td>
+            <td>Quando a análise quantitativa revela padrões que precisam de explicação de mecanismos</td>
+            <td>Tratar a fase qualitativa como "complemento" decorativo, sem articulação real</td>
+          </tr>
+          <tr>
+            <td>Exploratório Sequencial</td>
+            <td>QUAL → QUANT</td>
+            <td>Fase quantitativa testa, valida ou escala categorias emergentes da fase qualitativa</td>
+            <td>Quando o campo é pouco conhecido e a fase qualitativa é necessária para gerar hipóteses</td>
+            <td>Usar a fase qualitativa apenas para "gerar perguntas", sem integração metodológica real</td>
+          </tr>
+          <tr>
+            <td>Transformativo</td>
+            <td>Orientado por framework crítico</td>
+            <td>A teoria crítica (ex.: feminismo, decolonialidade) orienta a integração de ambas as fases</td>
+            <td>Em pesquisas críticas onde emancipação ou transformação é objetivo explícito</td>
+            <td>Usar o rótulo "transformativo" sem ter framework crítico real que oriente as escolhas</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ A pergunta de verificação para métodos mistos</div>
+      <p>Escreva em uma frase: <em>"A integração ocorre no ponto X, porque responde à subpergunta Y, que a abordagem [quantitativa/qualitativa] isolada não conseguiria captar."</em> Se você não consegue completar essa frase de forma precisa, seu método misto ainda é justaposição — não integração.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">10</div>
+      <div class="sum-text">
+        <div class="sum-title">Grounded Theory — a teoria "emerge" dos dados?</div>
+        <div class="sum-sub">A distinção crítica entre a versão clássica (Glaser & Strauss) e a construtivista (Charmaz)</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O mito da emergência e sua superação</div>
+      <p>A Grounded Theory clássica (Glaser & Strauss, 1967) propunha que a teoria "emergiria" dos dados de forma quase orgânica, se o pesquisador conseguisse suspender completamente suas pré-concepções. Esse pressuposto é problemático: toda codificação é interpretativa, toda pergunta direciona a atenção, e toda interação de pesquisa é atravessada por relações de poder e posicionamento do pesquisador.</p>
+      <p>Kathy Charmaz (2006, 2014) propõe a Grounded Theory Construtivista como alternativa: a teoria não "emerge" — ela é <strong>co-construída</strong> na interação entre pesquisador, participantes e contexto. A subjetividade não é viés a ser eliminado, mas recurso analítico a ser documentado e explicitado.</p>
+    </div>
+
+    <div class="compare">
+      <div class="cmp cmp-bad">
+        <h4>⚠️ GT Clássica (Glaser & Strauss)</h4>
+        <ul>
+          <li>Teoria "emerge" dos dados</li>
+          <li>Pesquisador busca neutralidade</li>
+          <li>Subjetividade = viés a eliminar</li>
+          <li>Entrar no campo "sem teoria"</li>
+          <li>Validade pela saturação</li>
+        </ul>
+      </div>
+      <div class="cmp cmp-good">
+        <h4>✅ GT Construtivista (Charmaz)</h4>
+        <ul>
+          <li>Teoria é co-construída</li>
+          <li>Reflexividade é critério de rigor</li>
+          <li>Subjetividade = recurso analítico</li>
+          <li>Sensibilidade teórica é legítima</li>
+          <li>Validação por ressonância e member checking</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="box box-trap">
+      <div class="box-title">🕳️ A contradição interna mais comum em projetos que usam GT</div>
+      <p>O pesquisador declara que "usará Grounded Theory porque a teoria emergirá dos dados" — e na mesma página apresenta um referencial teórico sólido de 10 autores que inevitavelmente guiará a codificação. Isso não é GT clássica nem construtivista: é uma contradição metodológica não percebida.</p>
+      <p>A GT construtivista (Charmaz) resolve isso: não há problema em ter "sensibilidade teórica" — ou seja, familiaridade prévia com a literatura. O que importa é documentar como esse conhecimento prévio interage com os dados, e não forçar os dados a confirmar categorias já existentes.</p>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Critérios de rigor na GT Construtivista (Charmaz)</div>
+      <ul>
+        <li><strong>Credibilidade:</strong> Os dados são ricos? As categorias estão fundamentadas em evidências sólidas?</li>
+        <li><strong>Originalidade:</strong> As categorias oferecem nova perspectiva conceitual — não apenas confirmam o que já se sabia?</li>
+        <li><strong>Ressonância:</strong> As categorias fazem sentido para os participantes e para outros pesquisadores do campo?</li>
+        <li><strong>Utilidade:</strong> A teoria produzida tem implicações para a prática ou para pesquisas futuras?</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">11</div>
+      <div class="sum-text">
+        <div class="sum-title">Análise de Conteúdo vs. Análise do Discurso — não são a mesma coisa</div>
+        <div class="sum-sub">Bardin, Foucault e Pêcheux: três abordagens com lógicas radicalmente distintas</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 A distinção que muda o que você considera "dado"</div>
+      <p>Confundir análise de conteúdo com análise do discurso não é apenas uma imprecisão terminológica — é uma mudança radical no que você considera como "dado", no que você procura encontrar, e no que considera "validade" analítica. Cada abordagem parte de pressupostos epistemológicos diferentes e responde a tipos de perguntas diferentes.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Abordagem</th><th>Pressuposto Epistemológico</th><th>O que analisa</th><th>Unidade de análise</th><th>Pergunta típica</th><th>Quando escolher</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Análise de Conteúdo (Bardin)</td>
+            <td>O texto tem conteúdo que pode ser sistematizado e inferido de forma controlada</td>
+            <td>O que os textos dizem; padrões temáticos; frequência de categorias</td>
+            <td>Palavras, frases, temas, categorias</td>
+            <td>"Quais são os temas recorrentes nos discursos sobre reforma agrária?"</td>
+            <td>Quando quer identificar padrões, frequências e categorias temáticas de forma sistemática</td>
+          </tr>
+          <tr>
+            <td>Análise do Discurso — Foucault</td>
+            <td>O discurso não descreve a realidade: ele a constitui. Verdade é efeito de poder</td>
+            <td>Como certos enunciados se tornam possíveis e verdadeiros; formações discursivas; relações poder/saber</td>
+            <td>Enunciados, arquivos, dispositivos, formações discursivas</td>
+            <td>"Como o discurso do 'desenvolvimento rural' constitui o agricultor como sujeito 'atrasado'?"</td>
+            <td>Quando investiga como normas, saberes e instituições produzem sujeitos e regimes de verdade</td>
+          </tr>
+          <tr>
+            <td>Análise do Discurso — Pêcheux (AD francesa)</td>
+            <td>A linguagem é atravessada por formações ideológicas; o sujeito é interpelado pelo discurso</td>
+            <td>Como a linguagem constitui posições ideológicas; o que os silêncios e deslocamentos revelam</td>
+            <td>Sequências discursivas, formações imaginárias, posições-sujeito</td>
+            <td>"Como o discurso oficial sobre sem-terra interpela os sujeitos em posições de marginalidade?"</td>
+            <td>Quando investiga ideologia, interpelação e como discursos políticos constroem subjetividades</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-warn">
+      <div class="box-title">⚠️ O erro mais frequente</div>
+      <p>Pesquisadores que declaram "Análise de Discurso" e realizam na prática Análise de Conteúdo — buscam apenas categorias e frequências temáticas, sem nenhuma preocupação com condições de produção, relações de poder ou constituição de sujeitos. O resultado é uma Análise de Conteúdo com nome errado.</p>
+      <p>O inverso também ocorre: pesquisadores que fazem Foucault superficial — citam poder/saber em um parágrafo, mas analisam os dados buscando "o que o texto diz" (lógica de Bardin). A incoerência entre declaração e prática analítica invalida os resultados.</p>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Como decidir qual abordagem usar</div>
+      <p>Responda: <em>Minha pergunta de pesquisa busca identificar padrões e categorias temáticas?</em> → Análise de Conteúdo (Bardin). <em>Busca entender como relações de poder produzem regimes de verdade e constituem sujeitos?</em> → Análise do Discurso Foucaultiana. <em>Busca entender como a linguagem interpela sujeitos em posições ideológicas?</em> → AD Francesa (Pêcheux). A escolha deve ser guiada pela pergunta — não pelo nome mais sofisticado.</p>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">12</div>
+      <div class="sum-text">
+        <div class="sum-title">Rigor, Complexidade e Reflexividade — os três pilares da pesquisa contemporânea</div>
+        <div class="sum-sub">Morin, Minayo e a superação do falso dilema entre rigor e abertura</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 Desfazendo um falso dilema</div>
+      <p>Há um falso dilema persistente na cultura acadêmica: pesquisas quantitativas seriam "rigorosas" e pesquisas qualitativas seriam "abertas e subjetivas" — como se fossem excludentes. Esse dilema é falso em ambas as direções: pesquisas quantitativas podem ser metodologicamente frágeis (amostras inadequadas, inferências causais equivocadas), e pesquisas qualitativas podem ser altamente rigorosas (saturação teórica, triangulação, reflexividade documentada).</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Rigor metodológico (Gil, Minayo)</strong>
+          Não é sinônimo de rigidez — é sistematicidade, transparência e coerência. Significa documentar cada etapa da pesquisa de forma que outro pesquisador possa avaliar as decisões tomadas, mesmo que não chegue às mesmas conclusões. Rigor qualitativo inclui: triangulação de fontes e métodos, saturação teórica documentada, diário de campo reflexivo, member checking quando pertinente.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Pensamento complexo (Edgar Morin)</strong>
+          Fenômenos sociais, ambientais e culturais são sistemas complexos com múltiplos feedbacks, não-linearidades e interdependências. Explicações causais lineares (X causa Y) frequentemente simplificam demais. O pensamento complexo exige três princípios: <em>dialógico</em> (trabalhar com contrários sem resolver artificialmente a contradição), <em>recursivo</em> (os efeitos retroagem sobre as causas) e <em>hologramático</em> (a parte contém o todo e o todo está na parte).
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Reflexividade (Bourdieu, Minayo)</strong>
+          O pesquisador não é externo ao campo que investiga — sua presença o altera, seus pressupostos guiam suas perguntas, seu posicionamento social influencia o que ele consegue ver e ouvir. Reconhecer isso não invalida a pesquisa — ao contrário, torna as condições de produção do conhecimento transparentes, o que é exatamente o que aumenta a validade científica.
+        </div>
+      </div>
+    </div>
+
+    <div class="callout c-insight">
+      <div class="cal-ico">💡</div>
+      <div class="cal-body"><strong>A afirmação que você pode incorporar ao seu projeto:</strong> <em>"Este estudo reconhece a natureza complexa e não-linear do fenômeno investigado. Adota procedimentos sistemáticos e transparentes de coleta e análise, e assume o posicionamento reflexivo do pesquisador como condição de validade — não como viés a ser eliminado, mas como dimensão a ser documentada e explicitada."</em></div>
+    </div>
+  </div>
+</details>
+
+<details class="item">
+  <summary>
+    <div class="sum-left">
+      <div class="sum-num">13</div>
+      <div class="sum-text">
+        <div class="sum-title">Validade, Confiabilidade e Transferibilidade — critérios que variam por paradigma</div>
+        <div class="sum-sub">Por que não usar os mesmos critérios para avaliar pesquisas com lógicas diferentes</div>
+      </div>
+    </div>
+    <div class="sum-arrow">▾</div>
+  </summary>
+  <div class="item-body">
+    <div class="box box-concept">
+      <div class="box-title">💡 O problema de critérios universais</div>
+      <p>Um erro frequente é avaliar pesquisas qualitativas com critérios desenvolvidos para pesquisas quantitativas (validade interna, validade externa, confiabilidade estatística). Esses critérios pressupõem que a realidade é objetiva e mensurável — pressupostos que pesquisas interpretativas ou críticas rejeitam. Cada paradigma tem seus próprios critérios de qualidade, desenvolvidos coerentemente com seus pressupostos filosóficos.</p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Critério</th><th>Pesquisa Quantitativa</th><th>Equivalente Qualitativo</th><th>Como verificar</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Validade Interna</td>
+            <td>Controle de variáveis, randomização, isolamento causal</td>
+            <td>Credibilidade — os achados são convincentes para quem viveu o fenômeno?</td>
+            <td>Triangulação de métodos, member checking, time prolongado no campo</td>
+          </tr>
+          <tr>
+            <td>Validade Externa</td>
+            <td>Amostragem representativa, generalização estatística</td>
+            <td>Transferibilidade — os achados iluminam outros contextos? (sem generalizar)</td>
+            <td>Descrição densa do contexto, para que leitores avaliem a transferibilidade</td>
+          </tr>
+          <tr>
+            <td>Confiabilidade</td>
+            <td>Alfa de Cronbach, teste-reteste, precisão dos instrumentos</td>
+            <td>Dependabilidade — as decisões metodológicas são documentadas e auditáveis?</td>
+            <td>Trilha de auditoria: documentação detalhada de cada decisão de pesquisa</td>
+          </tr>
+          <tr>
+            <td>Objetividade</td>
+            <td>Neutralidade do pesquisador, replicabilidade dos resultados</td>
+            <td>Confirmabilidade — os achados se sustentam nos dados, não apenas nas interpretações?</td>
+            <td>Explicitação de vieses, reflexividade documentada, análise de casos negativos</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-tip">
+      <div class="box-title">✅ Quatro perguntas de autoavaliação da qualidade da sua pesquisa</div>
+      <ul>
+        <li>Meus instrumentos e procedimentos produzem o tipo de dado que minha pergunta exige?</li>
+        <li>Documentei suficientemente o contexto para que outros avaliem a transferibilidade dos achados?</li>
+        <li>Minhas conclusões se sustentam nas evidências ou dependem excessivamente de minhas interpretações?</li>
+        <li>Explicitei minhas limitações metodológicas de forma honesta — não apenas como protocolo, mas como reflexão real sobre o que minha pesquisa não pode dizer?</li>
+      </ul>
+    </div>
+  </div>
+</details>
+
+<!-- ══════════════════════════════════════
+     BIBLIOGRAFIA COMENTADA
+══════════════════════════════════════ -->
+
+<div class="biblio-header">
+  <h2>📚 <em>Bibliografia Comentada</em> com Guia de Aplicação</h2>
+  <p>Cada referência inclui explicação do argumento central, contexto de produção e orientações práticas para uso em pesquisa. Clique para expandir.</p>
+</div>
+<div class="biblio-wrap">
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Vigilância Epistemológica</span>
+      <span class="bib-ref">Bourdieu, P. (1989). <em>O poder simbólico</em>. Rio de Janeiro: Bertrand Brasil.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> O campo científico não é neutro — é um espaço de disputas por capital simbólico onde hierarquias, jargões e métodos se naturalizam como "óbvios", escondendo sua gênese histórica e os interesses que os sustentam. A vigilância epistemológica é a prática contínua de ruptura com o senso comum acadêmico: questionar as categorias que usamos, os autores que citamos e as perguntas que formulamos como se fossem evidentes.</p>
+      <p><strong>Contexto de produção:</strong> França, anos 1980. Bourdieu responde à sociologia estruturalista (Lévi-Strauss) e ao marxismo vulgar, propondo uma sociologia reflexiva que se aplica a si mesma — a ciência que estuda a sociedade precisa estudar também as condições sociais de sua própria produção.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Antes de formular o problema, pergunte: "Que categorias estou importando do senso comum acadêmico sem questionar? Meu posicionamento institucional distorce minha pergunta? Que vozes meu desenho torna invisíveis?" Escreva um parágrafo de reflexividade declarando essas tensões explicitamente.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Paradigmas Científicos</span>
+      <span class="bib-ref">Kuhn, T. S. (1962). <em>A estrutura das revoluções científicas</em>. Chicago: University of Chicago Press.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A ciência não avança por acumulação linear de fatos, mas por mudanças de paradigma — rupturas radicais onde o modelo dominante é substituído por outro incompatível com ele. Cada paradigma define o que conta como "problema legítimo", "método aceitável" e "evidência válida". Paradigmas diferentes são incomensuráveis: não podem ser comparados diretamente porque partem de pressupostos distintos sobre a natureza da realidade.</p>
+      <p><strong>Contexto de produção:</strong> EUA, anos 1960. Kuhn escreve contra o positivismo lógico do Círculo de Viena, mostrando que a história real da ciência não segue o modelo de verificação cumulativa que os filósofos descreviam.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Ao mapear a literatura, identifique os diferentes paradigmas em jogo no seu campo. Autores de paradigmas distintos não são simplesmente "complementares" — há tensões reais que precisam ser explicitadas. Declare seu paradigma: "Esta pesquisa se insere no paradigma interpretativista, reconhecendo que..." e enfrente as consequências metodológicas dessa escolha.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Hermenêutica</span>
+      <span class="bib-ref">Gadamer, H.-G. (1960). <em>Verdade e método</em>. Tübingen: Mohr Siebeck.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> Compreender é sempre uma "fusão de horizontes": o horizonte do texto (com seus pressupostos históricos, linguagem e contexto) e o horizonte do intérprete (com suas pré-compreensões, formação e perguntas). Não existe interpretação "neutra" — toda compreensão é situada. Reconhecer isso não é fraqueza, mas condição de rigor hermenêutico. A "pré-compreensão" (Vorverständnis) não é preconceito a ser eliminado, mas ponto de partida a ser trabalhado reflexivamente.</p>
+      <p><strong>Contexto de produção:</strong> Alemanha, anos 1960. Gadamer debate com o objetivismo das ciências naturais e com Dilthey, propondo uma hermenêutica filosófica que vai além da interpretação de textos para pensar a estrutura fundamental da compreensão humana.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Toda vez que você lê um autor, mapeia o campo ou analisa dados, você está exercendo hermenêutica. A aplicação prática é explícita: antes de analisar qualquer material, documente suas expectativas e pré-compreensões. Após a análise, reflita sobre o que mudou. Isso é o círculo hermenêutico em operação — e é um critério de rigor, não de subjetividade.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Ecologia de Saberes</span>
+      <span class="bib-ref">Santos, B. S. (2007). <em>Para além do pensamento abissal: Das linhas globais a uma ecologia de saberes</em>. Novos Estudos CEBRAP, 79, 71–94.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A ciência moderna opera por "pensamento abissal" — uma linha invisível que divide o mundo entre o "lado cá" (conhecimento legítimo, ciência, razão) e o "lado lá" (ignorância, superstição, senso comum, saberes locais). A ecologia de saberes propõe a tradução intercultural como alternativa: reconhecer validade epistêmica em práticas comunitárias, saberes tradicionais e conhecimentos indígenas, sem romantizá-los nem submetê-los ao critério científico ocidental como único parâmetro de legitimidade.</p>
+      <p><strong>Contexto de produção:</strong> Portugal/Brasil, anos 2000. Boaventura escreve no contexto do Fórum Social Mundial e dos movimentos sociais latino-americanos, respondendo ao neoliberalismo e à globalização hegemônica.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Se sua pesquisa envolve comunidades, agricultores, povos tradicionais ou grupos populares, pergunte: "Estou tratando essas pessoas como fontes de dados ou como interlocutores epistêmicos? Estou colonizando seus saberes ao traduzi-los para o jargão acadêmico?" Considere incluir esses sujeitos como co-pesquisadores e documente seus próprios termos para os fenômenos antes de traduzi-los academicamente.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Poder e Discurso</span>
+      <span class="bib-ref">Foucault, M. (1969). <em>A arqueologia do saber</em>. Paris: Gallimard. / (1975). <em>Vigiar e punir</em>. Paris: Gallimard.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> O conhecimento e o poder são inseparáveis (poder-saber). Os discursos não descrevem a realidade — eles a produzem. Em cada época histórica, um conjunto de regras define o que pode ser dito, pensado e pesquisado — Foucault chama isso de "episteme" ou "formação discursiva". A ciência é um regime de verdade: um conjunto de práticas que decide o que conta como "verdadeiro" e que tipos de sujeitos e objetos são possíveis.</p>
+      <p><strong>Contexto de produção:</strong> França, anos 1960-80. Foucault debate com o marxismo (rejeitando a centralidade do Estado e da economia) e com o estruturalismo (questionando a ideia de estruturas estáveis). Escreve no contexto do pós-68 e das lutas de liberação.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Se usa Análise do Discurso foucaultiana, a pergunta não é "o que esse discurso diz?" mas "que condições históricas tornaram esse discurso possível? Que sujeitos ele produz? Que práticas normaliza? Que resistências silencia?" Exige familiaridade com o contexto histórico e institucional dos discursos analisados.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Causalidade</span>
+      <span class="bib-ref">Pearl, J., & Mackenzie, D. (2018). <em>The book of why: The new science of cause and effect</em>. New York: Basic Books.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> O problema da causalidade foi evitado pela estatística por décadas — a máxima "correlação não implica causalidade" reconhecia o problema sem resolvê-lo. Pearl desenvolve os Directed Acyclic Graphs (DAGs) como ferramenta formal para representar estruturas causais, identificar confundidores, mediadores e colliders, e formular perguntas contrafactuais ("o que teria acontecido se...?"). Isso permite inferência causal rigorosa mesmo sem experimentos.</p>
+      <p><strong>Contexto de produção:</strong> EUA, anos 1990-2010. Pearl trabalha em inteligência artificial e estatística bayesiana, e desenvolve a teoria causal como crítica ao paradigma correlacional dominante nas ciências sociais e na epidemiologia.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Antes de coletar dados, esboce um DAG informal do seu problema: quais variáveis influenciam quais? Qual é o mecanismo causal que você postula? Há variáveis de confusão que explicariam a associação sem a relação causal que você propõe? Mesmo em pesquisas qualitativas, pensar causalmente significa identificar e explicitar mecanismos sociais — não apenas descrever co-ocorrências.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Métodos Mistos</span>
+      <span class="bib-ref">Creswell, J. W., & Plano Clark, V. L. (2017). <em>Designing and conducting mixed methods research</em> (3ª ed.). Thousand Oaks: Sage.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> Métodos mistos exigem integração intencional — não justaposição de dados quantitativos e qualitativos. O rigor está em definir onde, quando e como os dois tipos de dados se encontram para gerar meta-inferências mais ricas do que cada abordagem isolada produziria. A incomensurabilidade paradigmática é superada pelo pragmatismo filosófico: a pergunta de pesquisa guia a escolha metodológica.</p>
+      <p><strong>Contexto de produção:</strong> EUA, anos 1990-2010. Creswell escreve em resposta às "guerras de paradigma" entre pesquisadores quantitativos e qualitativos, propondo que a integração é possível e desejável em muitos contextos de pesquisa.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Se usar métodos mistos, declare explicitamente: (a) qual design você adota (convergente, explicativo sequencial, exploratório sequencial); (b) em que ponto exato a integração ocorre; (c) que meta-inferência a integração permite que nenhuma abordagem isolada produziria. Sem esses três elementos, seu método misto é apenas paralelo — não integrado.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Grounded Theory Construtivista</span>
+      <span class="bib-ref">Charmaz, K. (2014). <em>Constructing grounded theory</em> (2ª ed.). London: Sage.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A teoria não "emerge" dos dados como se o pesquisador fosse receptor passivo — ela é co-construída na interação entre pesquisador, participantes e contexto. A subjetividade do pesquisador não é viés a ser eliminado, mas recurso analítico a ser documentado por meio de memos reflexivos. O rigor é medido pela transparência reflexiva, densidade das categorias e sua ressonância com a realidade estudada.</p>
+      <p><strong>Contexto de produção:</strong> EUA/UK, anos 1990-2000. Charmaz desenvolve a GT construtivista como crítica à versão objetivista de Glaser, incorporando insights do interacionismo simbólico, construtivismo social e pesquisa feminista.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Se usar GT, declare qual versão (clássica ou construtivista) e por quê. Na versão de Charmaz, mantenha diário de memos durante toda a análise, documente como suas pré-concepções interagiram com os dados, realize amostragem teórica (não por conveniência), e valide categorias com participantes quando possível. A saturação teórica — não o esgotamento do tempo — é o critério para encerrar a coleta.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Análise de Conteúdo</span>
+      <span class="bib-ref">Bardin, L. (2016). <em>Análise de conteúdo</em> (7ª ed.). Lisboa: Edições 70. (Original publicado em 1977.)</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A análise de conteúdo é um conjunto de técnicas de análise das comunicações que visa obter, por procedimentos sistemáticos e objetivos de descrição do conteúdo das mensagens, indicadores que permitam a inferência de conhecimentos relativos às condições de produção/recepção dessas mensagens. É descritiva E inferencial — não se limita ao que o texto diz explicitamente, mas busca o que está implícito.</p>
+      <p><strong>Contexto de produção:</strong> França, anos 1970. Bardin sistematiza uma tradição que vinha da análise de propaganda e comunicação de massa nos EUA dos anos 1940-50, adaptando-a para ciências sociais com base epistemológica mais sólida.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> As três fases são obrigatórias: (1) pré-análise (leitura flutuante, constituição do corpus, formulação de hipóteses iniciais); (2) exploração do material (codificação, categorização); (3) tratamento dos resultados e inferências. Documente explicitamente se suas categorias são a priori (pré-definidas pela literatura) ou a posteriori (emergentes dos dados) — essa escolha tem consequências epistemológicas.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Complexidade</span>
+      <span class="bib-ref">Morin, E. (2001). <em>Os sete saberes necessários à educação do futuro</em> (4ª ed.). São Paulo: Cortez. / Morin, E. (1990). <em>Introdução ao pensamento complexo</em>. Lisboa: Instituto Piaget.</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> O paradigma da simplificação (disjunção, redução, abstração) que domina a ciência moderna é insuficiente para compreender fenômenos complexos — sistemas com múltiplos feedbacks, emergências imprevisíveis e interdependências não-lineares. O pensamento complexo não rejeita o rigor analítico, mas o articula com três operadores cognitivos: o princípio dialógico (trabalhar com contrários sem resolver artificialmente a tensão), o princípio recursivo (causas e efeitos se retroalimentam) e o princípio hologramático (a parte contém o todo e o todo está em cada parte).</p>
+      <p><strong>Contexto de produção:</strong> França, anos 1970-2000. Morin escreve no contexto da crise do paradigma positivista e do surgimento das ciências da complexidade (teoria do caos, termodinâmica não-linear, biologia sistêmica).</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Use o pensamento complexo para rejeitar explicações causais lineares simples sobre fenômenos sociais. Pergunte: "Que feedbacks recursivos existem no fenômeno que estudo? Que emergências imprevisíveis podem ocorrer? Que partes do sistema carregam a lógica do todo?" Isso é especialmente útil em pesquisas sobre sistemas agrários, comunidades, organizações e políticas públicas.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Metodologia Qualitativa</span>
+      <span class="bib-ref">Minayo, M. C. S. (Org.). (2014). <em>Pesquisa social: Teoria, método e criatividade</em> (34ª ed.). Petrópolis: Vozes. (Original publicado em 1994.)</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A pesquisa qualitativa não é menos rigorosa que a quantitativa — ela exige formas específicas de rigor: triangulação de fontes e métodos, diário de campo como instrumento reflexivo, saturação do material, e compromisso ético com os sujeitos pesquisados que inclui a devolutiva dos resultados. A subjetividade do pesquisador é constitutiva do processo de pesquisa, não um defeito a ser corrigido.</p>
+      <p><strong>Contexto de produção:</strong> Brasil, anos 1990-2000. Minayo escreve para um contexto acadêmico brasileiro onde a pesquisa qualitativa ainda lutava por legitimidade frente ao positivismo dominante nas ciências da saúde. É uma referência absolutamente central para a pesquisa qualitativa em ciências sociais aplicadas no Brasil.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Use Minayo para fundamentar o rigor da sua pesquisa qualitativa. Especificamente: (a) documente o processo de triangulação (de quais fontes e métodos você triangulou?); (b) mantenha diário de campo com reflexões sobre o processo; (c) quando pertinente, inclua devolutiva dos resultados aos participantes como parte do protocolo ético da pesquisa.</p>
+    </div>
+  </details>
+
+  <details class="bib">
+    <summary>
+      <span class="bib-tag">Métodos e Técnicas</span>
+      <span class="bib-ref">Gil, A. C. (2010). <em>Métodos e técnicas de pesquisa social</em> (6ª ed.). São Paulo: Atlas. (Original publicado em 1987.)</span>
+      <span class="bib-arrow">▾</span>
+    </summary>
+    <div class="bib-body">
+      <p><strong>Argumento central:</strong> A pesquisa científica pode ser classificada por sua natureza (básica/aplicada), objetivos (exploratória, descritiva, explicativa), abordagem (quantitativa/qualitativa) e procedimentos técnicos (experimental, levantamento, estudo de caso, pesquisa bibliográfica, documental, ex-post-facto, ação, participante). Essa classificação sistemática permite ao pesquisador localizar sua investigação em um mapa metodológico claro.</p>
+      <p><strong>Contexto de produção:</strong> Brasil, anos 1980-2010. Gil produz a principal referência de metodologia científica em português para as ciências sociais, inserida na tradição positivista-interpretativista da academia brasileira.</p>
+      <p><strong>Como usar na sua pesquisa:</strong> Use Gil como referência de classificação metodológica — para nomear e situar o tipo de pesquisa que você faz. Mas atenção: as classificações de Gil são descritivas, não prescritivas. O fato de nomear "estudo de caso" não justifica as escolhas por si só — você ainda precisa fundamentar epistemologicamente por que aquele desenho é o mais adequado ao seu problema.</p>
+    </div>
+  </details>
+
+</div>
+
+<hr class="divider">
+
+<div class="callout c-insight" style="margin-bottom:8px;">
+  <div class="cal-ico">🎯</div>
+  <div class="cal-body">
+    <strong>O que este guia representa:</strong> Mais do que um conjunto de orientações técnicas, este material é um convite à <em>alfabetização científica crítica</em> — a capacidade de pensar sobre o próprio pensamento, de questionar as categorias que parecem óbvias, e de construir pesquisa com consciência de suas escolhas filosóficas, metodológicas e éticas. Isso não se aprende nos manuais de pesquisa — aprende-se na prática reflexiva.
+  </div>
+</div>
+
+<footer>
+  <p>Camada de Vigilância Epistemológica · João Batista de Oleira · <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a> · © 2026</p>
+</footer>
+
+<script>
+// Auto-close siblings within same parent
+document.querySelectorAll('details.item').forEach(d => {
+  d.addEventListener('toggle', function() {
+    if (this.open) {
+      this.parentElement.querySelectorAll('details.item').forEach(s => {
+        if (s !== this) s.open = false;
+      });
+      setTimeout(() => this.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+    }
+  });
+});
+document.querySelectorAll('details.bib').forEach(d => {
+  d.addEventListener('toggle', function() {
+    if (this.open) {
+      this.closest('.biblio-wrap').querySelectorAll('details.bib').forEach(s => {
+        if (s !== this) s.open = false;
+      });
+      setTimeout(() => this.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+    }
+  });
+});
+</script>
+</body>
+</html>
