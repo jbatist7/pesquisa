@@ -590,5 +590,23 @@
     <div class="page-footer">As Armadilhas do Poder | João Batista de Oliveira | 2026 | jbatist7@gmail.com</div>
   </div>
 </div>
+
+  <script>
+if (!localStorage.getItem('visitou')) {
+  fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa')
+    .then(res => res.json())
+    .then(res => {
+      document.getElementById('contador').innerText = res.value;
+    });
+  localStorage.setItem('visitou', 'true');
+} else {
+  fetch('https://api.countapi.xyz/get/jbatist7/pesquisa')
+    .then(res => res.json())
+    .then(res => {
+      document.getElementById('contador').innerText = res.value;
+    });
+}
+</script>
+  
 </body>
 </html>
