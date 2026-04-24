@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Gestão Municipal de Excelência</title>
+<style>
+  :root {
+    --azul: #1B3A6B;
+    --azul-medio: #2E75B6;
+    --verde: #00A651;
+    --azul-claro: #D6E4F7;
+    --verde-claro: #D6F0E0;
+    --cinza-claro: #F2F2F2;
+    --cinza-escuro: #404040;
+    --amarelo: #FFF2CC;
+    --laranja: #FCE4D6;
+    --branco: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: var(--cinza-escuro); background: #f9f9f9; line-height: 1.6; }
+  
+  /* CAPA */
+  .capa { background: linear-gradient(135deg, var(--azul) 0%, #2a5298 100%); color: white; text-align: center; padding: 60px 30px 50px; }
+  .capa h1 { font-size: 2.4em; font-weight: 900; letter-spacing: 1px; line-height: 1.2; margin-bottom: 10px; }
+  .capa .subtitulo { font-size: 1.15em; font-style: italic; color: #B8D4F0; margin-bottom: 30px; }
+  .capa .tagline { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); padding: 18px 28px; border-radius: 8px; font-size: 1.05em; font-weight: 600; margin: 20px auto; max-width: 640px; }
+  .capa .badges { margin-top: 28px; font-size: 0.82em; letter-spacing: 2px; color: #8FBDE0; font-weight: 700; }
+  
+  /* CONTEÚDO */
+  .container { max-width: 980px; margin: 0 auto; padding: 0 16px 60px; }
+  
+  /* SEÇÕES */
+  .parte-header { background: var(--azul); color: white; padding: 28px 28px 22px; margin: 40px 0 24px; border-radius: 8px; }
+  .parte-header .parte-num { font-size: 0.82em; letter-spacing: 3px; text-transform: uppercase; color: #8FBDE0; margin-bottom: 6px; }
+  .parte-header h2 { font-size: 1.7em; font-weight: 900; margin-bottom: 8px; }
+  .parte-header .parte-desc { font-size: 0.95em; color: #B8D4F0; font-style: italic; }
+  
+  h2.sec { font-size: 1.45em; color: var(--azul-medio); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 3px solid var(--azul-claro); }
+  h3.sub { font-size: 1.1em; color: var(--cinza-escuro); font-weight: 700; margin: 22px 0 8px; }
+  p { margin: 10px 0; text-align: justify; }
+  
+  /* CAIXAS */
+  .box { border-radius: 7px; padding: 18px 22px; margin: 18px 0; border-left: 5px solid; }
+  .box-azul { background: var(--azul-claro); border-color: var(--azul-medio); }
+  .box-verde { background: var(--verde-claro); border-color: var(--verde); }
+  .box-amarelo { background: var(--amarelo); border-color: #E6AC00; }
+  .box-laranja { background: var(--laranja); border-color: #E07020; }
+  .box .box-titulo { font-weight: 700; color: var(--azul); margin-bottom: 7px; font-size: 1.0em; }
+  .box-cinza { background: var(--cinza-claro); border-color: #aaa; }
+  
+  /* MENSAGEM */
+  .mensagem { background: linear-gradient(120deg, #EBF3FD, #F0FAF4); border: 1px solid #C0D8F0; border-radius: 10px; padding: 30px 32px; margin: 30px 0; }
+  .mensagem h2 { color: var(--azul); font-size: 1.4em; margin-bottom: 14px; }
+  .mensagem ul { margin: 12px 0 12px 22px; }
+  .mensagem ul li { margin-bottom: 6px; }
+  
+  /* TABELAS */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .tbl-wrap table { width: 100%; border-collapse: collapse; min-width: 480px; }
+  .tbl-wrap thead tr { background: var(--azul); color: white; }
+  .tbl-wrap thead th { padding: 11px 14px; text-align: left; font-size: 0.9em; font-weight: 700; white-space: nowrap; }
+  .tbl-wrap tbody tr:nth-child(even) { background: var(--cinza-claro); }
+  .tbl-wrap tbody tr:nth-child(odd) { background: white; }
+  .tbl-wrap tbody td { padding: 10px 14px; font-size: 0.9em; vertical-align: top; border-bottom: 1px solid #E8E8E8; }
+  .tbl-azul thead tr { background: var(--azul); }
+  .tbl-verde thead tr { background: var(--verde); }
+  .tbl-medio thead tr { background: var(--azul-medio); }
+  .scroll-hint { font-size: 0.75em; color: #888; text-align: right; margin-top: -10px; margin-bottom: 8px; display: none; }
+  @media (max-width: 640px) { .scroll-hint { display: block; } }
+  
+  /* DIAGNÓSTICO BLOCK */
+  .diag-block { margin: 28px 0 36px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+  .diag-title { background: linear-gradient(90deg, var(--azul) 0%, var(--azul-medio) 100%); color: white; padding: 14px 20px; }
+  .diag-title .diag-num { font-size: 0.8em; letter-spacing: 2px; color: #8FBDE0; }
+  .diag-title h3 { font-size: 1.15em; font-weight: 800; margin: 3px 0 0; }
+  .diag-title p { font-size: 0.88em; color: #B8D4F0; margin-top: 4px; font-style: italic; }
+  .diag-body { padding: 16px 18px; background: white; }
+  .diag-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  @media (max-width: 620px) { .diag-cols { grid-template-columns: 1fr; } }
+  .diag-col-title { color: white; padding: 8px 14px; font-size: 0.82em; font-weight: 700; letter-spacing: 1px; border-radius: 5px 5px 0 0; }
+  .diag-col-levantar .diag-col-title { background: var(--azul-medio); }
+  .diag-col-indicadores .diag-col-title { background: var(--verde); }
+  .diag-list { margin: 0; padding: 0; list-style: none; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px; overflow: hidden; }
+  .diag-list li { padding: 7px 12px; font-size: 0.88em; border-bottom: 1px solid #f0f0f0; }
+  .diag-list li:last-child { border-bottom: none; }
+  .diag-list li:nth-child(even) { background: #f8f8f8; }
+  .diag-list li::before { content: "• "; color: var(--azul-medio); font-weight: 700; }
+  .diag-col-indicadores .diag-list li:nth-child(even) { background: #F0FAF4; }
+  .diag-col-indicadores .diag-list li::before { color: var(--verde); }
+  
+  /* PDCA */
+  .pdca { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 16px 0; }
+  @media (max-width: 560px) { .pdca { grid-template-columns: repeat(2,1fr); } }
+  .pdca-item { border-radius: 8px; padding: 14px; text-align: center; }
+  .pdca-item .pdca-letra { font-size: 2em; font-weight: 900; line-height: 1; }
+  .pdca-item .pdca-nome { font-size: 0.85em; font-weight: 700; margin: 4px 0; }
+  .pdca-item .pdca-desc { font-size: 0.78em; }
+  .pdca-item .pdca-prazo { font-size: 0.72em; margin-top: 6px; font-style: italic; opacity: 0.8; }
+  .pdca-p { background: var(--azul-claro); color: var(--azul); }
+  .pdca-d { background: var(--verde-claro); color: #007040; }
+  .pdca-c { background: var(--amarelo); color: #7A5C00; }
+  .pdca-a { background: var(--laranja); color: #8B3A00; }
+  
+  /* PILARES */
+  .pilares { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 16px 0; }
+  .pilar { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; border-top: 4px solid var(--azul-medio); }
+  .pilar .pilar-num { width: 30px; height: 30px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; margin-bottom: 10px; }
+  .pilar h4 { color: var(--azul); font-size: 0.95em; margin-bottom: 6px; }
+  .pilar p { font-size: 0.85em; }
+  
+  /* CHECKLIST */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li { padding: 9px 14px 9px 40px; position: relative; border-bottom: 1px solid #eee; font-size: 0.92em; }
+  .checklist li::before { content: "☐"; position: absolute; left: 12px; font-size: 1.1em; color: var(--azul-medio); }
+  .checklist li:nth-child(even) { background: #f9f9f9; }
+  .checklist li:last-child { border-bottom: none; }
+  
+  /* CHECKLIST AGRUPADO */
+  .check-group { margin: 18px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+  .check-group-title { background: var(--azul-medio); color: white; padding: 9px 16px; font-weight: 700; font-size: 0.9em; letter-spacing: 1px; }
+  
+  /* PREMIOS */
+  .premio-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 10px 0; border-left: 5px solid var(--azul-medio); }
+  .premio-card h4 { color: var(--azul); font-size: 0.98em; margin-bottom: 4px; }
+  .premio-card p { font-size: 0.87em; }
+  
+  /* ETAPAS */
+  .etapa { display: flex; align-items: flex-start; gap: 14px; margin: 12px 0; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px; }
+  .etapa-num { min-width: 36px; height: 36px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1em; flex-shrink: 0; }
+  .etapa-body h4 { color: var(--azul); font-size: 0.95em; margin-bottom: 4px; }
+  .etapa-body p { font-size: 0.87em; }
+  
+  /* CITAÇÃO FINAL */
+  .citacao { background: var(--azul); color: white; padding: 36px 30px; border-radius: 10px; text-align: center; margin: 40px 0 20px; }
+  .citacao p { font-size: 1.1em; font-style: italic; line-height: 1.8; }
+  .citacao strong { font-size: 1.05em; }
+  
+  /* MATRIX PRIORIDADE */
+  .matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; margin: 16px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+  .matrix-corner { background: var(--cinza-claro); padding: 10px; font-size: 0.8em; font-weight: 700; }
+  .matrix-header { background: var(--azul); color: white; padding: 10px 14px; text-align: center; font-size: 0.85em; font-weight: 700; }
+  .matrix-label { background: var(--azul-medio); color: white; padding: 10px 14px; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: 700; text-align: center; writing-mode: horizontal-tb; }
+  .matrix-cell { padding: 12px 14px; font-size: 0.85em; font-weight: 600; }
+  .matrix-cell.mc1 { background: #D6F0E0; color: #005A30; }
+  .matrix-cell.mc2 { background: var(--azul-claro); color: #1B3A6B; }
+  .matrix-cell.mc3 { background: var(--amarelo); color: #5A4000; }
+  .matrix-cell.mc4 { background: #FFE0E0; color: #8B0000; }
+  @media (max-width: 480px) { .matrix { font-size: 0.8em; } }
+  
+  /* ERROS */
+  .erros { counter-reset: erro; margin: 14px 0; }
+  .erro-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-bottom: 1px solid #eee; background: white; }
+  .erro-item:nth-child(even) { background: #FFF8F6; }
+  .erro-num { counter-increment: erro; background: #E05020; color: white; border-radius: 50%; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85em; flex-shrink: 0; }
+  .erro-item p { font-size: 0.9em; }
+  
+  /* TOC */
+  .toc { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 22px 24px; margin: 24px 0 36px; }
+  .toc h3 { color: var(--azul); margin-bottom: 14px; font-size: 1.05em; }
+  .toc ul { list-style: none; padding: 0; columns: 2; }
+  @media (max-width: 580px) { .toc ul { columns: 1; } }
+  .toc ul li { padding: 5px 0; font-size: 0.88em; }
+  .toc ul li a { color: var(--azul-medio); text-decoration: none; }
+  .toc ul li a:hover { text-decoration: underline; }
+  
+  /* FOOTER */
+  footer { background: var(--azul); color: #8FBDE0; text-align: center; padding: 22px; font-size: 0.82em; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="capa">
+  <h1>GESTÃO MUNICIPAL<br>DE EXCELÊNCIA</h1>
+  <div class="subtitulo">Manual Técnico para Prefeitos e Prefeitas</div>
+  <div class="tagline">Como diagnosticar, planejar, executar e ser reconhecido<br>por uma gestão que transforma vidas</div>
+  <div class="badges">DIAGNÓSTICO &nbsp;|&nbsp; PLANEJAMENTO &nbsp;|&nbsp; GESTÃO &nbsp;|&nbsp; RESULTADOS &nbsp;|&nbsp; RECONHECIMENTO</div>
+</div>
+
+<div class="container">
+
+<!-- MENSAGEM AO PREFEITO -->
+<div class="mensagem">
+  <h2>💬 Mensagem ao Prefeito</h2>
+  <p>Governar um município é um dos atos mais transformadores que um ser humano pode realizar. É na prefeitura que a vida das pessoas muda de verdade: a criança que recebe uma boa alimentação escolar, a família que tem água potável em casa, o jovem que encontra oportunidades em vez de risco.</p>
+  <p style="margin-top:10px">Este manual foi construído para você que assumiu essa responsabilidade com seriedade. Não é um documento burocrático — é um roteiro de ação para quem quer deixar um legado real.</p>
+  <ul style="margin-top:12px;padding-left:22px">
+    <li>Como fazer um diagnóstico completo do seu município</li>
+    <li>Como transformar diagnóstico em plano de governo operacional</li>
+    <li>Como monitorar resultados e corrigir rotas</li>
+    <li>Como comunicar conquistas e receber prêmios e reconhecimentos</li>
+    <li>Como criar uma prefeitura inteligente, transparente e eficiente</li>
+  </ul>
+  <div class="box box-amarelo" style="margin-top:16px">
+    <div class="box-titulo">Princípio fundamental</div>
+    Prefeitos que governam bem — com dados, planejamento e participação social — constroem legados que duram gerações e são reconhecidos por isso.
+  </div>
+</div>
+
+<!-- SUMÁRIO -->
+<div class="toc">
+  <h3>📋 Índice do Manual</h3>
+  <ul>
+    <li><a href="#parte1">Parte I — Diagnóstico Municipal Integral</a></li>
+    <li><a href="#parte2">Parte II — Planejamento Estratégico</a></li>
+    <li><a href="#parte3">Parte III — Gestão por Resultados</a></li>
+    <li><a href="#parte4">Parte IV — Indicadores Estratégicos</a></li>
+    <li><a href="#parte5">Parte V — Elementos Avançados</a></li>
+    <li><a href="#parte6">Parte VI — Prêmios e Reconhecimento</a></li>
+    <li><a href="#parte7">Parte VII — Os Primeiros 100 Dias</a></li>
+    <li><a href="#conclusao">Conclusão e Checklists</a></li>
+  </ul>
+</div>
+
+<!-- PARTE I -->
+<div id="parte1">
+<div class="parte-header">
+  <div class="parte-num">PARTE I</div>
+  <h2>DIAGNÓSTICO MUNICIPAL INTEGRAL</h2>
+  <div class="parte-desc">Como conhecer seu município em profundidade antes de agir</div>
+</div>
+
+<p>O diagnóstico é o ponto de partida de toda gestão eficiente. Você não pode resolver o que não conhece. Prefeitos que pulam essa etapa tomam decisões às cegas, desperdiçam recursos e perdem credibilidade.</p>
+
+<div class="box box-azul">
+  <div class="box-titulo">Por que diagnosticar primeiro?</div>
+  Municípios que governam sem diagnóstico tomam decisões baseadas em percepção, pressão política ou intuição. Municípios que governam com diagnóstico tomam decisões baseadas em evidências — e alcançam resultados maiores com os mesmos recursos. Municípios que investem em diagnóstico preciso economizam entre 20% e 40% no custo de suas políticas públicas, pois evitam duplicidade de ações e focam nos problemas reais.
+</div>
+
+<h2 class="sec">Como fazer um bom diagnóstico municipal</h2>
+<p>O diagnóstico deve ser realizado nos primeiros 60 dias de mandato. Envolva todas as secretarias, dados públicos disponíveis, visitas a campo e escuta da população.</p>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Fonte de dados</th><th>O que fornece</th><th>Prazo sugerido</th></tr></thead>
+    <tbody>
+      <tr><td>IBGE / Censo</td><td>População, renda, moradia, escolaridade</td><td>Dias 1–15</td></tr>
+      <tr><td>DataSUS / e-Gestor</td><td>Saúde, mortalidade, cobertura ESF</td><td>Dias 1–15</td></tr>
+      <tr><td>INEP / QEdu</td><td>IDEB, evasão, infraestrutura escolar</td><td>Dias 1–15</td></tr>
+      <tr><td>SNIS</td><td>Água, esgoto, resíduos sólidos</td><td>Dias 15–30</td></tr>
+      <tr><td>SEF / Finbra</td><td>Finanças municipais, execução orçamentária</td><td>Dias 1–10</td></tr>
+      <tr><td>Visitas a campo</td><td>Realidade não capturada em dados</td><td>Dias 1–60</td></tr>
+      <tr><td>Escuta popular</td><td>Percepção da população sobre serviços</td><td>Dias 1–60</td></tr>
+      <tr><td>Secretarias municipais</td><td>Dados operacionais e gargalos internos</td><td>Dias 1–30</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 16 SEÇÕES DE DIAGNÓSTICO -->
+
+<!-- 01 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 01</div>
+    <h3>Estrutura Territorial e Ordenamento Urbano-Rural</h3>
+    <p>Onde as pessoas moram, como a cidade cresceu e quais são os riscos territoriais</p>
+  </div>
+  <div class="diag-body">
+    <p>O território é o palco de tudo. Antes de qualquer política pública, o prefeito precisa entender como o espaço está organizado — ou desorganizado.</p>
+    <div class="box box-azul" style="margin-top:10px;font-size:0.88em"><strong>Dica prática:</strong> Elabore um mapa de vulnerabilidade territorial com apoio do IBGE, INPE e Defesa Civil. Esse mapa deve ser a base de toda decisão de investimento em infraestrutura.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Expansão urbana desordenada e favelização</li>
+          <li>Ocupações irregulares e conflitos fundiários</li>
+          <li>Segregação territorial e bairros isolados</li>
+          <li>Áreas rurais abandonadas sem serviços públicos</li>
+          <li>Pressão imobiliária e especulação</li>
+          <li>Áreas de risco: enchentes, deslizamentos e erosão</li>
+          <li>Drenagem urbana insuficiente</li>
+          <li>Impermeabilização excessiva do solo</li>
+          <li>Ilhas de calor urbanas</li>
+          <li>Conectividade entre bairros e acessibilidade</li>
+          <li>Infraestrutura rural: estradas, energia e água</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>% de moradias em áreas de risco → meta: abaixo de 5%</li>
+          <li>Taxa de impermeabilização do solo → abaixo de 60%</li>
+          <li>Acesso rural a serviços públicos → 100% das comunidades</li>
+          <li>Índice de acessibilidade urbana → calçadas regulares em &gt;70% das vias</li>
+          <li>Déficit de infraestrutura urbana por bairro</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 02</div>
+    <h3>Segurança Pública e Violência</h3>
+    <p>Segurança não é só policiamento — é urbanismo, cultura, juventude e oportunidades</p>
+  </div>
+  <div class="diag-body">
+    <p>Gestores que reduzem violência combinam prevenção social com ação policial inteligente. A fórmula não é contratar mais guardas — é agir nas causas.</p>
+    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Ação de alto impacto:</strong> Implante iluminação pública de LED em 100% das vias nos primeiros 2 anos. Estudos mostram redução de até 39% nos crimes noturnos — e o ROI desse investimento é altíssimo.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Homicídios — total e distribuição por bairro</li>
+          <li>Violência doméstica e feminicídio</li>
+          <li>Violência sexual e contra crianças</li>
+          <li>Violência racial e por orientação sexual</li>
+          <li>Tráfico de drogas e criminalidade organizada</li>
+          <li>Criminalidade juvenil e reincidência</li>
+          <li>Sensação de insegurança da população</li>
+          <li>Iluminação pública precária por território</li>
+          <li>Abandono urbano e espaços inseguros</li>
+          <li>Violência no trânsito e acidentes graves</li>
+          <li>Atuação e integração da Guarda Municipal</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Taxa de homicídios → abaixo de 10/100 mil hab.</li>
+          <li>Feminicídios → redução mínima 20% ao ano</li>
+          <li>Registros de violência contra crianças</li>
+          <li>Taxa de roubos e furtos</li>
+          <li>Taxa de reincidência criminal</li>
+          <li>Iluminação pública → acima de 95% das vias</li>
+          <li>Percepção de segurança → acima de 65% satisfeitos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 03</div>
+    <h3>Abastecimento de Água</h3>
+    <p>Água é direito humano, segurança sanitária e desenvolvimento econômico</p>
+  </div>
+  <div class="diag-body">
+    <p>Municipalizar ou aprimorar o serviço de água é uma das ações mais impactantes na saúde pública. Doenças de veiculação hídrica custam 3 vezes mais ao sistema de saúde do que o investimento em saneamento.</p>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Cobertura de abastecimento por área e zona</li>
+          <li>Intermitência no fornecimento (dias sem água)</li>
+          <li>Qualidade microbiológica da água distribuída</li>
+          <li>% de perdas na rede de distribuição (média nacional: 38%)</li>
+          <li>Situação dos mananciais e nascentes</li>
+          <li>Risco de escassez hídrica futura</li>
+          <li>Abastecimento em áreas rurais e isoladas</li>
+          <li>Infraestrutura de reservação e capacidade</li>
+          <li>Contaminação de aquíferos e corpos hídricos</li>
+          <li>No semiárido: cisternas, dessalinizadores, reservatórios</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Cobertura de água potável → meta: 100%</li>
+          <li>Perdas na rede → abaixo de 20%</li>
+          <li>Continuidade → 24h/dia, 7 dias/semana</li>
+          <li>Qualidade microbiológica (VIGIAGUA)</li>
+          <li>Capacidade de reservação em dias de autonomia</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 04</div>
+    <h3>Esgotamento Sanitário e Drenagem</h3>
+    <p>Cada real investido em saneamento retorna R$ 4 em saúde pública</p>
+  </div>
+  <div class="diag-body">
+    <p>O Brasil tem déficit histórico em saneamento. Municípios que avançam nessa agenda conquistam recursos federais, melhoram indicadores de saúde infantil e ganham reconhecimento estadual e nacional.</p>
+    <div class="box box-amarelo" style="margin-top:10px;font-size:0.88em"><strong>Atenção ao Marco Legal do Saneamento:</strong> A Lei 14.026/2020 exige universalização até 2033. Municípios que anteciparem essas metas têm prioridade em repasses federais e financiamentos do BNDES.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Volume de esgoto sem tratamento</li>
+          <li>Lançamento de esgoto in natura em rios e lagos</li>
+          <li>Fossas inadequadas em áreas peri-urbanas</li>
+          <li>Eficiência do sistema de drenagem urbana</li>
+          <li>Pontos crônicos de enchentes e alagamentos</li>
+          <li>Contaminação hídrica por esgoto</li>
+          <li>Doenças relacionadas ao saneamento inadequado (diarreia, hepatite A)</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Cobertura de rede de esgoto (%)</li>
+          <li>% de esgoto com tratamento efetivo</li>
+          <li>Número de pontos de alagamento recorrente</li>
+          <li>Casos de doenças diarreicas e leptospirose</li>
+          <li>Volume de esgoto tratado por dia (m³)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 05</div>
+    <h3>Resíduos Sólidos, Lixo e Reciclagem</h3>
+    <p>Da coleta ao destino final — como transformar lixo em recurso e saúde</p>
+  </div>
+  <div class="diag-body">
+    <p>Mais de 40% dos municípios brasileiros ainda jogam lixo em lixões. Isso é crime ambiental, risco sanitário e desperdício econômico. O prefeito que resolve esse problema entra para a história do município.</p>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Existência de lixão ou aterro irregular</li>
+          <li>Cobertura e regularidade da coleta convencional</li>
+          <li>Existência e eficiência da coleta seletiva</li>
+          <li>Cooperativas de catadores e suas condições</li>
+          <li>Gestão de resíduos hospitalares e da construção civil</li>
+          <li>Descarte irregular em rios e terrenos baldios</li>
+          <li>Programas de compostagem e logística reversa</li>
+          <li>Educação ambiental nas escolas e comunidades</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Cobertura de coleta regular → 100% das residências</li>
+          <li>Taxa de reciclagem → acima de 20%</li>
+          <li>Volume enviado a aterro sanitário (ton/mês)</li>
+          <li>Descarte irregular → zero pontos identificados</li>
+          <li>Catadores formalizados → 100% com CTPS ou cooperativa</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 06</div>
+    <h3>Saúde Pública Integral</h3>
+    <p>Da atenção básica à saúde mental — o município como agente de saúde coletiva</p>
+  </div>
+  <div class="diag-body">
+    <p>A saúde municipal vai muito além do pronto-socorro. Uma gestão de excelência trabalha com prevenção, promoção da saúde e integração entre serviços.</p>
+    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Meta de ouro:</strong> Municipalizar a atenção básica com cobertura ESF acima de 90% é o investimento de maior retorno em saúde. Cada R$ 1 investido na atenção básica evita R$ 7 em internações.</div>
+    <div class="scroll-hint">← Role para ver mais →</div>
+    <div class="tbl-wrap tbl-medio" style="margin-top:12px">
+      <table>
+        <thead><tr><th>Eixo</th><th>O que investigar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Atenção Básica</strong></td><td>Cobertura ESF, agentes comunitários, UBS ativas e resolutivas</td></tr>
+          <tr><td><strong>Saúde Mental</strong></td><td>CAPS em funcionamento, casos de depressão, suicídio, dependência química</td></tr>
+          <tr><td><strong>Saúde da Mulher</strong></td><td>Mortalidade materna, pré-natal de qualidade, violência obstétrica</td></tr>
+          <tr><td><strong>Saúde Infantil</strong></td><td>Mortalidade infantil, cobertura vacinal, desnutrição</td></tr>
+          <tr><td><strong>Saúde do Idoso</strong></td><td>Doenças crônicas, cuidados continuados, ILPI</td></tr>
+          <tr><td><strong>Saúde Ambiental</strong></td><td>Dengue, leptospirose, contaminações por agrotóxicos</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="diag-cols" style="margin-top:14px">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Cobertura da ESF e agentes comunitários de saúde</li>
+          <li>Atenção preventiva e qualidade do pré-natal</li>
+          <li>Saúde mental: depressão, ansiedade, uso de drogas</li>
+          <li>Atendimento psicossocial — CAPS e NASF</li>
+          <li>Mortalidade materna e violência obstétrica</li>
+          <li>Nutrição e mortalidade infantil</li>
+          <li>Cobertura vacinal por faixa etária e território</li>
+          <li>Doenças crônicas em idosos</li>
+          <li>Arboviroses: dengue, zika e chikungunya</li>
+          <li>Poluição ambiental e doenças respiratórias</li>
+          <li>Tempo de espera para consultas e exames</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Cobertura da atenção básica (%)</li>
+          <li>Mortalidade infantil por 1.000 nascidos vivos</li>
+          <li>Cobertura vacinal (%) → meta: &gt;95%</li>
+          <li>Tempo médio de espera para consultas</li>
+          <li>Incidência de dengue por 100 mil hab.</li>
+          <li>Atendimentos em saúde mental/mês</li>
+          <li>Taxa de mortalidade materna</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 07</div>
+    <h3>Educação Integral</h3>
+    <p>Da alfabetização à formação crítica — educação que transforma territórios</p>
+  </div>
+  <div class="diag-body">
+    <p>Educação é o investimento de maior retorno social de longo prazo. Municípios com bom IDEB atraem investimentos, retêm talentos e têm menor violência.</p>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Taxa de alfabetização na idade certa (até 8 anos)</li>
+          <li>Evasão e abandono escolar por série e território</li>
+          <li>Desempenho real nas avaliações — SAEB, Prova Brasil, IDEB</li>
+          <li>Violência escolar e bullying</li>
+          <li>Qualidade e adequação da alimentação escolar (PNAE)</li>
+          <li>Inclusão de crianças e jovens com deficiência</li>
+          <li>Acesso digital e conectividade nas escolas</li>
+          <li>Formação continuada e valorização dos professores</li>
+          <li>Infraestrutura física e equipamentos das escolas</li>
+          <li>Educação profissional e técnica disponível</li>
+          <li>Educação indígena, quilombola e do campo</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>IDEB Anos Iniciais → meta: acima de 6,0</li>
+          <li>Alfabetização até 8 anos → 95%</li>
+          <li>Taxa de abandono escolar → abaixo de 2%</li>
+          <li>Escolas com conectividade → 100%</li>
+          <li>Desempenho desagregado por território</li>
+          <li>Índice de inclusão escolar de PcD</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 08</div>
+    <h3>Segurança Alimentar e Nutricional</h3>
+    <p>Nenhuma criança deve passar fome no seu município</p>
+  </div>
+  <div class="diag-body">
+    <p>Insegurança alimentar é invisível nos números oficiais, mas visível nas crianças desnutridas e nos adultos obesos sem acesso a alimentos frescos. O prefeito tem instrumentos diretos para agir.</p>
+    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Oportunidade:</strong> Municípios que compram acima de 30% da merenda escolar da agricultura familiar criam cadeia econômica local, reduzem a fome e se qualificam para o Prêmio FNDE de Boas Práticas.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Famílias em situação de insegurança alimentar grave</li>
+          <li>Desnutrição infantil e anemia em menores de 5 anos</li>
+          <li>Obesidade em crianças, adolescentes e adultos</li>
+          <li>Acesso a alimentos frescos, saudáveis e acessíveis</li>
+          <li>Desertos alimentares (sem mercados ou feiras)</li>
+          <li>Agricultura familiar local e abastecimento</li>
+          <li>Qualidade e adequação da merenda escolar</li>
+          <li>Banco de alimentos e programas de doação</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Taxa de insegurança alimentar (%)</li>
+          <li>Prevalência de desnutrição infantil</li>
+          <li>% de crianças com obesidade ou sobrepeso</li>
+          <li>Famílias cadastradas no CadÚnico</li>
+          <li>% da merenda da agricultura familiar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 09</div>
+    <h3>Habitação e Direito à Cidade</h3>
+    <p>Moradia digna é o fundamento de uma vida com dignidade</p>
+  </div>
+  <div class="diag-body">
+    <div class="box box-azul" style="margin-bottom:12px;font-size:0.88em"><strong>Ação prioritária:</strong> Implante o Plano Local de Habitação de Interesse Social (PLHIS). Municípios com PLHIS aprovado têm acesso direto a recursos federais do MCMV e FNHIS.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Déficit habitacional quantitativo e qualitativo</li>
+          <li>Moradias precárias, improvisadas ou insalubres</li>
+          <li>Assentamentos irregulares sem regularização fundiária</li>
+          <li>Comprometimento excessivo de renda com aluguel (&gt;30%)</li>
+          <li>População em situação de rua — quantificação e perfil</li>
+          <li>Acesso a água, luz e esgoto nas moradias</li>
+          <li>Populações mais vulneráveis: idosos, mulheres, PcD</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Déficit habitacional total e por categoria</li>
+          <li>Regularizações fundiárias realizadas por ano</li>
+          <li>População em situação de rua estimada</li>
+          <li>% de famílias com aluguel acima de 30% da renda</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 10</div>
+    <h3>Mobilidade Urbana e Rural</h3>
+    <p>Como as pessoas se movem define seu acesso a oportunidades</p>
+  </div>
+  <div class="diag-body">
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Qualidade e cobertura do transporte público urbano</li>
+          <li>Condições das estradas vicinais e acesso rural</li>
+          <li>Acessibilidade para pessoas com deficiência e idosos</li>
+          <li>Calçadas, passeios e segurança para pedestres</li>
+          <li>Ciclovias e infraestrutura para ciclistas</li>
+          <li>Acidentes de trânsito — mortes e feridos graves</li>
+          <li>Mobilidade rural para escola, saúde e trabalho</li>
+          <li>Transporte escolar público: cobertura e qualidade</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Vias rurais em boas condições → acima de 80%</li>
+          <li>Mortes no trânsito → redução de 50% em 4 anos</li>
+          <li>Calçadas acessíveis → 100% no centro e escolas</li>
+          <li>Tempo médio de deslocamento casa-trabalho</li>
+          <li>Cobertura de transporte público por bairro</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 11</div>
+    <h3>Desenvolvimento Econômico e Trabalho</h3>
+    <p>Gerar renda e emprego é também função municipal</p>
+  </div>
+  <div class="diag-body">
+    <p>O município pode ser protagonista no desenvolvimento econômico local mesmo sem grandes indústrias. Apoio à agricultura familiar, economia criativa, cooperativismo e turismo são eixos municipais de geração de renda.</p>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Taxa de desemprego e subemprego — por sexo, raça e território</li>
+          <li>Informalidade no trabalho e nos negócios</li>
+          <li>Potencial econômico local inexplorado (turismo, artesanato, agro)</li>
+          <li>Número de MEIs ativos e micro/pequenos empreendedores</li>
+          <li>Cooperativas e empreendimentos solidários</li>
+          <li>Agricultura familiar e agroecologia</li>
+          <li>Capacidade de atração de investimentos e simplificação tributária</li>
+          <li>Economia criativa, cultural e do conhecimento</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Taxa de desemprego (%)</li>
+          <li>% de trabalhadores na informalidade</li>
+          <li>Renda média per capita</li>
+          <li>Número de CNPJs / MEIs ativos</li>
+          <li>Famílias em extrema pobreza</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 12</div>
+    <h3>Meio Ambiente e Emergência Climática</h3>
+    <p>O clima já mudou. O município precisa se adaptar e mitigar</p>
+  </div>
+  <div class="diag-body">
+    <p>Eventos climáticos extremos já causam perdas bilionárias em municípios brasileiros. O prefeito que não planeja para o clima está administrando uma bomba-relógio.</p>
+    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Oportunidade de financiamento:</strong> O Fundo Clima, o Fundo Amazônia e programas do BID financiam projetos de resiliência climática municipal. Municípios com Plano de Adaptação Climática têm vantagem competitiva.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Desmatamento e perda de cobertura vegetal</li>
+          <li>Queimadas e incêndios recorrentes</li>
+          <li>Erosão e assoreamento de rios e lagos</li>
+          <li>Avanço da desertificação em regiões semiáridas</li>
+          <li>Qualidade do ar em áreas urbanas e industriais</li>
+          <li>Situação de nascentes e áreas de preservação permanente</li>
+          <li>Biodiversidade local ameaçada</li>
+          <li>Vulnerabilidade climática — áreas de risco de enchente e seca</li>
+          <li>Emissões de gases de efeito estufa do município</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>% de cobertura vegetal no território</li>
+          <li>Área desmatada por ano (hectares)</li>
+          <li>Número de nascentes recuperadas</li>
+          <li>Área de risco climático mapeada (ha)</li>
+          <li>Temperatura média urbana vs. áreas verdes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 13</div>
+    <h3>Cultura, Esporte e Lazer</h3>
+    <p>Territórios com cultura têm menos violência e mais coesão social</p>
+  </div>
+  <div class="diag-body">
+    <p>Cultura, esporte e lazer não são luxo — são infraestrutura social. Jovens com acesso a atividades culturais e esportivas têm menor envolvimento com violência, melhor desempenho escolar e mais saúde mental.</p>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Equipamentos culturais existentes (bibliotecas, teatros, centros culturais)</li>
+          <li>Acesso territorial à cultura — quais bairros não têm nada?</li>
+          <li>Quadras, ginásios e espaços esportivos por território</li>
+          <li>Patrimônio histórico e cultural local — inventariado?</li>
+          <li>Eventos culturais regulares — feiras, festivais, exposições</li>
+          <li>Jovens sem acesso a lazer e atividades estruturadas</li>
+          <li>Fomento a artistas locais e economia criativa</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Equipamentos culturais ativos por bairro</li>
+          <li>% da população com acesso regular a esporte</li>
+          <li>Jovens em programas de lazer e cultura</li>
+          <li>Investimento per capita em cultura e esporte</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 14</div>
+    <h3>Inclusão Social e Direitos Humanos</h3>
+    <p>Governar para todos, sem exceção</p>
+  </div>
+  <div class="diag-body">
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Racismo estrutural — acesso desigual de pessoas negras a serviços</li>
+          <li>Exclusão territorial de populações vulneráveis</li>
+          <li>Acessibilidade física e digital para PcD</li>
+          <li>Violência contra LGBTQIA+, mulheres, idosos</li>
+          <li>Populações indígenas e quilombolas</li>
+          <li>Inclusão escolar de estudantes com necessidades especiais</li>
+          <li>Trabalho infantil e exploração de vulneráveis</li>
+          <li>Existência e funcionamento do Conselho de Direitos Humanos</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Índice de acessibilidade urbana para PcD</li>
+          <li>Taxa de inclusão escolar de pessoas com deficiência</li>
+          <li>Número de denúncias de discriminação registradas</li>
+          <li>Cobertura de assistência social a populações vulneráveis</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 15</div>
+    <h3>Governança Pública e Eficiência Institucional</h3>
+    <p>A prefeitura mais eficiente é a que entrega mais com menos</p>
+  </div>
+  <div class="diag-body">
+    <p>A qualidade da gestão define se boas intenções viram resultados reais. Uma prefeitura com pessoas qualificadas, sistemas digitais e cultura de planejamento multiplica o impacto de cada real investido.</p>
+    <div class="box box-azul" style="margin-top:10px;font-size:0.88em"><strong>Benchmark:</strong> Prefeituras que implantam sistemas de gestão por resultados (GPR) melhoram a execução orçamentária em até 35% no segundo ano.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Percepção de corrupção e nepotismo</li>
+          <li>Capacidade técnica da equipe — formação, salários, rotatividade</li>
+          <li>Nível de digitalização dos serviços — e-gov, portais, apps</li>
+          <li>Transparência ativa — dados publicados em formato aberto</li>
+          <li>Existência de planejamento plurianual real e operacionalizado</li>
+          <li>Tempo médio de resposta a demandas dos cidadãos</li>
+          <li>Execução orçamentária — capacidade de gastar bem o que tem</li>
+          <li>Participação social nos processos decisórios</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>Nota no ranking de transparência (LAI)</li>
+          <li>% de execução orçamentária</li>
+          <li>Número de serviços digitalizados</li>
+          <li>Tempo de resposta a demandas cidadãs</li>
+          <li>Índice de qualificação dos gestores e servidores</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="diag-block">
+  <div class="diag-title">
+    <div class="diag-num">SEÇÃO 16</div>
+    <h3>Defesa Civil e Gestão de Riscos</h3>
+    <p>Prevenir é mais barato e humano do que remediar</p>
+  </div>
+  <div class="diag-body">
+    <div class="box box-laranja" style="margin-bottom:12px;font-size:0.88em"><strong>Obrigação legal:</strong> Todo município deve ter Plano Municipal de Redução de Riscos (PMRR) atualizado. A ausência desse plano pode impedir o recebimento de recursos federais em situações de emergência.</div>
+    <div class="diag-cols">
+      <div class="diag-col-levantar">
+        <div class="diag-col-title">O QUE LEVANTAR</div>
+        <ul class="diag-list">
+          <li>Histórico de desastres naturais — enchentes, secas, deslizamentos</li>
+          <li>Mapeamento das áreas de risco com população residente</li>
+          <li>Existência e capacidade operacional da Defesa Civil municipal</li>
+          <li>Sistemas de alerta e comunicação com a população</li>
+          <li>Plano de contingência para emergências climáticas</li>
+          <li>População em áreas de risco sem plano de reassentamento</li>
+        </ul>
+      </div>
+      <div class="diag-col-indicadores">
+        <div class="diag-col-title">INDICADORES-CHAVE</div>
+        <ul class="diag-list">
+          <li>População em áreas de risco mapeadas</li>
+          <li>Tempo de resposta em emergências (minutos)</li>
+          <li>Famílias reassentadas de áreas de risco</li>
+          <li>Plano de contingência existente e atualizado</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /parte1 -->
+
+<!-- PARTE II -->
+<div id="parte2">
+<div class="parte-header">
+  <div class="parte-num">PARTE II</div>
+  <h2>PLANEJAMENTO ESTRATÉGICO PROFISSIONAL</h2>
+  <div class="parte-desc">Como transformar diagnóstico em ação concreta</div>
+</div>
+
+<p>Um plano de governo de qualidade não é um documento para ficar na gaveta. É o mapa operacional da sua gestão: define o que você vai fazer, para quem, onde, com quanto e como vai medir. Sem esse mapa, você governa no improviso.</p>
+
+<div class="box box-azul">
+  <div class="box-titulo">O princípio da prioridade inteligente</div>
+  Com recursos limitados, é preciso escolher. Um bom gestor prioriza intervenções que atendem populações mais vulneráveis, geram efeitos em múltiplas áreas e são sustentáveis no longo prazo. Não faça tudo ao mesmo tempo: faça as coisas certas, na ordem certa.
+</div>
+
+<h2 class="sec">A Estrutura do Planejamento por Resultados</h2>
+<p>Para cada ação ou programa, responda as 9 perguntas abaixo. Esse é o padrão de excelência em gestão pública:</p>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Pergunta</th><th>O que representa</th><th>Por que é essencial</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Qual problema?</strong></td><td>Diagnóstico com dados — o problema identificado</td><td>Sem problema claro, a ação não tem foco</td></tr>
+      <tr><td><strong>Quem sofre?</strong></td><td>Número e perfil da população afetada</td><td>Define quem deve ser priorizado</td></tr>
+      <tr><td><strong>Onde ocorre?</strong></td><td>Território específico, mapeado</td><td>Permite intervenção territorializada</td></tr>
+      <tr><td><strong>Qual causa estrutural?</strong></td><td>Análise causal — por que isso acontece?</td><td>Evita soluções superficiais</td></tr>
+      <tr><td><strong>Qual meta?</strong></td><td>Resultado esperado — mensurável e com prazo</td><td>Cria accountability e mensurabilidade</td></tr>
+      <tr><td><strong>Como executar?</strong></td><td>Estratégia — ações, etapas, articulações</td><td>Transforma intenção em ação concreta</td></tr>
+      <tr><td><strong>Quanto custa?</strong></td><td>Orçamento estimado e fonte de recursos</td><td>Garante viabilidade fiscal</td></tr>
+      <tr><td><strong>Quem executa?</strong></td><td>Secretaria responsável e parceiros</td><td>Elimina ambiguidade de responsabilidade</td></tr>
+      <tr><td><strong>Como medir?</strong></td><td>Indicadores de processo, resultado e impacto</td><td>Permite avaliação e correção de rota</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">Modelo de Ficha de Ação Municipal</h2>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap tbl-medio">
+  <table>
+    <thead><tr><th>Campo</th><th>Instrução de preenchimento</th></tr></thead>
+    <tbody>
+      <tr><td><strong>NOME DA AÇÃO</strong></td><td>Identificação curta e clara da política ou projeto</td></tr>
+      <tr><td><strong>PROBLEMA IDENTIFICADO</strong></td><td>Descrição objetiva do problema diagnosticado, com dados</td></tr>
+      <tr><td><strong>POPULAÇÃO AFETADA</strong></td><td>Número, perfil demográfico e território da população</td></tr>
+      <tr><td><strong>CAUSA ESTRUTURAL</strong></td><td>Raiz do problema — não apenas o sintoma visível</td></tr>
+      <tr><td><strong>META</strong></td><td>Ex.: Reduzir em 30% o número de alagamentos em 2 anos</td></tr>
+      <tr><td><strong>ESTRATÉGIA</strong></td><td>Ações específicas, parcerias e tecnologias a utilizar</td></tr>
+      <tr><td><strong>ORÇAMENTO</strong></td><td>Valor total e fonte: própria, estadual, federal ou parceria</td></tr>
+      <tr><td><strong>RESPONSÁVEL</strong></td><td>Secretaria e nome do gestor responsável pela entrega</td></tr>
+      <tr><td><strong>INDICADORES</strong></td><td>Métricas de processo e resultado: como saberemos que funcionou?</td></tr>
+      <tr><td><strong>AVALIAÇÃO</strong></td><td>Periodicidade: mensal, trimestral ou semestral</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">Os 5 Erros Mais Comuns no Planejamento Municipal</h2>
+<div class="erros" style="border:1px solid #ddd;border-radius:8px;overflow:hidden">
+  <div class="erro-item"><div class="erro-num">1</div><p>Copiar plano de outros municípios sem adaptação à realidade local</p></div>
+  <div class="erro-item"><div class="erro-num">2</div><p>Metas sem indicadores — não dá para medir o que não foi definido</p></div>
+  <div class="erro-item"><div class="erro-num">3</div><p>Planejar sem orçamento associado — plano vira lista de desejos</p></div>
+  <div class="erro-item"><div class="erro-num">4</div><p>Não envolver as secretarias no planejamento — gera resistência e descoordenação</p></div>
+  <div class="erro-item"><div class="erro-num">5</div><p>Planejar tudo de uma vez, sem prioridades — dispersa energia e recursos</p></div>
+</div>
+
+<h2 class="sec">Como Priorizar: Matriz de Impacto × Viabilidade / Urgência</h2>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead>
+      <tr><th></th><th>ALTA VIABILIDADE / URGÊNCIA</th><th>BAIXA VIABILIDADE / URGÊNCIA</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="background:var(--azul);color:white;font-weight:700;white-space:nowrap">ALTO IMPACTO</td>
+        <td style="background:#D6F0E0"><strong>✅ FAÇA PRIMEIRO</strong><br>Ganhos rápidos e relevantes. Prioridade máxima.</td>
+        <td style="background:var(--azul-claro)"><strong>📋 PLANEJE COM CUIDADO</strong><br>Requer mais recursos e tempo. Médio prazo.</td>
+      </tr>
+      <tr>
+        <td style="background:var(--azul-medio);color:white;font-weight:700;white-space:nowrap">BAIXO IMPACTO</td>
+        <td style="background:var(--amarelo)"><strong>🔄 DELEGUE</strong><br>Pode ser feito com autonomia de equipe.</td>
+        <td style="background:#FFE0E0"><strong>🗑 DESCARTE OU ADIE</strong><br>Sem prioridade agora. Reavaliar depois.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /parte2 -->
+
+<!-- PARTE III -->
+<div id="parte3">
+<div class="parte-header">
+  <div class="parte-num">PARTE III</div>
+  <h2>MODELO DE GESTÃO POR RESULTADOS</h2>
+  <div class="parte-desc">Como monitorar, corrigir rotas e garantir entregas</div>
+</div>
+
+<p>Gestão por resultados significa que toda decisão e alocação de recursos está orientada por uma meta mensurável. Não é o que você fez — é o que mudou na vida das pessoas.</p>
+
+<div class="box box-azul">
+  <div class="box-titulo">O ciclo virtuoso da gestão por resultados</div>
+  DIAGNÓSTICO → PLANEJAMENTO → EXECUÇÃO → MONITORAMENTO → AVALIAÇÃO → APRENDIZADO → NOVO CICLO. Cada volta do ciclo melhora a gestão. Municípios que não avaliam ficam presos nos mesmos problemas por décadas.
+</div>
+
+<h2 class="sec">Os 7 Pilares do Modelo de Gestão Municipal Eficiente</h2>
+<div class="pilares">
+  <div class="pilar"><div class="pilar-num">1</div><h4>Observatório Municipal</h4><p>Central de dados que monitora em tempo real os indicadores de todas as secretarias. Permite antecipar crises e identificar oportunidades.</p></div>
+  <div class="pilar"><div class="pilar-num">2</div><h4>Painel de Indicadores (Dashboard)</h4><p>Ferramenta visual — TV na sala do prefeito ou sistema digital — que mostra o desempenho de cada secretaria em relação às metas.</p></div>
+  <div class="pilar"><div class="pilar-num">3</div><h4>Georreferenciamento de Políticas</h4><p>Mapas que mostram onde cada investimento foi feito e onde os problemas ainda persistem. Indispensável para justiça territorial.</p></div>
+  <div class="pilar"><div class="pilar-num">4</div><h4>Reuniões de Monitoramento Mensais</h4><p>O prefeito reúne secretários mensalmente para revisar indicadores, identificar gargalos e tomar decisões corretivas. Sem isso, o plano morre.</p></div>
+  <div class="pilar"><div class="pilar-num">5</div><h4>Auditoria Permanente</h4><p>Controladoria interna ativa, não apenas reativa. Previne irregularidades antes que virem escândalos.</p></div>
+  <div class="pilar"><div class="pilar-num">6</div><h4>Sala de Situação Climática</h4><p>Estrutura de monitoramento climático e resposta rápida a desastres. Integrada à Defesa Civil e ao Cemaden.</p></div>
+  <div class="pilar"><div class="pilar-num">7</div><h4>Participação Cidadã Digital</h4><p>Portal ou aplicativo onde o cidadão pode acompanhar metas, fazer denúncias e participar de consultas públicas.</p></div>
+</div>
+
+<h2 class="sec">Ciclo de Gestão: PDCA Municipal</h2>
+<div class="pdca">
+  <div class="pdca-item pdca-p"><div class="pdca-letra">P</div><div class="pdca-nome">PLANEJAR</div><div class="pdca-desc">Diagnóstico, metas e estratégias definidas</div><div class="pdca-prazo">Jan–Mar (Ano 1)</div></div>
+  <div class="pdca-item pdca-d"><div class="pdca-letra">D</div><div class="pdca-nome">EXECUTAR</div><div class="pdca-desc">Secretarias implementam ações conforme plano</div><div class="pdca-prazo">Ao longo do ano</div></div>
+  <div class="pdca-item pdca-c"><div class="pdca-letra">C</div><div class="pdca-nome">CHECAR</div><div class="pdca-desc">Monitoramento de indicadores e avaliação</div><div class="pdca-prazo">Mensalmente</div></div>
+  <div class="pdca-item pdca-a"><div class="pdca-letra">A</div><div class="pdca-nome">AGIR</div><div class="pdca-desc">Corrigir rotas, reforçar o que funciona</div><div class="pdca-prazo">Bimestral/Trimestral</div></div>
+</div>
+
+<h2 class="sec">Estrutura de Governança Recomendada</h2>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Instância de Governança</th><th>Função e como operar</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sala de Situação — Gabinete do Prefeito</strong></td><td>Reunião semanal (90 min) com secretários-chave. Foco em desvios de indicadores críticos e decisões urgentes.</td></tr>
+      <tr><td><strong>Comitê de Gestão Integrada</strong></td><td>Reunião mensal de todas as secretarias. Revisão de metas, alinhamento intersetorial e identificação de sinergias.</td></tr>
+      <tr><td><strong>Observatório Municipal</strong></td><td>Unidade técnica para coletar, processar e publicar dados municipais. Alimenta o painel de indicadores.</td></tr>
+      <tr><td><strong>Painel de Indicadores (Dashboard)</strong></td><td>Sistema digital com indicadores atualizados mensalmente. Acessível ao público no site da prefeitura.</td></tr>
+      <tr><td><strong>Ouvidoria Municipal Ativa</strong></td><td>Canal de escuta cidadã com resposta em até 15 dias. Gera dados sobre satisfação e problemas.</td></tr>
+      <tr><td><strong>Conselhos Municipais Ativos</strong></td><td>Saúde, Educação, Assistência Social, Meio Ambiente. Garantem participação e controle social.</td></tr>
+      <tr><td><strong>Auditorias Semestrais</strong></td><td>Revisão técnica do plano de ação com avaliação de metas. Gera relatório público.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">Painel de Indicadores — Como Implementar</h2>
+<ul style="padding-left:22px;line-height:2">
+  <li>Defina no máximo 40 indicadores estratégicos: cobertura ampla sem excesso de complexidade.</li>
+  <li>Cada indicador deve ter: nome, fórmula de cálculo, fonte, responsável e frequência de atualização.</li>
+  <li>Publique o painel no site da prefeitura: transparência gera confiança e pressão positiva.</li>
+  <li>Use códigos de cores: 🟢 verde (meta atingida), 🟡 amarelo (alerta), 🔴 vermelho (meta não atingida).</li>
+  <li>Revise metas anualmente com base no aprendizado acumulado.</li>
+</ul>
+
+<div class="box box-azul" style="margin-top:16px">
+  <div class="box-titulo">Georreferenciamento e Inteligência Territorial</div>
+  A desigualdade municipal é sempre territorial. Use ferramentas gratuitas: Google Earth, QGIS, IBGE Malha Municipal e DataGeo. Crie mapas de calor para indicadores críticos (homicídios, dengue, evasão escolar, iluminação). Leve os mapas para as reuniões de gabinete — dados visualizados geram decisões melhores.
+</div>
+</div><!-- /parte3 -->
+
+<!-- PARTE IV -->
+<div id="parte4">
+<div class="parte-header">
+  <div class="parte-num">PARTE IV</div>
+  <h2>INDICADORES ESTRATÉGICOS ESSENCIAIS</h2>
+  <div class="parte-desc">O painel de controle do seu mandato</div>
+</div>
+
+<p>Você não pode gerir o que não mede. Mas medir tudo paralisa a análise. Estes são os indicadores mais importantes que todo prefeito deve monitorar pessoalmente, todo mês.</p>
+<div class="box box-amarelo"><div class="box-titulo">Dica de gestão</div>Imprima esse painel mensalmente e leve para a reunião com os secretários. Indicadores no vermelho devem ter plano de ação imediato. Indicadores no verde merecem reconhecimento público da equipe.</div>
+
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Área</th><th>Indicador-chave</th><th>Fonte</th><th>Periodicidade</th><th>Meta de referência</th></tr></thead>
+    <tbody>
+      <tr><td>Pobreza &amp; Renda</td><td>Taxa de extrema pobreza</td><td>CadÚnico</td><td>Mensal</td><td>Redução anual de 10%</td></tr>
+      <tr><td>Água</td><td>Acesso contínuo à água tratada (%)</td><td>SNIS</td><td>Semestral</td><td>Acima de 95%</td></tr>
+      <tr><td>Saneamento</td><td>% esgoto com tratamento efetivo</td><td>SNIS</td><td>Anual</td><td>Acima de 70%</td></tr>
+      <tr><td>Resíduos</td><td>Taxa de reciclagem (%)</td><td>Municipal</td><td>Mensal</td><td>Acima de 20%</td></tr>
+      <tr><td>Segurança</td><td>Taxa de homicídios por 100 mil hab.</td><td>SSP</td><td>Mensal</td><td>Redução anual de 15%</td></tr>
+      <tr><td>Educação</td><td>IDEB Anos Iniciais</td><td>INEP</td><td>Bienal</td><td>Acima de 6,0</td></tr>
+      <tr><td>Educação</td><td>Taxa de abandono escolar (%)</td><td>INEP</td><td>Anual</td><td>Abaixo de 2%</td></tr>
+      <tr><td>Saúde</td><td>Mortalidade infantil (por mil nascidos)</td><td>DATASUS</td><td>Mensal</td><td>Abaixo de 10</td></tr>
+      <tr><td>Saúde</td><td>Cobertura vacinal (%)</td><td>e-Gestor</td><td>Mensal</td><td>Acima de 95%</td></tr>
+      <tr><td>Emprego</td><td>CAGED — saldo empregos formais</td><td>MTE</td><td>Mensal</td><td>Saldo positivo</td></tr>
+      <tr><td>Habitação</td><td>Déficit habitacional reduzido (%)</td><td>IBGE/FJP</td><td>Anual</td><td>Redução anual de 5%</td></tr>
+      <tr><td>Clima</td><td>Famílias em áreas de risco reassentadas</td><td>Defesa Civil</td><td>Semestral</td><td>Zeragem progressiva</td></tr>
+      <tr><td>Gestão</td><td>Execução orçamentária (%)</td><td>SICONFI</td><td>Mensal</td><td>Acima de 85%</td></tr>
+      <tr><td>Gestão</td><td>Nota de transparência — LAI</td><td>CGU</td><td>Anual</td><td>Acima de 80 pontos</td></tr>
+      <tr><td>Participação</td><td>Satisfação cidadã com serviços (%)</td><td>Pesquisa</td><td>Semestral</td><td>Acima de 70%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">Frequência de Monitoramento</h2>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap tbl-medio">
+  <table>
+    <thead><tr><th>Frequência</th><th>Indicadores monitorados</th></tr></thead>
+    <tbody>
+      <tr><td><strong>🔴 Semanal</strong></td><td>Segurança (homicídios, ocorrências graves), saúde (surtos), dengue, reclamações na ouvidoria</td></tr>
+      <tr><td><strong>🟠 Mensal</strong></td><td>Execução orçamentária, obras, atendimentos de saúde e educação, coleta de lixo, CAGED</td></tr>
+      <tr><td><strong>🟡 Trimestral</strong></td><td>Todos os 40 indicadores do painel: análise comparativa com trimestre anterior</td></tr>
+      <tr><td><strong>🟢 Semestral</strong></td><td>Avaliação formal do plano de ação: revisão de metas e prioridades</td></tr>
+      <tr><td><strong>⚪ Anual</strong></td><td>Publicação do relatório de gestão com todos os indicadores e resultados alcançados</td></tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /parte4 -->
+
+<!-- PARTE V -->
+<div id="parte5">
+<div class="parte-header">
+  <div class="parte-num">PARTE V</div>
+  <h2>ELEMENTOS AVANÇADOS PARA GESTÃO DE EXCELÊNCIA</h2>
+  <div class="parte-desc">O que separa uma boa gestão de uma gestão premiada</div>
+</div>
+
+<p>Municípios de excelência não se diferenciam apenas pelos recursos que têm — se diferenciam pela qualidade das decisões que tomam e pela consistência com que as executam.</p>
+
+<h2 class="sec">1. Inteligência Territorial</h2>
+<p>Use dados geográficos para localizar desigualdades com precisão. Ferramentas como QGIS, Power BI e Google Earth Engine permitem criar mapas de vulnerabilidade, identificar onde o investimento público chegou e onde ainda falta chegar. Uma decisão baseada em mapa vale mais do que mil reuniões de diagnóstico subjetivo.</p>
+<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+  <li>Mapeie os 5 bairros com piores indicadores em cada área crítica.</li>
+  <li>Concentre investimentos proporcionalmente maiores nos territórios mais vulneráveis.</li>
+  <li>Crie equipes de referência territorial para cada área: saúde, educação, assistência social.</li>
+  <li>Use dados territorializados para combater o clientelismo: recursos seguem dados, não política.</li>
+</ul>
+
+<h2 class="sec">2. Planejamento Preventivo</h2>
+<p>Prevenir custa menos que remediar, sempre. Investir R$ 1 em prevenção evita entre R$ 4 e R$ 15 em atendimento emergencial, dependendo da área. Defenda orçamento preventivo.</p>
+<div class="box box-verde">
+  <div class="box-titulo">Exemplos de prevenção com alto retorno</div>
+  Vacinação em massa evita hospitalizações • Agentes de saúde em áreas de risco evitam surtos • Iluminação pública reduz criminalidade noturna • Qualificação docente reduz repetição e evasão • Drenagem urbana evita enchentes e doenças • Regularização fundiária evita conflitos e precariedade
+</div>
+
+<h2 class="sec">3. Governança Baseada em Evidências</h2>
+<p>Toda decisão relevante deve ser sustentada por dados. Antes de construir uma UBS nova, mostre o dado de demanda reprimida. Antes de comprar equipamentos, mostre a taxa de ociosidade dos existentes. Evidência é blindagem contra improviso e clientelismo.</p>
+<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+  <li>Exigir que toda proposta de política pública venha com diagnóstico e justificativa técnica.</li>
+  <li>Criar uma equipe de análise de dados vinculada ao gabinete do prefeito.</li>
+  <li>Avaliar regularmente o que funciona e o que não funciona — e ter coragem de mudar.</li>
+  <li>Compartilhar os dados publicamente, inclusive os que mostram problemas.</li>
+</ul>
+
+<h2 class="sec">4. Participação Cidadã Permanente</h2>
+<p>Escuta ativa e territorializada — não reuniões esvaziadas no centro da cidade. Use audiências públicas descentralizadas por bairros, aplicativos de participação (ex.: Colab.re), conselhos municipais fortalecidos e orçamento participativo digital.</p>
+<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+  <li>Realize audiências públicas territorializadas, não apenas na sede da prefeitura.</li>
+  <li>Crie mecanismos digitais de escuta: formulários online, apps e redes sociais institucionais.</li>
+  <li>Retorne sempre os resultados das consultas populares: mostre que a voz foi ouvida.</li>
+  <li>Ative os conselhos municipais existentes: muitos nunca se reúnem na prática.</li>
+</ul>
+
+<h2 class="sec">5. Justiça Territorial e Distributiva</h2>
+<p>Em municípios com desigualdade, gestão neutra é gestão injusta. Distribua os investimentos de forma equitativa. Crie uma "Regra de Equidade" que exige que cada bairro receba investimento proporcional às suas necessidades — e não ao seu peso político.</p>
+<div class="box box-azul">
+  <div class="box-titulo">Como aplicar a justiça territorial</div>
+  Mapeie os territórios mais vulneráveis. Garanta que recebam percentual proporcional dos investimentos. Exemplo: o bairro com maior déficit de saneamento recebe mais obras de esgoto que o bairro já atendido. Documente e publique a lógica da distribuição — isso legitima a decisão e combate o clientelismo.
+</div>
+
+<h2 class="sec">6. Resiliência Climática</h2>
+<p>Construa um Plano Municipal de Adaptação Climática (PMAC). Identifique cenários de risco para 10 e 20 anos. Incorpore esses riscos no Plano Diretor e no Plano Plurianual. Prefeitos que agirem agora evitarão crises devastadoras para seus sucessores.</p>
+<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+  <li>Elabore o Plano Municipal de Adaptação Climática com apoio do Ministério das Cidades.</li>
+  <li>Mapeie todas as áreas de risco climático e desenvolva planos de evacuação e contingência.</li>
+  <li>Invista em infraestrutura verde: arborização, parques lineares e drenagem natural.</li>
+  <li>Integre a perspectiva climática a todos os setores: saúde, habitação, mobilidade, agricultura.</li>
+</ul>
+</div><!-- /parte5 -->
+
+<!-- PARTE VI -->
+<div id="parte6">
+<div class="parte-header">
+  <div class="parte-num">PARTE VI</div>
+  <h2>COMO CONQUISTAR PRÊMIOS E RECONHECIMENTO</h2>
+  <div class="parte-desc">Reconhecimento nacional como resultado natural de uma boa gestão</div>
+</div>
+
+<p>Prêmios não são o objetivo da gestão — são a consequência. Quando você entrega resultados reais, documenta com dados e comunica bem, o reconhecimento vem naturalmente.</p>
+
+<div class="box box-azul">
+  <div class="box-titulo">Por que buscar reconhecimento?</div>
+  Prêmios não são vaidade. São credenciais que abrem portas: financiamentos, visibilidade para parcerias, capacidade de atrair gestores qualificados e — fundamentalmente — o registro histórico de uma gestão que fez a diferença na vida das pessoas.
+</div>
+
+<h2 class="sec">Principais Prêmios e Programas Nacionais</h2>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Prêmio / Programa</th><th>Foco</th><th>Organizador</th><th>Como se qualificar</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Prêmio ODM Brasil / ODS</strong></td><td>Desenvolvimento sustentável</td><td>PNUD / Gov. Federal</td><td>Indicadores alinhados aos ODS da ONU</td></tr>
+      <tr><td><strong>SNIS — Destaque em Saneamento</strong></td><td>Água, esgoto e resíduos</td><td>MDR / SNSA</td><td>Indicadores SNIS acima da média nacional</td></tr>
+      <tr><td><strong>Prêmio FNDE Boas Práticas</strong></td><td>PNAE, PDDE e FNAS</td><td>FNDE</td><td>Excelência na execução dos programas federais</td></tr>
+      <tr><td><strong>Prêmio Cidades Sustentáveis</strong></td><td>Gestão alinhada aos ODS — 12 eixos</td><td>Rede Cidades Sustentáveis</td><td>Adesão à plataforma e envio de evidências</td></tr>
+      <tr><td><strong>Prêmio CNM de Inovação</strong></td><td>Inovação em gestão municipal</td><td>CNM</td><td>Projeto documentado com resultados comprovados</td></tr>
+      <tr><td><strong>Selo UNICEF Município Aprovado</strong></td><td>Mortalidade infantil e desnutrição</td><td>UNICEF Brasil</td><td>Redução de mortalidade e desnutrição infantil</td></tr>
+      <tr><td><strong>Prêmio Saúde — CONASEMS</strong></td><td>Boas práticas em saúde coletiva</td><td>CONASEMS</td><td>Projeto documentado em saúde municipal</td></tr>
+      <tr><td><strong>Compromisso pela Educação</strong></td><td>Maior evolução no IDEB</td><td>MEC / Todos pela Educação</td><td>Melhoria consistente no IDEB ao longo do mandato</td></tr>
+      <tr><td><strong>IEGM — Índice de Efetividade (TCE)</strong></td><td>Qualidade da gestão pública</td><td>TCE Estadual</td><td>Educação, saúde, planejamento, fiscal, governo digital</td></tr>
+      <tr><td><strong>Ranking de Transparência (CGU/LAI)</strong></td><td>Transparência e acesso à informação</td><td>CGU</td><td>Portal completo, LAI cumprida, dados abertos</td></tr>
+      <tr><td><strong>Prêmio Prefeito Empreendedor (Sebrae)</strong></td><td>Desenvolvimento econômico local</td><td>Sebrae</td><td>Ambiente de negócios, desburocratização, apoio a MPE</td></tr>
+      <tr><td><strong>Certificação ISO 9001 em serviços</strong></td><td>Qualidade de processos</td><td>ABNT / Certificadoras</td><td>Sistema de gestão da qualidade em pelo menos uma área</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">Como se Candidatar: Protocolo em 7 Etapas</h2>
+<div style="margin:16px 0">
+  <div class="etapa"><div class="etapa-num">1</div><div class="etapa-body"><h4>Documente tudo desde o início</h4><p>Fotografe, registre em ata, guarde dados antes e depois. Um prêmio exige prova do impacto, não apenas da intenção. Crie um arquivo de memória de gestão desde o primeiro dia.</p></div></div>
+  <div class="etapa"><div class="etapa-num">2</div><div class="etapa-body"><h4>Estruture um relatório de resultados anual</h4><p>Todo ano, consolide os principais indicadores e resultados. Escreva em linguagem acessível, com dados, gráficos e depoimentos. Esse relatório é a base de qualquer candidatura.</p></div></div>
+  <div class="etapa"><div class="etapa-num">3</div><div class="etapa-body"><h4>Identifique os prêmios compatíveis com sua agenda</h4><p>Não adianta concorrer a tudo. Escolha 2 ou 3 prêmios que se alinhem ao que você fez de melhor. Qualidade é mais importante que quantidade de candidaturas.</p></div></div>
+  <div class="etapa"><div class="etapa-num">4</div><div class="etapa-body"><h4>Construa um dossiê técnico convincente</h4><p>Redija uma narrativa com: problema diagnosticado, solução adotada, execução, resultados e impacto real na vida das pessoas.</p></div></div>
+  <div class="etapa"><div class="etapa-num">5</div><div class="etapa-body"><h4>Mobilize parceiros para referendar os resultados</h4><p>UNICEF, OPAS, universidades locais, OSCs — endossos externos aumentam muito a credibilidade da candidatura.</p></div></div>
+  <div class="etapa"><div class="etapa-num">6</div><div class="etapa-body"><h4>Comunique os resultados com responsabilidade</h4><p>Prêmios ganhos devem ser comunicados como vitória da cidade, não do prefeito. Use sempre: "Nossa cidade foi reconhecida por..." Isso aumenta o orgulho coletivo.</p></div></div>
+  <div class="etapa"><div class="etapa-num">7</div><div class="etapa-body"><h4>Crie um núcleo de gestão de prêmios</h4><p>Designe uma pessoa para gerenciar inscrições e documentação ao longo de todo o mandato. Candidaturas exigem preparação contínua, não no último momento.</p></div></div>
+</div>
+
+<h2 class="sec">Alinhamento com os ODS — Objetivos de Desenvolvimento Sustentável</h2>
+<p>Os ODS da ONU são o principal framework global de avaliação de gestão pública. Alinhar seu plano aos ODS facilita acesso a recursos internacionais e reconhecimento.</p>
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap tbl-verde">
+  <table>
+    <thead><tr><th>ODS</th><th>Tema</th><th>Ações municipais relacionadas</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ODS 1</strong></td><td>Fim da pobreza</td><td>CadÚnico atualizado, assistência social integrada e transferências de renda</td></tr>
+      <tr><td><strong>ODS 2</strong></td><td>Fome zero</td><td>Merenda escolar, bancos de alimentos e apoio à agricultura familiar</td></tr>
+      <tr><td><strong>ODS 3</strong></td><td>Saúde e bem-estar</td><td>ESF, saúde mental, prevenção de doenças e vacinação em massa</td></tr>
+      <tr><td><strong>ODS 4</strong></td><td>Educação de qualidade</td><td>IDEB, alfabetização na idade certa, inclusão e formação docente</td></tr>
+      <tr><td><strong>ODS 5</strong></td><td>Igualdade de gênero</td><td>Proteção à mulher, combate à violência doméstica, políticas de cuidado</td></tr>
+      <tr><td><strong>ODS 6</strong></td><td>Água e saneamento</td><td>Abastecimento, esgoto, drenagem e qualidade da água potável</td></tr>
+      <tr><td><strong>ODS 10</strong></td><td>Redução das desigualdades</td><td>Investimento territorialmente justo e inclusão social plena</td></tr>
+      <tr><td><strong>ODS 11</strong></td><td>Cidades sustentáveis</td><td>Habitação, mobilidade, espaços públicos e urbanismo inclusivo</td></tr>
+      <tr><td><strong>ODS 13</strong></td><td>Ação climática</td><td>Adaptação, redução de risco de desastres e economia verde</td></tr>
+      <tr><td><strong>ODS 16</strong></td><td>Paz e instituições</td><td>Transparência, participação cidadã e combate à violência</td></tr>
+      <tr><td><strong>ODS 17</strong></td><td>Parcerias para os objetivos</td><td>Cooperação intergovernamental, captação de recursos e parcerias estratégicas</td></tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /parte6 -->
+
+<!-- PARTE VII -->
+<div id="parte7">
+<div class="parte-header">
+  <div class="parte-num">PARTE VII</div>
+  <h2>OS PRIMEIROS 100 DIAS DE MANDATO</h2>
+  <div class="parte-desc">O roteiro do prefeito recém-empossado</div>
+</div>
+
+<p>Os primeiros 100 dias definem o ritmo e o tom do mandato inteiro. Eles são ao mesmo tempo o período de maior capital político e o de maior risco de erros. Use-os com inteligência.</p>
+
+<div class="scroll-hint">← Role para ver mais →</div>
+<div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Período</th><th>Foco</th><th>Ações prioritárias</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Dias 1–10</strong></td><td>Posse e estruturação</td><td>Nomear equipe-chave, reuniões iniciais com secretários, solicitar auditoria de caixa e contratos vigentes</td></tr>
+      <tr><td><strong>Dias 11–30</strong></td><td>Diagnóstico rápido</td><td>Visitar todos os equipamentos públicos, ouvir técnicos de cada secretaria, mapear contratos problemáticos e obras paradas</td></tr>
+      <tr><td><strong>Dias 31–60</strong></td><td>Planejamento inicial</td><td>Definir prioridades do primeiro ano, iniciar PPA e LDO, estabelecer painel de indicadores, comunicar plano à população</td></tr>
+      <tr><td><strong>Dias 61–100</strong></td><td>Primeiras entregas</td><td>Executar ações de impacto rápido (iluminação, zeladoria, merenda), publicar primeiro relatório de gestão, realizar audiência pública</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec">As 10 Ações de Alto Impacto nos Primeiros 100 Dias</h2>
+<p>Essas ações geram resultados visíveis rapidamente, custam relativamente pouco e constroem credibilidade política para as ações estruturais que virão:</p>
+<ol style="padding-left:24px;margin:14px 0;line-height:2.1">
+  <li>Auditoria de contratos vigentes — cancele ou renegocie o que for irregular</li>
+  <li>Censo de equipamentos públicos — UBS, escolas, praças: o que funciona, o que não funciona</li>
+  <li>Operação zeladoria — limpeza e manutenção básica de espaços públicos em todos os bairros</li>
+  <li>Diagnóstico de iluminação pública — mapeie e resolva os pontos críticos</li>
+  <li>Revisão da merenda escolar — qualidade, fornecedores, % da agricultura familiar</li>
+  <li>Reunião com todos os conselhos municipais — retome o diálogo com a sociedade civil</li>
+  <li>Auditoria da folha de pagamento — identifique irregularidades e afastamentos indevidos</li>
+  <li>Mapa de famílias em situação de risco — CadÚnico atualizado</li>
+  <li>Criação do grupo de gestão por resultados — reúne os secretários quinzenalmente</li>
+  <li>Comunicação transparente — publique o diagnóstico inicial e o plano de 100 dias ao público</li>
+</ol>
+
+<div class="box box-laranja">
+  <div class="box-titulo">⚠ Armadilha a evitar</div>
+  Inaugurar obras dos governos anteriores como se fossem suas, antes de verificar a qualidade e a regularidade. Se a obra tiver problema, você herdou o problema publicamente.
+</div>
+</div><!-- /parte7 -->
+
+<!-- CONCLUSÃO -->
+<div id="conclusao">
+<div class="parte-header">
+  <div class="parte-num">CONCLUSÃO</div>
+  <h2>O QUE SIGNIFICA GOVERNAR BEM</h2>
+</div>
+
+<p>Ao final de 4 anos, o que vai ficar não são os eventos inaugurados, os discursos ou os palanques. O que fica é o que mudou na vida das pessoas.</p>
+<p style="margin-top:10px">A criança que foi alfabetizada. A família que tem água limpa em casa. O jovem que não precisou escolher entre trabalho e estudo. O idoso que recebe cuidado digno. O bairro que não alaga mais quando chove.</p>
+
+<div class="box box-azul" style="margin:20px 0">
+  <div class="box-titulo">Os cinco compromissos do gestor de excelência</div>
+  <ol style="padding-left:22px;margin-top:8px;line-height:2">
+    <li><strong>Conhecer antes de agir:</strong> nenhuma política sem diagnóstico.</li>
+    <li><strong>Planejar com rigor:</strong> metas claras, recursos definidos, responsáveis nomeados.</li>
+    <li><strong>Executar com consistência:</strong> não abandonar o que funciona por pressão política.</li>
+    <li><strong>Medir e aprender:</strong> avaliar sem medo de errar e corrigir rapidamente.</li>
+    <li><strong>Prestar contas com orgulho:</strong> transparência é expressão de respeito pelo cidadão.</li>
+  </ol>
+</div>
+
+<h2 class="sec">✅ Checklist do Gestor de Excelência</h2>
+<div style="border:1px solid #ddd;border-radius:8px;overflow:hidden;margin:14px 0">
+  <ul class="checklist">
+    <li>Realizei diagnóstico municipal completo nos primeiros 60 dias</li>
+    <li>Tenho um plano de governo com metas, indicadores e responsáveis para cada ação</li>
+    <li>Publico mensalmente os indicadores de gestão no site da prefeitura</li>
+    <li>Realizo reuniões semanais de monitoramento com minha equipe</li>
+    <li>Invisto proporcionalmente mais nos territórios mais vulneráveis</li>
+    <li>Meus secretários conhecem as metas e respondem por elas</li>
+    <li>A ouvidoria municipal responde em até 15 dias</li>
+    <li>Os conselhos municipais se reúnem regularmente</li>
+    <li>Tenho pelo menos um núcleo de análise de dados na prefeitura</li>
+    <li>Meu plano de governo está alinhado aos Objetivos de Desenvolvimento Sustentável</li>
+    <li>Estou documentando resultados para candidatura a prêmios nacionais</li>
+    <li>Público relatório anual de gestão com todos os indicadores e resultados</li>
+    <li>Tenho plano de contingência atualizado para desastres e emergências climáticas</li>
+    <li>Invisto na qualificação contínua dos meus servidores</li>
+    <li>Minha gestão é reconhecida pela população como honesta e eficiente</li>
+  </ul>
+</div>
+
+<h2 class="sec">Anexo — Checklist de Diagnóstico por Área</h2>
+<div class="check-group">
+  <div class="check-group-title">TERRITÓRIO E URBANISMO</div>
+  <ul class="checklist">
+    <li>Mapa de risco territorial elaborado</li>
+    <li>Expansão urbana mapeada</li>
+    <li>Áreas rurais inventariadas</li>
+    <li>Plano Diretor atualizado</li>
+    <li>Regularização fundiária em andamento</li>
+  </ul>
+</div>
+<div class="check-group">
+  <div class="check-group-title">SANEAMENTO BÁSICO</div>
+  <ul class="checklist">
+    <li>Cobertura de água levantada</li>
+    <li>Taxa de perdas na rede conhecida</li>
+    <li>Cobertura de esgoto mapeada</li>
+    <li>Pontos de alagamento identificados</li>
+    <li>Diagnóstico de resíduos sólidos feito</li>
+  </ul>
+</div>
+<div class="check-group">
+  <div class="check-group-title">SAÚDE PÚBLICA</div>
+  <ul class="checklist">
+    <li>Cobertura ESF calculada</li>
+    <li>Mortalidade infantil atualizada</li>
+    <li>Cobertura vacinal verificada</li>
+    <li>Dados de saúde mental levantados</li>
+    <li>CAPS em funcionamento verificado</li>
+  </ul>
+</div>
+<div class="check-group">
+  <div class="check-group-title">EDUCAÇÃO</div>
+  <ul class="checklist">
+    <li>IDEB mais recente analisado</li>
+    <li>Taxa de evasão por série levantada</li>
+    <li>Diagnóstico de infraestrutura escolar feito</li>
+    <li>Conectividade das escolas verificada</li>
+    <li>Formação docente avaliada</li>
+  </ul>
+</div>
+<div class="check-group">
+  <div class="check-group-title">SEGURANÇA PÚBLICA</div>
+  <ul class="checklist">
+    <li>Taxa de homicídios georreferenciada</li>
+    <li>Mapa de iluminação pública feito</li>
+    <li>Dados de violência doméstica levantados</li>
+    <li>Percepção de segurança pesquisada</li>
+    <li>Plano de prevenção social elaborado</li>
+  </ul>
+</div>
+<div class="check-group">
+  <div class="check-group-title">GOVERNANÇA E FINANÇAS</div>
+  <ul class="checklist">
+    <li>Auditoria de contratos feita</li>
+    <li>Capacidade técnica da equipe avaliada</li>
+    <li>Nível de transparência ativa verificado</li>
+    <li>Execução orçamentária dos últimos 4 anos analisada</li>
+    <li>PPA e LDO elaborados com metas claras</li>
+  </ul>
+</div>
+
+<div class="citacao">
+  <p><em>"Governar bem significa reduzir sofrimentos evitáveis,<br>ampliar capacidades humanas e produzir dignidade coletiva<br><strong>de forma sustentável, transparente e tecnicamente consistente."</strong></em></p>
+  <p style="margin-top:20px;font-size:0.88em;color:#8FBDE0">Use este manual como companheiro de gestão. Volte a ele sempre que precisar retomar o rumo. Compartilhe com sua equipe. Adapte ao seu contexto. E acima de tudo: aja com coragem, consistência e amor pela sua cidade. <strong style="color:white">Boa gestão!</strong></p>
+</div>
+</div><!-- /conclusao -->
+
+</div><!-- /container -->
+
+<footer>
+  Manual de Gestão Municipal de Excelência &nbsp;|&nbsp; Diagnóstico · Planejamento · Resultados · Reconhecimento
+</footer>
+
+</body>
+</html>
