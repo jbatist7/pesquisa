@@ -592,17 +592,17 @@
 </div>
 
 <div style="text-align:center; margin-top:20px; font-size:14px; color:#555;">
-  👁️ <span id="contador">Carregando...</span> visitas
+  👁️ <span id="contador">Carregando...</span> visitas nesta página
 </div>
 
 <script>
-fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa')
+fetch('https://api.countapi.xyz/hit/jbatist7.github.io/pesquisa-lideres')
   .then(res => res.json())
   .then(res => {
     document.getElementById('contador').innerText = res.value;
   })
   .catch(() => {
-    document.getElementById('contador').innerText = 'Erro';
+    document.getElementById('contador').innerText = 'Indisponível';
   });
 </script>
   
