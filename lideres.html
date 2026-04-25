@@ -592,25 +592,22 @@
 </div>
 
 <div style="text-align:center; margin-top:20px; font-size:14px; color:#555;">
-  👁️ <span id="contador">Testando...</span> visitas nesta página
+  👁️ <span id="contador">Carregando...</span> visitas nesta página
 </div>
 
 <script>
-console.log("Script iniciou");
-
-fetch('https://api.countapi.xyz/hit/jbatist7.github.io/pesquisa-lideres')
-  .then(res => {
-    console.log("Resposta recebida", res);
-    return res.json();
-  })
-  .then(res => {
-    console.log("JSON:", res);
-    document.getElementById('contador').innerText = res.value;
-  })
-  .catch(err => {
-    console.error("Erro no fetch:", err);
-    document.getElementById('contador').innerText = 'Erro';
-  });
+  fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa_lideres')
+    .then(res => {
+      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      document.getElementById('contador').innerText = data.value;
+    })
+    .catch(err => {
+      console.error('Falha no contador:', err);
+      document.getElementById('contador').innerText = 'Erro';
+    });
 </script>
   
 </body>
