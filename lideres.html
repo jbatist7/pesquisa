@@ -591,24 +591,15 @@
   </div>
 </div>
 
+  
 <div style="text-align:center; margin-top:20px; font-size:14px; color:#555;">
-  👁️ <span id="contador">Carregando...</span> visitas nesta página
+  👁️ 
+  <a href="https://seeyoufarm.com" target="_blank" title="Contador de visitas">
+    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://jbatist7.github.io/pesquisa/lideres.html&count_bg=%2379C83D&title_bg=%23555555&title=visitas&edge_flat=false" alt="contador de visitas">
+  </a>
+  visitas nesta página
 </div>
 
-<script>
-  // Substitua "jbatist7" e "pesquisa_lideres" por algo único para esta página
-  const NAMESPACE = 'jbatist7';
-  const PAGINA = 'pesquisa_lideres';
-
-  fetch(`https://api.counterapi.dev/v1/${NAMESPACE}/${PAGINA}/up`)
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('contador').innerText = data.count;
-    })
-    .catch(() => {
-      document.getElementById('contador').innerText = 'Erro';
-    });
-</script>
   
 </body>
 </html>
