@@ -592,39 +592,9 @@
 </div>
 
   
-<!-- CONTADOR GLOBAL DE VISITAS (APENAS ESTA PÁGINA) -->
-<div style="text-align:center; margin-top:20px; font-size:18px; color:#333; font-family: Arial, sans-serif;">
-   <span id="contadorVisitas">Carregando...</span> 
-</div>
-
-<script>
-  (function() {
-    // ID ÚNICO para esta página (mude se quiser outra página)
-    // Use o nome do arquivo ou caminho para diferenciar
-    const pageId = 'jbatist7_pesquisa_lideres'; // Altere para cada página
-    
-    // URL da API que retorna JSON com o contador global
-    const apiUrl = `https://hits.seeyoufarm.com/api/count/incr/badge.json?url=${pageId}`;
-
-    const contadorSpan = document.getElementById('contadorVisitas');
-
-    fetch(apiUrl)
-      .then(resposta => {
-        if (!resposta.ok) throw new Error('Erro HTTP: ' + resposta.status);
-        return resposta.json();
-      })
-      .then(dados => {
-        // A API retorna: { value: 1234, ... }
-        contadorSpan.innerText = dados.value;
-      })
-      .catch(erro => {
-        console.error('Falha no contador global:', erro);
-        contadorSpan.innerText = '--';
-        // Opcional: mostra mensagem amigável
-        // contadorSpan.innerText = 'Erro ao carregar';
-      });
-  })();
-</script>
+<!-- Inicio codigo Contador -->
+<div align="center"><a title="contador de dias" href="https://www.calendario.cnt.br/ferramentas/contador-de-dias-calculadora-prazo-entre-datas"><img src="https://contador-gratis.com/contadores-de-visitas/240426094706759.gif"></a><div><a href="https://www.contador-gratis.com/" title="contador de visitas">Contador de Visitas</a></div></div>
+<!-- Fim do codigo Contador -->
 
   
 </body>
