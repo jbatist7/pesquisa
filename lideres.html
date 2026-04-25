@@ -596,16 +596,16 @@
 </div>
 
 <script>
-  fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa_lideres')
-    .then(res => {
-      if (!res.ok) throw new Error('Erro HTTP: ' + res.status);
-      return res.json();
-    })
+  // Substitua "jbatist7" e "pesquisa_lideres" por algo único para esta página
+  const NAMESPACE = 'jbatist7';
+  const PAGINA = 'pesquisa_lideres';
+
+  fetch(`https://api.counterapi.dev/v1/${NAMESPACE}/${PAGINA}/up`)
+    .then(res => res.json())
     .then(data => {
-      document.getElementById('contador').innerText = data.value;
+      document.getElementById('contador').innerText = data.count;
     })
-    .catch(err => {
-      console.error('Falha no contador:', err);
+    .catch(() => {
       document.getElementById('contador').innerText = 'Erro';
     });
 </script>
