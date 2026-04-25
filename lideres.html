@@ -594,22 +594,16 @@
 <div style="text-align:center; margin-top:20px; font-size:14px; color:#555;">
   👁️ <span id="contador">Carregando...</span> visitas
 </div>
-  
-  <script>
-if (!localStorage.getItem('visitou')) {
-  fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa/lideres.html')
-    .then(res => res.json())
-    .then(res => {
-      document.getElementById('contador').innerText = res.value;
-    });
-  localStorage.setItem('visitou', 'true');
-} else {
-  fetch('https://api.countapi.xyz/get/jbatist7/pesquisa')
-    .then(res => res.json())
-    .then(res => {
-      document.getElementById('contador').innerText = res.value;
-    });
-}
+
+<script>
+fetch('https://api.countapi.xyz/hit/jbatist7/pesquisa')
+  .then(res => res.json())
+  .then(res => {
+    document.getElementById('contador').innerText = res.value;
+  })
+  .catch(() => {
+    document.getElementById('contador').innerText = 'Erro';
+  });
 </script>
   
 </body>
