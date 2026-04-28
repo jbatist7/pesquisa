@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="GenerateByBanana" content="true">
+    <title>Entre a Fé e a Identidade – Diversidade Sexual e o Sagrado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* remove o cinza ao tocar */
+        }
+
+        body {
+            background: #0a0e17;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: system-ui, 'Segoe UI', 'Arial', sans-serif;
+            padding: 12px;
+        }
+
+        /* carrossel principal */
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            aspect-ratio: 1280 / 720;  /* mantém proporção exata 16:9 */
+            background: #000;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom;  /* permite scroll vertical, mas horizontal capturamos com JS */
+        }
+
+        .slides-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;   /* exibe imagem inteira sem cortes (em mobile é mais seguro) */
+            /* Se preferir preencher totalmente sem bordas, troque para 'cover' */
+            background-color: #0a0e17;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* Botões – grandes e com área de toque ampliada */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            width: 56px;
+            height: 56px;
+            border-radius: 60px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 20;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+            font-family: monospace;
+            touch-action: manipulation;
+        }
+
+        .nav-btn:active {
+            background: rgba(80, 110, 160, 0.9);
+            transform: translateY(-50%) scale(0.96);
+        }
+
+        .nav-prev {
+            left: 16px;
+        }
+
+        .nav-next {
+            right: 16px;
+        }
+
+        /* contador centralizado, legível */
+        .counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            color: #f0f0f0;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 20;
+            font-family: monospace;
+            border: 1px solid rgba(255,255,255,0.3);
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* responsivo para telas pequenas: botões um pouco menores mas ainda confortáveis */
+        @media (max-width: 700px) {
+            .nav-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.8rem;
+            }
+            .counter {
+                font-size: 0.75rem;
+                padding: 5px 14px;
+                bottom: 12px;
+            }
+            .nav-prev {
+                left: 10px;
+            }
+            .nav-next {
+                right: 10px;
+            }
+        }
+
+        /* para telas muito pequenas (altura reduzida) mantém usabilidade */
+        @media (max-width: 480px) {
+            .nav-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="carousel" id="carousel">
+    <div class="slides-wrapper">
+        <!-- SLIDE 1 -->
+        <div class="slide active" id="slide1">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/6dc728f3-4a3c-4274-a793-56d80ba3ff0f/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 1">
+        </div>
+        <!-- SLIDE 2 -->
+        <div class="slide" id="slide2">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/6a758fd7-32a5-4619-bb1d-52d7e1f843f3/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 2">
+        </div>
+        <!-- SLIDE 3 -->
+        <div class="slide" id="slide3">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/fbd3c67c-35ba-48e7-8366-bfacec575b5b/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 3">
+        </div>
+        <!-- SLIDE 4 -->
+        <div class="slide" id="slide4">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/fa4b826b-53cb-4cef-bcb6-656d0ec2d785/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 4">
+        </div>
+        <!-- SLIDE 5 -->
+        <div class="slide" id="slide5">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/eb1c1226-af13-45f2-b227-c4cd2a2f6a20/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 5">
+        </div>
+        <!-- SLIDE 6 -->
+        <div class="slide" id="slide6">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/2fa5002d-8663-42fd-86f5-481eef6cdb43/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 6">
+        </div>
+        <!-- SLIDE 7 -->
+        <div class="slide" id="slide7">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/d4a44c63-3083-41a4-97c1-a2d883212827/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 7">
+        </div>
+        <!-- SLIDE 8 -->
+        <div class="slide" id="slide8">
+            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/406baf6a-20fd-4d9b-a208-18b43ef7fb86/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 8">
+        </div>
+    </div>
+	
+	<!-- SLIDE 9 -->
+        <div class="slide" id="slide9">
+            <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #0f172a, #0a0f1f); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; font-family: system-ui, 'Arial', sans-serif; padding: 2rem;">
+                <h1 style="font-size: clamp(3rem, 10vw, 5.5rem); margin-bottom: 1rem; letter-spacing: 2px;">🙏 OBRIGADA!</h1>
+                <div style="height: 4px; width: 80px; background: #ffb347; margin: 20px auto; border-radius: 4px;"></div>
+                <p style="font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 300; margin: 1rem 0;">Eutânia Patrícia</p>
+                <p style="font-size: clamp(1rem, 4vw, 1.4rem); background: rgba(255,255,255,0.12); padding: 12px 24px; border-radius: 60px; margin-top: 20px; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(4px);">
+                    📞 (81) 98531-3469
+                </p>
+                <p style="font-size: 0.8rem; margin-top: 40px; opacity: 0.6;">Entre a Fé e a Identidade — Apresentação</p>
+            </div>
+        </div>
+
+    <button class="nav-btn nav-prev" id="prevSlide" aria-label="Anterior">◀</button>
+    <button class="nav-btn nav-next" id="nextSlide" aria-label="Próximo">▶</button>
+    <div class="counter" id="slideCounter">1 / 8</div>
+</div>
+
+<script>
+    (function() {
+        const slides = document.querySelectorAll('.slide');
+        const total = slides.length;
+        let current = 0;
+        const prevBtn = document.getElementById('prevSlide');
+        const nextBtn = document.getElementById('nextSlide');
+        const counter = document.getElementById('slideCounter');
+
+        function updateSlides() {
+            slides.forEach((slide, idx) => {
+                if (idx === current) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+            counter.innerText = `${current + 1} / ${total}`;
+        }
+
+        function goNext() {
+            if (current < total - 1) current++;
+            else return;  // não faz loop (pode ativar loop descomentando linha abaixo)
+            // se quiser loop infinito: current = (current + 1) % total;
+            updateSlides();
+        }
+
+        function goPrev() {
+            if (current > 0) current--;
+            else return;
+            updateSlides();
+        }
+
+        // Eventos de clique
+        prevBtn.addEventListener('click', goPrev);
+        nextBtn.addEventListener('click', goNext);
+
+        // Teclado (setas)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                goPrev();
+                e.preventDefault();
+            } else if (e.key === 'ArrowRight') {
+                goNext();
+                e.preventDefault();
+            }
+        });
+
+        // ========== SWIPE para mobile ==========
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const carouselElement = document.getElementById('carousel');
+
+        carouselElement.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselElement.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const deltaX = touchEndX - touchStartX;
+            // Limiar de 50px para considerar como swipe
+            if (Math.abs(deltaX) > 50) {
+                if (deltaX > 0) {
+                    // swipe da esquerda para direita -> voltar
+                    goPrev();
+                } else {
+                    // swipe da direita para esquerda -> próximo
+                    goNext();
+                }
+            }
+        });
+
+        updateSlides();
+    })();
+</script>
+</body>
+</html>
