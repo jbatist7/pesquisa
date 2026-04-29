@@ -67,7 +67,6 @@
             width: 1280px;
             height: 720px;
             transform-origin: top left;
-            /* A escala será aplicada via JS para caber na viewport */
             margin: 0 auto;
             background: transparent;
         }
@@ -215,7 +214,6 @@
     <div class="slide" data-index="2">
         <div class="slide-inner">
             <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/9dcb942f-f725-41dc-8ad3-cfe7e32b8a7b/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_3_inp_img_lama_refine.png'); background-size: cover;">
-                <!-- imagens decorativas (vários pequenos icones) -->
                 <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/1d6cc025-14e9-4e2f-8e01-9ea914e72586/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_3_image_35.png" style="left: 1226.24px; top: 681.12px; width: 40.960000000000036px; height: 33.84000000000003px;">
                 <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/c1eb5938-7258-427c-863f-a614f4ebea0a/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_3_image_34.png" style="left: 1175.04px; top: 681.12px; width: 37.11999999999989px; height: 33.84000000000003px;">
                 <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/3f95de3b-83f4-49cd-a503-6db5923e52fe/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_3_image_13.png" style="left: 976.64px; top: 229.68px; width: 216.32000000000005px; height: 235.44px;">
@@ -238,7 +236,7 @@
         </div>
     </div>
     
-    <!-- SLIDE 4: Tradições Abraâmicas (único, sem duplicata) -->
+    <!-- SLIDE 4: Tradições Abraâmicas -->
     <div class="slide" data-index="3">
         <div class="slide-inner">
             <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/86f33944-c05e-4f21-88e7-f0af0bd73a2b/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_4_inp_img_lama_refine.png'); background-size: cover;">
@@ -352,41 +350,38 @@
             </div>
         </div>
     </div>
-	
-	<!-- SLIDE 9 -->
-        <div class="slide" id="slide9">
-            <div style="width: 100%; height: 100%; background: linear-gradient(145deg, #0f172a, #0a0f1f); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; font-family: system-ui, 'Arial', sans-serif; padding: 2rem;">
-                <h1 style="font-size: clamp(3rem, 10vw, 5.5rem); margin-bottom: 1rem; letter-spacing: 2px;">🙏 OBRIGADA!</h1>
+    
+    <!-- SLIDE 9: OBRIGADA! (padronizado com .slide-inner e .container) -->
+    <div class="slide" data-index="8">
+        <div class="slide-inner">
+            <div class="container" style="background: linear-gradient(145deg, #0f172a, #0a0f1f); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white;">
+                <h1 style="font-size: clamp(3rem, 8vw, 5.5rem); margin-bottom: 1rem; letter-spacing: 2px; font-family: 'Red Hat Display Variable', sans-serif;">🙏 OBRIGADA!</h1>
                 <div style="height: 4px; width: 80px; background: #ffb347; margin: 20px auto; border-radius: 4px;"></div>
-                <p style="font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 300; margin: 1rem 0;">Eutânia Patrícia</p>
-                <p style="font-size: clamp(1rem, 4vw, 1.4rem); background: rgba(255,255,255,0.12); padding: 12px 24px; border-radius: 60px; margin-top: 20px; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(4px);">
+                <p style="font-size: clamp(1.4rem, 5vw, 2rem); font-weight: 300; margin: 1rem 0; font-family: system-ui;">Eutânia Patrícia</p>
+                <p style="font-size: clamp(1rem, 4vw, 1.4rem); background: rgba(255,255,255,0.12); padding: 12px 24px; border-radius: 60px; margin-top: 20px; display: inline-flex; align-items: center; gap: 8px; backdrop-filter: blur(4px); font-family: monospace;">
                     📞 (81) 98531-3469
                 </p>
                 <p style="font-size: 0.8rem; margin-top: 40px; opacity: 0.6;">Entre a Fé e a Identidade — Apresentação</p>
             </div>
         </div>
+    </div>
 
-    <button class="nav-btn nav-prev" id="prevSlide" aria-label="Anterior">◀</button>
-    <button class="nav-btn nav-next" id="nextSlide" aria-label="Próximo">▶</button>
-    <div class="counter" id="slideCounter">1 / 8</div>
-</div>
-    
-    <!-- Navegação -->
+    <!-- Botões e contador (únicos) -->
     <button class="nav-btn nav-prev" id="prevSlide" aria-label="Voltar">◀</button>
     <button class="nav-btn nav-next" id="nextSlide" aria-label="Próximo">▶</button>
-    <div class="counter" id="slideCounter">1 / 8</div>
+    <div class="counter" id="slideCounter">1 / 9</div>
 </div>
 
 <script>
     (function() {
         const slides = document.querySelectorAll('.slide');
-        const total = slides.length;
+        const total = slides.length;  // agora será 9
         let currentIndex = 0;
         const prevBtn = document.getElementById('prevSlide');
         const nextBtn = document.getElementById('nextSlide');
         const counterDiv = document.getElementById('slideCounter');
         
-        // Função principal: ajusta escala do slide ativo para preencher a tela e manter proporção
+        // Função para ajustar escala do slide ativo (sempre centraliza e mantém proporção)
         function scaleActiveSlide() {
             const activeSlide = document.querySelector('.slide.active');
             if (!activeSlide) return;
@@ -398,15 +393,12 @@
             const slideW = 1280;
             const slideH = 720;
             
-            // Calcula escala ideal para caber dentro da viewport, respeitando espaço para possíveis botões (sem margem extra)
             const scaleX = viewportW / slideW;
             const scaleY = viewportH / slideH;
             const scale = Math.min(scaleX, scaleY);
             
-            // Aplica transformação para centralizar visualmente
             inner.style.transform = `scale(${scale})`;
             
-            // Ajusta margens para manter o conteúdo centralizado no container do slide (efeito de "contain")
             const scaledWidth = slideW * scale;
             const scaledHeight = slideH * scale;
             const offsetX = (viewportW - scaledWidth) / 2;
@@ -417,7 +409,6 @@
             inner.style.margin = '0';
         }
         
-        // Atualiza classe ativa e contador
         function goToSlide(index) {
             if (index < 0) index = 0;
             if (index >= total) index = total - 1;
@@ -428,20 +419,18 @@
             });
             currentIndex = index;
             counterDiv.innerText = `${currentIndex+1} / ${total}`;
-            
-            // Recalcula escala sempre que trocar de slide (garante responsividade)
             scaleActiveSlide();
             
-            // Opcional: rolar o slide ativo para o topo (para evitar scroll residual)
-            const activeSlideEl = slides[currentIndex];
-            if (activeSlideEl) activeSlideEl.scrollTo(0, 0);
+            // Rolar o slide ativo para o topo (evita scroll residual)
+            const activeEl = slides[currentIndex];
+            if (activeEl) activeEl.scrollTo(0, 0);
         }
         
-        // Eventos de navegação
+        // Eventos de clique (mouse e toque)
         prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
         nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
         
-        // Suporte a teclado (setas direita/esquerda)
+        // Teclado
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
@@ -452,20 +441,11 @@
             }
         });
         
-        // Evento de redimensionamento para reescalar o conteúdo dinamicamente (importante para orientação e desktop)
-        window.addEventListener('resize', () => {
-            scaleActiveSlide();
-        });
+        window.addEventListener('resize', () => scaleActiveSlide());
         
-        // Inicialização: primeiro slide ativo, calcular escala e scroll seguro
-        setTimeout(() => {
-            goToSlide(0);
-        }, 50);
-        
-        // Correção adicional para Safari mobile e garantir after load
-        window.addEventListener('load', () => {
-            scaleActiveSlide();
-        });
+        // Inicialização
+        setTimeout(() => goToSlide(0), 50);
+        window.addEventListener('load', () => scaleActiveSlide());
     })();
 </script>
 </body>
