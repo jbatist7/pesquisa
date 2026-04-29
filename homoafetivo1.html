@@ -3,45 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="GenerateByBanana" content="true">
-    <title>Entre a Fé e a Identidade – Diversidade Sexual e o Sagrado</title>
+    <title>Entre a Fé e a Identidade | Apresentação</title>
+    
+    <!-- Fonts gerais (mescladas de todos os slides) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* remove o cinza ao tocar */
+            user-select: none; /* Evita seleção indesejada, mas não bloqueia zoom */
         }
 
         body {
-            background: #0a0e17;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: system-ui, 'Segoe UI', 'Arial', sans-serif;
-            padding: 12px;
+            background: #0a0a12;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            width: 100vw;
+            height: 100vh;
         }
 
-        /* carrossel principal */
+        /* Carrossel principal */
         .carousel {
             position: relative;
             width: 100%;
-            max-width: 1280px;
-            aspect-ratio: 1280 / 720;  /* mantém proporção exata 16:9 */
-            background: #000;
-            border-radius: 28px;
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            touch-action: pan-y pinch-zoom;  /* permite scroll vertical, mas horizontal capturamos com JS */
-        }
-
-        .slides-wrapper {
-            position: relative;
-            width: 100%;
             height: 100%;
+            overflow: hidden;
         }
 
+        /* Cada slide ocupa toda a área visível, com scroll interno para permitir zoom + pan no celular */
         .slide {
             position: absolute;
             top: 0;
@@ -50,118 +49,136 @@
             height: 100%;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.35s ease, visibility 0.35s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            overflow: auto;          /* Permite scroll horizontal/vertical no celular após zoom */
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
         }
 
         .slide.active {
             opacity: 1;
             visibility: visible;
+            z-index: 10;
         }
 
-        .slide img {
+        /* Container interno que mantém as proporções exatas do slide original (1280x720) */
+        .slide-inner {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            transform-origin: top left;
+            /* A escala será aplicada via JS para caber na viewport */
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        /* Garantir que todos os elementos internos respeitem o posicionamento absoluto original */
+        .slide-inner .container {
+            position: relative;
             width: 100%;
             height: 100%;
-            object-fit: contain;   /* exibe imagem inteira sem cortes (em mobile é mais seguro) */
-            /* Se preferir preencher totalmente sem bordas, troque para 'cover' */
-            background-color: #0a0e17;
-            display: block;
-            pointer-events: none;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
         }
 
-        /* Botões – grandes e com área de toque ampliada */
-        .nav-btn {
+        /* Estilos herdados dos slides originais */
+        .text-item {
             position: absolute;
+            white-space: nowrap;
+        }
+        .image-item {
+            position: absolute;
+            object-fit: cover;
+        }
+
+        /* Botões de navegação */
+        .nav-btn {
+            position: fixed;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.65);
+            background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.25);
-            color: white;
-            font-size: 2rem;
-            font-weight: bold;
-            width: 56px;
-            height: 56px;
+            border: none;
+            color: #f5e7d9;
+            font-size: 2.2rem;
+            width: 52px;
+            height: 52px;
             border-radius: 60px;
             cursor: pointer;
+            z-index: 200;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s;
-            z-index: 20;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-            font-family: monospace;
-            touch-action: manipulation;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            font-weight: bold;
         }
-
-        .nav-btn:active {
-            background: rgba(80, 110, 160, 0.9);
-            transform: translateY(-50%) scale(0.96);
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.02);
+            color: #ffd7a5;
         }
-
         .nav-prev {
-            left: 16px;
+            left: 20px;
         }
-
         .nav-next {
-            right: 16px;
+            right: 20px;
         }
-
-        /* contador centralizado, legível */
+        
+        /* Indicador de contador */
         .counter {
-            position: absolute;
+            position: fixed;
             bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            color: #f0f0f0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            color: #f0e6d2;
+            font-size: 1rem;
+            font-weight: 500;
             padding: 8px 18px;
-            border-radius: 60px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            z-index: 20;
-            font-family: monospace;
-            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 40px;
+            width: fit-content;
+            margin: 0 auto;
+            z-index: 200;
+            font-family: 'Inter', monospace;
+            letter-spacing: 1px;
             pointer-events: none;
-            white-space: nowrap;
         }
-
-        /* responsivo para telas pequenas: botões um pouco menores mas ainda confortáveis */
-        @media (max-width: 700px) {
-            .nav-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 1.8rem;
-            }
-            .counter {
-                font-size: 0.75rem;
-                padding: 5px 14px;
-                bottom: 12px;
-            }
-            .nav-prev {
-                left: 10px;
-            }
-            .nav-next {
-                right: 10px;
-            }
-        }
-
-        /* para telas muito pequenas (altura reduzida) mantém usabilidade */
-        @media (max-width: 480px) {
+        
+        /* Ajuste para telas muito pequenas: botões menores */
+        @media (max-width: 640px) {
             .nav-btn {
                 width: 44px;
                 height: 44px;
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
+            .counter {
+                font-size: 0.8rem;
+                bottom: 12px;
+                padding: 5px 14px;
+            }
+        }
+        
+        /* Evita que scroll horizontal extra apareça em alguns navegadores */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+            background: #2a241e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c0a07a;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
-<div class="carousel" id="carousel">
-    <div class="slides-wrapper">
-        <!-- SLIDE 1 -->
-     <div class="slide" data-index="0">
+
+<div class="carousel" id="carouselRoot">
+    <!-- SLIDE 1: Capa -->
+    <div class="slide" data-index="0">
         <div class="slide-inner">
             <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/07670e7e-ce42-4697-af3a-c672c98dff63/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_1_inp_img_lama_refine.png'); background-size: cover; background-position: center;">
                 <div class="text-item title" style="font-size: 79px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 119%; color: #FDEADB; left: 126.00px; top: 143px; width: 661.10px">Entre a Fé<br/>e a Identidade</div>
@@ -172,12 +189,30 @@
             </div>
         </div>
     </div>
-        <!-- SLIDE 2 -->
-        <div class="slide" id="slide2">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/6a758fd7-32a5-4619-bb1d-52d7e1f843f3/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 2">
+    
+    <!-- SLIDE 2: Introdução / Encruzilhada -->
+    <div class="slide" data-index="1">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/26fb3c30-8b1c-43cf-857f-02e4ad34f9d6/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_2_inp_img_lama_refine.png'); background-size: cover;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/da6da572-3281-416c-974c-6433ba8a84f7/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_2_image_9.png" style="left: 683.52px; top: 476.64000000000004px; width: 44.799999999999955px; height: 47.519999999999925px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/e51b957c-a2d4-4735-b6a6-d2aab0115315/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_2_image_6.png" style="left: 683.52px; top: 375.12px; width: 44.799999999999955px; height: 47.51999999999998px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/ef05b5e5-83d6-405a-93dc-85b880a6f5b1/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_2_image_3.png" style="left: 683.52px; top: 274.32px; width: 44.799999999999955px; height: 47.52000000000004px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/9510bbb4-b5dd-4586-8d8b-86319a64dfdc/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_2_image_0.png" style="left: 0.0px; top: 0.0px; width: 640.0px; height: 717.12px;">
+                <div class="text-item title" style="font-size: 42px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 120%; color: #FFFFFF; left: 689.00px; top: 98px; width: 559.90px">A Encruzilhada entre<br/>Identidade e Sagrado</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-style: italic; font-family: 'Noto Serif'; line-height: 130%; color: #F0EAD6; left: 697.00px; top: 610px; width: 583.00px">“A diversidade sexual e de gênero não é uma anomalia<br/>— é um fio que atravessa toda a história humana.”</div>
+                <div class="text-item text" style="font-size: 18px; font-weight: 700; font-family: Inter; line-height: 100%; color: #F0EAD6; left: 702.00px; top: 278px; width: 235.40px">TENSÃO HISTÓRICA</div>
+                <div class="text-item text" style="font-size: 18px; font-weight: 700; font-family: Inter; line-height: 100%; color: #F0EAD6; left: 702.00px; top: 379px; width: 342.10px">ENQUADRAMENTO HISTÓRICO</div>
+                <div class="text-item text" style="font-size: 18px; font-weight: 700; font-family: Inter; line-height: 100%; color: #F0EAD6; left: 702.00px; top: 480px; width: 304.70px">MARCO TRANSFORMADOR</div>
+                <div class="text-item text" style="font-size: 18px; letter-spacing: 2px; font-weight: 500; font-family: Inter; line-height: 130%; color: #F0EAD6; left: 689.00px; top: 65px; width: 194.70px">INTRODUÇÃO</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: Inter; line-height: 120%; color: #FFFFFF; left: 741.00px; top: 298px; width: 518.10px">Normas institucionais sobre corpo e desejo moldaram — e<br/>frequentemente oprimiram — a expressão da sexualidade ao<br/>longo dos séculos.</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: Inter; line-height: 120%; color: rgb(255, 255, 255); left: 741px; top: 399px; width: 539px;">Pessoas LGBTQIAPN+ foram historicamente classificadas como<br/>sagradas, pecadoras ou patológicas — categorias que revelam<br/>mais sobre o poder do que sobre a verdade.</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: Inter; line-height: 120%; color: #FFFFFF; left: 726.70px; top: 500px; width: 553.30px">Em 1990, a OMS retirou a homossexualidade da lista de doenças<br/>— um ponto de virada que ecoa a desconstrução histórica<br/>documentada por Boswell desde 1980.</div>
+            </div>
         </div>
-        <!-- SLIDE 3 -->
-        <div class="slide" data-index="2">
+    </div>
+    
+    <!-- SLIDE 3: Civilizações Antigas -->
+    <div class="slide" data-index="2">
         <div class="slide-inner">
             <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/9dcb942f-f725-41dc-8ad3-cfe7e32b8a7b/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_3_inp_img_lama_refine.png'); background-size: cover;">
                 <!-- imagens decorativas (vários pequenos icones) -->
@@ -202,25 +237,119 @@
             </div>
         </div>
     </div>
-        <!-- SLIDE 4 -->
-        <div class="slide" id="slide4">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/fa4b826b-53cb-4cef-bcb6-656d0ec2d785/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 4">
+    
+    <!-- SLIDE 4: Tradições Abraâmicas (único, sem duplicata) -->
+    <div class="slide" data-index="3">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/86f33944-c05e-4f21-88e7-f0af0bd73a2b/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_4_inp_img_lama_refine.png'); background-size: cover;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/b284704d-9b7e-4e68-9b8c-11a070a072f3/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_4_image_13.png" style="left: 953.6px; top: 249.83999999999997px; width: 212.4799999999999px; height: 213.84000000000003px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/b5f532a4-6631-4427-8941-9df3a2092cf9/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_4_image_9.png" style="left: 547.84px; top: 255.6px; width: 189.43999999999994px; height: 216.00000000000003px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/c736fbbd-171d-4e36-8f4d-aacbd75307b3/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_4_image_4.png" style="left: 130.56px; top: 260.64px; width: 189.44px; height: 188.64px;">
+                <div class="text-item title" style="font-size: 45px; letter-spacing: 1px; -webkit-text-stroke: 5px #4a2d0a; paint-order: stroke; text-shadow: 3px 1px 5px rgba(0, 0, 0, 0.7); font-weight: 900; font-family: 'PlayfairDisplay-BoldItalic', serif; line-height: 120%; text-align: center; color: #fffde7; left: 321.00px; top: 49px; width: 638.00px">Tradições Abraâmicas</div>
+                <div class="text-item subtitle" style="font-size: 30px; letter-spacing: 0px; text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.6); font-weight: 700; font-style: italic; font-family: 'PlayfairDisplay-BoldItalic', serif; line-height: 120%; text-align: center; color: #ffe082; left: 399.15px; top: 110px; width: 480.70px">Releituras e Dissidências</div>
+                <div class="text-item text" style="font-size: 25px; letter-spacing: 3px; text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.5); font-weight: 700; font-family: Cinzel, serif; line-height: 120%; text-align: center; color: #e0c080; left: 136.85px; top: 197px; width: 179.30px">JUDAÍSMO</div>
+                <div class="text-item text" style="font-size: 26px; letter-spacing: 3px; text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.5); font-weight: 700; font-family: Cinzel, serif; line-height: 120%; text-align: center; color: #e0c080; left: 510.90px; top: 197px; width: 266.20px">CRISTIANISMO</div>
+                <div class="text-item text" style="font-size: 26px; letter-spacing: 3px; text-shadow: 1px 0px 2px rgba(0, 0, 0, 0.5); font-weight: 700; font-family: Cinzel, serif; line-height: 120%; text-align: center; color: #e0c080; left: 1020.40px; top: 197px; width: 79.20px">ISLÃ</div>
+                <div class="text-item text" style="font-size: 22px; letter-spacing: 0px; text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.4); font-weight: 400; font-family: Lora, serif; line-height: 140%; text-align: center; color: #ffecb3; left: 88.20px; top: 485px; width: 281.60px">Levítico relido em seu<br/>contexto ritual cananeu</div>
+                <div class="text-item text" style="font-size: 22px; letter-spacing: 0px; text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.4); font-weight: 400; font-family: Lora, serif; line-height: 140%; text-align: center; color: #ffecb3; left: 482.75px; top: 485px; width: 313.50px">Rituais de adelphopoiesis:<br/>uniões afetivas litúrgicas<br/>antes do século XII</div>
+                <div class="text-item text" style="font-size: 22px; letter-spacing: 0px; text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.4); font-weight: 400; font-family: Lora, serif; line-height: 140%; text-align: center; color: #ffecb3; left: 862.55px; top: 485px; width: 405.90px">Jurisprudência fiqh: exigência de 4<br/>testemunhas tornava condenações<br/>historicamente inviáveis</div>
+                <div class="text-item text" style="font-size: 19px; letter-spacing: 0px; text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3); font-weight: 400; font-style: italic; font-family: 'PlayfairDisplay-Italic', serif; line-height: 135%; text-align: center; color: #c5b1e2; left: 74.40px; top: 570px; width: 299.20px">“Ser gay e judeu não é uma<br/>contradição”— Greenberg</div>
+                <div class="text-item text" style="font-size: 17px; letter-spacing: 0px; text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3); font-weight: 400; font-style: italic; font-family: 'PlayfairDisplay-Italic', serif; line-height: 130%; text-align: center; color: #c5b1e2; left: 475.95px; top: 578px; width: 331.10px">Debate sobre o termo arsenokoitai<br/>e seu contexto original</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 0px; text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3); font-weight: 400; font-style: italic; font-family: 'PlayfairDisplay-Italic', serif; line-height: 130%; text-align: center; color: #c5b1e2; left: 932.95px; top: 578px; width: 265.10px">Complexidade jurídica como<br/>proteção implícita</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 0px; text-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4); font-weight: 400; font-style: italic; font-family: 'PlayfairDisplay-Italic', serif; line-height: 100%; text-align: center; color: #ffe082; left: 0.00px; top: 668px; width: 1280.00px">Em todas as três tradições, a hostilidade sistemática revela-se frequentemente como construção histórica — não como essência teológica.</div>
+                <div class="text-item text" style="font-size: 19px; letter-spacing: 3px; font-weight: 400; font-family: 'CinzelDecorative-Regular', cursive; line-height: 120%; text-align: left; color: #e0c080; left: 37.00px; top: 28px; width: 100.10px">04 / 08</div>
+            </div>
         </div>
-        <!-- SLIDE 5 -->
-        <div class="slide" id="slide5">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/eb1c1226-af13-45f2-b227-c4cd2a2f6a20/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 5">
+    </div>
+    
+    <!-- SLIDE 5: Tradições Orientais, Indígenas e Afro -->
+    <div class="slide" data-index="4">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/f5bc12f1-3f6a-4bc0-a8ce-d350059a1edc/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_5_inp_img_lama_refine.png'); background-size: cover;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/58ca0e9d-8b2c-4a32-b562-b5957b68ed88/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_5_image_15.png" style="left: 975.36px; top: 244.08px; width: 220.15999999999997px; height: 215.99999999999997px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/7a1e4b4a-8597-40ab-a0e9-9938faee6cb3/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_5_image_11.png" style="left: 682.24px; top: 244.8px; width: 216.31999999999994px; height: 216.71999999999997px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/95c048ba-74db-4230-b357-afad1bf27d65/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_5_image_7.png" style="left: 384.0px; top: 246.96px; width: 215.04000000000008px; height: 214.55999999999997px;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0/40bb3f53-6739-43f3-85b0-cd6cca161c4c/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:0_page_5_image_3.png" style="left: 92.16px; top: 246.96px; width: 209.92px; height: 212.4px;">
+                <div class="text-item title" style="font-size: 41px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 111%; color: #FFFFFF; left: 75.00px; top: 57px; width: 785.40px">Tradições Orientais, Indígenas<br/>e Afro-brasileiras</div>
+                <div class="text-item text" style="font-size: 24px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 119%; text-align: center; color: #D4AF37; left: 118.65px; top: 474px; width: 161.70px">Hinduísmo</div>
+                <div class="text-item text" style="font-size: 24px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 119%; text-align: center; color: #D4AF37; left: 427.10px; top: 474px; width: 129.80px">Budismo</div>
+                <div class="text-item text" style="font-size: 24px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 119%; text-align: center; color: #D4AF37; left: 728.55px; top: 474px; width: 119.90px">Taoísmo</div>
+                <div class="text-item text" style="font-size: 24px; font-weight: 700; font-family: 'Noto Serif KR'; line-height: 119%; text-align: center; color: #D4AF37; left: 1004.50px; top: 474px; width: 165.00px">Candomblé</div>
+                <div class="text-item text" style="font-size: 18px; font-weight: 500; font-style: italic; font-family: 'Noto Sans'; line-height: 126%; color: #B2A4D4; left: 75.00px; top: 185px; width: 695.20px">Fluidez de gênero e acolhimento espiritual através das culturas</div>
+                <div class="text-item text" style="font-size: 15px; font-weight: 400; font-family: 'Noto Sans'; line-height: 120%; text-align: center; color: #000000; left: 68.80px; top: 535px; width: 268.40px">O Kamasutra dedica um<br/>capítulo inteiro a práticas entre<br/>pessoas do mesmo sexo —<br/>sem julgamento moral.</div>
+                <div class="text-item text" style="font-size: 15px; font-weight: 400; font-family: 'Noto Sans'; line-height: 120%; text-align: center; color: #000000; left: 356.65px; top: 535px; width: 271.70px">O Cânone Pali não condena<br/>explicitamente a<br/>homossexualidade — a<br/>compaixão é o princípio central.</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: 'Noto Sans'; line-height: 120%; text-align: center; color: #000000; left: 665.50px; top: 535px; width: 253.00px">A fluidez de gênero reflete o<br/>equilíbrio dinâmico do Tao —<br/>a transcendência de<br/>distinções convencionais.</div>
+                <div class="text-item text" style="font-size: 15px; font-weight: 400; font-family: 'Noto Sans'; line-height: 120%; text-align: center; color: #000000; left: 959.15px; top: 535px; width: 260.70px">Refúgio histórico para pessoas<br/>de gênero não-conforme —<br/>espaço de acolhimento e<br/>resistência cultural no Brasil.</div>
+                <div class="text-item text" style="font-size: 13px; font-weight: 500; font-style: italic; font-family: 'Noto Sans'; line-height: 112%; text-align: center; color: #D4AF37; left: 405.80px; top: 693px; width: 466.40px">Diversidade como expressão do sagrado — não como exceção</div>
+                <div class="text-item text" style="font-size: 15px; letter-spacing: 2px; font-weight: 500; font-family: 'Noto Sans'; line-height: 120%; color: #D4AF37; left: 75.00px; top: 25px; width: 81.40px">05 / 08</div>
+            </div>
         </div>
-        <!-- SLIDE 6 -->
-        <div class="slide" id="slide6">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/2fa5002d-8663-42fd-86f5-481eef6cdb43/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 6">
+    </div>
+    
+    <!-- SLIDE 6: Espiritismo Kardeciasta -->
+    <div class="slide" data-index="5">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5/34a5978b-2bf3-4224-a076-9218e11ab42b/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5_page_6_inp_img_lama_refine.png'); background-size: cover;">
+                <img class="image-item" src="https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5/dda8f120-9acb-40e3-a37a-6e960bca8134/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5_page_6_image_14.png" style="left: 945.92px; top: 272.88px; width: 282.88px; height: 418.31999999999994px;">
+                <div class="text-item text" style="font-size: 57px; font-weight: 400; font-style: italic; font-family: 'Red Hat Display Variable'; line-height: 119%; color: #F8C78A; left: 75.00px; top: 319px; width: 481.80px">“O Espírito<br/>não tem sexo.”</div>
+                <div class="text-item title" style="font-size: 40px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 120%; color: #FBF9F1; left: 75.00px; top: 98px; width: 634.70px">Espiritismo Kardeciasta<br/>e a Imortalidade da Alma</div>
+                <div class="text-item subtitle" style="font-size: 21px; font-weight: 700; font-family: Inter; line-height: 120%; color: #FBF9F1; left: 657.00px; top: 240px; width: 283.80px">Reencarnação Evolutiva</div>
+                <div class="text-item subtitle" style="font-size: 21px; font-weight: 700; font-family: Inter; line-height: 120%; color: #FBF9F1; left: 657.00px; top: 391px; width: 225.50px">Contexto Brasileiro</div>
+                <div class="text-item subtitle" style="font-size: 21px; font-weight: 700; font-family: Inter; line-height: 120%; color: #FBF9F1; left: 657.00px; top: 525px; width: 204.60px">Espiritismo Plural</div>
+                <div class="text-item text" style="font-size: 22px; font-weight: 400; font-style: italic; font-family: Inter; line-height: 129%; color: #F8C78A; left: 81.00px; top: 483px; width: 490.60px">— Allan Kardec, O Livro dos Espíritos<br/>Questão 200, 1857</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-family: Inter; line-height: 129%; color: #A7B1E6; left: 76.00px; top: 570px; width: 523.60px">Uma afirmação revolucionária para o século XIX<br/>— o espírito imortal transcende as categorias<br/>de gênero impostas pela vida física.</div>
+                <div class="text-item text" style="font-size: 18px; font-weight: 400; font-family: Inter; line-height: 119%; color: #FBF9F1; left: 657px; top: 273px; width: 315.7px;">O espírito assume atributos<br/>masculinos ou femininos<br/>conforme a necessidade da sua<br/>evolução, não como punição.</div>
+                <div class="text-item text" style="font-size: 17px; font-weight: 400; font-family: Inter; line-height: 119%; color: #FBF9F1; left: 657.00px; top: 424px; width: 342.10px">3,8 milhões de espíritos no Brasil<br/>(IBGE 2010), com crescente<br/>surgimento de vertentes afirmativas.</div>
+                <div class="text-item text" style="font-size: 17px; font-weight: 400; font-family: Inter; line-height: 119%; color: rgb(251, 249, 241); left: 657px; top: 559px; width: 289.3px;">Movimento afirmativo que<br/>acolhe pessoas LGBTQIAPN+<br/>dentro da tradição kardeciasta,<br/>integrando fé e identidade.</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 2px; font-weight: 500; font-family: Inter; line-height: 119%; color: #F8C78A; left: 75.00px; top: 62px; width: 436.70px">06 / 08 · ESPIRITISMO KARDECISTA</div>
+            </div>
         </div>
-        <!-- SLIDE 7 -->
-        <div class="slide" id="slide7">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/d4a44c63-3083-41a4-97c1-a2d883212827/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 7">
+    </div>
+    
+    <!-- SLIDE 7: Ciência e Movimentos Afirmativos -->
+    <div class="slide" data-index="6">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5/e71b66fd-e242-46e8-a28d-9bc34baa0aa3/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5_page_7_inp_img_lama_refine.png'); background-size: cover;">
+                <div class="text-item title" style="font-size: 45px; font-weight: 700; font-family: 'PlayfairDisplay-BoldItalic'; line-height: 110%; color: #FFFFFF; left: 75.00px; top: 56px; width: 617.10px">Ciência e Movimentos<br/>de Afirmação Religiosa</div>
+                <div class="text-item text" style="font-size: 25px; letter-spacing: 3px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #8AB6BF; left: 75.00px; top: 215px; width: 190.30px">C I È N C I A</div>
+                <div class="text-item text" style="font-size: 22px; letter-spacing: 3px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #F0B567; left: 817.00px; top: 215px; width: 300.30px">F É  A F I R M A T I V A</div>
+                <div class="text-item text" style="font-size: 23px; font-weight: 700; font-style: italic; font-family: 'PlayfairDisplay-BoldItalic'; line-height: 120%; text-align: center; color: #F0B567; left: 38.25px; top: 611px; width: 1226.50px">“Quando a ciência libertou e a fé acolheu — surgiu um novo espaço para ser inteiro.”</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #8AB6BF; left: 107.00px; top: 265px; width: 70.40px">1973</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #8AB6BF; left: 107.00px; top: 373px; width: 332.20px">Terapias de Conversão</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #8AB6BF; left: 107.00px; top: 481px; width: 284.90px">Pesquisa Genômica</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #F0B567; left: 856.00px; top: 265px; width: 162.80px">MCC • 1968</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #F0B567; left: 856.00px; top: 373px; width: 215.60px">Teologia Queer</div>
+                <div class="text-item text" style="font-size: 25px; font-weight: 700; font-family: Raleway; line-height: 120%; color: #F0B567; left: 856.00px; top: 481px; width: 203.50px">Teologia Bicha</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 120%; color: #FFFFFF; left: 107.00px; top: 299px; width: 400.40px">Homossexualidade retirada do DSM<br/>— fim da patologização oficial</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 120%; color: #FFFFFF; left: 107.00px; top: 407px; width: 402.60px">Condenadas globalmente por<br/>organizações científicas e de saúde</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 120%; color: #FFFFFF; left: 107.00px; top: 515px; width: 363.00px">Estudos confirmam variações<br/>naturais da sexualidade humana</div>
+                <div class="text-item text" style="font-size: 19px; font-weight: 400; font-family: Roboto-Regular; line-height: 120%; color: rgb(255, 255, 255); left: 856px; top: 299px; width: 398.2px;">Metropolitan Community Church —<br/>primeira igreja fundada para acolher<br/>pessoas LGBTQIAPN+</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 120%; color: #FFFFFF; left: 856.00px; top: 407px; width: 381.70px">Releitura das escrituras a partir de<br/>experiências marginalizadas</div>
+                <div class="text-item text" style="font-size: 19px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 120%; color: #FFFFFF; left: 848.80px; top: 515px; width: 431.20px">André Musskopf e a afirmação da<br/>identidade queer no contexto brasileiro</div>
+                <div class="text-item text" style="font-size: 15px; letter-spacing: 3px; font-weight: 500; font-family: 'Roboto-Regular'; line-height: 120%; text-align: right; color: #F0B567; left: 1157.00px; top: 33px; width: 85.80px">07 / 08</div>
+            </div>
         </div>
-        <!-- SLIDE 8 -->
-        <div class="slide" id="slide8">
-            <img src="https://skyagent-artifacts.skywork.ai/image/2049172076390318080/406baf6a-20fd-4d9b-a208-18b43ef7fb86/prod_agent_2049172076390318080/ppt_nano_2049172108519849984_1.png" alt="Slide 8">
+    </div>
+    
+    <!-- SLIDE 8: Conclusão -->
+    <div class="slide" data-index="7">
+        <div class="slide-inner">
+            <div class="container" style="background-image: url('https://picture-search.skywork.ai/aippt/image/sheet/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5/6698b86f-b603-4511-a0aa-f435fe1caa25/2049172076390318080:9c29dd09543df261b62581e5f4d2f095:5_page_8_inp_img_lama_refine.png'); background-size: cover;">
+                <div class="text-item title" style="font-size: 50px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 110%; color: #F9F3E1; left: 74.00px; top: 92px; width: 1007.60px">O Futuro da Fé e da Diversidade</div>
+                <div class="text-item text" style="font-size: 21px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 119%; color: #F9F3E1; left: 101.00px; top: 283px; width: 151.80px">Universal e<br/>Histórica</div>
+                <div class="text-item text" style="font-size: 22px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 119%; color: #F9F3E1; left: 436.00px; top: 283px; width: 242.00px">Hostilidade como<br/>Construção</div>
+                <div class="text-item text" style="font-size: 22px; font-weight: 700; font-family: 'Red Hat Display Variable'; line-height: 119%; color: #F9F3E1; left: 771.00px; top: 283px; width: 160.60px">Fé e Justiça<br/>Integradas</div>
+                <div class="text-item text" style="font-size: 27px; font-weight: 400; font-style: italic; font-family: 'Merriweather-Regular'; line-height: 129%; text-align: center; color: #1C1B39; left: 215.00px; top: 560px; width: 726.00px">“A diversidade não é o oposto do sagrado —<br/>ela é uma de suas expressões mais profundas.”</div>
+                <div class="text-item text" style="font-size: 20px; font-weight: 700; font-family: 'CinzelDecorative-Bold'; line-height: 119%; color: #F7C381; left: 101.00px; top: 239px; width: 7.70px">I</div>
+                <div class="text-item text" style="font-size: 26px; font-weight: 700; font-family: 'CinzelDecorative-Bold'; line-height: 119%; color: #F7C381; left: 436.00px; top: 239px; width: 24.20px">II</div>
+                <div class="text-item text" style="font-size: 26px; font-weight: 700; font-family: 'CinzelDecorative-Bold'; line-height: 119%; color: #F7C381; left: 771.00px; top: 239px; width: 34.10px">III</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 139%; color: #F9F3E1; left: 101.00px; top: 354px; width: 299.20px">A diversidade sexual e de gênero<br/>atravessa todas as civilizações e<br/>épocas — não é uma novidade<br/>moderna, mas uma constante da<br/>experiência humana.</div>
+                <div class="text-item text" style="font-size: 16px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 139%; color: #F9F3E1; left: 436.00px; top: 354px; width: 326.70px">A intolerância religiosa à<br/>diversidade é frequentemente<br/>uma elaboração política e histórica<br/>recente — não uma verdade eterna<br/>das tradições sagradas.</div>
+                <div class="text-item text" style="font-size: 17px; font-weight: 400; font-family: 'Roboto-Regular'; line-height: 139%; color: #F9F3E1; left: 771.00px; top: 354px; width: 325.60px">O futuro espiritual da humanidade<br/>reside na integração entre a busca<br/>pelo sagrado, o respeito às<br/>identidades e o compromisso<br/>com a justiça social.</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 2px; font-weight: 500; font-family: 'OpenSans-Regular'; line-height: 120%; color: #F7C381; left: 96.00px; top: 60px; width: 232.10px">CONCLUSÕES</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 2px; font-weight: 500; font-family: 'OpenSans-Regular'; line-height: 120%; text-align: center; color: #F7C381; left: 440.70px; top: 679px; width: 402.60px">Síntese da apresentação · Abril 2026</div>
+                <div class="text-item text" style="font-size: 16px; letter-spacing: 0px; font-weight: 500; font-family: 'OpenSans-Regular'; line-height: 120%; color: #F7C381; left: 44.00px; top: 679px; width: 40.70px">8 / 8</div>
+            </div>
         </div>
     </div>
 	
@@ -241,77 +370,102 @@
     <button class="nav-btn nav-next" id="nextSlide" aria-label="Próximo">▶</button>
     <div class="counter" id="slideCounter">1 / 8</div>
 </div>
+    
+    <!-- Navegação -->
+    <button class="nav-btn nav-prev" id="prevSlide" aria-label="Voltar">◀</button>
+    <button class="nav-btn nav-next" id="nextSlide" aria-label="Próximo">▶</button>
+    <div class="counter" id="slideCounter">1 / 8</div>
+</div>
 
 <script>
     (function() {
         const slides = document.querySelectorAll('.slide');
         const total = slides.length;
-        let current = 0;
+        let currentIndex = 0;
         const prevBtn = document.getElementById('prevSlide');
         const nextBtn = document.getElementById('nextSlide');
-        const counter = document.getElementById('slideCounter');
-
-        function updateSlides() {
-            slides.forEach((slide, idx) => {
-                if (idx === current) slide.classList.add('active');
-                else slide.classList.remove('active');
+        const counterDiv = document.getElementById('slideCounter');
+        
+        // Função principal: ajusta escala do slide ativo para preencher a tela e manter proporção
+        function scaleActiveSlide() {
+            const activeSlide = document.querySelector('.slide.active');
+            if (!activeSlide) return;
+            const inner = activeSlide.querySelector('.slide-inner');
+            if (!inner) return;
+            
+            const viewportW = window.innerWidth;
+            const viewportH = window.innerHeight;
+            const slideW = 1280;
+            const slideH = 720;
+            
+            // Calcula escala ideal para caber dentro da viewport, respeitando espaço para possíveis botões (sem margem extra)
+            const scaleX = viewportW / slideW;
+            const scaleY = viewportH / slideH;
+            const scale = Math.min(scaleX, scaleY);
+            
+            // Aplica transformação para centralizar visualmente
+            inner.style.transform = `scale(${scale})`;
+            
+            // Ajusta margens para manter o conteúdo centralizado no container do slide (efeito de "contain")
+            const scaledWidth = slideW * scale;
+            const scaledHeight = slideH * scale;
+            const offsetX = (viewportW - scaledWidth) / 2;
+            const offsetY = (viewportH - scaledHeight) / 2;
+            inner.style.position = 'relative';
+            inner.style.left = `${offsetX}px`;
+            inner.style.top = `${offsetY}px`;
+            inner.style.margin = '0';
+        }
+        
+        // Atualiza classe ativa e contador
+        function goToSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= total) index = total - 1;
+            if (index === currentIndex) return;
+            
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
             });
-            counter.innerText = `${current + 1} / ${total}`;
+            currentIndex = index;
+            counterDiv.innerText = `${currentIndex+1} / ${total}`;
+            
+            // Recalcula escala sempre que trocar de slide (garante responsividade)
+            scaleActiveSlide();
+            
+            // Opcional: rolar o slide ativo para o topo (para evitar scroll residual)
+            const activeSlideEl = slides[currentIndex];
+            if (activeSlideEl) activeSlideEl.scrollTo(0, 0);
         }
-
-        function goNext() {
-            if (current < total - 1) current++;
-            else return;  // não faz loop (pode ativar loop descomentando linha abaixo)
-            // se quiser loop infinito: current = (current + 1) % total;
-            updateSlides();
-        }
-
-        function goPrev() {
-            if (current > 0) current--;
-            else return;
-            updateSlides();
-        }
-
-        // Eventos de clique
-        prevBtn.addEventListener('click', goPrev);
-        nextBtn.addEventListener('click', goNext);
-
-        // Teclado (setas)
+        
+        // Eventos de navegação
+        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
+        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
+        
+        // Suporte a teclado (setas direita/esquerda)
         window.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowLeft') {
-                goPrev();
                 e.preventDefault();
+                goToSlide(currentIndex - 1);
             } else if (e.key === 'ArrowRight') {
-                goNext();
                 e.preventDefault();
+                goToSlide(currentIndex + 1);
             }
         });
-
-        // ========== SWIPE para mobile ==========
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const carouselElement = document.getElementById('carousel');
-
-        carouselElement.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        carouselElement.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const deltaX = touchEndX - touchStartX;
-            // Limiar de 50px para considerar como swipe
-            if (Math.abs(deltaX) > 50) {
-                if (deltaX > 0) {
-                    // swipe da esquerda para direita -> voltar
-                    goPrev();
-                } else {
-                    // swipe da direita para esquerda -> próximo
-                    goNext();
-                }
-            }
+        
+        // Evento de redimensionamento para reescalar o conteúdo dinamicamente (importante para orientação e desktop)
+        window.addEventListener('resize', () => {
+            scaleActiveSlide();
         });
-
-        updateSlides();
+        
+        // Inicialização: primeiro slide ativo, calcular escala e scroll seguro
+        setTimeout(() => {
+            goToSlide(0);
+        }, 50);
+        
+        // Correção adicional para Safari mobile e garantir after load
+        window.addEventListener('load', () => {
+            scaleActiveSlide();
+        });
     })();
 </script>
 </body>
