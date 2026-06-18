@@ -3649,25 +3649,25 @@ document.querySelectorAll('details.bib').forEach(d => {
 });
 </script>
 
-	<script>
-fetch('https://api.countapi.xyz/hit/viabilidadefinanceira/acessos')
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('contador-visitas').innerText = data.value;
-  })
-  .catch(() => {
-    document.getElementById('contador-visitas').innerText = '-';
-  });
-</script>
-
-	<div align="center">
-  <a title="contador de dias" href="https://www.calendario.cnt.br/ferramentas/contador-de-dias-calculadora-prazo-entre-datas">
-    <img src="https://contador-gratis.com/contadores-de-visitas/280426055132436.gif" width="20" height="auto" style="border:none;">
-  </a>
-  <div style="font-size:1px; opacity:0.1;">
-    <a href="https://www.contador-gratis.com/">.</a>
-  </div>
-</div>
+ <script>
+    fetch('https://api.countapi.xyz/hit/viabilidadefinanceira/acessos')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('contador-visitas').innerText = data.value;
+      })
+      .catch(() => {
+        document.getElementById('contador-visitas').innerText = '-';
+      });
+    </script>
+    
+    <div align="center">
+      <a title="contador de visitas" href="...">
+        <img src="https://contador-gratis.com/contadores-de-visitas/280426055132436.gif" width="10" height="auto" style="border:none;">
+      </a>
+      <div style="font-size:1px; opacity:0.1;">
+        <a href="https://www.contador-gratis.com/">.</a>
+      </div>
+    </div>
 
 
 	
