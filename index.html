@@ -3649,21 +3649,26 @@ document.querySelectorAll('details.bib').forEach(d => {
 });
 </script>
 
-	<!-- CONTADOR DE VISITAS DISCRETO -->
-<div style="text-align:center;padding:16px 0;background:var(--ink);border-top:1px solid rgba(255,255,255,0.05);">
-  <div id="sfc6hj8zed4durwmjb8h4qsxneaum7hb6qs" style="display:inline-block;"></div>
-  <script type="text/javascript" src="https://counter11.optistats.ovh/private/counter.js?c=6hj8zed4durwmjb8h4qsxneaum7hb6qs&down=async" async></script>
-  <noscript>
-    <a href="https://www.webcontadores.com" title="Contador de visitas" style="font-size:10px;color:rgba(250,248,243,0.3);text-decoration:none;font-family:'JetBrains Mono',monospace;">
-      <img src="https://counter11.optistats.ovh/private/webcontadores.php?c=6hj8zed4durwmjb8h4qsxneaum7hb6qs" border="0" alt="Contador" style="height:10px;width:auto;opacity:0.5;filter:grayscale(100%);">
-    </a>
-  </noscript>
-  <div style="margin-top:8px;">
-    <a href="https://www.webcontadores.com" title="Contador de visitas" style="font-size:10px;color:rgba(250,248,243,0.25);text-decoration:none;font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;transition:color 0.2s;" onmouseover="this.style.color='rgba(250,248,243,0.5)'" onmouseout="this.style.color='rgba(250,248,243,0.25)'">
-      contador de visitas
-    </a>
+	<script>
+fetch('https://api.countapi.xyz/hit/viabilidadefinanceira/acessos')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('contador-visitas').innerText = data.value;
+  })
+  .catch(() => {
+    document.getElementById('contador-visitas').innerText = '-';
+  });
+</script>
+
+	<div align="center">
+  <a title="contador de dias" href="https://www.calendario.cnt.br/ferramentas/contador-de-dias-calculadora-prazo-entre-datas">
+    <img src="https://contador-gratis.com/contadores-de-visitas/280426055132436.gif" width="20" height="auto" style="border:none;">
+  </a>
+  <div style="font-size:1px; opacity:0.1;">
+    <a href="https://www.contador-gratis.com/">.</a>
   </div>
 </div>
+
 
 	
 </body>
