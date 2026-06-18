@@ -3649,25 +3649,51 @@ document.querySelectorAll('details.bib').forEach(d => {
 });
 </script>
 
+
+
+<!-- CONTADOR DE VISITAS - counter.dev -->
 <script>
-fetch('https://api.countapi.xyz/hit/siapac_jbatist7/visitas_2026')
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('contador-visitas').innerText = data.value;
-  })
-  .catch(() => {
-    document.getElementById('contador-visitas').innerText = '1';
-  });
+  (function() {
+    // Configuração do contador
+    const userId = 'jbatist7@gmail.com';
+    const siteId = 'siapac-pesquisa';
+    
+    fetch(`https://api.counter.dev/count?user=${userId}&url=${siteId}`)
+      .then(response => response.json())
+      .then(data => {
+        const counterEl = document.getElementById('visitCount');
+        if (counterEl) {
+          // Animação de contagem
+          const target = data.count || 0;
+          let current = Math.max(0, target - 5);
+          const animate = () => {
+            if (current < target) {
+              current++;
+              counterEl.textContent = current.toLocaleString('pt-BR');
+              setTimeout(animate, 80);
+            } else {
+              counterEl.textContent = target.toLocaleString('pt-BR');
+            }
+          };
+          setTimeout(animate, 500);
+        }
+      })
+      .catch(error => {
+        console.log('Contador não disponível:', error);
+        const counterEl = document.getElementById('visitCount');
+        if (counterEl) counterEl.textContent = '0';
+      });
+  })();
 </script>
 
-<div align="center">
-  <a title="Visitas" href="https://www.contador-gratis.com/">
-    <img src="https://contador-gratis.com/contadores-de-visitas/280426055132436.gif" width="20" height="auto" style="border:none;">
+<div align="center" style="margin-top:12px;">
+  <a title="Visitas" href="https://www.contador-gratis.com/" style="display:inline-block;opacity:0.5;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='0.5'">
+    <img src="https://contador-gratis.com/contadores-de-visitas/280426055132436.gif" width="20" height="auto" style="border:none;vertical-align:middle;" alt="">
   </a>
-  <div style="font-size:1px; opacity:0.1;">
-    <a href="https://www.contador-gratis.com/">.</a>
-  </div>
 </div>
+
+
+	
 
 
 	
