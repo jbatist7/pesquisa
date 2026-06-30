@@ -16,203 +16,409 @@
     --amarelo: #FFF2CC;
     --laranja: #FCE4D6;
     --branco: #FFFFFF;
+    --sidebar-w: 260px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; font-size: 15px; color: var(--cinza-escuro); background: #f9f9f9; line-height: 1.6; }
-  
-  /* CAPA */
-  .capa { background: linear-gradient(135deg, var(--azul) 0%, #2a5298 100%); color: white; text-align: center; padding: 60px 30px 50px; }
-  .capa h1 { font-size: 2.4em; font-weight: 900; letter-spacing: 1px; line-height: 1.2; margin-bottom: 10px; }
-  .capa .subtitulo { font-size: 1.15em; font-style: italic; color: #B8D4F0; margin-bottom: 30px; }
-  .capa .tagline { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); padding: 18px 28px; border-radius: 8px; font-size: 1.05em; font-weight: 600; margin: 20px auto; max-width: 640px; }
-  .capa .badges { margin-top: 28px; font-size: 0.82em; letter-spacing: 2px; color: #8FBDE0; font-weight: 700; }
-  
+
+  /* LAYOUT GERAL */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--azul);
+    color: white;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    padding: 14px 10px;
+    z-index: 100;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+  }
+  .sidebar::-webkit-scrollbar { width: 6px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 3px; }
+  .sidebar .side-title {
+    font-size: 0.78em; letter-spacing: 2px; text-transform: uppercase;
+    color: #8FBDE0; margin-bottom: 10px; padding: 0 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px;
+  }
+  .sidebar ul { list-style: none; }
+  .sidebar ul li a {
+    display: block; padding: 8px 10px; color: #D6E4F7; text-decoration: none;
+    font-size: 0.82em; border-radius: 5px; border-left: 3px solid transparent;
+    transition: all 0.2s;
+  }
+  .sidebar ul li a:hover { background: rgba(255,255,255,0.08); color: white; border-left-color: var(--verde); }
+  .sidebar ul li a.active { background: rgba(255,255,255,0.15); color: white; border-left-color: var(--verde); font-weight: 700; }
+  .sidebar .sub-item a { padding-left: 22px; font-size: 0.75em; color: #B8D4F0; }
+
+  .main {
+    flex: 1;
+    margin-left: var(--sidebar-w);
+    min-width: 0;
+  }
+
+  /* TOGGLE MOBILE */
+  .menu-toggle {
+    display: none;
+    position: fixed; top: 10px; left: 10px; z-index: 200;
+    background: var(--azul); color: white; border: none;
+    width: 42px; height: 42px; border-radius: 50%;
+    font-size: 1.3em; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 240px; }
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .menu-toggle { display: block; }
+  }
+
+  /* CAPA COMPACTA */
+  .capa {
+    background: linear-gradient(135deg, var(--azul) 0%, #2a5298 100%);
+    color: white; text-align: center; padding: 28px 20px 22px;
+  }
+  .capa h1 { font-size: 1.6em; font-weight: 900; letter-spacing: 1px; line-height: 1.2; margin-bottom: 6px; }
+  .capa .subtitulo { font-size: 0.95em; font-style: italic; color: #B8D4F0; margin-bottom: 12px; }
+  .capa .tagline {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    padding: 10px 18px; border-radius: 6px; font-size: 0.9em; font-weight: 600;
+    margin: 10px auto; max-width: 640px; display: inline-block;
+  }
+  .capa .autor {
+    font-size: 0.85em; margin-top: 8px; color: #D6E4F7;
+  }
+  .capa .autor strong { color: white; }
+  .capa .badges { margin-top: 10px; font-size: 0.72em; letter-spacing: 1.5px; color: #8FBDE0; font-weight: 700; }
+  .capa .descricao {
+    margin-top: 10px; font-size: 0.78em; color: #B8D4F0; max-width: 700px;
+    margin-left: auto; margin-right: auto; font-style: italic;
+  }
+
   /* CONTEÚDO */
   .container { max-width: 980px; margin: 0 auto; padding: 0 16px 60px; }
-  
+
   /* SEÇÕES */
-  .parte-header { background: var(--azul); color: white; padding: 28px 28px 22px; margin: 40px 0 24px; border-radius: 8px; }
-  .parte-header .parte-num { font-size: 0.82em; letter-spacing: 3px; text-transform: uppercase; color: #8FBDE0; margin-bottom: 6px; }
-  .parte-header h2 { font-size: 1.7em; font-weight: 900; margin-bottom: 8px; }
-  .parte-header .parte-desc { font-size: 0.95em; color: #B8D4F0; font-style: italic; }
-  
-  h2.sec { font-size: 1.45em; color: var(--azul-medio); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 3px solid var(--azul-claro); }
-  h3.sub { font-size: 1.1em; color: var(--cinza-escuro); font-weight: 700; margin: 22px 0 8px; }
-  p { margin: 10px 0; text-align: justify; }
-  
+  .parte-header { background: var(--azul); color: white; padding: 20px 22px 16px; margin: 30px 0 18px; border-radius: 8px; }
+  .parte-header .parte-num { font-size: 0.75em; letter-spacing: 3px; text-transform: uppercase; color: #8FBDE0; margin-bottom: 4px; }
+  .parte-header h2 { font-size: 1.4em; font-weight: 900; margin-bottom: 6px; }
+  .parte-header .parte-desc { font-size: 0.88em; color: #B8D4F0; font-style: italic; }
+
+  h2.sec { font-size: 1.3em; color: var(--azul-medio); margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 3px solid var(--azul-claro); }
+  h3.sub { font-size: 1.05em; color: var(--cinza-escuro); font-weight: 700; margin: 18px 0 6px; }
+  p { margin: 8px 0; text-align: justify; }
+
   /* CAIXAS */
-  .box { border-radius: 7px; padding: 18px 22px; margin: 18px 0; border-left: 5px solid; }
+  .box { border-radius: 7px; padding: 14px 18px; margin: 14px 0; border-left: 5px solid; }
   .box-azul { background: var(--azul-claro); border-color: var(--azul-medio); }
   .box-verde { background: var(--verde-claro); border-color: var(--verde); }
   .box-amarelo { background: var(--amarelo); border-color: #E6AC00; }
   .box-laranja { background: var(--laranja); border-color: #E07020; }
-  .box .box-titulo { font-weight: 700; color: var(--azul); margin-bottom: 7px; font-size: 1.0em; }
+  .box .box-titulo { font-weight: 700; color: var(--azul); margin-bottom: 5px; font-size: 0.95em; }
   .box-cinza { background: var(--cinza-claro); border-color: #aaa; }
-  
+
   /* MENSAGEM */
-  .mensagem { background: linear-gradient(120deg, #EBF3FD, #F0FAF4); border: 1px solid #C0D8F0; border-radius: 10px; padding: 30px 32px; margin: 30px 0; }
-  .mensagem h2 { color: var(--azul); font-size: 1.4em; margin-bottom: 14px; }
-  .mensagem ul { margin: 12px 0 12px 22px; }
-  .mensagem ul li { margin-bottom: 6px; }
-  
+  .mensagem { background: linear-gradient(120deg, #EBF3FD, #F0FAF4); border: 1px solid #C0D8F0; border-radius: 10px; padding: 22px 24px; margin: 22px 0; }
+  .mensagem h2 { color: var(--azul); font-size: 1.2em; margin-bottom: 10px; }
+  .mensagem ul { margin: 10px 0 10px 20px; }
+  .mensagem ul li { margin-bottom: 4px; }
+
   /* TABELAS */
-  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 12px 0; border-radius: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
   .tbl-wrap table { width: 100%; border-collapse: collapse; min-width: 480px; }
   .tbl-wrap thead tr { background: var(--azul); color: white; }
-  .tbl-wrap thead th { padding: 11px 14px; text-align: left; font-size: 0.9em; font-weight: 700; white-space: nowrap; }
+  .tbl-wrap thead th { padding: 10px 12px; text-align: left; font-size: 0.85em; font-weight: 700; white-space: nowrap; }
   .tbl-wrap tbody tr:nth-child(even) { background: var(--cinza-claro); }
   .tbl-wrap tbody tr:nth-child(odd) { background: white; }
-  .tbl-wrap tbody td { padding: 10px 14px; font-size: 0.9em; vertical-align: top; border-bottom: 1px solid #E8E8E8; }
+  .tbl-wrap tbody td { padding: 8px 12px; font-size: 0.88em; vertical-align: top; border-bottom: 1px solid #E8E8E8; }
   .tbl-azul thead tr { background: var(--azul); }
   .tbl-verde thead tr { background: var(--verde); }
   .tbl-medio thead tr { background: var(--azul-medio); }
-  .scroll-hint { font-size: 0.75em; color: #888; text-align: right; margin-top: -10px; margin-bottom: 8px; display: none; }
+  .scroll-hint { font-size: 0.72em; color: #888; text-align: right; margin-top: -8px; margin-bottom: 6px; display: none; }
   @media (max-width: 640px) { .scroll-hint { display: block; } }
-  
+
   /* DIAGNÓSTICO BLOCK */
-  .diag-block { margin: 28px 0 36px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
-  .diag-title { background: linear-gradient(90deg, var(--azul) 0%, var(--azul-medio) 100%); color: white; padding: 14px 20px; }
-  .diag-title .diag-num { font-size: 0.8em; letter-spacing: 2px; color: #8FBDE0; }
-  .diag-title h3 { font-size: 1.15em; font-weight: 800; margin: 3px 0 0; }
-  .diag-title p { font-size: 0.88em; color: #B8D4F0; margin-top: 4px; font-style: italic; }
-  .diag-body { padding: 16px 18px; background: white; }
-  .diag-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  .diag-block { margin: 22px 0 28px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; }
+  .diag-title { background: linear-gradient(90deg, var(--azul) 0%, var(--azul-medio) 100%); color: white; padding: 12px 18px; }
+  .diag-title .diag-num { font-size: 0.75em; letter-spacing: 2px; color: #8FBDE0; }
+  .diag-title h3 { font-size: 1.05em; font-weight: 800; margin: 2px 0 0; }
+  .diag-title p { font-size: 0.82em; color: #B8D4F0; margin-top: 3px; font-style: italic; }
+  .diag-body { padding: 14px 16px; background: white; }
+  .diag-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
   @media (max-width: 620px) { .diag-cols { grid-template-columns: 1fr; } }
-  .diag-col-title { color: white; padding: 8px 14px; font-size: 0.82em; font-weight: 700; letter-spacing: 1px; border-radius: 5px 5px 0 0; }
+  .diag-col-title { color: white; padding: 6px 12px; font-size: 0.78em; font-weight: 700; letter-spacing: 1px; border-radius: 5px 5px 0 0; }
   .diag-col-levantar .diag-col-title { background: var(--azul-medio); }
   .diag-col-indicadores .diag-col-title { background: var(--verde); }
   .diag-list { margin: 0; padding: 0; list-style: none; border: 1px solid #ddd; border-top: none; border-radius: 0 0 5px 5px; overflow: hidden; }
-  .diag-list li { padding: 7px 12px; font-size: 0.88em; border-bottom: 1px solid #f0f0f0; }
+  .diag-list li { padding: 5px 10px; font-size: 0.82em; border-bottom: 1px solid #f0f0f0; }
   .diag-list li:last-child { border-bottom: none; }
   .diag-list li:nth-child(even) { background: #f8f8f8; }
   .diag-list li::before { content: "• "; color: var(--azul-medio); font-weight: 700; }
   .diag-col-indicadores .diag-list li:nth-child(even) { background: #F0FAF4; }
   .diag-col-indicadores .diag-list li::before { color: var(--verde); }
-  
+
   /* PDCA */
-  .pdca { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin: 16px 0; }
+  .pdca { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 14px 0; }
   @media (max-width: 560px) { .pdca { grid-template-columns: repeat(2,1fr); } }
-  .pdca-item { border-radius: 8px; padding: 14px; text-align: center; }
-  .pdca-item .pdca-letra { font-size: 2em; font-weight: 900; line-height: 1; }
-  .pdca-item .pdca-nome { font-size: 0.85em; font-weight: 700; margin: 4px 0; }
-  .pdca-item .pdca-desc { font-size: 0.78em; }
-  .pdca-item .pdca-prazo { font-size: 0.72em; margin-top: 6px; font-style: italic; opacity: 0.8; }
+  .pdca-item { border-radius: 8px; padding: 12px; text-align: center; }
+  .pdca-item .pdca-letra { font-size: 1.8em; font-weight: 900; line-height: 1; }
+  .pdca-item .pdca-nome { font-size: 0.8em; font-weight: 700; margin: 3px 0; }
+  .pdca-item .pdca-desc { font-size: 0.75em; }
+  .pdca-item .pdca-prazo { font-size: 0.7em; margin-top: 4px; font-style: italic; opacity: 0.8; }
   .pdca-p { background: var(--azul-claro); color: var(--azul); }
   .pdca-d { background: var(--verde-claro); color: #007040; }
   .pdca-c { background: var(--amarelo); color: #7A5C00; }
   .pdca-a { background: var(--laranja); color: #8B3A00; }
-  
+
   /* PILARES */
-  .pilares { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 16px 0; }
-  .pilar { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; border-top: 4px solid var(--azul-medio); }
-  .pilar .pilar-num { width: 30px; height: 30px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9em; margin-bottom: 10px; }
-  .pilar h4 { color: var(--azul); font-size: 0.95em; margin-bottom: 6px; }
-  .pilar p { font-size: 0.85em; }
-  
+  .pilares { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 14px 0; }
+  .pilar { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px; border-top: 4px solid var(--azul-medio); }
+  .pilar .pilar-num { width: 28px; height: 28px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85em; margin-bottom: 8px; }
+  .pilar h4 { color: var(--azul); font-size: 0.9em; margin-bottom: 4px; }
+  .pilar p { font-size: 0.82em; }
+
   /* CHECKLIST */
   .checklist { list-style: none; padding: 0; }
-  .checklist li { padding: 9px 14px 9px 40px; position: relative; border-bottom: 1px solid #eee; font-size: 0.92em; }
-  .checklist li::before { content: "☐"; position: absolute; left: 12px; font-size: 1.1em; color: var(--azul-medio); }
+  .checklist li { padding: 7px 12px 7px 36px; position: relative; border-bottom: 1px solid #eee; font-size: 0.88em; }
+  .checklist li::before { content: "☐"; position: absolute; left: 10px; font-size: 1.05em; color: var(--azul-medio); }
   .checklist li:nth-child(even) { background: #f9f9f9; }
   .checklist li:last-child { border-bottom: none; }
-  
+
   /* CHECKLIST AGRUPADO */
-  .check-group { margin: 18px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-  .check-group-title { background: var(--azul-medio); color: white; padding: 9px 16px; font-weight: 700; font-size: 0.9em; letter-spacing: 1px; }
-  
+  .check-group { margin: 14px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+  .check-group-title { background: var(--azul-medio); color: white; padding: 7px 14px; font-weight: 700; font-size: 0.85em; letter-spacing: 1px; }
+
   /* PREMIOS */
-  .premio-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 10px 0; border-left: 5px solid var(--azul-medio); }
-  .premio-card h4 { color: var(--azul); font-size: 0.98em; margin-bottom: 4px; }
-  .premio-card p { font-size: 0.87em; }
-  
+  .premio-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px; margin: 8px 0; border-left: 5px solid var(--azul-medio); }
+  .premio-card h4 { color: var(--azul); font-size: 0.95em; margin-bottom: 3px; }
+  .premio-card p { font-size: 0.85em; }
+
   /* ETAPAS */
-  .etapa { display: flex; align-items: flex-start; gap: 14px; margin: 12px 0; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 14px; }
-  .etapa-num { min-width: 36px; height: 36px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1em; flex-shrink: 0; }
-  .etapa-body h4 { color: var(--azul); font-size: 0.95em; margin-bottom: 4px; }
-  .etapa-body p { font-size: 0.87em; }
-  
+  .etapa { display: flex; align-items: flex-start; gap: 12px; margin: 10px 0; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 12px; }
+  .etapa-num { min-width: 32px; height: 32px; background: var(--azul); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95em; flex-shrink: 0; }
+  .etapa-body h4 { color: var(--azul); font-size: 0.9em; margin-bottom: 3px; }
+  .etapa-body p { font-size: 0.85em; }
+
   /* CITAÇÃO FINAL */
-  .citacao { background: var(--azul); color: white; padding: 36px 30px; border-radius: 10px; text-align: center; margin: 40px 0 20px; }
-  .citacao p { font-size: 1.1em; font-style: italic; line-height: 1.8; }
-  .citacao strong { font-size: 1.05em; }
-  
+  .citacao { background: var(--azul); color: white; padding: 28px 24px; border-radius: 10px; text-align: center; margin: 30px 0 16px; }
+  .citacao p { font-size: 1em; font-style: italic; line-height: 1.7; }
+  .citacao strong { font-size: 1em; }
+
   /* MATRIX PRIORIDADE */
-  .matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; margin: 16px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
-  .matrix-corner { background: var(--cinza-claro); padding: 10px; font-size: 0.8em; font-weight: 700; }
-  .matrix-header { background: var(--azul); color: white; padding: 10px 14px; text-align: center; font-size: 0.85em; font-weight: 700; }
-  .matrix-label { background: var(--azul-medio); color: white; padding: 10px 14px; display: flex; align-items: center; justify-content: center; font-size: 0.85em; font-weight: 700; text-align: center; writing-mode: horizontal-tb; }
-  .matrix-cell { padding: 12px 14px; font-size: 0.85em; font-weight: 600; }
+  .matrix { display: grid; grid-template-columns: auto 1fr 1fr; gap: 0; margin: 14px 0; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+  .matrix-corner { background: var(--cinza-claro); padding: 8px; font-size: 0.75em; font-weight: 700; }
+  .matrix-header { background: var(--azul); color: white; padding: 8px 12px; text-align: center; font-size: 0.8em; font-weight: 700; }
+  .matrix-label { background: var(--azul-medio); color: white; padding: 8px 12px; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: 700; text-align: center; }
+  .matrix-cell { padding: 10px 12px; font-size: 0.82em; font-weight: 600; }
   .matrix-cell.mc1 { background: #D6F0E0; color: #005A30; }
   .matrix-cell.mc2 { background: var(--azul-claro); color: #1B3A6B; }
   .matrix-cell.mc3 { background: var(--amarelo); color: #5A4000; }
   .matrix-cell.mc4 { background: #FFE0E0; color: #8B0000; }
-  @media (max-width: 480px) { .matrix { font-size: 0.8em; } }
-  
+
   /* ERROS */
-  .erros { counter-reset: erro; margin: 14px 0; }
-  .erro-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-bottom: 1px solid #eee; background: white; }
+  .erros { counter-reset: erro; margin: 12px 0; }
+  .erro-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-bottom: 1px solid #eee; background: white; }
   .erro-item:nth-child(even) { background: #FFF8F6; }
-  .erro-num { counter-increment: erro; background: #E05020; color: white; border-radius: 50%; min-width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85em; flex-shrink: 0; }
-  .erro-item p { font-size: 0.9em; }
-  
-  /* TOC */
-  .toc { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 22px 24px; margin: 24px 0 36px; }
-  .toc h3 { color: var(--azul); margin-bottom: 14px; font-size: 1.05em; }
+  .erro-num { counter-increment: erro; background: #E05020; color: white; border-radius: 50%; min-width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8em; flex-shrink: 0; }
+  .erro-item p { font-size: 0.88em; }
+
+  /* TOC (mantido como backup) */
+  .toc { background: white; border: 1px solid #ddd; border-radius: 10px; padding: 18px 20px; margin: 18px 0 28px; }
+  .toc h3 { color: var(--azul); margin-bottom: 10px; font-size: 1em; }
   .toc ul { list-style: none; padding: 0; columns: 2; }
   @media (max-width: 580px) { .toc ul { columns: 1; } }
-  .toc ul li { padding: 5px 0; font-size: 0.88em; }
+  .toc ul li { padding: 4px 0; font-size: 0.85em; }
   .toc ul li a { color: var(--azul-medio); text-decoration: none; }
   .toc ul li a:hover { text-decoration: underline; }
-  
+
   /* FOOTER */
-  footer { background: var(--azul); color: #8FBDE0; text-align: center; padding: 22px; font-size: 0.82em; margin-top: 40px; }
+  footer { background: var(--azul); color: #8FBDE0; text-align: center; padding: 18px; font-size: 0.8em; margin-top: 30px; }
+
+  /* TERMOS COM TOOLTIP/DEFINIÇÃO */
+  .termo {
+    color: var(--azul-medio);
+    border-bottom: 1.5px dotted var(--azul-medio);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .termo:hover { color: var(--azul); background: var(--azul-claro); border-radius: 3px; }
+  .termo::after {
+    content: "ⓘ";
+    font-size: 0.7em;
+    margin-left: 2px;
+    color: var(--verde);
+    vertical-align: super;
+  }
+
+  /* MODAL DE DEFINIÇÃO */
+  .modal-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s;
+  }
+  .modal-overlay.active { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal-box {
+    background: white; border-radius: 10px; max-width: 500px; width: 100%;
+    padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-height: 80vh; overflow-y: auto;
+    animation: slideUp 0.3s;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .modal-box h3 { color: var(--azul); margin-bottom: 10px; font-size: 1.15em; border-bottom: 2px solid var(--verde); padding-bottom: 6px; }
+  .modal-box p { font-size: 0.92em; line-height: 1.6; }
+  .modal-close {
+    float: right; background: var(--azul); color: white; border: none;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
+    font-size: 1em; font-weight: 700;
+  }
+
+  /* QUIZZ */
+  .quiz-box {
+    background: linear-gradient(135deg, #EBF3FD 0%, #F0FAF4 100%);
+    border: 2px solid var(--azul-medio);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 24px 0;
+  }
+  .quiz-box .quiz-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+    color: var(--azul); font-weight: 700; font-size: 1em;
+  }
+  .quiz-box .quiz-header .quiz-icon {
+    background: var(--azul); color: white; width: 32px; height: 32px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 1.1em;
+  }
+  .quiz-question { font-size: 0.95em; font-weight: 600; margin-bottom: 10px; color: var(--cinza-escuro); }
+  .quiz-options { list-style: none; padding: 0; }
+  .quiz-options li {
+    padding: 9px 14px; margin: 5px 0;
+    background: white; border: 2px solid #ddd; border-radius: 6px;
+    cursor: pointer; font-size: 0.88em;
+    transition: all 0.2s;
+  }
+  .quiz-options li:hover { border-color: var(--azul-medio); background: #f5f9ff; }
+  .quiz-options li.correct { background: #D6F0E0; border-color: var(--verde); color: #005A30; font-weight: 700; }
+  .quiz-options li.wrong { background: #FFE0E0; border-color: #E05020; color: #8B0000; }
+  .quiz-options li.disabled { cursor: default; opacity: 0.7; }
+  .quiz-feedback {
+    margin-top: 10px; padding: 10px 14px; border-radius: 6px;
+    font-size: 0.88em; display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.ok { background: #D6F0E0; color: #005A30; border-left: 4px solid var(--verde); }
+  .quiz-feedback.no { background: #FFE0E0; color: #8B0000; border-left: 4px solid #E05020; }
+
+  /* PROGRESS BAR (scroll) */
+  .progress-bar {
+    position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+    height: 3px; background: rgba(0,0,0,0.05); z-index: 50;
+  }
+  .progress-bar-fill {
+    height: 100%; background: linear-gradient(90deg, var(--verde), var(--azul-medio));
+    width: 0%; transition: width 0.1s;
+  }
+  @media (max-width: 900px) { .progress-bar { left: 0; } }
 </style>
 </head>
 <body>
 
-<!-- CAPA -->
+<button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+
+<div class="progress-bar"><div class="progress-bar-fill" id="progressFill"></div></div>
+
+<div class="layout">
+
+<!-- SIDEBAR / ÍNDICE LATERAL -->
+<aside class="sidebar" id="sidebar">
+  <div class="side-title">📑 Índice do Manual</div>
+  <ul>
+    <li><a href="#mensagem">💬 Mensagem ao Prefeito</a></li>
+    <li><a href="#parte1">I — Diagnóstico Municipal</a>
+      <ul class="sub-item">
+        <li><a href="#s01">01. Território</a></li>
+        <li><a href="#s02">02. Segurança</a></li>
+        <li><a href="#s03">03. Água</a></li>
+        <li><a href="#s04">04. Esgoto</a></li>
+        <li><a href="#s05">05. Resíduos</a></li>
+        <li><a href="#s06">06. Saúde</a></li>
+        <li><a href="#s07">07. Educação</a></li>
+        <li><a href="#s08">08. Seg. Alimentar</a></li>
+        <li><a href="#s09">09. Habitação</a></li>
+        <li><a href="#s10">10. Mobilidade</a></li>
+        <li><a href="#s11">11. Economia</a></li>
+        <li><a href="#s12">12. Meio Ambiente</a></li>
+        <li><a href="#s13">13. Cultura</a></li>
+        <li><a href="#s14">14. Inclusão</a></li>
+        <li><a href="#s15">15. Governança</a></li>
+        <li><a href="#s16">16. Defesa Civil</a></li>
+      </ul>
+    </li>
+    <li><a href="#parte2">II — Planejamento</a></li>
+    <li><a href="#parte3">III — Gestão por Resultados</a></li>
+    <li><a href="#parte4">IV — Indicadores</a></li>
+    <li><a href="#parte5">V — Elementos Avançados</a></li>
+    <li><a href="#parte6">VI — Prêmios</a></li>
+    <li><a href="#parte7">VII — Primeiros 100 Dias</a></li>
+    <li><a href="#conclusao">Conclusão</a></li>
+  </ul>
+</aside>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<main class="main">
+
+<!-- CAPA COMPACTA -->
 <div class="capa">
-  <h1>GESTÃO MUNICIPAL<br>DE EXCELÊNCIA</h1>
+  <h1>GESTÃO MUNICIPAL DE EXCELÊNCIA</h1>
   <div class="subtitulo">Manual Técnico para Prefeitos e Prefeitas</div>
-  <div class="tagline">Como diagnosticar, planejar, executar e ser reconhecido<br>por uma gestão que transforma vidas</div>
- <p><div class="tagline">João Batista de Oliveira - jbatist7@gmail.com</div></p>
-  <div class="badges">DIAGNÓSTICO &nbsp;|&nbsp; PLANEJAMENTO &nbsp;|&nbsp; GESTÃO &nbsp;|&nbsp; RESULTADOS &nbsp;|&nbsp; RECONHECIMENTO</div>
-<p>   <div class="badges">Esse Manual de Gestão tem o objetivo de apresentar uma visão panorâmica sobre os aspectos relevantes da gestão pública e deve ser usado por lideranças locais interessadas em acompanhar de perto a gestão pública: Conselhos, Associações, Partidos Políticos etc. </div></p>
+  <div class="tagline">Como diagnosticar, planejar, executar e ser reconhecido por uma gestão que transforma vidas</div>
+  <div class="autor"><strong>João Batista de Oliveira</strong> · jbatist7@gmail.com</div>
+  <div class="badges">DIAGNÓSTICO · PLANEJAMENTO · GESTÃO · RESULTADOS · RECONHECIMENTO</div>
+  <div class="descricao">Manual para lideranças locais: Conselhos, Associações, Partidos Políticos e cidadãos interessados em acompanhar a gestão pública.</div>
 </div>
 
 <div class="container">
 
 <!-- MENSAGEM AO PREFEITO -->
-<div class="mensagem">
+<div id="mensagem" class="mensagem">
   <h2>💬 Mensagem ao Prefeito</h2>
   <p>Governar um município é um dos atos mais transformadores que um ser humano pode realizar. É na prefeitura que a vida das pessoas muda de verdade: a criança que recebe uma boa alimentação escolar, a família que tem água potável em casa, o jovem que encontra oportunidades em vez de risco.</p>
-  <p style="margin-top:10px">Este manual foi construído para você que assumiu essa responsabilidade com seriedade. Não é um documento burocrático — é um roteiro de ação para quem quer deixar um legado real.</p>
-  <ul style="margin-top:12px;padding-left:22px">
-    <li>Como fazer um diagnóstico completo do seu município</li>
+  <p style="margin-top:8px">Este manual foi construído para você que assumiu essa responsabilidade com seriedade. Não é um documento burocrático — é um roteiro de ação para quem quer deixar um legado real.</p>
+  <ul style="margin-top:10px;padding-left:20px">
+    <li>Como fazer um <span class="termo" data-termo="diagnostico">diagnóstico</span> completo do seu município</li>
     <li>Como transformar diagnóstico em plano de governo operacional</li>
     <li>Como monitorar resultados e corrigir rotas</li>
     <li>Como comunicar conquistas e receber prêmios e reconhecimentos</li>
     <li>Como criar uma prefeitura inteligente, transparente e eficiente</li>
   </ul>
-  <div class="box box-amarelo" style="margin-top:16px">
+  <div class="box box-amarelo" style="margin-top:12px">
     <div class="box-titulo">Princípio fundamental</div>
-    Prefeitos que governam bem — com dados, planejamento e participação social — constroem legados que duram gerações e são reconhecidos por isso.
+    Prefeitos que governam bem — com dados, planejamento e <span class="termo" data-termo="participacao">participação social</span> — constroem legados que duram gerações e são reconhecidos por isso.
   </div>
 </div>
 
-<!-- SUMÁRIO -->
-<div class="toc">
-  <h3>📋 Índice do Manual</h3>
-  <ul>
-    <li><a href="#parte1">Parte I — Diagnóstico Municipal Integral</a></li>
-    <li><a href="#parte2">Parte II — Planejamento Estratégico</a></li>
-    <li><a href="#parte3">Parte III — Gestão por Resultados</a></li>
-    <li><a href="#parte4">Parte IV — Indicadores Estratégicos</a></li>
-    <li><a href="#parte5">Parte V — Elementos Avançados</a></li>
-    <li><a href="#parte6">Parte VI — Prêmios e Reconhecimento</a></li>
-    <li><a href="#parte7">Parte VII — Os Primeiros 100 Dias</a></li>
-    <li><a href="#conclusao">Conclusão e Checklists</a></li>
+<!-- QUIZ 0 - INTRODUÇÃO -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz Rápido — Introdução</span></div>
+  <div class="quiz-question">Segundo o manual, qual é o ponto de partida de toda gestão eficiente?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Inaugurar obras rapidamente</li>
+    <li data-correct="true">b) O diagnóstico municipal completo</li>
+    <li data-correct="false">c) Aumentar impostos</li>
+    <li data-correct="false">d) Fazer publicidade institucional</li>
   </ul>
+  <div class="quiz-feedback"></div>
 </div>
 
 <!-- PARTE I -->
@@ -223,11 +429,11 @@
   <div class="parte-desc">Como conhecer seu município em profundidade antes de agir</div>
 </div>
 
-<p>O diagnóstico é o ponto de partida de toda gestão eficiente. Você não pode resolver o que não conhece. Prefeitos que pulam essa etapa tomam decisões às cegas, desperdiçam recursos e perdem credibilidade.</p>
+<p>O <span class="termo" data-termo="diagnostico">diagnóstico</span> é o ponto de partida de toda gestão eficiente. Você não pode resolver o que não conhece. Prefeitos que pulam essa etapa tomam decisões às cegas, desperdiçam recursos e perdem credibilidade.</p>
 
 <div class="box box-azul">
   <div class="box-titulo">Por que diagnosticar primeiro?</div>
-  Municípios que governam sem diagnóstico tomam decisões baseadas em percepção, pressão política ou intuição. Municípios que governam com diagnóstico tomam decisões baseadas em evidências — e alcançam resultados maiores com os mesmos recursos. Municípios que investem em diagnóstico preciso economizam entre 20% e 40% no custo de suas políticas públicas, pois evitam duplicidade de ações e focam nos problemas reais.
+  Municípios que governam sem diagnóstico tomam decisões baseadas em percepção, pressão política ou intuição. Municípios que governam com diagnóstico tomam decisões baseadas em <span class="termo" data-termo="evidencia">evidências</span> — e alcançam resultados maiores com os mesmos recursos. Municípios que investem em diagnóstico preciso economizam entre 20% e 40% no custo de suas políticas públicas, pois evitam duplicidade de ações e focam nos problemas reais.
 </div>
 
 <h2 class="sec">Como fazer um bom diagnóstico municipal</h2>
@@ -238,8 +444,8 @@
     <thead><tr><th>Fonte de dados</th><th>O que fornece</th><th>Prazo sugerido</th></tr></thead>
     <tbody>
       <tr><td>IBGE / Censo</td><td>População, renda, moradia, escolaridade</td><td>Dias 1–15</td></tr>
-      <tr><td>DataSUS / e-Gestor</td><td>Saúde, mortalidade, cobertura ESF</td><td>Dias 1–15</td></tr>
-      <tr><td>INEP / QEdu</td><td>IDEB, evasão, infraestrutura escolar</td><td>Dias 1–15</td></tr>
+      <tr><td>DataSUS / e-Gestor</td><td>Saúde, mortalidade, cobertura <span class="termo" data-termo="esf">ESF</span></td><td>Dias 1–15</td></tr>
+      <tr><td>INEP / QEdu</td><td><span class="termo" data-termo="ideb">IDEB</span>, evasão, infraestrutura escolar</td><td>Dias 1–15</td></tr>
       <tr><td>SNIS</td><td>Água, esgoto, resíduos sólidos</td><td>Dias 15–30</td></tr>
       <tr><td>SEF / Finbra</td><td>Finanças municipais, execução orçamentária</td><td>Dias 1–10</td></tr>
       <tr><td>Visitas a campo</td><td>Realidade não capturada em dados</td><td>Dias 1–60</td></tr>
@@ -250,9 +456,8 @@
 </div>
 
 <!-- 16 SEÇÕES DE DIAGNÓSTICO -->
-
 <!-- 01 -->
-<div class="diag-block">
+<div id="s01" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 01</div>
     <h3>Estrutura Territorial e Ordenamento Urbano-Rural</h3>
@@ -260,7 +465,7 @@
   </div>
   <div class="diag-body">
     <p>O território é o palco de tudo. Antes de qualquer política pública, o prefeito precisa entender como o espaço está organizado — ou desorganizado.</p>
-    <div class="box box-azul" style="margin-top:10px;font-size:0.88em"><strong>Dica prática:</strong> Elabore um mapa de vulnerabilidade territorial com apoio do IBGE, INPE e Defesa Civil. Esse mapa deve ser a base de toda decisão de investimento em infraestrutura.</div>
+    <div class="box box-azul" style="margin-top:8px;font-size:0.85em"><strong>Dica prática:</strong> Elabore um mapa de vulnerabilidade territorial com apoio do IBGE, INPE e Defesa Civil. Esse mapa deve ser a base de toda decisão de investimento em infraestrutura.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -293,7 +498,7 @@
 </div>
 
 <!-- 02 -->
-<div class="diag-block">
+<div id="s02" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 02</div>
     <h3>Segurança Pública e Violência</h3>
@@ -301,7 +506,7 @@
   </div>
   <div class="diag-body">
     <p>Gestores que reduzem violência combinam prevenção social com ação policial inteligente. A fórmula não é contratar mais guardas — é agir nas causas.</p>
-    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Ação de alto impacto:</strong> Implante iluminação pública de LED em 100% das vias nos primeiros 2 anos. Estudos mostram redução de até 39% nos crimes noturnos — e o ROI desse investimento é altíssimo.</div>
+    <div class="box box-verde" style="margin-top:8px;font-size:0.85em"><strong>Ação de alto impacto:</strong> Implante iluminação pública de LED em 100% das vias nos primeiros 2 anos. Estudos mostram redução de até 39% nos crimes noturnos — e o <span class="termo" data-termo="roi">ROI</span> desse investimento é altíssimo.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -336,7 +541,7 @@
 </div>
 
 <!-- 03 -->
-<div class="diag-block">
+<div id="s03" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 03</div>
     <h3>Abastecimento de Água</h3>
@@ -375,7 +580,7 @@
 </div>
 
 <!-- 04 -->
-<div class="diag-block">
+<div id="s04" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 04</div>
     <h3>Esgotamento Sanitário e Drenagem</h3>
@@ -383,7 +588,7 @@
   </div>
   <div class="diag-body">
     <p>O Brasil tem déficit histórico em saneamento. Municípios que avançam nessa agenda conquistam recursos federais, melhoram indicadores de saúde infantil e ganham reconhecimento estadual e nacional.</p>
-    <div class="box box-amarelo" style="margin-top:10px;font-size:0.88em"><strong>Atenção ao Marco Legal do Saneamento:</strong> A Lei 14.026/2020 exige universalização até 2033. Municípios que anteciparem essas metas têm prioridade em repasses federais e financiamentos do BNDES.</div>
+    <div class="box box-amarelo" style="margin-top:8px;font-size:0.85em"><strong>Atenção ao Marco Legal do Saneamento:</strong> A Lei 14.026/2020 exige universalização até 2033. Municípios que anteciparem essas metas têm prioridade em repasses federais e financiamentos do BNDES.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -412,7 +617,7 @@
 </div>
 
 <!-- 05 -->
-<div class="diag-block">
+<div id="s05" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 05</div>
     <h3>Resíduos Sólidos, Lixo e Reciclagem</h3>
@@ -430,7 +635,7 @@
           <li>Cooperativas de catadores e suas condições</li>
           <li>Gestão de resíduos hospitalares e da construção civil</li>
           <li>Descarte irregular em rios e terrenos baldios</li>
-          <li>Programas de compostagem e logística reversa</li>
+          <li>Programas de compostagem e <span class="termo" data-termo="logistica-reversa">logística reversa</span></li>
           <li>Educação ambiental nas escolas e comunidades</li>
         </ul>
       </div>
@@ -449,7 +654,7 @@
 </div>
 
 <!-- 06 -->
-<div class="diag-block">
+<div id="s06" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 06</div>
     <h3>Saúde Pública Integral</h3>
@@ -457,9 +662,9 @@
   </div>
   <div class="diag-body">
     <p>A saúde municipal vai muito além do pronto-socorro. Uma gestão de excelência trabalha com prevenção, promoção da saúde e integração entre serviços.</p>
-    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Meta de ouro:</strong> Municipalizar a atenção básica com cobertura ESF acima de 90% é o investimento de maior retorno em saúde. Cada R$ 1 investido na atenção básica evita R$ 7 em internações.</div>
+    <div class="box box-verde" style="margin-top:8px;font-size:0.85em"><strong>Meta de ouro:</strong> Municipalizar a atenção básica com cobertura <span class="termo" data-termo="esf">ESF</span> acima de 90% é o investimento de maior retorno em saúde. Cada R$ 1 investido na atenção básica evita R$ 7 em internações.</div>
     <div class="scroll-hint">← Role para ver mais →</div>
-    <div class="tbl-wrap tbl-medio" style="margin-top:12px">
+    <div class="tbl-wrap tbl-medio" style="margin-top:10px">
       <table>
         <thead><tr><th>Eixo</th><th>O que investigar</th></tr></thead>
         <tbody>
@@ -472,7 +677,7 @@
         </tbody>
       </table>
     </div>
-    <div class="diag-cols" style="margin-top:14px">
+    <div class="diag-cols" style="margin-top:12px">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
         <ul class="diag-list">
@@ -506,14 +711,14 @@
 </div>
 
 <!-- 07 -->
-<div class="diag-block">
+<div id="s07" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 07</div>
     <h3>Educação Integral</h3>
     <p>Da alfabetização à formação crítica — educação que transforma territórios</p>
   </div>
   <div class="diag-body">
-    <p>Educação é o investimento de maior retorno social de longo prazo. Municípios com bom IDEB atraem investimentos, retêm talentos e têm menor violência.</p>
+    <p>Educação é o investimento de maior retorno social de longo prazo. Municípios com bom <span class="termo" data-termo="ideb">IDEB</span> atraem investimentos, retêm talentos e têm menor violência.</p>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -547,7 +752,7 @@
 </div>
 
 <!-- 08 -->
-<div class="diag-block">
+<div id="s08" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 08</div>
     <h3>Segurança Alimentar e Nutricional</h3>
@@ -555,7 +760,7 @@
   </div>
   <div class="diag-body">
     <p>Insegurança alimentar é invisível nos números oficiais, mas visível nas crianças desnutridas e nos adultos obesos sem acesso a alimentos frescos. O prefeito tem instrumentos diretos para agir.</p>
-    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Oportunidade:</strong> Municípios que compram acima de 30% da merenda escolar da agricultura familiar criam cadeia econômica local, reduzem a fome e se qualificam para o Prêmio FNDE de Boas Práticas.</div>
+    <div class="box box-verde" style="margin-top:8px;font-size:0.85em"><strong>Oportunidade:</strong> Municípios que compram acima de 30% da merenda escolar da agricultura familiar criam cadeia econômica local, reduzem a fome e se qualificam para o Prêmio FNDE de Boas Práticas.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -576,7 +781,7 @@
           <li>Taxa de insegurança alimentar (%)</li>
           <li>Prevalência de desnutrição infantil</li>
           <li>% de crianças com obesidade ou sobrepeso</li>
-          <li>Famílias cadastradas no CadÚnico</li>
+          <li>Famílias cadastradas no <span class="termo" data-termo="cadunico">CadÚnico</span></li>
           <li>% da merenda da agricultura familiar</li>
         </ul>
       </div>
@@ -585,14 +790,14 @@
 </div>
 
 <!-- 09 -->
-<div class="diag-block">
+<div id="s09" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 09</div>
     <h3>Habitação e Direito à Cidade</h3>
     <p>Moradia digna é o fundamento de uma vida com dignidade</p>
   </div>
   <div class="diag-body">
-    <div class="box box-azul" style="margin-bottom:12px;font-size:0.88em"><strong>Ação prioritária:</strong> Implante o Plano Local de Habitação de Interesse Social (PLHIS). Municípios com PLHIS aprovado têm acesso direto a recursos federais do MCMV e FNHIS.</div>
+    <div class="box box-azul" style="margin-bottom:10px;font-size:0.85em"><strong>Ação prioritária:</strong> Implante o <span class="termo" data-termo="plhis">PLHIS</span>. Municípios com PLHIS aprovado têm acesso direto a recursos federais do MCMV e FNHIS.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -620,7 +825,7 @@
 </div>
 
 <!-- 10 -->
-<div class="diag-block">
+<div id="s10" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 10</div>
     <h3>Mobilidade Urbana e Rural</h3>
@@ -656,7 +861,7 @@
 </div>
 
 <!-- 11 -->
-<div class="diag-block">
+<div id="s11" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 11</div>
     <h3>Desenvolvimento Econômico e Trabalho</h3>
@@ -693,7 +898,7 @@
 </div>
 
 <!-- 12 -->
-<div class="diag-block">
+<div id="s12" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 12</div>
     <h3>Meio Ambiente e Emergência Climática</h3>
@@ -701,7 +906,7 @@
   </div>
   <div class="diag-body">
     <p>Eventos climáticos extremos já causam perdas bilionárias em municípios brasileiros. O prefeito que não planeja para o clima está administrando uma bomba-relógio.</p>
-    <div class="box box-verde" style="margin-top:10px;font-size:0.88em"><strong>Oportunidade de financiamento:</strong> O Fundo Clima, o Fundo Amazônia e programas do BID financiam projetos de resiliência climática municipal. Municípios com Plano de Adaptação Climática têm vantagem competitiva.</div>
+    <div class="box box-verde" style="margin-top:8px;font-size:0.85em"><strong>Oportunidade de financiamento:</strong> O Fundo Clima, o Fundo Amazônia e programas do BID financiam projetos de resiliência climática municipal. Municípios com Plano de Adaptação Climática têm vantagem competitiva.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -732,7 +937,7 @@
 </div>
 
 <!-- 13 -->
-<div class="diag-block">
+<div id="s13" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 13</div>
     <h3>Cultura, Esporte e Lazer</h3>
@@ -767,7 +972,7 @@
 </div>
 
 <!-- 14 -->
-<div class="diag-block">
+<div id="s14" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 14</div>
     <h3>Inclusão Social e Direitos Humanos</h3>
@@ -802,7 +1007,7 @@
 </div>
 
 <!-- 15 -->
-<div class="diag-block">
+<div id="s15" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 15</div>
     <h3>Governança Pública e Eficiência Institucional</h3>
@@ -810,7 +1015,7 @@
   </div>
   <div class="diag-body">
     <p>A qualidade da gestão define se boas intenções viram resultados reais. Uma prefeitura com pessoas qualificadas, sistemas digitais e cultura de planejamento multiplica o impacto de cada real investido.</p>
-    <div class="box box-azul" style="margin-top:10px;font-size:0.88em"><strong>Benchmark:</strong> Prefeituras que implantam sistemas de gestão por resultados (GPR) melhoram a execução orçamentária em até 35% no segundo ano.</div>
+    <div class="box box-azul" style="margin-top:8px;font-size:0.85em"><strong>Benchmark:</strong> Prefeituras que implantam sistemas de <span class="termo" data-termo="gpr">GPR</span> melhoram a execução orçamentária em até 35% no segundo ano.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -828,7 +1033,7 @@
       <div class="diag-col-indicadores">
         <div class="diag-col-title">INDICADORES-CHAVE</div>
         <ul class="diag-list">
-          <li>Nota no ranking de transparência (LAI)</li>
+          <li>Nota no ranking de transparência (<span class="termo" data-termo="lai">LAI</span>)</li>
           <li>% de execução orçamentária</li>
           <li>Número de serviços digitalizados</li>
           <li>Tempo de resposta a demandas cidadãs</li>
@@ -840,14 +1045,14 @@
 </div>
 
 <!-- 16 -->
-<div class="diag-block">
+<div id="s16" class="diag-block">
   <div class="diag-title">
     <div class="diag-num">SEÇÃO 16</div>
     <h3>Defesa Civil e Gestão de Riscos</h3>
     <p>Prevenir é mais barato e humano do que remediar</p>
   </div>
   <div class="diag-body">
-    <div class="box box-laranja" style="margin-bottom:12px;font-size:0.88em"><strong>Obrigação legal:</strong> Todo município deve ter Plano Municipal de Redução de Riscos (PMRR) atualizado. A ausência desse plano pode impedir o recebimento de recursos federais em situações de emergência.</div>
+    <div class="box box-laranja" style="margin-bottom:10px;font-size:0.85em"><strong>Obrigação legal:</strong> Todo município deve ter <span class="termo" data-termo="pmrr">PMRR</span> atualizado. A ausência desse plano pode impedir o recebimento de recursos federais em situações de emergência.</div>
     <div class="diag-cols">
       <div class="diag-col-levantar">
         <div class="diag-col-title">O QUE LEVANTAR</div>
@@ -872,6 +1077,20 @@
     </div>
   </div>
 </div>
+
+<!-- QUIZ 1 - PARTE I -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte I: Diagnóstico</span></div>
+  <div class="quiz-question">Qual o prazo recomendado para realizar o diagnóstico municipal completo?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Nos primeiros 10 dias</li>
+    <li data-correct="true">b) Nos primeiros 60 dias de mandato</li>
+    <li data-correct="false">c) Ao final do primeiro ano</li>
+    <li data-correct="false">d) Apenas quando houver crise</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte1 -->
 
 <!-- PARTE II -->
@@ -900,7 +1119,7 @@
       <tr><td><strong>Quem sofre?</strong></td><td>Número e perfil da população afetada</td><td>Define quem deve ser priorizado</td></tr>
       <tr><td><strong>Onde ocorre?</strong></td><td>Território específico, mapeado</td><td>Permite intervenção territorializada</td></tr>
       <tr><td><strong>Qual causa estrutural?</strong></td><td>Análise causal — por que isso acontece?</td><td>Evita soluções superficiais</td></tr>
-      <tr><td><strong>Qual meta?</strong></td><td>Resultado esperado — mensurável e com prazo</td><td>Cria accountability e mensurabilidade</td></tr>
+      <tr><td><strong>Qual meta?</strong></td><td>Resultado esperado — mensurável e com prazo</td><td>Cria <span class="termo" data-termo="accountability">accountability</span> e mensurabilidade</td></tr>
       <tr><td><strong>Como executar?</strong></td><td>Estratégia — ações, etapas, articulações</td><td>Transforma intenção em ação concreta</td></tr>
       <tr><td><strong>Quanto custa?</strong></td><td>Orçamento estimado e fonte de recursos</td><td>Garante viabilidade fiscal</td></tr>
       <tr><td><strong>Quem executa?</strong></td><td>Secretaria responsável e parceiros</td><td>Elimina ambiguidade de responsabilidade</td></tr>
@@ -959,6 +1178,20 @@
     </tbody>
   </table>
 </div>
+
+<!-- QUIZ 2 - PARTE II -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte II: Planejamento</span></div>
+  <div class="quiz-question">Na matriz de priorização, o que deve ser feito PRIMEIRO?</div>
+  <ul class="quiz-options">
+    <li data-correct="true">a) Ações de alto impacto e alta viabilidade/urgência</li>
+    <li data-correct="false">b) Ações de baixo impacto e baixa urgência</li>
+    <li data-correct="false">c) Ações que geram visibilidade política</li>
+    <li data-correct="false">d) Ações mais baratas, independentemente do impacto</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte2 -->
 
 <!-- PARTE III -->
@@ -979,7 +1212,7 @@
 <h2 class="sec">Os 7 Pilares do Modelo de Gestão Municipal Eficiente</h2>
 <div class="pilares">
   <div class="pilar"><div class="pilar-num">1</div><h4>Observatório Municipal</h4><p>Central de dados que monitora em tempo real os indicadores de todas as secretarias. Permite antecipar crises e identificar oportunidades.</p></div>
-  <div class="pilar"><div class="pilar-num">2</div><h4>Painel de Indicadores (Dashboard)</h4><p>Ferramenta visual — TV na sala do prefeito ou sistema digital — que mostra o desempenho de cada secretaria em relação às metas.</p></div>
+  <div class="pilar"><div class="pilar-num">2</div><h4>Painel de Indicadores (<span class="termo" data-termo="dashboard">Dashboard</span>)</h4><p>Ferramenta visual — TV na sala do prefeito ou sistema digital — que mostra o desempenho de cada secretaria em relação às metas.</p></div>
   <div class="pilar"><div class="pilar-num">3</div><h4>Georreferenciamento de Políticas</h4><p>Mapas que mostram onde cada investimento foi feito e onde os problemas ainda persistem. Indispensável para justiça territorial.</p></div>
   <div class="pilar"><div class="pilar-num">4</div><h4>Reuniões de Monitoramento Mensais</h4><p>O prefeito reúne secretários mensalmente para revisar indicadores, identificar gargalos e tomar decisões corretivas. Sem isso, o plano morre.</p></div>
   <div class="pilar"><div class="pilar-num">5</div><h4>Auditoria Permanente</h4><p>Controladoria interna ativa, não apenas reativa. Previne irregularidades antes que virem escândalos.</p></div>
@@ -1013,7 +1246,7 @@
 </div>
 
 <h2 class="sec">Painel de Indicadores — Como Implementar</h2>
-<ul style="padding-left:22px;line-height:2">
+<ul style="padding-left:20px;line-height:1.9">
   <li>Defina no máximo 40 indicadores estratégicos: cobertura ampla sem excesso de complexidade.</li>
   <li>Cada indicador deve ter: nome, fórmula de cálculo, fonte, responsável e frequência de atualização.</li>
   <li>Publique o painel no site da prefeitura: transparência gera confiança e pressão positiva.</li>
@@ -1021,10 +1254,24 @@
   <li>Revise metas anualmente com base no aprendizado acumulado.</li>
 </ul>
 
-<div class="box box-azul" style="margin-top:16px">
+<div class="box box-azul" style="margin-top:12px">
   <div class="box-titulo">Georreferenciamento e Inteligência Territorial</div>
   A desigualdade municipal é sempre territorial. Use ferramentas gratuitas: Google Earth, QGIS, IBGE Malha Municipal e DataGeo. Crie mapas de calor para indicadores críticos (homicídios, dengue, evasão escolar, iluminação). Leve os mapas para as reuniões de gabinete — dados visualizados geram decisões melhores.
 </div>
+
+<!-- QUIZ 3 - PARTE III -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte III: Gestão por Resultados</span></div>
+  <div class="quiz-question">O que significa a letra "C" no ciclo PDCA?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Coordenar</li>
+    <li data-correct="false">b) Comunicar</li>
+    <li data-correct="true">c) Checar (monitorar indicadores e avaliar)</li>
+    <li data-correct="false">d) Cortar gastos</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte3 -->
 
 <!-- PARTE IV -->
@@ -1076,6 +1323,20 @@
     </tbody>
   </table>
 </div>
+
+<!-- QUIZ 4 - PARTE IV -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte IV: Indicadores</span></div>
+  <div class="quiz-question">Com que frequência a execução orçamentária deve ser monitorada?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Anualmente</li>
+    <li data-correct="true">b) Mensalmente</li>
+    <li data-correct="false">c) Apenas ao final do mandato</li>
+    <li data-correct="false">d) Semanalmente</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte4 -->
 
 <!-- PARTE V -->
@@ -1090,7 +1351,7 @@
 
 <h2 class="sec">1. Inteligência Territorial</h2>
 <p>Use dados geográficos para localizar desigualdades com precisão. Ferramentas como QGIS, Power BI e Google Earth Engine permitem criar mapas de vulnerabilidade, identificar onde o investimento público chegou e onde ainda falta chegar. Uma decisão baseada em mapa vale mais do que mil reuniões de diagnóstico subjetivo.</p>
-<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+<ul style="padding-left:20px;margin:8px 0;line-height:1.8">
   <li>Mapeie os 5 bairros com piores indicadores em cada área crítica.</li>
   <li>Concentre investimentos proporcionalmente maiores nos territórios mais vulneráveis.</li>
   <li>Crie equipes de referência territorial para cada área: saúde, educação, assistência social.</li>
@@ -1105,8 +1366,8 @@
 </div>
 
 <h2 class="sec">3. Governança Baseada em Evidências</h2>
-<p>Toda decisão relevante deve ser sustentada por dados. Antes de construir uma UBS nova, mostre o dado de demanda reprimida. Antes de comprar equipamentos, mostre a taxa de ociosidade dos existentes. Evidência é blindagem contra improviso e clientelismo.</p>
-<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+<p>Toda decisão relevante deve ser sustentada por dados. Antes de construir uma UBS nova, mostre o dado de demanda reprimida. Antes de comprar equipamentos, mostre a taxa de ociosidade dos existentes. <span class="termo" data-termo="evidencia">Evidência</span> é blindagem contra improviso e clientelismo.</p>
+<ul style="padding-left:20px;margin:8px 0;line-height:1.8">
   <li>Exigir que toda proposta de política pública venha com diagnóstico e justificativa técnica.</li>
   <li>Criar uma equipe de análise de dados vinculada ao gabinete do prefeito.</li>
   <li>Avaliar regularmente o que funciona e o que não funciona — e ter coragem de mudar.</li>
@@ -1114,8 +1375,8 @@
 </ul>
 
 <h2 class="sec">4. Participação Cidadã Permanente</h2>
-<p>Escuta ativa e territorializada — não reuniões esvaziadas no centro da cidade. Use audiências públicas descentralizadas por bairros, aplicativos de participação (ex.: Colab.re), conselhos municipais fortalecidos e orçamento participativo digital.</p>
-<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+<p>Escuta ativa e territorializada — não reuniões esvaziadas no centro da cidade. Use audiências públicas descentralizadas por bairros, aplicativos de participação (ex.: Colab.re), conselhos municipais fortalecidos e <span class="termo" data-termo="op">orçamento participativo</span> digital.</p>
+<ul style="padding-left:20px;margin:8px 0;line-height:1.8">
   <li>Realize audiências públicas territorializadas, não apenas na sede da prefeitura.</li>
   <li>Crie mecanismos digitais de escuta: formulários online, apps e redes sociais institucionais.</li>
   <li>Retorne sempre os resultados das consultas populares: mostre que a voz foi ouvida.</li>
@@ -1130,13 +1391,27 @@
 </div>
 
 <h2 class="sec">6. Resiliência Climática</h2>
-<p>Construa um Plano Municipal de Adaptação Climática (PMAC). Identifique cenários de risco para 10 e 20 anos. Incorpore esses riscos no Plano Diretor e no Plano Plurianual. Prefeitos que agirem agora evitarão crises devastadoras para seus sucessores.</p>
-<ul style="padding-left:22px;margin:10px 0;line-height:1.9">
+<p>Construa um Plano Municipal de Adaptação Climática (PMAC). Identifique cenários de risco para 10 e 20 anos. Incorpore esses riscos no <span class="termo" data-termo="planodiretor">Plano Diretor</span> e no Plano Plurianual. Prefeitos que agirem agora evitarão crises devastadoras para seus sucessores.</p>
+<ul style="padding-left:20px;margin:8px 0;line-height:1.8">
   <li>Elabore o Plano Municipal de Adaptação Climática com apoio do Ministério das Cidades.</li>
   <li>Mapeie todas as áreas de risco climático e desenvolva planos de evacuação e contingência.</li>
   <li>Invista em infraestrutura verde: arborização, parques lineares e drenagem natural.</li>
   <li>Integre a perspectiva climática a todos os setores: saúde, habitação, mobilidade, agricultura.</li>
 </ul>
+
+<!-- QUIZ 5 - PARTE V -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte V: Elementos Avançados</span></div>
+  <div class="quiz-question">Segundo o manual, investir R$ 1 em prevenção evita quanto em atendimento emergencial?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Entre R$ 0,50 e R$ 1</li>
+    <li data-correct="false">b) Entre R$ 1 e R$ 2</li>
+    <li data-correct="true">c) Entre R$ 4 e R$ 15</li>
+    <li data-correct="false">d) Não há economia, apenas ganho social</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte5 -->
 
 <!-- PARTE VI -->
@@ -1160,7 +1435,7 @@
   <table>
     <thead><tr><th>Prêmio / Programa</th><th>Foco</th><th>Organizador</th><th>Como se qualificar</th></tr></thead>
     <tbody>
-      <tr><td><strong>Prêmio ODM Brasil / ODS</strong></td><td>Desenvolvimento sustentável</td><td>PNUD / Gov. Federal</td><td>Indicadores alinhados aos ODS da ONU</td></tr>
+      <tr><td><strong>Prêmio ODM Brasil / ODS</strong></td><td>Desenvolvimento sustentável</td><td>PNUD / Gov. Federal</td><td>Indicadores alinhados aos <span class="termo" data-termo="ods">ODS</span> da ONU</td></tr>
       <tr><td><strong>SNIS — Destaque em Saneamento</strong></td><td>Água, esgoto e resíduos</td><td>MDR / SNSA</td><td>Indicadores SNIS acima da média nacional</td></tr>
       <tr><td><strong>Prêmio FNDE Boas Práticas</strong></td><td>PNAE, PDDE e FNAS</td><td>FNDE</td><td>Excelência na execução dos programas federais</td></tr>
       <tr><td><strong>Prêmio Cidades Sustentáveis</strong></td><td>Gestão alinhada aos ODS — 12 eixos</td><td>Rede Cidades Sustentáveis</td><td>Adesão à plataforma e envio de evidências</td></tr>
@@ -1177,7 +1452,7 @@
 </div>
 
 <h2 class="sec">Como se Candidatar: Protocolo em 7 Etapas</h2>
-<div style="margin:16px 0">
+<div style="margin:14px 0">
   <div class="etapa"><div class="etapa-num">1</div><div class="etapa-body"><h4>Documente tudo desde o início</h4><p>Fotografe, registre em ata, guarde dados antes e depois. Um prêmio exige prova do impacto, não apenas da intenção. Crie um arquivo de memória de gestão desde o primeiro dia.</p></div></div>
   <div class="etapa"><div class="etapa-num">2</div><div class="etapa-body"><h4>Estruture um relatório de resultados anual</h4><p>Todo ano, consolide os principais indicadores e resultados. Escreva em linguagem acessível, com dados, gráficos e depoimentos. Esse relatório é a base de qualquer candidatura.</p></div></div>
   <div class="etapa"><div class="etapa-num">3</div><div class="etapa-body"><h4>Identifique os prêmios compatíveis com sua agenda</h4><p>Não adianta concorrer a tudo. Escolha 2 ou 3 prêmios que se alinhem ao que você fez de melhor. Qualidade é mais importante que quantidade de candidaturas.</p></div></div>
@@ -1188,7 +1463,7 @@
 </div>
 
 <h2 class="sec">Alinhamento com os ODS — Objetivos de Desenvolvimento Sustentável</h2>
-<p>Os ODS da ONU são o principal framework global de avaliação de gestão pública. Alinhar seu plano aos ODS facilita acesso a recursos internacionais e reconhecimento.</p>
+<p>Os <span class="termo" data-termo="ods">ODS</span> da ONU são o principal framework global de avaliação de gestão pública. Alinhar seu plano aos ODS facilita acesso a recursos internacionais e reconhecimento.</p>
 <div class="scroll-hint">← Role para ver mais →</div>
 <div class="tbl-wrap tbl-verde">
   <table>
@@ -1208,6 +1483,20 @@
     </tbody>
   </table>
 </div>
+
+<!-- QUIZ 6 - PARTE VI -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte VI: Prêmios</span></div>
+  <div class="quiz-question">Qual a primeira etapa do protocolo para candidatar-se a prêmios?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Fazer publicidade institucional</li>
+    <li data-correct="true">b) Documentar tudo desde o início (dados, fotos, atas)</li>
+    <li data-correct="false">c) Contratar consultoria especializada</li>
+    <li data-correct="false">d) Esperar o edital ser publicado</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte6 -->
 
 <!-- PARTE VII -->
@@ -1235,7 +1524,7 @@
 
 <h2 class="sec">As 10 Ações de Alto Impacto nos Primeiros 100 Dias</h2>
 <p>Essas ações geram resultados visíveis rapidamente, custam relativamente pouco e constroem credibilidade política para as ações estruturais que virão:</p>
-<ol style="padding-left:24px;margin:14px 0;line-height:2.1">
+<ol style="padding-left:22px;margin:12px 0;line-height:2">
   <li>Auditoria de contratos vigentes — cancele ou renegocie o que for irregular</li>
   <li>Censo de equipamentos públicos — UBS, escolas, praças: o que funciona, o que não funciona</li>
   <li>Operação zeladoria — limpeza e manutenção básica de espaços públicos em todos os bairros</li>
@@ -1252,6 +1541,20 @@
   <div class="box-titulo">⚠ Armadilha a evitar</div>
   Inaugurar obras dos governos anteriores como se fossem suas, antes de verificar a qualidade e a regularidade. Se a obra tiver problema, você herdou o problema publicamente.
 </div>
+
+<!-- QUIZ 7 - PARTE VII -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">?</div><span>Quiz — Parte VII: Primeiros 100 Dias</span></div>
+  <div class="quiz-question">Nos primeiros 10 dias de mandato, qual deve ser o foco principal?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Inaugurar obras</li>
+    <li data-correct="true">b) Posse, estruturação e auditoria inicial de caixa e contratos</li>
+    <li data-correct="false">c) Fazer grandes nomeações políticas</li>
+    <li data-correct="false">d) Lançar novos impostos</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /parte7 -->
 
 <!-- CONCLUSÃO -->
@@ -1262,11 +1565,11 @@
 </div>
 
 <p>Ao final de 4 anos, o que vai ficar não são os eventos inaugurados, os discursos ou os palanques. O que fica é o que mudou na vida das pessoas.</p>
-<p style="margin-top:10px">A criança que foi alfabetizada. A família que tem água limpa em casa. O jovem que não precisou escolher entre trabalho e estudo. O idoso que recebe cuidado digno. O bairro que não alaga mais quando chove.</p>
+<p style="margin-top:8px">A criança que foi alfabetizada. A família que tem água limpa em casa. O jovem que não precisou escolher entre trabalho e estudo. O idoso que recebe cuidado digno. O bairro que não alaga mais quando chove.</p>
 
-<div class="box box-azul" style="margin:20px 0">
+<div class="box box-azul" style="margin:16px 0">
   <div class="box-titulo">Os cinco compromissos do gestor de excelência</div>
-  <ol style="padding-left:22px;margin-top:8px;line-height:2">
+  <ol style="padding-left:20px;margin-top:6px;line-height:1.9">
     <li><strong>Conhecer antes de agir:</strong> nenhuma política sem diagnóstico.</li>
     <li><strong>Planejar com rigor:</strong> metas claras, recursos definidos, responsáveis nomeados.</li>
     <li><strong>Executar com consistência:</strong> não abandonar o que funciona por pressão política.</li>
@@ -1276,7 +1579,7 @@
 </div>
 
 <h2 class="sec">✅ Checklist do Gestor de Excelência</h2>
-<div style="border:1px solid #ddd;border-radius:8px;overflow:hidden;margin:14px 0">
+<div style="border:1px solid #ddd;border-radius:8px;overflow:hidden;margin:12px 0">
   <ul class="checklist">
     <li>Realizei diagnóstico municipal completo nos primeiros 60 dias</li>
     <li>Tenho um plano de governo com metas, indicadores e responsáveis para cada ação</li>
@@ -1360,8 +1663,22 @@
 
 <div class="citacao">
   <p><em>"Governar bem significa reduzir sofrimentos evitáveis,<br>ampliar capacidades humanas e produzir dignidade coletiva<br><strong>de forma sustentável, transparente e tecnicamente consistente."</strong></em></p>
-  <p style="margin-top:20px;font-size:0.88em;color:#8FBDE0">Use este manual como companheiro de gestão. Volte a ele sempre que precisar retomar o rumo. Compartilhe com sua equipe. Adapte ao seu contexto. E acima de tudo: aja com coragem, consistência e amor pela sua cidade. <strong style="color:white">Boa gestão!</strong></p>
+  <p style="margin-top:16px;font-size:0.85em;color:#8FBDE0">Use este manual como companheiro de gestão. Volte a ele sempre que precisar retomar o rumo. Compartilhe com sua equipe. Adapte ao seu contexto. E acima de tudo: aja com coragem, consistência e amor pela sua cidade. <strong style="color:white">Boa gestão!</strong></p>
 </div>
+
+<!-- QUIZ FINAL -->
+<div class="quiz-box" data-quiz>
+  <div class="quiz-header"><div class="quiz-icon">🏆</div><span>Quiz Final — Síntese do Manual</span></div>
+  <div class="quiz-question">Qual é a sequência CORRETA do ciclo virtuoso da gestão por resultados?</div>
+  <ul class="quiz-options">
+    <li data-correct="false">a) Execução → Planejamento → Diagnóstico → Avaliação</li>
+    <li data-correct="true">b) Diagnóstico → Planejamento → Execução → Monitoramento → Avaliação → Aprendizado</li>
+    <li data-correct="false">c) Planejamento → Execução → Comunicação → Prêmios</li>
+    <li data-correct="false">d) Auditoria → Posse → Obras → Inauguração</li>
+  </ul>
+  <div class="quiz-feedback"></div>
+</div>
+
 </div><!-- /conclusao -->
 
 </div><!-- /container -->
@@ -1369,8 +1686,6 @@
 <footer>
   Manual de Gestão Municipal de Excelência &nbsp;|&nbsp; Diagnóstico · Planejamento · Resultados · Reconhecimento
 </footer>
-
-
 
 <div align="center">
   <a title="contador de dias" href="https://www.calendario.cnt.br/ferramentas/contador-de-dias-calculadora-prazo-entre-datas">
@@ -1380,7 +1695,192 @@
     <a href="https://www.contador-gratis.com/">.</a>
   </div>
 </div>
-  
-  
+
+</main>
+</div><!-- /layout -->
+
+<!-- MODAL DE DEFINIÇÕES -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">×</button>
+    <h3 id="modalTitle">Termo</h3>
+    <p id="modalContent">Definição...</p>
+  </div>
+</div>
+
+<script>
+// ====== DEFINIÇÕES CONCEITUAIS ======
+const definicoes = {
+  "diagnostico": {
+    titulo: "Diagnóstico Municipal",
+    conteudo: "É o levantamento sistemático e analítico da realidade do município em todas as suas dimensões (social, econômica, territorial, ambiental, institucional). Baseia-se em dados oficiais, visitas de campo e escuta da população. É o ponto de partida de qualquer planejamento sério — sem diagnóstico, o gestor age no escuro."
+  },
+  "participacao": {
+    titulo: "Participação Social",
+    conteudo: "Mecanismo democrático pelo qual a população interfere diretamente nas decisões públicas, por meio de conselhos municipais, audiências públicas, consultas populares, orçamento participativo e plataformas digitais. Vai além do voto: é gestão compartilhada."
+  },
+  "evidencia": {
+    titulo: "Governança Baseada em Evidências",
+    conteudo: "Abordagem de gestão em que toda decisão política é fundamentada em dados, pesquisas e avaliações técnicas — e não em intuição, pressão política ou clientelismo. Exige coleta sistemática de dados, análise técnica e transparência."
+  },
+  "esf": {
+    titulo: "ESF — Estratégia Saúde da Família",
+    conteudo: "Modelo de atenção básica à saúde adotado pelo SUS, organizado em equipes multiprofissionais (médico, enfermeiro, agentes comunitários) responsáveis por acompanhar um território e um conjunto de famílias. É a porta de entrada do sistema e a ação de maior custo-efetividade em saúde pública."
+  },
+  "ideb": {
+    titulo: "IDEB — Índice de Desenvolvimento da Educação Básica",
+    conteudo: "Indicador nacional que combina fluxo escolar (aprovação) com desempenho nas avaliações (SAEB/Prova Brasil). Varia de 0 a 10; a meta nacional é chegar a 6,0 até 2024. É o principal termômetro da qualidade da educação municipal."
+  },
+  "roi": {
+    titulo: "ROI — Retorno sobre Investimento",
+    conteudo: "Do inglês 'Return on Investment'. Mede quanto se ganha (em economia, receita ou impacto social) para cada real investido. Em políticas públicas, o ROI social pode ser calculado em termos de vidas salvas, doenças evitadas, empregos gerados etc."
+  },
+  "accountability": {
+    titulo: "Accountability (Responsabilização)",
+    conteudo: "Princípio da gestão pública em que todo gestor deve prestar contas sobre suas decisões, resultados e uso de recursos. Envolve transparência ativa, mecanismos de controle e consequências para quem não entrega resultados."
+  },
+  "logistica-reversa": {
+    titulo: "Logística Reversa",
+    conteudo: "Sistema que obriga fabricantes e comerciantes a recolher embalagens e produtos após o uso pelo consumidor (pilhas, eletrônicos, pneus, óleos). É instrumento da Política Nacional de Resíduos Sólidos (Lei 12.305/2010) e transforma lixo em insumo."
+  },
+  "cadunico": {
+    titulo: "CadÚnico — Cadastro Único",
+    conteudo: "Base de dados do Governo Federal que identifica todas as famílias de baixa renda do país (renda até 1/2 salário mínimo per capita). É a porta de entrada para programas como Bolsa Família, tarifa social de energia, Carteira do Idoso etc. Deve ser mantido atualizado pela gestão municipal."
+  },
+  "plhis": {
+    titulo: "PLHIS — Plano Local de Habitação de Interesse Social",
+    conteudo: "Instrumento de planejamento municipal que diagnostica o déficit habitacional e define estratégias para produção de moradia popular. Sua aprovação é requisito para acessar recursos do Minha Casa Minha Vida e do FNHIS."
+  },
+  "gpr": {
+    titulo: "GPR — Gestão por Resultados",
+    conteudo: "Modelo de gestão pública em que toda ação, alocação de recursos e decisão é orientada por metas mensuráveis. Foca no impacto real na vida das pessoas, não apenas em atividades realizadas. Usa ciclo PDCA, painéis de indicadores e reuniões de monitoramento."
+  },
+  "lai": {
+    titulo: "LAI — Lei de Acesso à Informação",
+    conteudo: "Lei federal 12.527/2011 que obriga todos os entes públicos a disponibilizar informações sobre sua gestão de forma ativa (portais da transparência) e a responder pedidos de informação em até 20 dias. É pilar da democracia e do controle social."
+  },
+  "pmrr": {
+    titulo: "PMRR — Plano Municipal de Redução de Riscos",
+    conteudo: "Documento técnico que mapeia áreas de risco de desastres (enchentes, deslizamentos, secas) e define ações de prevenção, resposta e recuperação. Sua existência é obrigatória e condição para receber recursos federais em emergências."
+  },
+  "dashboard": {
+    titulo: "Dashboard (Painel de Indicadores)",
+    conteudo: "Ferramenta visual que consolida em tempo real os principais indicadores de gestão, normalmente com códigos de cores (verde/amarelo/vermelho). Pode ser físico (TV no gabinete) ou digital (site público). Permite ao prefeito e à população acompanhar o desempenho da gestão."
+  },
+  "ods": {
+    titulo: "ODS — Objetivos de Desenvolvimento Sustentável",
+    conteudo: "17 objetivos globais estabelecidos pela ONU em 2015 na Agenda 2030. Abrangem pobreza, fome, saúde, educação, igualdade de gênero, água, energia, trabalho, inovação, desigualdades, cidades, consumo, clima, oceanos, biodiversidade, paz e parcerias. Municípios alinhados aos ODS acessam recursos internacionais."
+  },
+  "op": {
+    titulo: "Orçamento Participativo",
+    conteudo: "Mecanismo de democracia direta em que a população decide parte dos investimentos públicos, por meio de assembleias territoriais e votações. Fortalecido pela experiência de Porto Alegre (1989), tornou-se referência mundial de participação cidadã."
+  },
+  "planodiretor": {
+    titulo: "Plano Diretor",
+    conteudo: "Lei municipal que estabelece a política de desenvolvimento urbano e rural. É obrigatório para cidades com mais de 20 mil habitantes, integrantes de regiões metropolitanas ou com atividades de impacto ambiental. Deve ser revisado a cada 10 anos e é o principal instrumento do Estatuto da Cidade."
+  }
+};
+
+// ====== TOOLTIPS / MODAL ======
+const modalOverlay = document.getElementById('modalOverlay');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
+const modalClose = document.getElementById('modalClose');
+
+document.querySelectorAll('.termo').forEach(el => {
+  el.addEventListener('click', () => {
+    const chave = el.getAttribute('data-termo');
+    const def = definicoes[chave];
+    if (def) {
+      modalTitle.textContent = def.titulo;
+      modalContent.textContent = def.conteudo;
+      modalOverlay.classList.add('active');
+    }
+  });
+});
+
+modalClose.addEventListener('click', () => modalOverlay.classList.remove('active'));
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') modalOverlay.classList.remove('active');
+});
+
+// ====== MENU MOBILE ======
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+// Fechar sidebar ao clicar em link no mobile
+document.querySelectorAll('.sidebar a').forEach(a => {
+  a.addEventListener('click', () => {
+    if (window.innerWidth <= 900) sidebar.classList.remove('open');
+  });
+});
+
+// ====== PROGRESSO DE LEITURA ======
+const progressFill = document.getElementById('progressFill');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrollTop / docHeight) * 100;
+  progressFill.style.width = pct + '%';
+});
+
+// ====== DESTAQUE DO ÍNDICE CONFORME SCROLL ======
+const sections = document.querySelectorAll('[id^="parte"], [id^="s0"], [id="mensagem"], [id="conclusao"]');
+const sideLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 120;
+    if (window.scrollY >= top) current = sec.getAttribute('id');
+  });
+  sideLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+// ====== QUIZZES ======
+document.querySelectorAll('.quiz-box').forEach(quiz => {
+  const options = quiz.querySelectorAll('.quiz-options li');
+  const feedback = quiz.querySelector('.quiz-feedback');
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      if (quiz.classList.contains('answered')) return;
+      quiz.classList.add('answered');
+      const correct = opt.getAttribute('data-correct') === 'true';
+      options.forEach(o => {
+        o.classList.add('disabled');
+        if (o.getAttribute('data-correct') === 'true') o.classList.add('correct');
+      });
+      if (!correct) opt.classList.add('wrong');
+      feedback.classList.add('show');
+      if (correct) {
+        feedback.classList.add('ok');
+        feedback.innerHTML = '✅ <strong>Correto!</strong> Você compreendeu o conceito.';
+      } else {
+        feedback.classList.add('no');
+        feedback.innerHTML = '❌ <strong>Não foi dessa vez.</strong> A resposta correta está destacada em verde. Releia a seção correspondente.';
+      }
+    });
+  });
+});
+
+// ====== SMOOTH SCROLL ======
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      window.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
 </body>
 </html>
