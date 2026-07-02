@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jornada de Sentido — Uma Experiência em Logoterapia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        /* Animações de entrada */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Animação de pulso suave */
+        @keyframes softPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(20, 184, 166, 0.1); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 30px rgba(20, 184, 166, 0.25); }
+        }
+        .pulse-soft:hover { animation: softPulse 2s ease-in-out infinite; }
+        
+        /* Linha animada do fluxograma */
+        .flow-connector {
+            background: linear-gradient(180deg, #14b8a6 0%, #0d9488 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .flow-connector::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255,255,255,0.6), transparent);
+            animation: flowDown 3s linear infinite;
+        }
+        @keyframes flowDown {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        /* Modal */
+        .modal-backdrop {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+        }
+        
+        /* Quiz */
+        .quiz-option { transition: all 0.3s ease; }
+        .quiz-option:hover:not(.disabled) { transform: translateX(4px); }
+        .quiz-correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46 !important; }
+        .quiz-wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        
+        /* Scroll suave com offset */
+        html { scroll-padding-top: 80px; }
+        
+        /* Barra de progresso */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; z-index: 100;
+            background: linear-gradient(90deg, #14b8a6, #0d9488, #0f766e);
+            transition: width 0.2s ease;
+        }
+        
+        /* Botão flutuante de voltar ao topo */
+        #back-to-top {
+            opacity: 0; pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        #back-to-top.visible { opacity: 1; pointer-events: auto; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-stone-50 via-teal-50/30 to-emerald-50/20 text-slate-800 min-h-screen">
+
+    <!-- Barra de progresso -->
+    <div id="progress-bar" style="width: 0%"></div>
+
+    <!-- Header -->
+    <header class="relative overflow-hidden bg-gradient-to-br from-teal-900 via-emerald-900 to-slate-900 text-white">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-10 left-10 w-72 h-72 bg-teal-400 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-emerald-400 rounded-full blur-3xl"></div>
+        </div>
+        <div class="relative max-w-5xl mx-auto px-6 py-16 md:py-24 text-center">
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full text-xs tracking-widest uppercase text-teal-100 mb-6">
+                <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+                <span>Uma jornada de autoconhecimento</span>
+            </div>
+            <h1 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                Em Busca de <span class="italic text-teal-300">Sentido</span>
+            </h1>
+            <p class="text-lg md:text-xl text-teal-50 max-w-2xl mx-auto leading-relaxed font-light">
+                Um convite para explorar os princípios da Logoterapia de Viktor Frankl — uma abordagem que acredita na capacidade humana de encontrar significado mesmo nas circunstâncias mais desafiadoras.
+            </p>
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#inicio-jornada" class="group bg-white text-teal-900 px-6 py-3 rounded-full font-semibold text-sm hover:bg-teal-50 transition flex items-center gap-2 shadow-lg">
+                    <span>Iniciar a jornada</span>
+                    <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-1 transition"></i>
+                </a>
+                <a href="#quiz" class="border border-white/30 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/10 transition flex items-center gap-2">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i>
+                    <span>Fazer o quiz</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Introdução -->
+    <section class="max-w-3xl mx-auto px-6 py-16 text-center reveal">
+        <span class="text-xs tracking-widest uppercase text-teal-700 font-semibold">Boas-vindas</span>
+        <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mt-3 mb-6">Como navegar por este material</h2>
+        <p class="text-slate-600 leading-relaxed mb-8">
+            Este é um espaço de reflexão pessoal. Cada conceito abaixo é uma porta de entrada para uma ideia da Logoterapia. 
+            Você pode percorrê-los na ordem sugerida pelo mapa ou seguir sua própria intuição. Ao final, um convite: um quiz suave para integrar o que ressoou em você.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <div class="w-10 h-10 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center mb-3">
+                    <i data-lucide="mouse-pointer-click" class="w-5 h-5"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm mb-1">Clique para explorar</h3>
+                <p class="text-xs text-slate-600">Cada bloco do mapa leva a uma seção completa com explicação, exercício reflexivo e citação.</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center mb-3">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm mb-1">Leia no seu ritmo</h3>
+                <p class="text-xs text-slate-600">Não há pressa. Permita-se pausar, refletir e voltar quando quiser.</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center mb-3">
+                    <i data-lucide="heart" class="w-5 h-5"></i>
+                </div>
+                <h3 class="font-semibold text-slate-900 text-sm mb-1">Sinta o que ressoa</h3>
+                <p class="text-xs text-slate-600">Alguns conceitos podem tocar algo em você. Acolha essa experiência.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAPA / FLUXOGRAMA -->
+    <section id="inicio-jornada" class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center mb-10 reveal">
+            <span class="text-xs tracking-widest uppercase text-teal-700 font-semibold">O Mapa</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-slate-900 mt-3">O Caminho do Sentido</h2>
+            <p class="text-slate-600 mt-3 max-w-2xl mx-auto">Clique em qualquer bloco para descer até a sua explicação completa.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 md:p-10 reveal">
+            
+            <!-- NÓ INICIAL -->
+            <div class="flex justify-center mb-4">
+                <a href="#ser-humano" class="group block bg-gradient-to-br from-slate-800 to-slate-900 text-white p-5 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 text-center max-w-sm w-full pulse-soft relative">
+                    <span class="absolute -top-2 -right-2 bg-teal-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">clique e leia mais</span>
+                    <i data-lucide="user" class="w-8 h-8 text-teal-300 mx-auto mb-2"></i>
+                    <h3 class="font-bold text-base tracking-wide">O Ser Humano</h3>
+                    <p class="text-xs text-slate-300 mt-1">Um ser em busca de significado</p>
+                </a>
+            </div>
+
+            <!-- Conector -->
+            <div class="flex justify-center my-2">
+                <div class="w-1 h-10 flow-connector rounded-full"></div>
+            </div>
+
+            <!-- PILARES FILOSÓFICOS -->
+            <div class="text-center mb-4">
+                <span class="inline-block bg-sky-100 text-sky-800 text-xs font-semibold px-3 py-1 rounded-full border border-sky-200">Os Três Pilares</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <a href="#liberdade" class="group block border-2 border-sky-200 bg-sky-50/50 p-4 rounded-xl hover:bg-sky-50 hover:shadow-lg hover:border-sky-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="unlock" class="w-6 h-6 text-sky-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-sky-900">Liberdade de Vontade</h4>
+                    <p class="text-[11px] text-sky-700 mt-1">A liberdade de escolher sua atitude</p>
+                </a>
+                <a href="#vontade-sentido" class="group block border-2 border-sky-200 bg-sky-50/50 p-4 rounded-xl hover:bg-sky-50 hover:shadow-lg hover:border-sky-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="sparkles" class="w-6 h-6 text-sky-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-sky-900">Vontade de Sentido</h4>
+                    <p class="text-[11px] text-sky-700 mt-1">A força motriz que nos move</p>
+                </a>
+                <a href="#sentido-vida" class="group block border-2 border-sky-200 bg-sky-50/50 p-4 rounded-xl hover:bg-sky-50 hover:shadow-lg hover:border-sky-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-sky-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="activity" class="w-6 h-6 text-sky-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-sky-900">Sentido da Vida</h4>
+                    <p class="text-[11px] text-sky-700 mt-1">Presente em cada momento</p>
+                </a>
+            </div>
+
+            <!-- Conector -->
+            <div class="flex justify-center my-2">
+                <div class="w-1 h-10 flow-connector rounded-full"></div>
+            </div>
+
+            <!-- VIAS DE SENTIDO -->
+            <div class="text-center mb-4">
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-200">Os Caminhos</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <a href="#valores-criativos" class="group block border-2 border-emerald-200 bg-emerald-50/50 p-4 rounded-xl hover:bg-emerald-50 hover:shadow-lg hover:border-emerald-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="hammer" class="w-6 h-6 text-emerald-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-emerald-900">Valores Criativos</h4>
+                    <p class="text-[11px] text-emerald-700 mt-1">O que você dá ao mundo</p>
+                </a>
+                <a href="#valores-vivenciais" class="group block border-2 border-emerald-200 bg-emerald-50/50 p-4 rounded-xl hover:bg-emerald-50 hover:shadow-lg hover:border-emerald-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="heart" class="w-6 h-6 text-emerald-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-emerald-900">Valores Vivenciais</h4>
+                    <p class="text-[11px] text-emerald-700 mt-1">O que você recebe do mundo</p>
+                </a>
+                <a href="#valores-atitudinais" class="group block border-2 border-emerald-200 bg-emerald-50/50 p-4 rounded-xl hover:bg-emerald-50 hover:shadow-lg hover:border-emerald-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="shield" class="w-6 h-6 text-emerald-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-emerald-900">Valores Atitudinais</h4>
+                    <p class="text-[11px] text-emerald-700 mt-1">Como você enfrenta o inevitável</p>
+                </a>
+            </div>
+
+            <!-- Conector -->
+            <div class="flex justify-center my-2">
+                <div class="w-1 h-10 flow-connector rounded-full"></div>
+            </div>
+
+            <!-- TRÍADE TRÁGICA -->
+            <div class="text-center mb-4">
+                <span class="inline-block bg-rose-100 text-rose-800 text-xs font-semibold px-3 py-1 rounded-full border border-rose-200">Os Desafios</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <a href="#dor" class="group block border-2 border-rose-200 bg-rose-50/50 p-4 rounded-xl hover:bg-rose-50 hover:shadow-lg hover:border-rose-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="cloud-rain" class="w-6 h-6 text-rose-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-rose-900">A Dor</h4>
+                    <p class="text-[11px] text-rose-700 mt-1">O sofrimento como convite</p>
+                </a>
+                <a href="#culpa" class="group block border-2 border-rose-200 bg-rose-50/50 p-4 rounded-xl hover:bg-rose-50 hover:shadow-lg hover:border-rose-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="alert-circle" class="w-6 h-6 text-rose-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-rose-900">A Culpa</h4>
+                    <p class="text-[11px] text-rose-700 mt-1">A chance de recomeçar</p>
+                </a>
+                <a href="#morte" class="group block border-2 border-rose-200 bg-rose-50/50 p-4 rounded-xl hover:bg-rose-50 hover:shadow-lg hover:border-rose-400 transition-all text-center relative">
+                    <span class="absolute -top-2 -right-2 bg-rose-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow opacity-0 group-hover:opacity-100 transition">clique e leia mais</span>
+                    <i data-lucide="hourglass" class="w-6 h-6 text-rose-600 mx-auto mb-2"></i>
+                    <h4 class="font-bold text-sm text-rose-900">A Morte</h4>
+                    <p class="text-[11px] text-rose-700 mt-1">A finitude que dá valor</p>
+                </a>
+            </div>
+
+            <!-- Conector -->
+            <div class="flex justify-center my-2">
+                <div class="w-1 h-10 flow-connector rounded-full"></div>
+            </div>
+
+            <!-- DESTINO -->
+            <div class="flex justify-center">
+                <a href="#autotranscendencia" class="group block bg-gradient-to-br from-teal-600 to-emerald-700 text-white p-5 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 text-center max-w-sm w-full pulse-soft relative">
+                    <span class="absolute -top-2 -right-2 bg-amber-400 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full shadow">clique e leia mais</span>
+                    <i data-lucide="sunrise" class="w-8 h-8 text-teal-100 mx-auto mb-2"></i>
+                    <h3 class="font-bold text-base tracking-wide">Autotranscendência</h3>
+                    <p class="text-xs text-teal-50 mt-1">Ir além de si mesmo</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÕES DETALHADAS -->
+    <div class="max-w-3xl mx-auto px-6">
+
+        <!-- O SER HUMANO -->
+        <section id="ser-humano" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-slate-800 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-slate-500 font-semibold">Ponto de Partida</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">O Ser Humano</h2>
+            <div class="prose prose-slate max-w-none">
+                <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                    A Logoterapia nos convida a enxergar o ser humano como muito mais do que um conjunto de reações biológicas ou psicológicas. 
+                    Somos, antes de tudo, <strong class="text-teal-700">seres em busca de significado</strong>.
+                </p>
+                <p class="text-slate-600 leading-relaxed mb-4">
+                    Viktor Frankl, psiquiatra vienense sobrevivente do Holocausto, percebeu nos campos de concentração que aqueles que mantinham um "porquê" 
+                    — uma pessoa a amar, uma obra a concluir, um sentido a realizar — eram os que mais resistiam. Dessa observação nasceu a ideia de que 
+                    dentro de cada pessoa existe uma dimensão que Frankl chamou de <em>noológica</em> (espiritual, no sentido humano da palavra): 
+                    o espaço da liberdade, da consciência e da responsabilidade.
+                </p>
+                <p class="text-slate-600 leading-relaxed">
+                    Você não é apenas seus sintomas, seus medos ou seu passado. Você é, sobretudo, a capacidade de tomar posição diante de tudo isso.
+                </p>
+            </div>
+
+            <!-- Citação -->
+            <blockquote class="mt-8 border-l-4 border-teal-500 bg-teal-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"O homem é um ser capaz de viver e até de morrer por seus valores e ideais."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <!-- Exercício Reflexivo -->
+            <div class="mt-8 bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-amber-700"></i>
+                    <h3 class="font-semibold text-amber-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-amber-900 mb-3">Pegue um papel ou abra as notas do celular e responda com calma:</p>
+                <ol class="space-y-2 text-sm text-amber-900 list-decimal list-inside">
+                    <li>Se você não fosse definido pelo seu trabalho, pelas suas dores ou pelo que os outros dizem de você — quem você seria?</li>
+                    <li>Em qual momento da sua vida você sentiu que estava sendo verdadeiramente <em>você</em>?</li>
+                    <li>Que liberdade você tem <em>agora</em>, mesmo dentro das suas limitações?</li>
+                </ol>
+            </div>
+
+            <!-- Botão Aprofundar -->
+            <button onclick="openModal('modal-ser-humano')" class="mt-6 text-sm text-teal-700 hover:text-teal-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- LIBERDADE DE VONTADE -->
+        <section id="liberdade" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-sky-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="unlock" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-sky-700 font-semibold">Pilar 01</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Liberdade de Vontade</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                Não somos totalmente livres das condições da vida — biologia, história, contexto social nos influenciam. 
+                Mas somos livres <strong class="text-sky-700">para tomar posição</strong> diante dessas condições.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Essa é a liberdade mais profunda: a liberdade interior. Entre o que acontece conosco e a nossa resposta, 
+                existe um espaço. Nesse espaço reside o nosso poder de escolha e, nele, a nossa dignidade.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Frankl descobriu isso na prática: mesmo despojado de tudo, ninguém poderia tirar dele a liberdade de decidir 
+                como encarar cada dia no campo de concentração.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-sky-500 bg-sky-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"Tudo pode ser tirado de um homem, exceto uma coisa: a última das liberdades humanas — escolher a própria atitude em qualquer conjunto de circunstâncias."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-sky-700"></i>
+                    <h3 class="font-semibold text-sky-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-sky-900 mb-3">Pense em uma situação difícil que você está vivendo agora:</p>
+                <ol class="space-y-2 text-sm text-sky-900 list-decimal list-inside">
+                    <li>O que você <strong>não pode mudar</strong> nessa situação?</li>
+                    <li>O que você <strong>pode escolher</strong> — mesmo que seja pequeno — em relação a ela?</li>
+                    <li>Que atitude você gostaria de cultivar diante disso?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-liberdade')" class="mt-6 text-sm text-sky-700 hover:text-sky-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- VONTADE DE SENTIDO -->
+        <section id="vontade-sentido" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-sky-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-sky-700 font-semibold">Pilar 02</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Vontade de Sentido</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                Diferente de Freud, que via o ser humano movido pela busca do prazer, ou de Adler, que o via movido pela busca de poder, 
+                Frankl propõe algo essencial: <strong class="text-sky-700">a principal motivação humana é a busca por sentido</strong>.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Não é um sentido abstrato ou universal. É <em>o seu</em> sentido — único, específico, que se revela em cada momento da sua vida. 
+                Uma tarefa a cumprir, uma pessoa a amar, uma atitude a tomar diante da dor.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Quando essa vontade é frustrada, surge o que Frankl chamou de <em>vácuo existencial</em>: um vazio interior que muitas vezes 
+                tentamos preencher com distrações, consumo ou busca por status.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-sky-500 bg-sky-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"O ser humano não se preocupa primordialmente em obter prazer ou evitar a dor, mas em encontrar um sentido para sua vida."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-sky-700"></i>
+                    <h3 class="font-semibold text-sky-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-sky-900 mb-3">Responda com sinceridade:</p>
+                <ol class="space-y-2 text-sm text-sky-900 list-decimal list-inside">
+                    <li>Se a sua vida pudesse "perguntar" a você algo agora, o que ela perguntaria?</li>
+                    <li>Que situações, pessoas ou tarefas fazem você sentir que está <em>viva</em> de verdade?</li>
+                    <li>O que você faria diferente se soubesse que a sua vida tem um sentido — mesmo nas dificuldades?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-vontade-sentido')" class="mt-6 text-sm text-sky-700 hover:text-sky-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- SENTIDO DA VIDA -->
+        <section id="sentido-vida" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-sky-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="activity" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-sky-700 font-semibold">Pilar 03</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">O Sentido da Vida</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                Não existe um sentido único e genérico da vida. Existe o sentido de cada momento, de cada situação, 
+                de cada pessoa. <strong class="text-sky-700">O sentido é concreto, específico e mutável</strong>.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                A vida nunca deixa de ter sentido — mesmo na dor, na perda, na finitude. O sentido não depende de 
+                nós criá-lo, mas de nós <em>descobri-lo</em> nas pistas que a própria realidade nos oferece.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                A pergunta não é "qual o sentido da vida?", mas sim "qual sentido a vida está me pedindo agora?".
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-sky-500 bg-sky-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"A vida não deixa jamais, nem mesmo num piscar de olhos, de ter sentido."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-sky-700"></i>
+                    <h3 class="font-semibold text-sky-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-sky-900 mb-3">Imagine que você está no final da sua vida, olhando para trás:</p>
+                <ol class="space-y-2 text-sm text-sky-900 list-decimal list-inside">
+                    <li>Que momentos você gostaria de ter vivido com mais intensidade?</li>
+                    <li>Que escolhas você gostaria de ter feito diferente?</li>
+                    <li>O que, hoje, você pode começar a fazer para que esse futuro seja possível?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-sentido-vida')" class="mt-6 text-sm text-sky-700 hover:text-sky-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- VALORES CRIATIVOS -->
+        <section id="valores-criativos" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="hammer" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-emerald-700 font-semibold">Caminho 01</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Valores Criativos</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                O primeiro caminho para encontrar sentido é <strong class="text-emerald-700">dar algo ao mundo</strong>. 
+                É o sentido que nasce do fazer, do criar, do trabalhar, do cuidar.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Pode ser um projeto profissional, uma obra artística, um ato de voluntariado, uma refeição preparada com carinho, 
+                uma planta cultivada, uma ideia compartilhada. Não precisa ser grandioso — precisa ser <em>seu</em>.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Quando colocamos algo de nós no mundo, deixamos uma marca. E essa marca é sentido realizado.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-emerald-500 bg-emerald-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"O que o homem precisa não é o estado de homeostase, mas o esforço e a luta por uma meta que valha a pena."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-emerald-700"></i>
+                    <h3 class="font-semibold text-emerald-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-emerald-900 mb-3">Liste três coisas que você pode criar ou oferecer ao mundo esta semana:</p>
+                <ol class="space-y-2 text-sm text-emerald-900 list-decimal list-inside">
+                    <li>Uma pequena ação concreta (um gesto, uma tarefa, um cuidado).</li>
+                    <li>Algo que você gostaria de aprender ou desenvolver.</li>
+                    <li>Uma contribuição que só você pode dar — pelo seu jeito único de ser.</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-valores-criativos')" class="mt-6 text-sm text-emerald-700 hover:text-emerald-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- VALORES VIVENCIAIS -->
+        <section id="valores-vivenciais" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="heart" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-emerald-700 font-semibold">Caminho 02</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Valores Vivenciais</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                O segundo caminho é <strong class="text-emerald-700">receber do mundo</strong>. 
+                É o sentido que nasce do contemplar, do sentir, do amar, do se deixar tocar pela beleza.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Um pôr do sol, uma música que emociona, um abraço sincero, a risada de uma criança, 
+                a profundidade de uma conversa. Tudo isso é sentido sendo recebido.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Frankl coloca o <strong>amor</strong> como a forma mais elevada desse caminho: 
+                quando vemos alguém em sua essência e ajudamos essa pessoa a realizar suas possibilidades.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-emerald-500 bg-emerald-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"O amor é a única maneira de compreender outro ser humano no núcleo mais profundo de sua personalidade."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-emerald-700"></i>
+                    <h3 class="font-semibold text-emerald-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-emerald-900 mb-3">Nos últimos dias, o que tocou você?</p>
+                <ol class="space-y-2 text-sm text-emerald-900 list-decimal list-inside">
+                    <li>Que beleza você percebeu — mesmo que pequena?</li>
+                    <li>Com quem você teve um momento de conexão verdadeira?</li>
+                    <li>Que experiência você gostaria de viver mais plenamente?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-valores-vivenciais')" class="mt-6 text-sm text-emerald-700 hover:text-emerald-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- VALORES ATITUDINAIS -->
+        <section id="valores-atitudinais" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-emerald-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="shield" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-emerald-700 font-semibold">Caminho 03</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Valores Atitudinais</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                O terceiro caminho é o mais profundo: <strong class="text-emerald-700">a atitude que tomamos diante do inevitável</strong>. 
+                Quando não podemos mudar uma situação, somos desafiados a mudar a nós mesmos.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Uma doença incurável, uma perda irreparável, uma limitação permanente — diante do sofrimento que não pode ser evitado, 
+                ainda resta a possibilidade de <em>como</em> carregamos esse sofrimento.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Não se trata de masoquismo ou de romantizar a dor. Trata-se de reconhecer que, mesmo no pior dos cenários, 
+                a dignidade humana pode se manifestar na forma como enfrentamos o que não podemos mudar.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-emerald-500 bg-emerald-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"Quando não somos mais capazes de mudar uma situação, somos desafiados a mudar a nós mesmos."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-emerald-700"></i>
+                    <h3 class="font-semibold text-emerald-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-emerald-900 mb-3">Pense em algo difícil que você não pode mudar:</p>
+                <ol class="space-y-2 text-sm text-emerald-900 list-decimal list-inside">
+                    <li>Que atitude você está tendo diante disso — mesmo que inconscientemente?</li>
+                    <li>Que atitude você <em>gostaria</em> de ter?</li>
+                    <li>O que essa situação pode estar ensinando sobre você?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-valores-atitudinais')" class="mt-6 text-sm text-emerald-700 hover:text-emerald-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- DOR -->
+        <section id="dor" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-rose-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="cloud-rain" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-rose-700 font-semibold">Desafio 01</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">A Dor</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                A dor faz parte da vida. Não é um erro, não é um castigo, não é um sinal de que algo deu errado. 
+                É <strong class="text-rose-700">condição da existência humana</strong>.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                O que a Logoterapia propõe não é evitar a dor a qualquer custo — até porque há dores inevitáveis — 
+                mas sim <em>transformar a tragédia em conquista humana</em>. 
+                A pergunta deixa de ser "por que eu?" e passa a ser "o que eu faço com isso?".
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Um sofrimento sem sentido é insuportável. Um sofrimento que carrega um sentido — mesmo que pequeno — 
+                pode ser carregado com dignidade.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-rose-500 bg-rose-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"Se existe um sentido na vida, então deve haver um sentido no sofrimento."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-rose-700"></i>
+                    <h3 class="font-semibold text-rose-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-rose-900 mb-3">Pense em uma dor que você já atravessou:</p>
+                <ol class="space-y-2 text-sm text-rose-900 list-decimal list-inside">
+                    <li>O que você descobriu sobre si mesma ao passar por ela?</li>
+                    <li>Que força — que você não sabia que tinha — surgiu nesse processo?</li>
+                    <li>Se essa dor pudesse te dizer algo, o que ela diria?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-dor')" class="mt-6 text-sm text-rose-700 hover:text-rose-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- CULPA -->
+        <section id="culpa" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-rose-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-rose-700 font-semibold">Desafio 02</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">A Culpa</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                A culpa, quando bem compreendida, não é uma sentença — é um <strong class="text-rose-700">convite à mudança</strong>. 
+                Ela nos diz que poderíamos ter agido diferente, e que ainda podemos.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Frankl distingue a culpa paralisante — aquela que nos aprisiona no passado — da culpa construtiva, 
+                que nos leva à reparação, ao perdão e ao crescimento.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Ninguém está isento de falhas. O que define uma vida não é nunca errar, 
+                mas a disposição de recomeçar, de reparar, de se transformar.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-rose-500 bg-rose-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"Viver é ser culpado — e a culpa é a oportunidade que o homem tem para superar-se e mudar a si próprio para melhor."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-rose-700"></i>
+                    <h3 class="font-semibold text-rose-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-rose-900 mb-3">Com gentileza consigo mesma:</p>
+                <ol class="space-y-2 text-sm text-rose-900 list-decimal list-inside">
+                    <li>Existe algo do passado que ainda pesa em você?</li>
+                    <li>O que você faria diferente hoje, sabendo o que sabe agora?</li>
+                    <li>Que pequeno passo de reparação — mesmo que simbólico — você poderia dar?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-culpa')" class="mt-6 text-sm text-rose-700 hover:text-rose-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- MORTE -->
+        <section id="morte" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-rose-600 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="hourglass" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-rose-700 font-semibold">Desafio 03</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">A Morte</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                A finitude não é o oposto do sentido — é o que <strong class="text-rose-700">torna o sentido urgente</strong>. 
+                Se fôssemos eternos, poderíamos adiar tudo. Mas somos finitos, e por isso cada escolha importa.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                Frankl nos lembra: nada do que já vivemos é perdido. O passado é o celeiro onde guardamos 
+                as ações realizadas, os amores vividos, os sofrimentos superados. Tudo isso é eterno em seu ter sido.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Pensar na morte não é morbidez — é um convite a viver com mais presença, mais verdade, mais intenção.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-rose-500 bg-rose-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"A transitoriedade da existência não a torna sem sentido, mas cria a nossa responsabilidade de aproveitá-la ao máximo."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-rose-700"></i>
+                    <h3 class="font-semibold text-rose-900">Exercício Reflexivo</h3>
+                </div>
+                <p class="text-sm text-rose-900 mb-3">Se o seu tempo fosse mais curto do que você imagina:</p>
+                <ol class="space-y-2 text-sm text-rose-900 list-decimal list-inside">
+                    <li>O que você pararia de fazer imediatamente?</li>
+                    <li>O que você começaria a fazer hoje?</li>
+                    <li>Para quem você diria o que ainda não disse?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-morte')" class="mt-6 text-sm text-rose-700 hover:text-rose-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- AUTOTRANSCENDÊNCIA -->
+        <section id="autotranscendencia" class="py-16 reveal scroll-mt-20">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-10 h-10 bg-gradient-to-br from-teal-600 to-emerald-700 text-white rounded-xl flex items-center justify-center">
+                    <i data-lucide="sunrise" class="w-5 h-5"></i>
+                </span>
+                <span class="text-xs tracking-widest uppercase text-teal-700 font-semibold">Destino</span>
+            </div>
+            <h2 class="font-serif text-4xl font-bold text-slate-900 mb-6">Autotranscendência</h2>
+            <p class="text-lg text-slate-700 leading-relaxed mb-4">
+                Aqui está o coração da Logoterapia: <strong class="text-teal-700">o ser humano se realiza quando vai além de si mesmo</strong>. 
+                Não é focando obsessivamente na própria felicidade que a encontramos — ela surge como efeito colateral 
+                quando nos dedicamos a uma causa ou a uma pessoa.
+            </p>
+            <p class="text-slate-600 leading-relaxed mb-4">
+                A autotranscendência é esse movimento constante de sair de si, de se dirigir ao mundo, 
+                de encontrar sentido <em>fora</em> — em alguém a amar, em algo a realizar, em uma atitude a tomar.
+            </p>
+            <p class="text-slate-600 leading-relaxed">
+                Quanto mais nos esquecemos de nós mesmos — ao servir, ao amar, ao criar — mais humanos nos tornamos.
+            </p>
+
+            <blockquote class="mt-8 border-l-4 border-teal-500 bg-teal-50/50 pl-6 py-4 rounded-r-xl">
+                <p class="font-serif italic text-xl text-slate-700">"Ser humano significa existir e transcender a si mesmo."</p>
+                <cite class="text-sm text-slate-500 mt-2 block">— Viktor E. Frankl</cite>
+            </blockquote>
+
+            <div class="mt-8 bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-200 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-3">
+                    <i data-lucide="pen-line" class="w-5 h-5 text-teal-700"></i>
+                    <h3 class="font-semibold text-teal-900">Exercício Final</h3>
+                </div>
+                <p class="text-sm text-teal-900 mb-3">Integrando a jornada:</p>
+                <ol class="space-y-2 text-sm text-teal-900 list-decimal list-inside">
+                    <li>Qual conceito mais tocou você nesta jornada?</li>
+                    <li>O que você leva daqui para a sua vida?</li>
+                    <li>Que pequeno passo você pode dar hoje em direção ao que faz sentido para você?</li>
+                </ol>
+            </div>
+
+            <button onclick="openModal('modal-autotranscendencia')" class="mt-6 text-sm text-teal-700 hover:text-teal-900 font-medium flex items-center gap-1 group">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Quer aprofundar este conceito?</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition"></i>
+            </button>
+        </section>
+
+        <!-- QUIZ -->
+        <section id="quiz" class="py-16 reveal scroll-mt-20">
+            <div class="text-center mb-10">
+                <span class="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full border border-amber-200 mb-3">Momento de Integrar</span>
+                <h2 class="font-serif text-4xl font-bold text-slate-900">Um Quiz Suave</h2>
+                <p class="text-slate-600 mt-3">Algumas perguntas para você refletir sobre o que explorou. Não há pressa — e não há nota.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-6 md:p-10">
+                <div id="quiz-container"></div>
+                <div id="quiz-result" class="hidden text-center py-8">
+                    <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="check" class="w-10 h-10 text-white"></i>
+                    </div>
+                    <h3 class="font-serif text-3xl font-bold text-slate-900 mb-2">Jornada Completa</h3>
+                    <p id="quiz-score" class="text-slate-600 mb-6"></p>
+                    <p class="text-slate-600 max-w-lg mx-auto">
+                        Lembre-se: o sentido não é uma resposta certa — é uma construção diária. 
+                        O que importa é continuar perguntando, continuar buscando.
+                    </p>
+                    <button onclick="restartQuiz()" class="mt-6 bg-slate-900 text-white px-6 py-3 rounded-full font-semibold text-sm hover:bg-slate-800 transition">
+                        Refazer o quiz
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-10 px-6 mt-16">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="flex items-center justify-center gap-2 mb-3">
+                <i data-lucide="compass" class="w-5 h-5 text-teal-400"></i>
+                <span class="text-white font-semibold">Em Busca de Sentido</span>
+            </div>
+            <p class="text-sm mb-4">Uma jornada de introdução à Logoterapia de Viktor E. Frankl.</p>
+            <p class="text-xs text-slate-500">
+                "Quem tem um <em>porquê</em> para viver suporta quase qualquer <em>como</em>." — Nietzsche (frase favorita de Frankl)
+            </p>
+        </div>
+    </footer>
+
+    <!-- Botão voltar ao topo -->
+    <button id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 w-12 h-12 bg-teal-600 text-white rounded-full shadow-lg hover:bg-teal-700 transition z-40 flex items-center justify-center">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </button>
+
+    <!-- MODAIS -->
+    <div id="modal-ser-humano" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-slate-800 to-slate-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: O Ser Humano</h3>
+                <button onclick="closeModal('modal-ser-humano')" class="text-white hover:text-teal-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Frankl propõe que o ser humano é uma <strong>unidade tridimensional</strong>:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li><strong>Soma (corpo):</strong> a dimensão biológica, sujeita a leis naturais.</li>
+                    <li><strong>Psique (mente):</strong> a dimensão psicológica, com seus mecanismos e emoções.</li>
+                    <li><strong>Noos (espírito):</strong> a dimensão especificamente humana — onde residem a liberdade, a responsabilidade e a busca de sentido.</li>
+                </ul>
+                <p>A dimensão noológica não é religiosa — é o espaço da consciência, da autotranscendência e da capacidade de dizer "sim" ou "não" às circunstâncias.</p>
+                <p class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-r-lg">Na prática: você não é seus sintomas. Você é quem pode <em>relacionar-se</em> com eles.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-liberdade" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-sky-700 to-sky-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Liberdade de Vontade</h3>
+                <button onclick="closeModal('modal-liberdade')" class="text-white hover:text-sky-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Frankl fala de duas ferramentas noológicas:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li><strong>Autodistanciamento:</strong> capacidade de rir de si mesmo, de olhar para seus problemas "de fora", sem se fundir com eles.</li>
+                    <li><strong>Autotranscendência:</strong> capacidade de se dirigir a algo ou alguém além de si mesmo.</li>
+                </ul>
+                <p>A liberdade não é "fazer o que quer", mas <strong>escolher a própria posição</strong> diante do que acontece.</p>
+                <p class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg">Entre o estímulo e a resposta, existe um espaço. Nesse espaço está o seu poder.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-vontade-sentido" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-sky-700 to-sky-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Vontade de Sentido</h3>
+                <button onclick="closeModal('modal-vontade-sentido')" class="text-white hover:text-sky-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Quando a vontade de sentido é frustrada, surge o <strong>vácuo existencial</strong>, que pode se manifestar como:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Depressão, ansiedade, agressividade.</li>
+                    <li>Adições (trabalho, comida, substâncias, telas).</li>
+                    <li>Conformismo — fazer o que os outros fazem, pensar o que os outros pensam.</li>
+                </ul>
+                <p>A Logoterapia não "dá" sentido — ajuda a pessoa a <strong>enxergar o sentido que já está lá</strong>, esperando ser descoberto.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-sentido-vida" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-sky-700 to-sky-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: O Sentido da Vida</h3>
+                <button onclick="closeModal('modal-sentido-vida')" class="text-white hover:text-sky-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>O sentido tem três características:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li><strong>Único:</strong> só você pode realizá-lo.</li>
+                    <li><strong>Concreto:</strong> muda a cada situação, a cada momento.</li>
+                    <li><strong>Incondicional:</strong> existe mesmo quando tudo parece perdido.</li>
+                </ul>
+                <p class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg">A vida pergunta a você todos os dias. A resposta está nas suas escolhas.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-valores-criativos" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-emerald-700 to-emerald-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Valores Criativos</h3>
+                <button onclick="closeModal('modal-valores-criativos')" class="text-white hover:text-emerald-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Criar não é só produzir obras-primas. É qualquer ato em que você <strong>deixa sua marca no mundo</strong>:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Trabalhar com dedicação.</li>
+                    <li>Cuidar de alguém ou de algo.</li>
+                    <li>Ensinar, compartilhar, construir.</li>
+                    <li>Cultivar uma planta, cozinhar, escrever.</li>
+                </ul>
+                <p class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">O sentido criativo é o mais visível: é o que você <em>deixa</em>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-valores-vivenciais" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-emerald-700 to-emerald-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Valores Vivenciais</h3>
+                <button onclick="closeModal('modal-valores-vivenciais')" class="text-white hover:text-emerald-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Vivenciar é <strong>receber do mundo</strong> com abertura:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Contemplar a natureza, a arte, a beleza.</li>
+                    <li>Experimentar sabores, sons, texturas.</li>
+                    <li>Encontrar pessoas — e vê-las em sua singularidade.</li>
+                    <li>Amar: o caminho mais alto dos valores vivenciais.</li>
+                </ul>
+                <p class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">Amar é ver as potencialidades ainda não realizadas na pessoa amada e ajudá-la a realizá-las.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-valores-atitudinais" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-emerald-700 to-emerald-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Valores Atitudinais</h3>
+                <button onclick="closeModal('modal-valores-atitudinais')" class="text-white hover:text-emerald-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Quando a situação não pode ser mudada, resta a <strong>atitude</strong>:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Coragem diante do medo.</li>
+                    <li>Dignidade diante da humilhação.</li>
+                    <li>Perdão diante da ofensa.</li>
+                    <li>Aceitação ativa diante do inevitável.</li>
+                </ul>
+                <p class="bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">Não é resignação passiva — é a decisão corajosa de como carregar o que não se pode mudar.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-dor" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-rose-700 to-rose-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: A Dor</h3>
+                <button onclick="closeModal('modal-dor')" class="text-white hover:text-rose-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Frankl é claro: <strong>a Logoterapia não romantiza o sofrimento</strong>. Sofrimento desnecessário deve ser combatido.</p>
+                <p>Mas quando o sofrimento é inevitável, ele pode se tornar uma <strong>oportunidade única</strong> de realização humana:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Transformar tragédia em triunfo.</li>
+                    <li>Descobrir forças que não sabíamos que tínhamos.</li>
+                    <li>Inspirar outros com nossa atitude.</li>
+                </ul>
+                <p class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">A dor é universal. A maneira como a carregamos é pessoal — e pode ser um ato de grandeza.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-culpa" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-rose-700 to-rose-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: A Culpa</h3>
+                <button onclick="closeModal('modal-culpa')" class="text-white hover:text-rose-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>A culpa pode ser:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li><strong>Paralisante:</strong> nos prende ao passado, nos define pelo erro.</li>
+                    <li><strong>Construtiva:</strong> nos chama à responsabilidade, à mudança, à reparação.</li>
+                </ul>
+                <p>A Logoterapia trabalha para transformar a primeira na segunda. Porque <strong>ninguém é apenas o que fez</strong> — somos também o que fazemos com o que fizemos.</p>
+                <p class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">O passado não pode ser mudado. Mas o que ele significa — e o que dele fazemos — está sempre em nossas mãos.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-morte" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-rose-700 to-rose-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: A Morte</h3>
+                <button onclick="closeModal('modal-morte')" class="text-white hover:text-rose-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>Frankl propõe uma <strong>ótica otimista da finitude</strong>:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Nada do que vivemos se perde — o passado é eternamente realizado.</li>
+                    <li>A finitude nos obriga a decidir, a agir, a amar agora.</li>
+                    <li>Viver como se já estivéssemos na segunda chance de uma vida.</li>
+                </ul>
+                <p class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-r-lg">Não se trata de temer a morte, mas de deixar que ela nos ensine a <em>viver</em>.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-autotranscendencia" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-gradient-to-r from-teal-700 to-emerald-900 text-white p-5 flex items-center justify-between">
+                <h3 class="font-serif text-xl font-bold">Aprofundando: Autotranscendência</h3>
+                <button onclick="closeModal('modal-autotranscendencia')" class="text-white hover:text-teal-300"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="p-6 space-y-4 text-slate-700 leading-relaxed">
+                <p>A autotranscendência é a <strong>característica fundamental</strong> da existência humana:</p>
+                <ul class="space-y-2 pl-5 list-disc">
+                    <li>Ser humano é ser <em>em direção a</em> — algo ou alguém.</li>
+                    <li>Quanto mais nos esquecemos de nós mesmos ao servir ou amar, mais nos realizamos.</li>
+                    <li>A felicidade não pode ser buscada diretamente — ela vem como efeito colateral.</li>
+                </ul>
+                <p class="bg-teal-50 border-l-4 border-teal-500 p-4 rounded-r-lg">A vida se realiza quando nos <em>transcendemos</em> — quando saímos de nós em direção ao mundo.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar ícones
+        lucide.createIcons();
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Barra de progresso
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            
+            // Botão voltar ao topo
+            const btn = document.getElementById('back-to-top');
+            if (scrollTop > 500) btn.classList.add('visible');
+            else btn.classList.remove('visible');
+        });
+
+        // Modais
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+        // Fechar modal clicando fora
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // QUIZ
+        const quizData = [
+            {
+                question: "Segundo a Logoterapia, qual é a principal motivação do ser humano?",
+                options: ["Buscar prazer e evitar dor", "Buscar poder e reconhecimento", "Buscar sentido e propósito", "Buscar segurança e estabilidade"],
+                correct: 2,
+                explanation: "Frankl propõe que a 'vontade de sentido' é a motivação primária — diferente de Freud (prazer) e Adler (poder)."
+            },
+            {
+                question: "O que significa 'autotranscendência'?",
+                options: ["Superar-se fisicamente em desafios", "Ir além de si mesmo em direção a algo ou alguém", "Transcender a realidade através da meditação", "Alcançar um estado de perfeição interior"],
+                correct: 1,
+                explanation: "Autotranscendência é o movimento de sair de si mesmo em direção ao mundo — a uma causa a servir ou uma pessoa a amar."
+            },
+            {
+                question: "Qual das alternativas NÃO é uma via de descoberta de sentido segundo Frankl?",
+                options: ["Valores criativos (o que damos ao mundo)", "Valores vivenciais (o que recebemos do mundo)", "Valores materiais (o que acumulamos)", "Valores atitudinais (a postura diante do inevitável)"],
+                correct: 2,
+                explanation: "Os três caminhos são: criativo, vivencial e atitudinal. Valores materiais não são uma via de sentido na Logoterapia."
+            },
+            {
+                question: "Diante de um sofrimento inevitável, o que a Logoterapia propõe?",
+                options: ["Evitar pensar nele a todo custo", "Transformar a tragédia em conquista humana através da atitude", "Buscar imediatamente um tratamento médico", "Aceitar passivamente sem questionar"],
+                correct: 1,
+                explanation: "Quando não podemos mudar a situação, somos desafiados a mudar a nós mesmos — encontrando sentido na atitude que tomamos."
+            },
+            {
+                question: "O que é o 'vácuo existencial'?",
+                options: ["Um estado de meditação profunda", "Um vazio interior pela frustração da vontade de sentido", "Um conceito da física quântica", "Uma técnica de relaxamento"],
+                correct: 1,
+                explanation: "O vácuo existencial surge quando a vontade de sentido é frustrada, gerando vazio, tédio e, muitas vezes, comportamentos compensatórios."
+            },
+            {
+                question: "Segundo Frankl, a liberdade humana consiste principalmente em:",
+                options: ["Fazer o que se quer sem restrições", "Escolher a própria atitude diante das circunstâncias", "Viver sem responsabilidades", "Eliminar todas as limitações da vida"],
+                correct: 1,
+                explanation: "Não somos livres 'de' condições, mas livres 'para' escolher como responder a elas — essa é a última liberdade humana."
+            },
+            {
+                question: "Qual é a relação entre finitude (morte) e sentido na Logoterapia?",
+                options: ["A morte torna a vida sem sentido", "A finitude dá urgência e valor às nossas escolhas", "A morte é irrelevante para a questão do sentido", "Só se encontra sentido após aceitar a morte"],
+                correct: 1,
+                explanation: "A transitoriedade não torna a vida sem sentido — pelo contrário, cria a responsabilidade de aproveitá-la ao máximo."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = [];
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (currentQuestion >= quizData.length) {
+                showResult();
+                return;
+            }
+            const q = quizData[currentQuestion];
+            container.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-semibold text-slate-500">Pergunta ${currentQuestion + 1} de ${quizData.length}</span>
+                        <span class="text-xs font-semibold text-teal-700">${score} acerto${score !== 1 ? 's' : ''}</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-1.5 mb-6">
+                        <div class="bg-gradient-to-r from-teal-500 to-emerald-600 h-1.5 rounded-full transition-all" style="width: ${(currentQuestion / quizData.length) * 100}%"></div>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-slate-900 mb-6">${q.question}</h3>
+                    <div class="space-y-3">
+                        ${q.options.map((opt, i) => `
+                            <button onclick="answerQuestion(${i})" class="quiz-option w-full text-left p-4 bg-slate-50 hover:bg-teal-50 border-2 border-slate-200 hover:border-teal-400 rounded-xl text-sm text-slate-700 font-medium transition">
+                                ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="feedback" class="mt-6 hidden"></div>
+                </div>
+            `;
+        }
+
+        function answerQuestion(idx) {
+            const q = quizData[currentQuestion];
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach((btn, i) => {
+                btn.classList.add('disabled');
+                btn.onclick = null;
+                if (i === q.correct) btn.classList.add('quiz-correct');
+                else if (i === idx) btn.classList.add('quiz-wrong');
+            });
+            
+            if (idx === q.correct) score++;
+            
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('hidden');
+            feedback.innerHTML = `
+                <div class="p-4 rounded-xl ${idx === q.correct ? 'bg-emerald-50 border border-emerald-200' : 'bg-amber-50 border border-amber-200'}">
+                    <p class="text-sm font-semibold ${idx === q.correct ? 'text-emerald-900' : 'text-amber-900'} mb-1">
+                        ${idx === q.correct ? '✨ Isso mesmo!' : '💭 Não exatamente, mas veja:'}
+                    </p>
+                    <p class="text-sm text-slate-700">${q.explanation}</p>
+                </div>
+                <button onclick="nextQuestion()" class="mt-4 w-full bg-slate-900 text-white py-3 rounded-xl font-semibold text-sm hover:bg-slate-800 transition">
+                    ${currentQuestion === quizData.length - 1 ? 'Ver resultado final' : 'Próxima pergunta →'}
+                </button>
+            `;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            renderQuiz();
+        }
+
+        function showResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const result = document.getElementById('quiz-result');
+            result.classList.remove('hidden');
+            const percent = Math.round((score / quizData.length) * 100);
+            let message = '';
+            if (percent === 100) message = 'Perfeito! Você absorveu profundamente os conceitos.';
+            else if (percent >= 70) message = 'Muito bem! Você compreendeu a essência da Logoterapia.';
+            else if (percent >= 50) message = 'Bom começo! Que tal revisitar algumas seções?';
+            else message = 'Cada jornada tem seu tempo. Volte e explore com calma.';
+            
+            document.getElementById('quiz-score').innerHTML = `
+                Você acertou <strong class="text-teal-700">${score} de ${quizData.length}</strong> perguntas (${percent}%).<br>
+                <span class="text-sm italic">${message}</span>
+            `;
+            lucide.createIcons();
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            renderQuiz();
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
