@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Guia de Estruturação de Trabalhos Científicos</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf5 100%);
+    color: #2c3e50;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    padding: 30px 40px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.9em; margin-bottom: 8px; }
+  header p { opacity: 0.9; font-size: 1em; }
+  .title-box {
+    background: #fff8e1;
+    border-left: 5px solid #f39c12;
+    padding: 15px 20px;
+    margin: 20px 30px;
+    border-radius: 6px;
+  }
+  .title-box strong { color: #b7791f; }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    background: #2c3e50;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav button {
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    color: #ecf0f1;
+    border: none;
+    padding: 14px 8px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+  }
+  nav button:hover { background: #34495e; }
+  nav button.active {
+    background: #1e3c72;
+    border-bottom: 3px solid #f39c12;
+    color: #fff;
+  }
+  .content { padding: 30px 40px; }
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section h2 {
+    color: #1e3c72;
+    border-bottom: 3px solid #f39c12;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+  }
+  .section h3 {
+    color: #2a5298;
+    margin: 18px 0 10px;
+    font-size: 1.15em;
+  }
+  .section p { margin-bottom: 12px; text-align: justify; }
+  .card {
+    background: #f8f9fb;
+    border-left: 4px solid #2a5298;
+    padding: 15px 20px;
+    margin: 12px 0;
+    border-radius: 6px;
+  }
+  .card.optional { border-left-color: #8e44ad; }
+  .card.strong { border-left-color: #27ae60; }
+  .card strong { color: #1e3c72; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge.obr { background: #27ae60; color: #fff; }
+  .badge.opt { background: #8e44ad; color: #fff; }
+  .tip {
+    background: #e8f5e9;
+    border-left: 4px solid #27ae60;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .tip::before { content: "💡 "; font-size: 1.1em; }
+  .warning {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .warning::before { content: "⚠️ "; font-size: 1.1em; }
+  ul { margin: 10px 0 15px 25px; }
+  ul li { margin-bottom: 8px; }
+  .checklist {
+    list-style: none;
+    margin-left: 0;
+  }
+  .checklist li {
+    padding: 10px 15px;
+    background: #f8f9fb;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid #bdc3c7;
+  }
+  .checklist li:hover { background: #ecf0f1; }
+  .checklist li.checked {
+    background: #d4efdf;
+    border-left: 3px solid #27ae60;
+    text-decoration: line-through;
+    color: #7f8c8d;
+  }
+  .progress-bar {
+    background: #ecf0f1;
+    height: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    width: 0%;
+    transition: width 0.4s;
+  }
+  .progress-text {
+    text-align: right;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+  }
+  footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  @media (max-width: 600px) {
+    .content { padding: 20px; }
+    header h1 { font-size: 1.4em; }
+    nav button { min-width: 100%; font-size: 0.85em; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>📚 Guia de Estruturação de Trabalhos Científicos</h1>
+    <p>Orientações práticas para estudantes organizarem seus documentos finais de pesquisa</p>
+  </header>
+
+  <div class="title-box">
+    <strong>📌 Modelo de Título:</strong> Tema (Objeto da Pesquisa): Delimitação (Recorte da Pesquisa)<br>
+    <em>Exemplo: Efeitos do El Niño no Bioma Caatinga: efeitos previsíveis e mitigações necessárias</em>
+  </div>
+
+  <nav>
+    <button class="nav-btn" data-target="pretextuais">0. Pré-Textuais</button>
+    <button class="nav-btn active" data-target="resumo">1. Resumo</button>
+    <button class="nav-btn" data-target="intro">2. Introdução</button>
+    <button class="nav-btn" data-target="teorico">3. Referencial</button>
+    <button class="nav-btn" data-target="metodo">4. Metodologia</button>
+    <button class="nav-btn" data-target="resultados">5. Resultados</button>
+    <button class="nav-btn" data-target="conclusao">6. Conclusão</button>
+    <button class="nav-btn" data-target="extras">7. Pós-Textuais</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- PRÉ-TEXTUAIS -->
+    <div class="section" id="pretextuais">
+      <h2>📑 0. Elementos Pré-Textuais</h2>
+      <p>Os elementos pré-textuais compõem a <strong>"fachada"</strong> do trabalho: são as páginas que antecedem o conteúdo propriamente dito. Eles identificam a obra, apresentam-na à banca e facilitam a consulta pelo leitor. Seguem a ordem estabelecida pela <strong>ABNT NBR 14724</strong>.</p>
+
+      <div class="tip">Dica: Embora alguns elementos sejam opcionais, a maioria das instituições exige pelo menos 80% deles. Consulte sempre o manual da sua instituição!</div>
+
+      <h3>✅ Elementos Obrigatórios</h3>
+      <ul class="checklist" data-section="pretextuais">
+        <li><strong>1. Capa:</strong> Página protetora com identificação da instituição, autor, título, subtítulo (se houver), local e ano. É o "cartão de apresentação" visual.</li>
+        <li><strong>2. Folha de Rosto:</strong> Contém os mesmos dados da capa, acrescidos da natureza do trabalho (ex: "Dissertação apresentada ao Programa de Pós-Graduação em..."), nome do orientador e, quando exigido, da instituição.</li>
+        <li><strong>3. Ficha Catalográfica:</strong> Localizada no <strong>verso da folha de rosto</strong>. Elaborada por um bibliotecário com CRB, contém os dados para catalogação da obra (autor, título, assunto, classificação CDU).</li>
+        <li><strong>4. Folha de Aprovação:</strong> Página que contém a identificação do trabalho e a data de aprovação, assinada pelos membros da banca examinadora e pelo orientador.</li>
+        <li><strong>5. Resumo na Língua Vernácula:</strong> Texto conciso em português (150 a 500 palavras), seguido de palavras-chave. (Veja a aba "1. Resumo" para detalhes.)</li>
+        <li><strong>6. Resumo em Língua Estrangeira (Abstract):</strong> Versão do resumo em inglês (ou espanhol/francês, conforme o programa), com <em>keywords</em> ao final.</li>
+        <li><strong>7. Sumário:</strong> Relação das principais divisões do trabalho na ordem em que se sucedem, com indicação das páginas iniciais. <strong>Não confunda com lista de referências!</strong></li>
+      </ul>
+
+      <h3>🟣 Elementos Opcionais</h3>
+      <ul class="checklist" data-section="pretextuais">
+        <li><strong>Errata:</strong> Lista de erros encontrados após a impressão, com indicação da folha, linha e texto correto. Deve ser inserida logo após a folha de rosto.</li>
+        <li><strong>Dedicatória:</strong> Página curta e pessoal em que o autor dedica o trabalho a alguém especial (familiares, orientadores, etc.). Sem título, apenas o texto.</li>
+        <li><strong>Agradecimentos:</strong> Texto em que o autor agradece a pessoas e instituições que contribuíram para a realização da pesquisa (orientador, família, agências de fomento, colegas).</li>
+        <li><strong>Epígrafe:</strong> Citação curta e inspiradora, com indicação de autoria, que o autor considera relacionada ao tema do trabalho. Pode aparecer em várias folhas (dedicatória, agradecimentos, resumos).</li>
+        <li><strong>Lista de Ilustrações:</strong> Relação sequencial de figuras, fotos, desenhos, fluxogramas etc., com indicação de página. Obrigatória quando há mais de 5 ilustrações do mesmo tipo.</li>
+        <li><strong>Lista de Tabelas:</strong> Relação das tabelas utilizadas no trabalho, com indicação de página.</li>
+        <li><strong>Lista de Abreviaturas e Siglas:</strong> Relação alfabética das abreviaturas e siglas usadas no texto, seguidas de suas formas por extenso.</li>
+        <li><strong>Lista de Símbolos:</strong> Relação dos símbolos utilizados no trabalho, seguidos de seus significados.</li>
+        <li><strong>Glossário:</strong> Relação alfabética de termos técnicos ou específicos com suas respectivas definições.</li>
+      </ul>
+
+      <div class="warning">A ordem dos elementos pré-textuais é PADRONIZADA pela ABNT. Não inverta a sequência!</div>
+
+      <div class="card strong">
+        <h3>📋 Ordem Recomendada (ABNT NBR 14724)</h3>
+        <ol style="margin-left: 20px;">
+          <li>Capa <span class="badge obr">OBRIG.</span></li>
+          <li>Folha de Rosto <span class="badge obr">OBRIG.</span></li>
+          <li>Errata <span class="badge opt">OPCIONAL</span></li>
+          <li>Folha de Aprovação <span class="badge obr">OBRIG.</span></li>
+          <li>Dedicatória <span class="badge opt">OPCIONAL</span></li>
+          <li>Agradecimentos <span class="badge opt">OPCIONAL</span></li>
+          <li>Epígrafe <span class="badge opt">OPCIONAL</span></li>
+          <li>Resumo na língua vernácula <span class="badge obr">OBRIG.</span></li>
+          <li>Resumo em língua estrangeira <span class="badge obr">OBRIG.</span></li>
+          <li>Lista de ilustrações <span class="badge opt">OPCIONAL</span></li>
+          <li>Lista de tabelas <span class="badge opt">OPCIONAL</span></li>
+          <li>Lista de abreviaturas e siglas <span class="badge opt">OPCIONAL</span></li>
+          <li>Lista de símbolos <span class="badge opt">OPCIONAL</span></li>
+          <li>Sumário <span class="badge obr">OBRIG.</span></li>
+        </ol>
+      </div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- RESUMO -->
+    <div class="section active" id="resumo">
+      <h2>📄 1. Resumo (Abstract)</h2>
+      <p>O resumo é o <strong>"cartão de visitas"</strong> da pesquisa. Deve ser escrito em <strong>parágrafo único</strong> (geralmente entre 150 e 500 palavras) e no <strong>tempo passado</strong>, pois a pesquisa já foi realizada.</p>
+
+      <div class="tip">Dica: O resumo deve ser a última coisa que você escreve, mesmo que apareça no início do documento!</div>
+
+      <h3>Estrutura do Resumo</h3>
+      <ul class="checklist" data-section="resumo">
+        <li><strong>1. Contextualização:</strong> Uma ou duas frases localizando o tema geral e a importância do objeto de estudo.</li>
+        <li><strong>2. Problema de Pesquisa:</strong> A lacuna ou pergunta central que motivou o estudo.</li>
+        <li><strong>3. Objetivo Geral:</strong> O que o trabalho se propôs a alcançar (verbos no infinitivo: analisar, avaliar, propor...).</li>
+        <li><strong>4. Metodologia (breve):</strong> Enquadramento metodológico, principais ferramentas e universo/sujeitos da pesquisa.</li>
+        <li><strong>5. Resultados Principais:</strong> Achados mais relevantes (dados numéricos ou inferências qualitativas cruciais).</li>
+        <li><strong>6. Conclusão/Considerações Finais:</strong> Resposta direta ao objetivo e contribuição teórica ou prática.</li>
+        <li><strong>7. Palavras-chave:</strong> De 3 a 5 termos indexadores (preferencialmente diferentes das palavras do título).</li>
+      </ul>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="section" id="intro">
+      <h2>🎯 2. Introdução</h2>
+      <p>A introdução delimita o território e estabelece o <strong>"contrato" de leitura</strong> com a banca. Ela deve responder a três perguntas: <em>O que é? Por que importa? Como será feito?</em></p>
+
+      <h3>Elementos da Introdução</h3>
+      <ul class="checklist" data-section="intro">
+        <li><strong>1. Contextualização do Tema:</strong> Apresentação ampla do cenário, progredindo do geral para o específico (técnica do funil).</li>
+        <li><strong>2. Problematização:</strong> Problematização do cenário real ou teórico. Deve culminar em uma <strong>pergunta clara de pesquisa</strong> (frase interrogativa).</li>
+        <li><strong>3a. Relevância Acadêmica:</strong> Qual lacuna na literatura científica o trabalho preenche?</li>
+        <li><strong>3b. Relevância Social/Prática:</strong> Qual o impacto para a sociedade, comunidades, instituições públicas ou desenvolvimento local?</li>
+        <li><strong>4. Hipóteses (se aplicável):</strong> Respostas provisórias à pergunta de pesquisa que serão testadas.</li>
+        <li><strong>5a. Objetivo Geral:</strong> A meta central do trabalho.</li>
+        <li><strong>5b. Objetivos Específicos:</strong> Passos operacionais e cronológicos (geralmente 3 a 4 itens).</li>
+        <li><strong>6. Estrutura do Trabalho (opcional):</strong> Parágrafo final resumindo a organização em capítulos.</li>
+      </ul>
+
+      <div class="warning">A pergunta de pesquisa é OBRIGATÓRIA e deve aparecer claramente na introdução!</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- REFERENCIAL TEÓRICO -->
+    <div class="section" id="teorico">
+      <h2>📚 3. Referencial Teórico (Revisão de Literatura)</h2>
+      <p>Não é apenas uma colagem de citações, mas um <strong>diálogo crítico</strong> entre os autores que dão sustentação conceitual ao seu objeto de estudo.</p>
+
+      <h3>Componentes do Referencial</h3>
+      <ul class="checklist" data-section="teorico">
+        <li><strong>1. Evolução Histórica e Conceitual:</strong> Como o conceito central evoluiu ao longo do tempo.</li>
+        <li><strong>2. Mapeamento do Estado da Arte:</strong> Pesquisas recentes (nacionais e internacionais) correlatas ao tema. Mostre o que já foi exaurido e onde seu trabalho inova.</li>
+        <li><strong>3. Discussão das Categorias de Análise:</strong> Subcapítulos que correspondam diretamente às variáveis ou categorias analisadas nos resultados.</li>
+        <li><strong>4. Posicionamento do Autor:</strong> Indique claramente com quais correntes teóricas ou autores você se alinha para interpretar a realidade estudada.</li>
+      </ul>
+
+      <div class="tip">Dica: Use revisões sistemáticas ou de escopo para demonstrar domínio do estado da arte!</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- METODOLOGIA -->
+    <div class="section" id="metodo">
+      <h2>🛠️ 4. Metodologia (Materiais e Métodos)</h2>
+      <p>Esta seção deve ser escrita com <strong>clareza suficiente para que qualquer outro pesquisador consiga replicar</strong> seu estudo exatamente como foi feito.</p>
+
+      <h3>Itens da Metodologia</h3>
+      <ul class="checklist" data-section="metodo">
+        <li><strong>1. Delineamento da Pesquisa:</strong> Classificação quanto à natureza (básica/aplicada), abordagem (quantitativa, qualitativa ou mista), objetivos (exploratória, descritiva, explicativa) e procedimentos (estudo de caso, pesquisa-ação, documental, etc.).</li>
+        <li><strong>2. Área de Estudo / Universo e Amostra:</strong> Delimitação geográfica, territorial ou institucional, além dos critérios de inclusão e exclusão.</li>
+        <li><strong>3. Coleta de Dados / Fontes:</strong> Detalhamento de COMO os dados foram obtidos (entrevistas, questionários, bancos de dados públicos como MapBiomas, documentos oficiais).</li>
+        <li><strong>4. Instrumentos e Ferramentas:</strong> Softwares, protocolos oficiais, questionários validados ou equipamentos utilizados.</li>
+        <li><strong>5. Análise de Dados:</strong> Como os dados brutos foram tratados (análise de conteúdo temática, estatística descritiva, triangulação, matriz SWOT, etc.).</li>
+        <li><strong>6. Aspectos Éticos:</strong> Se envolve seres humanos, informe o número do parecer do CEP e a aplicação do TCLE.</li>
+      </ul>
+
+      <div class="warning">Replique mentalmente: outra pessoa conseguiria repetir seu estudo apenas lendo esta seção?</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div class="section" id="resultados">
+      <h2>📊 5. Resultados e Discussão</h2>
+      <p>Muitos programas preferem estas seções unificadas para evitar repetições. É o <strong>coração do trabalho</strong>: onde seus dados encontram a teoria.</p>
+
+      <h3>Estrutura</h3>
+      <ul class="checklist" data-section="resultados">
+        <li><strong>1. Apresentação dos Dados:</strong> Organização lógica (geralmente seguindo a ordem dos objetivos específicos) com tabelas, gráficos, quadros ou mapas.</li>
+        <li><strong>2. Análise Descritiva e Interpretativa:</strong> Explicação textual detalhada do que os dados mostram, sem achismos, focando nas evidências concretas.</li>
+        <li><strong>3. Discussão (Confronto Teórico):</strong> Confronte seus resultados com o Referencial Teórico do Capítulo 3.</li>
+        <li><strong>3a.</strong> Seus dados confirmam o que a literatura diz?</li>
+        <li><strong>3b.</strong> Eles contradizem os autores clássicos? Por que isso aconteceu no seu cenário específico?</li>
+        <li><strong>3c.</strong> Quais novos elementos surgiram que a teoria não previa?</li>
+      </ul>
+
+      <div class="tip">Dica: A discussão é o ponto crítico — é onde você demonstra maturidade acadêmica ao dialogar com a literatura!</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- CONCLUSÃO -->
+    <div class="section" id="conclusao">
+      <h2>🏁 6. Conclusão (Considerações Finais)</h2>
+      <p>A conclusão retoma o início do trabalho de forma sintética. <strong>Não deve trazer dados novos ou novas citações teóricas.</strong></p>
+
+      <h3>Elementos da Conclusão</h3>
+      <ul class="checklist" data-section="conclusao">
+        <li><strong>1. Resposta à Pergunta de Pesquisa:</strong> Retomada direta do problema e do objetivo geral, afirmando se o objetivo foi cumprido e se as hipóteses foram confirmadas ou refutadas.</li>
+        <li><strong>2. Síntese das Contribuições:</strong> Resumo do principal legado teórico, metodológico ou prático (ex: criação de um protocolo, indicador inédito, modelo de gestão).</li>
+        <li><strong>3. Limitações do Estudo:</strong> Reconhecimento honesto do que a pesquisa não conseguiu cobrir (tamanho da amostra, restrição geográfica, escassez de dados históricos). Isso demonstra maturidade acadêmica.</li>
+        <li><strong>4. Sugestões para Trabalhos Futuros:</strong> Recomendações de desdobramentos a partir das lacunas identificadas.</li>
+      </ul>
+
+      <div class="warning">Nunca introduza dados, autores ou ideias novas na conclusão!</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- EXTRAS -->
+    <div class="section" id="extras">
+      <h2>📎 7. Elementos Pós-Textuais</h2>
+      <p>Após a conclusão, o trabalho científico deve apresentar os seguintes elementos complementares:</p>
+
+      <div class="card">
+        <h3>📖 Referências</h3>
+        <p>Lista completa de todas as obras citadas no texto, organizadas em ordem alfabética e formatadas conforme a norma adotada (ABNT, APA, Vancouver, etc.). <strong>Apenas obras efetivamente citadas</strong> devem aparecer aqui — obras apenas consultadas podem ir em "Bibliografia" (quando permitido pela norma).</p>
+        <ul>
+          <li>Devem conter: autor, título, editora, local, ano, páginas, DOI/URL quando aplicável.</li>
+          <li>Formatação padronizada (ex: SOBRENOME, Nome. <em>Título</em>. Local: Editora, Ano.).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📝 Apêndices</h3>
+        <p>Documentos <strong>criados pelo próprio autor</strong> da pesquisa para complementar, ilustrar ou fundamentar o conteúdo do trabalho.</p>
+        <ul>
+          <li>Exemplos: questionários elaborados pelo autor, roteiros de entrevista, protocolos de coleta de dados, modelos de formulários, instrumentos de pesquisa desenvolvidos.</li>
+          <li>Devem ser identificados por letras maiúsculas consecutivas (Apêndice A, Apêndice B, etc.).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📄 Anexos</h3>
+        <p>Documentos <strong>NÃO criados pelo autor</strong>, mas que servem de fundamentação, comprovação ou ilustração do trabalho. São de autoria de terceiros.</p>
+        <ul>
+          <li>Exemplos: leis, normas técnicas, mapas oficiais, reportagens, documentos de arquivos públicos, tabelas de órgãos governamentais, imagens de terceiros.</li>
+          <li>Devem ser identificados por números arábicos (Anexo 1, Anexo 2, etc.).</li>
+        </ul>
+      </div>
+
+      <div class="tip">Dica: Apêndice = EU criei. Anexo = OUTREM criou. Essa é a diferença fundamental!</div>
+
+      <ul class="checklist" data-section="extras">
+        <li><strong>Referências:</strong> Todas as obras citadas estão listadas e formatadas conforme a norma?</li>
+        <li><strong>Apêndices:</strong> Documentos próprios foram incluídos quando necessários?</li>
+        <li><strong>Anexos:</strong> Documentos de terceiros foram incluídos para fundamentar o trabalho?</li>
+      </ul>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>📚 Guia de Estruturação de Trabalhos Científicos • Ferramenta de apoio ao estudante</p>
+    <p style="margin-top:5px; opacity:0.7;">Clique nos itens das checklists para acompanhar seu progresso!</p>
+  </footer>
+
+</div>
+
+<script>
+  // Navegação entre seções
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('.section');
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      navBtns.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Checklists interativas com barra de progresso
+  document.querySelectorAll('.checklist').forEach(list => {
+    const items = list.querySelectorAll('li');
+    const section = list.closest('.section');
+    const fill = section.querySelector('.progress-fill');
+    const pct = section.querySelector('.pct');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('checked');
+        const checked = list.querySelectorAll('li.checked').length;
+        const total = items.length;
+        const percent = Math.round((checked / total) * 100);
+        fill.style.width = percent + '%';
+        pct.textContent = percent;
+      });
+    });
+  });
+</script>
+</body>
+</html>

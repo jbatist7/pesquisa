@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Guia de Artigos Científicos para Revistas A1</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4ecf5 100%);
+    color: #2c3e50;
+    line-height: 1.6;
+    padding: 20px;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  header {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: #fff;
+    padding: 30px 40px;
+    text-align: center;
+  }
+  header h1 { font-size: 1.9em; margin-bottom: 8px; }
+  header p { opacity: 0.9; font-size: 1em; }
+  .banner-a1 {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+  .title-box {
+    background: #fff8e1;
+    border-left: 5px solid #f39c12;
+    padding: 15px 20px;
+    margin: 20px 30px;
+    border-radius: 6px;
+  }
+  .title-box strong { color: #b7791f; }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    background: #2c3e50;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav button {
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    color: #ecf0f1;
+    border: none;
+    padding: 14px 8px;
+    cursor: pointer;
+    font-size: 0.82em;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-bottom: 3px solid transparent;
+  }
+  nav button:hover { background: #34495e; }
+  nav button.active {
+    background: #0f2027;
+    border-bottom: 3px solid #f39c12;
+    color: #fff;
+  }
+  .content { padding: 30px 40px; }
+  .section { display: none; animation: fadeIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section h2 {
+    color: #0f2027;
+    border-bottom: 3px solid #f39c12;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.6em;
+  }
+  .section h3 {
+    color: #2c5364;
+    margin: 18px 0 10px;
+    font-size: 1.15em;
+  }
+  .section p { margin-bottom: 12px; text-align: justify; }
+  .card {
+    background: #f8f9fb;
+    border-left: 4px solid #2c5364;
+    padding: 15px 20px;
+    margin: 12px 0;
+    border-radius: 6px;
+  }
+  .card.gold { border-left-color: #f39c12; background: #fff8e1; }
+  .card.alert { border-left-color: #e74c3c; background: #fdecea; }
+  .card strong { color: #0f2027; }
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .badge.obr { background: #27ae60; color: #fff; }
+  .badge.opt { background: #8e44ad; color: #fff; }
+  .badge.a1 { background: #f39c12; color: #fff; }
+  .tip {
+    background: #e8f5e9;
+    border-left: 4px solid #27ae60;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .tip::before { content: "💡 "; font-size: 1.1em; }
+  .warning {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .warning::before { content: "⚠️ "; font-size: 1.1em; }
+  .critical {
+    background: #fdecea;
+    border-left: 4px solid #e74c3c;
+    padding: 12px 18px;
+    margin: 15px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .critical::before { content: "🚨 "; font-size: 1.1em; }
+  ul { margin: 10px 0 15px 25px; }
+  ul li { margin-bottom: 8px; }
+  .checklist {
+    list-style: none;
+    margin-left: 0;
+  }
+  .checklist li {
+    padding: 10px 15px;
+    background: #f8f9fb;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid #bdc3c7;
+  }
+  .checklist li:hover { background: #ecf0f1; }
+  .checklist li.checked {
+    background: #d4efdf;
+    border-left: 3px solid #27ae60;
+    text-decoration: line-through;
+    color: #7f8c8d;
+  }
+  .progress-bar {
+    background: #ecf0f1;
+    height: 10px;
+    border-radius: 5px;
+    margin: 15px 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    width: 0%;
+    transition: width 0.4s;
+  }
+  .progress-text {
+    text-align: right;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin: 15px 0;
+  }
+  .metric-box {
+    background: linear-gradient(135deg, #2c5364, #203a43);
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  .metric-box .num { font-size: 1.8em; font-weight: 700; color: #f39c12; }
+  .metric-box .label { font-size: 0.85em; opacity: 0.9; }
+  footer {
+    background: #0f2027;
+    color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  @media (max-width: 700px) {
+    .content { padding: 20px; }
+    header h1 { font-size: 1.4em; }
+    nav button { min-width: 50%; font-size: 0.8em; }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>📝 Guia de Artigos Científicos para Revistas A1</h1>
+    <p>Roteiro completo para estudantes estruturarem artigos de alto impacto</p>
+  </header>
+
+  <div class="banner-a1">
+    🏆 Foco em periódicos Qualis CAPES A1 • Rigor, originalidade e contribuição clara
+  </div>
+
+  <div class="title-box">
+    <strong>📌 Modelo de Título:</strong> Tema (Objeto): Delimitação (Recorte)<br>
+    <em>Exemplo: Efeitos do El Niño no Bioma Caatinga: uma análise preditiva com dados do MapBiomas (2000–2023)</em><br>
+    <strong style="font-size:0.9em;">Dica A1:</strong> Títulos concisos (10–15 palavras), com palavras-chave indexáveis e que revelem método ou recorte, são mais citados.
+  </div>
+
+  <nav>
+    <button class="nav-btn active" data-target="titulo">1. Título e Autoria</button>
+    <button class="nav-btn" data-target="resumo">2. Resumo</button>
+    <button class="nav-btn" data-target="intro">3. Introdução</button>
+    <button class="nav-btn" data-target="teorico">4. Referencial</button>
+    <button class="nav-btn" data-target="metodo">5. Metodologia</button>
+    <button class="nav-btn" data-target="resultados">6. Resultados</button>
+    <button class="nav-btn" data-target="conclusao">7. Conclusão</button>
+    <button class="nav-btn" data-target="pos">8. Pós-Textual</button>
+    <button class="nav-btn" data-target="a1">🏆 Checklist A1</button>
+  </nav>
+
+  <div class="content">
+
+    <!-- TÍTULO E AUTORIA -->
+    <div class="section active" id="titulo">
+      <h2>🏷️ 1. Título e Autoria</h2>
+      <p>O título é a <strong>primeira impressão</strong> do artigo e o principal fator de encontrabilidade em bases como Scopus, Web of Science e Scielo. A autoria exige responsabilidade ética e contribuição real.</p>
+
+      <h3>🎯 Características de um Título A1</h3>
+      <ul class="checklist" data-section="titulo">
+        <li><strong>Conciso e específico:</strong> Entre 10 e 15 palavras, evitando jargões excessivos e abreviações obscuras.</li>
+        <li><strong>Palavras-chave indexáveis:</strong> Termos que os pesquisadores da área digitam nas bases de busca.</li>
+        <li><strong>Revela o recorte:</strong> Método, período, local ou população estudada (quando relevante).</li>
+        <li><strong>Sem perguntas retóricas:</strong> Revistas A1 preferem afirmações claras a perguntas.</li>
+        <li><strong>Evita subtítulos longos:</strong> Se usar dois pontos (:) para separar tema e recorte, mantenha o segundo trecho enxuto.</li>
+      </ul>
+
+      <h3>👥 Autoria e Afiliações</h3>
+      <ul class="checklist" data-section="titulo">
+        <li><strong>ORCID ativo:</strong> Todos os autores devem ter o identificador ORCID vinculado (obrigatório na maioria das A1).</li>
+        <li><strong>Afiliação completa:</strong> Nome da instituição, departamento, cidade, país (padrão internacional).</li>
+        <li><strong>Autor correspondente:</strong> Indicado com e-mail institucional válido.</li>
+        <li><strong>Ordem dos autores:</strong> Definida conforme contribuição real (primeiro autor = maior contribuição; último autor = orientador/líder do grupo, em muitas áreas).</li>
+        <li><strong>Declaração CRediT:</strong> Usar a taxonomia CRediT para detalhar a contribuição de cada autor (conceitualização, metodologia, análise, redação etc.).</li>
+      </ul>
+
+      <div class="critical">Nunca inclua como autor quem não contribuiu intelectualmente. "Autoria fantasma" ou "de presente" é má conduta ética e pode gerar retratação.</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- RESUMO -->
+    <div class="section" id="resumo">
+      <h2>📄 2. Resumo e Palavras-chave</h2>
+      <p>O resumo é o <strong>único trecho que 80% dos leitores verão</strong>. Em revistas A1 internacionais, ele decide se o artigo será baixado e citado. Deve ser escrito por último, em <strong>parágrafo único</strong>, no tempo passado.</p>
+
+      <div class="grid-2">
+        <div class="metric-box"><div class="num">150–250</div><div class="label">palavras (limite típico A1)</div></div>
+        <div class="metric-box"><div class="num">3–6</div><div class="label">palavras-chave (DeCS/MeSH/thesaurus da área)</div></div>
+      </div>
+
+      <h3>Estrutura do Resumo (IMRaD condensado)</h3>
+      <ul class="checklist" data-section="resumo">
+        <li><strong>Contexto (1–2 frases):</strong> Situa o tema e a relevância do problema.</li>
+        <li><strong>Objetivo (1 frase):</strong> Iniciado com verbo no infinitivo (analisar, avaliar, propor, investigar).</li>
+        <li><strong>Método (2–3 frases):</strong> Delineamento, universo/amostra, instrumentos e técnica de análise.</li>
+        <li><strong>Resultados (2–4 frases):</strong> Achados principais com dados concretos (números, tendências, relações).</li>
+        <li><strong>Conclusão (1–2 frases):</strong> Resposta direta ao objetivo e contribuição central.</li>
+        <li><strong>Palavras-chave:</strong> 3 a 6 termos, preferencialmente de vocabulários controlados (DeCS, MeSH, Thesaurus da CAPES). Não repetir palavras do título.</li>
+      </ul>
+
+      <h3>Versões do Resumo</h3>
+      <div class="card">
+        <ul>
+          <li><strong>Resumo na língua vernácula:</strong> Obrigatório em português (para revistas brasileiras).</li>
+          <li><strong>Abstract (inglês):</strong> Obrigatório em revistas A1 — mesmo as brasileiras. Deve ser tradução qualificada, não automática.</li>
+          <li><strong>Resumen (espanhol) / Résumé (francês):</strong> Exigidos por algumas revistas latino-americanas ou europeias.</li>
+          <li><strong>Highlights (3–5 bullets):</strong> Exigidos por editoras como Elsevier e Springer — frases curtas com os principais achados.</li>
+          <li><strong>Graphical Abstract:</strong> Resumo visual (imagem) — cada vez mais exigido em A1 de alto impacto.</li>
+        </ul>
+      </div>
+
+      <div class="warning">Nunca cite referências, tabelas ou abreviações não definidas no resumo. Ele deve ser autônomo.</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- INTRODUÇÃO -->
+    <div class="section" id="intro">
+      <h2>🎯 3. Introdução</h2>
+      <p>A introdução estabelece o <strong>"contrato de leitura"</strong> com os revisores. Deve seguir a estrutura do <strong>funil invertido</strong>: do contexto amplo ao gap específico que seu artigo preenche. Em revistas A1, tipicamente ocupa 1,5 a 2,5 páginas.</p>
+
+      <h3>Estrutura da Introdução</h3>
+      <ul class="checklist" data-section="intro">
+        <li><strong>1. Contextualização ampla (1–2 parágrafos):</strong> Apresenta o tema em sua relevância global, com dados recentes e citações de artigos seminais e de revisão (preferencialmente dos últimos 5 anos).</li>
+        <li><strong>2. Estado da questão (1–2 parágrafos):</strong> O que já se sabe? Quais são as principais descobertas e correntes teóricas? Demonstra domínio da literatura.</li>
+        <li><strong>3. Gap / Lacuna (1 parágrafo — CRUCIAL):</strong> O que AINDA não foi respondido? Pode ser lacuna teórica, metodológica, empírica ou contextual. <em>Este é o coração da justificativa.</em></li>
+        <li><strong>4. Problema de pesquisa:</strong> Pergunta clara e específica que emerge da lacuna.</li>
+        <li><strong>5. Objetivo geral:</strong> Iniciado com verbo no infinitivo, respondendo diretamente ao gap identificado.</li>
+        <li><strong>6. Objetivos específicos (opcional em artigos):</strong> Alguns periódicos preferem que fiquem implícitos; outros exigem explícitos.</li>
+        <li><strong>7. Contribuição esperada (1 parágrafo final):</strong> Qual o avanço teórico, empírico, metodológico ou prático que o artigo oferece? Por que a revista A1 deve publicá-lo?</li>
+      </ul>
+
+      <div class="critical">Revisores A1 rejeitam artigos quando não conseguem identificar, em 30 segundos de leitura, qual gap está sendo preenchido. Seja explícito!</div>
+
+      <div class="tip">Fórmula clássica: "Apesar de X ter sido amplamente estudado (citações), Y permanece pouco explorado (citações). Portanto, este estudo visa Z."</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- REFERENCIAL TEÓRICO -->
+    <div class="section" id="teorico">
+      <h2>📚 4. Referencial Teórico</h2>
+      <p>Em artigos, o referencial pode estar <strong>embebido na introdução</strong> ou constituir uma seção própria ("Fundamentação Teórica" / "Background"). Em revistas A1, a literatura deve ser <strong>majoritariamente internacional, recente e de fontes primárias</strong>.</p>
+
+      <div class="grid-2">
+        <div class="metric-box"><div class="num">≥70%</div><div class="label">artigos de periódicos (vs. livros/teses)</div></div>
+        <div class="metric-box"><div class="num">≤5 anos</div><div class="label">maioria das citações (exceto clássicos)</div></div>
+      </div>
+
+      <h3>Componentes</h3>
+      <ul class="checklist" data-section="teorico">
+        <li><strong>1. Conceitos-chave:</strong> Definições operacionais dos principais constructos/variáveis do estudo, com base em autores consolidados.</li>
+        <li><strong>2. Estado da arte internacional:</strong> Pesquisas recentes (últimos 5 anos) em periódicos A1/A2 da área, incluindo estudos contrastantes.</li>
+        <li><strong>3. Marcos teóricos:</strong> Teorias, modelos ou frameworks que sustentam a análise (ex: Teoria Fundamentada, Análise de Conteúdo, Teoria de Bourdieu, Modelo SWOT etc.).</li>
+        <li><strong>4. Hipóteses (quando aplicável):</strong> Em estudos quantitativos, as hipóteses devem ser derivadas logicamente da literatura e testáveis.</li>
+        <li><strong>5. Diálogo crítico:</strong> Não é "colagem" de citações — é confronto entre autores, identificação de convergências e divergências.</li>
+        <li><strong>6. Categorias de análise:</strong> Subseções que espelham as variáveis/categorias que serão analisadas nos resultados.</li>
+      </ul>
+
+      <div class="card gold">
+        <strong>🏆 Padrão A1:</strong> Cite artigos publicados nos principais periódicos da área (top journals). Use bases como Scopus, Web of Science, Scielo e Google Scholar. Evite citar blogs, Wikipédia, materiais didáticos ou teses não publicadas.
+      </div>
+
+      <div class="tip">Use revisões sistemáticas da literatura (RSL) ou bibliométricas para mapear o estado da arte com rigor.</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- METODOLOGIA -->
+    <div class="section" id="metodo">
+      <h2>🛠️ 5. Metodologia (Materiais e Métodos)</h2>
+      <p>Seção que deve permitir a <strong>replicabilidade</strong> do estudo. Em revistas A1, revisores são extremamente rigorosos com o desenho metodológico — falhas aqui levam à rejeição sumária.</p>
+
+      <h3>Itens Obrigatórios</h3>
+      <ul class="checklist" data-section="metodo">
+        <li><strong>1. Delineamento:</strong> Tipo de pesquisa (natureza, abordagem, objetivos, procedimentos). Justifique por que este desenho é o mais adequado para responder ao problema.</li>
+        <li><strong>2. Contexto e participantes/universo:</strong> Onde, quando, quem. Critérios de inclusão e exclusão explícitos. Fluxograma CONSORT (ensaios clínicos) ou PRISMA (revisões) quando aplicável.</li>
+        <li><strong>3. Amostragem:</strong> Tipo (probabilística, por conveniência, intencional), tamanho da amostra e cálculo de poder estatístico (quando quantitativo) ou critério de saturação (quando qualitativo).</li>
+        <li><strong>4. Instrumentos e materiais:</strong> Questionários, roteiros, escalas, softwares, equipamentos. Informe validade, confiabilidade (alfa de Cronbach, AICV etc.) e adaptações realizadas.</li>
+        <li><strong>5. Procedimentos de coleta:</strong> Passo a passo de como os dados foram gerados, com datas e responsáveis.</li>
+        <li><strong>6. Análise de dados:</strong> Técnicas específicas (ex: regressão múltipla, análise temática de Braun & Clarke, modelagem SEM, triangulação). Softwares utilizados (R, SPSS, NVivo, Atlas.ti) com versões.</li>
+        <li><strong>7. Aspectos éticos:</strong> Número do parecer CEP/CONEP, TCLE, consentimento de menores, anonimato, armazenamento seguro de dados.</li>
+        <li><strong>8. Rigor e confiabilidade (qualitativos):</strong> Credibilidade, transferibilidade, dependabilidade e confirmabilidade (critérios de Lincoln & Guba).</li>
+      </ul>
+
+      <div class="card alert">
+        <strong>🚨 Checklist de frameworks reporting:</strong> Use as diretrizes internacionais conforme seu desenho:
+        <ul style="margin-top:8px;">
+          <li><strong>CONSORT</strong> — ensaios clínicos randomizados</li>
+          <li><strong>PRISMA</strong> — revisões sistemáticas</li>
+          <li><strong>STROBE</strong> — estudos observacionais</li>
+          <li><strong>COREQ</strong> — pesquisa qualitativa</li>
+          <li><strong>CARE</strong> — relatos de caso</li>
+          <li><strong>ARRIVE</strong> — pesquisa com animais</li>
+        </ul>
+      </div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- RESULTADOS E DISCUSSÃO -->
+    <div class="section" id="resultados">
+      <h2>📊 6. Resultados e Discussão</h2>
+      <p>O <strong>coração do artigo</strong>. Em revistas A1, a mera descrição de resultados é insuficiente — é preciso <strong>confrontar com a literatura</strong> e explicar o significado dos achados. Podem vir em seções separadas ou unificadas, conforme o padrão da revista.</p>
+
+      <h3>Resultados</h3>
+      <ul class="checklist" data-section="resultados">
+        <li><strong>1. Organização lógica:</strong> Siga a ordem dos objetivos/hipóteses ou das variáveis-chave.</li>
+        <li><strong>2. Recursos visuais:</strong> Tabelas, figuras, gráficos e quadros autoexplicativos (legenda completa, fonte, unidade de medida). Cada elemento deve ser mencionado no texto.</li>
+        <li><strong>3. Dados concretos:</strong> Números, estatísticas (p-valor, IC 95%, tamanho de efeito), categorias emergentes, falas representativas (em qualitativos).</li>
+        <li><strong>4. Sem interpretação:</strong> Nesta subseção, apenas apresente — guarde a discussão para depois.</li>
+      </ul>
+
+      <h3>Discussão</h3>
+      <ul class="checklist" data-section="resultados">
+        <li><strong>1. Confronto com a literatura:</strong> Cada achado principal deve ser comparado com estudos anteriores (confirma? contradiz? complementa?).</li>
+        <li><strong>2. Explicação dos mecanismos:</strong> Por que os resultados ocorreram assim? Quais fatores teóricos, contextuais ou metodológicos explicam?</li>
+        <li><strong>3. Implicações teóricas:</strong> Como os achados avançam o conhecimento da área?</li>
+        <li><strong>4. Implicações práticas:</strong> Como os resultados podem ser aplicados em políticas públicas, gestão, práticas profissionais?</li>
+        <li><strong>5. Achados inesperados:</strong> Não esconda — discuta-os abertamente. Revisores A1 valorizam honestidade intelectual.</li>
+      </ul>
+
+      <div class="tip">Fórmula de parágrafo de discussão: "Este achado corrobora X (2022), que encontrou resultado semelhante em Y. Contudo, difere de Z (2021), possivelmente devido ao contexto... Isso sugere que..."</div>
+
+      <div class="critical">Nunca apresente resultados que não tenham sido anunciados na metodologia. Revisores A1 rejeitam "surpresas metodológicas".</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- CONCLUSÃO -->
+    <div class="section" id="conclusao">
+      <h2>🏁 7. Considerações Finais</h2>
+      <p>Seção curta (geralmente 1 página ou menos) que <strong>retoma o objetivo, responde à pergunta de pesquisa e projeta o futuro</strong>. Não traz dados novos nem citações teóricas.</p>
+
+      <h3>Elementos</h3>
+      <ul class="checklist" data-section="conclusao">
+        <li><strong>1. Síntese dos achados principais:</strong> Retomada concisa dos resultados centrais, em linguagem acessível.</li>
+        <li><strong>2. Resposta ao objetivo e ao gap:</strong> Afirmação clara de como o estudo respondeu à pergunta inicial e preencheu a lacuna identificada na introdução.</li>
+        <li><strong>3. Contribuições:</strong> Teóricas (avanço conceitual), metodológicas (inovação de método/instrumento), empíricas (novos dados) e práticas (aplicações).</li>
+        <li><strong>4. Limitações:</strong> Reconhecimento honesto das restrições (amostra, recorte temporal, viés, generalização). Demonstra maturidade acadêmica.</li>
+        <li><strong>5. Sugestões para pesquisas futuras:</strong> Desdobramentos concretos a partir das lacunas que seu próprio estudo revelou.</li>
+      </ul>
+
+      <div class="warning">Nunca introduza referências, dados ou argumentos novos nas considerações finais. O revisor A1 considera isso erro grave.</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- PÓS-TEXTUAIS -->
+    <div class="section" id="pos">
+      <h2>📎 8. Elementos Pós-Textuais</h2>
+      <p>Após as considerações finais, o artigo deve apresentar os seguintes elementos, cada vez mais exigidos pelas revistas A1:</p>
+
+      <div class="card">
+        <h3>📖 Referências <span class="badge obr">OBRIGATÓRIO</span></h3>
+        <p>Lista completa das obras <strong>efetivamente citadas</strong> no texto, formatadas conforme o padrão da revista (ABNT, APA 7, Vancouver, Chicago). Revistas A1 internacionais costumam exigir APA ou Vancouver.</p>
+        <ul>
+          <li>Verifique se todas as citações estão na lista e vice-versa.</li>
+          <li>Inclua DOI ou URL quando disponível.</li>
+          <li>Priorize artigos de periódicos em vez de livros ou sites.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🙏 Agradecimentos <span class="badge opt">OPCIONAL</span></h3>
+        <p>Reconhecimento a pessoas e instituições que contribuíram sem configurar autoria: orientadores, colegas, técnicos, participantes da pesquisa.</p>
+        <ul>
+          <li><strong>Agências de fomento:</strong> Informe o nome completo da agência (CAPES, CNPq, FAPESP, FACEPE etc.) e o número do processo/bolsa. <em>Muitas revistas A1 exigem essa informação.</em></li>
+        </ul>
+      </div>
+
+      <div class="card alert">
+        <h3>⚖️ Declaração de Conflitos de Interesse <span class="badge obr">OBRIGATÓRIO</span></h3>
+        <p>Declaração explícita sobre eventuais vínculos financeiros, pessoais ou profissionais que possam ter influenciado o trabalho. Se não houver conflitos, indique: <em>"Os autores declaram não haver conflitos de interesse."</em></p>
+      </div>
+
+      <div class="card">
+        <h3>👥 Contribuição dos Autores (CRediT) <span class="badge obr">OBRIGATÓRIO</span></h3>
+        <p>Taxonomia CRediT com 14 papéis padronizados internacionalmente:</p>
+        <ul>
+          <li>Conceptualization • Data curation • Formal analysis • Funding acquisition • Investigation • Methodology • Project administration • Resources • Software • Supervision • Validation • Visualization • Writing – original draft • Writing – review & editing</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>📝 Disponibilidade de Dados <span class="badge a1">PADRÃO A1</span></h3>
+        <p>Declaração sobre onde os dados estão disponíveis (repositório aberto, mediante solicitação, em anexo suplementar etc.). Cada vez mais exigido em revistas A1, seguindo políticas de <strong>Ciência Aberta</strong>.</p>
+      </div>
+
+      <div class="card">
+        <h3>📂 Material Suplementar <span class="badge opt">OPCIONAL</span></h3>
+        <p>Arquivos complementares hospedados no site da revista: questionários completos, tabelas extensas, códigos de análise (R/Python), vídeos, áudios, protocolos detalhados.</p>
+      </div>
+
+      <div class="card">
+        <h3>📄 Anexos e Apêndices <span class="badge opt">OPCIONAL</span></h3>
+        <ul>
+          <li><strong>Apêndices:</strong> Documentos criados pelo próprio autor (roteiros, protocolos).</li>
+          <li><strong>Anexos:</strong> Documentos de terceiros (leis, mapas, normas).</li>
+        </ul>
+        <p>Em revistas A1, costumam ir como material suplementar online, não no corpo do artigo.</p>
+      </div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <!-- CHECKLIST A1 -->
+    <div class="section" id="a1">
+      <h2>🏆 Checklist Final para Revistas A1</h2>
+      <p>Antes de submeter, verifique se seu artigo atende aos <strong>critérios de qualidade</strong> esperados pelos revisores de periódicos de alto impacto.</p>
+
+      <h3>🔍 Antes da Submissão</h3>
+      <ul class="checklist" data-section="a1">
+        <li><strong>Alinhamento com o escopo:</strong> O tema está dentro da área coberta pela revista? Leia as últimas 10 publicações.</li>
+        <li><strong>Originalidade:</strong> O artigo traz contribuição inédita (teórica, empírica, metodológica)?</li>
+        <li><strong>Relevância internacional:</strong> O problema interessa além do contexto local? Pode ser generalizado?</li>
+        <li><strong>Qualidade da escrita:</strong> Revisão por nativo ou serviço profissional (para artigos em inglês). Clareza, coesão e coerência.</li>
+        <li><strong>Normas da revista:</strong> Template, limite de palavras, estilo de citação, formato de tabelas/figuras.</li>
+        <li><strong>Cover letter:</strong> Carta ao editor destacando originalidade, relevância e por que o artigo se encaixa na revista.</li>
+        <li><strong>Sugestão de revisores:</strong> Algumas revistas pedem 3–5 nomes de especialistas (sem conflito de interesse).</li>
+        <li><strong>ORCID de todos os autores:</strong> Vinculado ao sistema de submissão.</li>
+        <li><strong>Plágio:</strong> Teste no Turnitin/iThenticate — índice aceitável geralmente < 15%.</li>
+        <li><strong>Pré-registro (quando aplicável):</strong> OSF, RePEc, ClinicalTrials.gov — cada vez mais valorizado.</li>
+      </ul>
+
+      <h3>📈 Critérios de Qualidade A1</h3>
+      <ul class="checklist" data-section="a1">
+        <li><strong>Gap claro e justificativa robusta.</strong></li>
+        <li><strong>Referencial majoritariamente internacional e recente (≤5 anos).</strong></li>
+        <li><strong>Método replicável e bem justificado.</strong></li>
+        <li><strong>Resultados com dados concretos e análise rigorosa.</strong></li>
+        <li><strong>Discussão que dialoga com a literatura de ponta.</strong></li>
+        <li><strong>Implicações teóricas e práticas explícitas.</strong></li>
+        <li><strong>Limitações assumidas com honestidade.</strong></li>
+        <li><strong>Referências completas, com DOI quando disponível.</strong></li>
+      </ul>
+
+      <h3>🔄 Durante a Revisão por Pares</h3>
+      <ul class="checklist" data-section="a1">
+        <li><strong>Responda a TODOS os comentários</strong> dos revisores, um a um, em documento separado (response letter).</li>
+        <li><strong>Seja respeitoso e objetivo</strong>, mesmo com críticas duras.</li>
+        <li><strong>Indique no texto</strong> onde cada alteração foi feita (linha/página destacadas).</li>
+        <li><strong>Não aceite tudo passivamente</strong> — argumente com base em literatura quando discordar.</li>
+        <li><strong>Prazos:</strong> Cumpra rigorosamente os prazos de revisão (geralmente 30–60 dias).</li>
+      </ul>
+
+      <div class="tip">Lembre-se: a taxa de aceitação em revistas A1 costuma ficar entre 10% e 25%. Rejeições são parte do processo — revise, aprimore e submeta para outra revista adequada.</div>
+
+      <div class="progress-text">Progresso: <span class="pct">0</span>%</div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>📝 Guia de Artigos Científicos para Revistas A1 • Ferramenta de apoio ao estudante-pesquisador</p>
+    <p style="margin-top:5px; opacity:0.7;">Clique nos itens das checklists para acompanhar seu progresso!</p>
+  </footer>
+
+</div>
+
+<script>
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const sections = document.querySelectorAll('.section');
+
+  navBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      navBtns.forEach(b => b.classList.remove('active'));
+      sections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  document.querySelectorAll('.checklist').forEach(list => {
+    const items = list.querySelectorAll('li');
+    const section = list.closest('.section');
+    const fill = section.querySelector('.progress-fill');
+    const pct = section.querySelector('.pct');
+
+    items.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('checked');
+        const checked = list.querySelectorAll('li.checked').length;
+        const total = items.length;
+        const percent = Math.round((checked / total) * 100);
+        fill.style.width = percent + '%';
+        pct.textContent = percent;
+      });
+    });
+  });
+</script>
+</body>
+</html>
