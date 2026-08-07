@@ -3,113 +3,1204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apostila · Precifica Ecosol — Manual de precificação solidária</title>
+<title>Precifica Ecosol · Ficha de precificação solidária</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#f5f0e1; --card:#fffdf6; --ink:#22301f; --ink-soft:#5c6854;
-  --green:#1e6b4f; --green-deep:#0e3b2a; --green-soft:#e2efe3;
+  --green:#1e6b4f; --green-deep:#0e3b2a; --green-panel:#123c2c; --green-soft:#e2efe3;
   --sun:#eea320; --sun-deep:#b97a05; --sun-soft:#fbf0d6;
-  --clay:#c0502f; --clay-soft:#f8e5dc; --blue-soft:#e4eef4; --blue:#5b93b5;
+  --clay:#c0502f; --clay-soft:#f8e5dc; --blue-soft:#e4eef4;
   --line:#d9d0b6; --line-strong:#b3a887;
+  --radius:14px; --shadow:0 12px 26px -16px rgba(34,48,31,.4);
   --mono:'IBM Plex Mono',monospace; --disp:'Bricolage Grotesque',sans-serif; --body:'Instrument Sans',system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;font-size:15px}
-body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.5;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;
   background:linear-gradient(rgba(30,107,79,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,107,79,.05) 1px,transparent 1px);
   background-size:26px 26px;}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(700px 380px at 8% -6%,rgba(238,163,32,.14),transparent 60%),
+             radial-gradient(600px 380px at 100% 0,rgba(30,107,79,.10),transparent 55%);}
 ::selection{background:var(--sun);color:#2b1d02}
-#printBtn{position:fixed;right:22px;bottom:22px;z-index:50;background:var(--green);color:#fff;border:2px solid var(--green-deep);
-  border-radius:99px;padding:12px 22px;font-weight:700;font-size:.95rem;box-shadow:0 4px 0 var(--green-deep),0 14px 30px -12px rgba(0,0,0,.4);cursor:pointer;transition:.15s}
-#printBtn:hover{transform:translateY(-2px)}
-.sheet{max-width:880px;margin:34px auto;background:var(--card);border:1.5px solid var(--line);border-radius:14px;
-  box-shadow:0 16px 34px -18px rgba(34,48,31,.4);padding:52px 62px;position:relative}
-.sheet.chapter{break-before:page}
-.cover{text-align:center;overflow:hidden}
-.bunting{height:44px;overflow:hidden;margin:-52px -62px 26px;border-bottom:3px solid rgba(34,48,31,.28)}
-.flagrow{display:flex;justify-content:center;gap:9px}
-.flag{width:30px;height:36px;clip-path:polygon(0 0,100% 0,50% 100%)}
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:20px}
+.wrap-wide{max-width:1180px;margin-inline:auto;padding-inline:20px}
+.num,input[type=number]{font-family:var(--mono)}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:.95rem;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:9px 10px;transition:border-color .15s,box-shadow .15s;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(30,107,79,.15)}
+label{display:flex;flex-direction:column;gap:5px;font-size:.76rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+small.hintline{font-size:.72rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink-soft)}
+.display{font-family:var(--disp)}
+
+.topbar{padding-top:22px}
+.topbar-in{display:flex;flex-wrap:wrap;align-items:center;gap:18px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:16px}
+.stamp{width:84px;height:84px;flex:none;border-radius:50%;background:var(--sun);border:3px solid var(--sun-deep);
+  box-shadow:inset 0 0 0 4px var(--sun),inset 0 0 0 6px var(--sun-deep),0 6px 14px -6px rgba(0,0,0,.35);
+  display:grid;place-content:center;text-align:center;transform:rotate(-8deg);
+  font-family:var(--disp);font-weight:800;font-size:.72rem;letter-spacing:.08em;color:#3a2504;line-height:1.25;
+  transition:transform .3s}
+.stamp:hover{transform:rotate(3deg) scale(1.05)}
+.brand h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.9rem,4.2vw,3rem);line-height:1;letter-spacing:-.01em}
+.brand h1 em{font-style:italic;color:var(--green)}
+.brand p{font-size:.85rem;color:var(--ink-soft);max-width:46ch;margin-top:4px}
+.credits{font-size:.78rem;color:var(--ink-soft);margin-top:6px;line-height:1.4}
+.credits b{color:var(--ink);font-weight:600}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border-radius:10px;padding:9px 16px;font-weight:700;font-size:.9rem;border:2px solid;transition:transform .15s,box-shadow .15s,background .15s;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn:active{transform:translateY(2px)}
+.btn-sun{background:var(--sun);border-color:var(--sun-deep);color:#2b1d02;box-shadow:0 3px 0 var(--sun-deep)}
+.btn-sun:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--sun-deep)}
+.btn-sun:active{box-shadow:0 1px 0 var(--sun-deep)}
+.btn-green{background:var(--green);border-color:var(--green-deep);color:#fff;box-shadow:0 3px 0 var(--green-deep)}
+.btn-green:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--green-deep)}
+.btn-ghost{background:#fff;border-color:var(--line-strong);color:var(--ink);box-shadow:0 3px 0 var(--line-strong)}
+.btn-ghost:hover{transform:translateY(-1px)}
+.btn-blue{background:var(--blue-soft);border-color:#2e6f95;color:#1a4a6a;box-shadow:0 3px 0 #2e6f95}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 4px 0 #2e6f95}
+.w100{width:100%;justify-content:center}
+
+.bunting{height:46px;overflow:hidden;position:relative;margin-top:16px;border-top:3px solid rgba(34,48,31,.28)}
+.bunting .flagrow{display:flex;justify-content:center;gap:9px}
+.flag{width:30px;height:36px;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top center;animation:sway 3.4s ease-in-out infinite alternate;opacity:.92}
 .flag:nth-child(5n+1){background:var(--green)} .flag:nth-child(5n+2){background:var(--sun)}
 .flag:nth-child(5n+3){background:var(--clay)} .flag:nth-child(5n+4){background:#7fb0cf}
 .flag:nth-child(5n){background:#8faf52}
-.stamp{width:110px;height:110px;margin:6px auto 18px;border-radius:50%;background:var(--sun);border:3px solid var(--sun-deep);
-  box-shadow:inset 0 0 0 5px var(--sun),inset 0 0 0 8px var(--sun-deep),0 8px 18px -8px rgba(0,0,0,.35);
-  display:grid;place-content:center;transform:rotate(-8deg);
-  font-family:var(--disp);font-weight:800;font-size:.95rem;letter-spacing:.08em;color:#3a2504;line-height:1.25}
-.cover h1{font-family:var(--disp);font-weight:800;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.05}
-.cover h1 em{font-style:italic;color:var(--green)}
-.cover .sub{font-size:1.05rem;color:var(--ink-soft);max-width:52ch;margin:14px auto 0}
-.cover .kind{display:inline-block;margin-top:22px;background:var(--green-soft);border:1.5px solid var(--green);color:var(--green-deep);
-  border-radius:99px;padding:6px 18px;font-weight:700;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
-.authors{margin:26px auto 0;max-width:500px;background:#fff;border:1.5px dashed var(--line-strong);border-radius:12px;padding:14px 18px;font-size:.88rem}
-.authors b{color:var(--green-deep)}
-.edition{margin-top:14px;font-size:.8rem;color:var(--ink-soft)}
-.toc{list-style:none;margin:18px 0}
-.toc li a{display:flex;align-items:baseline;gap:10px;text-decoration:none;color:var(--ink);padding:7px 4px;border-radius:8px;transition:.12s}
-.toc li a:hover{background:var(--green-soft);padding-left:10px}
-.toc .c{font-family:var(--disp);font-weight:800;color:var(--green);min-width:34px}
-.toc .dots{flex:1;border-bottom:2px dotted var(--line-strong);transform:translateY(-4px)}
-.toc .t{font-weight:600}
-.ch-head{display:flex;gap:18px;align-items:center;border-bottom:3px solid var(--green);padding-bottom:12px;margin-bottom:20px}
-.ch-num{font-family:var(--disp);font-weight:800;font-size:3.1rem;line-height:.9;color:var(--green);text-shadow:4px 4px 0 rgba(238,163,32,.35)}
-.ch-head h2{font-family:var(--disp);font-weight:800;font-size:1.6rem}
-.ch-head p{font-size:.9rem;color:var(--ink-soft)}
-h3.sec{font-family:var(--disp);font-weight:700;font-size:1.12rem;margin:24px 0 8px;color:var(--green-deep)}
-h4.q{font-family:var(--disp);font-weight:700;font-size:.98rem;margin:16px 0 4px}
-p{margin:8px 0}
-ul.plain{margin:8px 0 8px 20px}
-ul.plain li{margin:4px 0}
-.bx{border-radius:10px;padding:12px 16px;margin:14px 0;font-size:.92rem;border:1.5px solid;break-inside:avoid}
-.bx .t{display:block;font-family:var(--disp);font-weight:700;margin-bottom:4px}
-.bx-dica{background:var(--green-soft);border-color:var(--green)}
-.bx-at{background:var(--clay-soft);border-color:var(--clay)}
-.bx-ex{background:var(--sun-soft);border-color:var(--sun-deep)}
-.bx-conc{background:var(--blue-soft);border-color:var(--blue)}
-.step{display:flex;gap:12px;margin:12px 0;break-inside:avoid}
-.step .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;display:grid;place-items:center;font-family:var(--disp);margin-top:2px}
-.step .bd{flex:1}
-.step .bd b.hl{background:linear-gradient(transparent 55%,var(--sun-soft) 55%)}
-.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:.87rem;break-inside:avoid}
-.tbl th{background:var(--green-deep);color:#fff;text-align:left;padding:7px 10px;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
-.tbl td{border-top:1.5px dashed var(--line);padding:7px 10px;vertical-align:top}
-.tbl td.num,.tbl th.num{text-align:right;font-family:var(--mono)}
-.tbl tr.total td{background:var(--sun-soft);font-weight:700}
-.flow{display:flex;flex-direction:column;align-items:stretch;gap:0;margin:16px auto;max-width:560px}
-.flow .nd{border:2px solid var(--green);border-radius:10px;padding:9px 16px;background:#fff;font-size:.9rem;text-align:center}
-.flow .nd b{font-family:var(--disp)}
-.flow .nd.gold{border-color:var(--sun-deep);background:var(--sun-soft)}
-.flow .nd.deep{border-color:var(--green-deep);background:var(--green);color:#fff}
-.flow .ar{text-align:center;color:var(--green);line-height:1.15;font-size:.78rem;padding:2px 0}
-.check{margin:10px 0 10px 4px;list-style:none}
-.check li{display:flex;gap:10px;align-items:baseline;margin:7px 0;break-inside:avoid}
-.check .box{flex:none;width:15px;height:15px;border:2px solid var(--ink);border-radius:4px;transform:translateY(2px)}
-kbd{font-family:var(--mono);background:#efe9d8;border:1.5px solid var(--line-strong);border-radius:6px;padding:1px 7px;font-size:.82em}
-.small{font-size:.82rem;color:var(--ink-soft)}
-.credits-final{margin-top:30px;border-top:2px dashed var(--line-strong);padding-top:16px;font-size:.85rem;text-align:center;color:var(--ink-soft)}
-.credits-final b{color:var(--green-deep)}
-@media(max-width:720px){
-  .sheet{padding:30px 22px;margin:16px 10px}
-  .bunting{margin:-30px -22px 22px}
+.flag:nth-child(2n){animation-delay:-1.7s} .flag:nth-child(3n){animation-delay:-.8s}
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+
+.layout{display:grid;grid-template-columns:1fr;gap:26px;align-items:start;margin-top:28px}
+.col-form{display:flex;flex-direction:column;gap:22px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;position:relative;margin-top:22px}
+.layout .card,.wrap-wide .card{margin-top:0}
+.card::after{content:'';position:absolute;inset:7px;border:2px dashed rgba(30,107,79,.14);border-radius:calc(var(--radius) - 6px);pointer-events:none}
+.c-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.n-big{font-family:var(--disp);font-weight:800;font-size:2.5rem;line-height:.9;color:var(--green);text-shadow:4px 4px 0 rgba(238,163,32,.35);flex:none}
+.c-head h2{font-family:var(--disp);font-weight:700;font-size:1.25rem;letter-spacing:-.01em}
+.c-sub{font-size:.85rem;color:var(--ink-soft)}
+.sum-pill{margin-left:auto;background:var(--sun-soft);border:1.5px solid var(--sun);border-radius:999px;padding:5px 14px;font-family:var(--mono);font-size:.9rem;font-weight:600;color:#6b4703;white-space:nowrap}
+.sum-pill.ok{background:var(--green-soft);border-color:var(--green);color:var(--green-deep)}
+.sum-pill.bad{background:var(--clay-soft);border-color:var(--clay);color:var(--clay)}
+
+.f-grid{display:grid;grid-template-columns:1.5fr 1.2fr .7fr .45fr .55fr;gap:14px}
+.f-wide{grid-column:1/2}
+.cat-line{display:flex;gap:8px;align-items:center}
+.cat-dica{margin-top:14px;background:var(--green-soft);border-left:4px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.86rem}
+
+.pick-line{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.pick{position:relative}
+.pick-btn{background:#fff;border:2px solid var(--green);color:var(--green-deep);border-radius:10px;padding:8px 14px;font-weight:700;font-size:.88rem;display:inline-flex;gap:8px;align-items:center;transition:.15s}
+.pick-btn:hover{background:var(--green-soft);transform:translateY(-1px)}
+.pick-btn .car{transition:transform .2s;font-size:.7rem}
+.pick.open .pick-btn .car{transform:rotate(180deg)}
+.pick-list{position:absolute;z-index:30;top:calc(100% + 6px);left:0;min-width:270px;max-height:270px;overflow:auto;background:#fff;border:1.5px solid var(--line-strong);border-radius:10px;box-shadow:var(--shadow);display:none;padding:6px}
+.pick.open .pick-list{display:block;animation:drop .18s ease}
+@keyframes drop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pick-item{display:block;width:100%;text-align:left;border:none;background:transparent;padding:8px 12px;border-radius:7px;font-size:.88rem;transition:.12s}
+.pick-item:hover{background:var(--green-soft);padding-left:16px}
+.pick-item.custom{border-top:1.5px dashed var(--line);margin-top:4px;color:var(--clay);font-weight:600}
+.add-free{background:transparent;border:2px dashed var(--line-strong);color:var(--ink-soft);border-radius:10px;padding:8px 14px;font-size:.88rem;transition:.15s}
+.add-free:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-soft)}
+.chip-hint{font-size:.8rem;color:var(--ink-soft);margin:0 0 12px;display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.chips{display:inline-flex;flex-wrap:wrap;gap:7px}
+.chip{border:1.5px dashed var(--green);color:var(--green-deep);background:#fff;border-radius:999px;padding:4px 12px;font-size:.78rem;transition:.15s;display:inline-flex;gap:5px;align-items:center}
+.chip:hover:not(.done){background:var(--green-soft);transform:translateY(-2px)}
+.chip.done{border-style:solid;background:var(--green);color:#fff;cursor:default;opacity:.9}
+.chip.mini{font-size:.72rem;padding:3px 10px}
+
+.rh,.row{display:grid;gap:8px;align-items:center}
+.rh{font-size:.68rem;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.07em;padding:0 2px 6px}
+.rh-mat,.row-mat{grid-template-columns:minmax(130px,1.8fr) 60px 76px 96px 104px 100px 32px}
+.rh-com,.row-com{grid-template-columns:minmax(140px,1.9fr) 110px 110px 100px 32px}
+.rh-des,.row-des{grid-template-columns:minmax(140px,1.9fr) 140px 32px}
+.rows{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.row{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;transition:border-color .15s,box-shadow .15s}
+.row:hover{border-color:var(--green);box-shadow:0 4px 12px -8px rgba(30,107,79,.5)}
+.row.new{animation:popin .35s ease}
+.row.removing{animation:popout .2s ease forwards}
+.row.prolab{background:var(--sun-soft);border-color:var(--sun)}
+@keyframes popin{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+@keyframes popout{to{opacity:0;transform:translateX(14px)}}
+.row input,.row select{padding:7px 9px;font-size:.88rem}
+.row .num{text-align:right}
+.row input:disabled,.row select:disabled{opacity:.35;background:#f4f1e6}
+.r-freq{font-size:.72rem;padding:6px 4px;color:var(--green-deep);font-weight:600}
+.r-sub{font-family:var(--mono);font-size:.86rem;font-weight:600;text-align:right;color:var(--green-deep)}
+.r-sub .unit{font-style:normal;font-size:.66rem;color:var(--ink-soft);font-weight:400}
+.del{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--clay);font-size:1.05rem;line-height:1;transition:.18s}
+.del:hover{background:var(--clay-soft);border-color:var(--clay);transform:rotate(90deg)}
+.empty-row{font-size:.85rem;color:var(--ink-soft);font-style:italic;padding:10px 4px;border:1.5px dashed var(--line);border-radius:10px;text-align:center}
+.prolab-tip{margin-top:12px;background:var(--sun-soft);border-left:4px solid var(--sun);border-radius:0 8px 8px 0;padding:10px 14px;font-size:.84rem}
+
+.perdas-line{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:.8rem;color:var(--ink-soft)}
+.perdas-line label{flex-direction:row;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:.84rem;font-weight:600;color:var(--ink)}
+.perdas-in{width:76px;text-align:right}
+
+.tempo-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:14px;align-items:stretch}
+.tempo-out{background:var(--green-soft);border-radius:10px;padding:12px 16px;font-size:.9rem;display:flex;align-items:center}
+.tempo-out b{font-family:var(--mono);color:var(--green-deep)}
+
+.mini-h{font-family:var(--disp);font-size:1rem;margin:18px 0 10px;color:var(--green-deep)}
+.perc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+.painel{background:var(--green-panel);color:#e9f2e9;border:2px solid #092b1e;border-radius:16px;padding:24px 28px;box-shadow:0 20px 40px -20px rgba(14,59,42,.6);scrollbar-width:thin;scrollbar-color:#2c5c47 transparent;margin-top:22px}
+.painel-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.painel-grid .p-sec{break-inside:avoid}
+.p-title{font-family:var(--disp);font-weight:800;font-size:1.5rem;color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:16px;grid-column:1/-1}
+.p-title::after{content:'';flex:1;height:2px;background:repeating-linear-gradient(90deg,#3f7a5e 0 8px,transparent 8px 14px)}
+.p-sec{padding:16px 0;border-bottom:1.5px dashed rgba(233,242,233,.18)}
+.p-sec:last-of-type{border-bottom:none}
+.p-label{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:#9ec3ab;font-weight:700;margin-bottom:8px}
+.p-label-row{display:flex;justify-content:space-between;align-items:center}
+.big{font-family:var(--disp);font-weight:800;font-size:2.2rem;color:#fff;line-height:1.05;letter-spacing:-.01em}
+.sun{color:var(--sun)}
+.bar-comp{display:flex;height:14px;border-radius:99px;overflow:hidden;margin:12px 0 8px;background:#0b2e21;border:1px solid #1d4a37}
+.bar-comp span{height:100%;transition:width .5s ease;min-width:0}
+#bMat{background:#58b184} #bCom{background:#9ec1e0}
+.legend{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;font-size:.76rem;color:#cfe2d2}
+.legend b{font-family:var(--mono);float:right;color:#fff;font-weight:500}
+.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:6px}
+.d1{background:#58b184}.d4{background:#9ec1e0}
+.stamp-note{font-size:.7rem;color:#9ec3ab;margin-top:8px;text-align:center}
+
+.minimo-stamp{border:3px solid var(--sun);border-radius:12px;transform:rotate(-1.3deg);text-align:center;background:rgba(238,163,32,.07);padding:14px}
+.minimo-stamp .p-label{color:var(--sun);margin-bottom:2px}
+.minimo-stamp .val{display:block;font-family:var(--disp);font-weight:800;font-size:1.9rem;color:var(--sun)}
+.minimo-stamp small{font-size:.72rem;color:#c8dcc9}
+.minimo-stamp.pulse{animation:stamp .5s ease}
+@keyframes stamp{0%{transform:rotate(-1.3deg) scale(1)}40%{transform:rotate(1.5deg) scale(1.06)}100%{transform:rotate(-1.3deg) scale(1)}}
+
+.sim-row{display:flex;align-items:center;gap:8px;background:#0b2e21;border:1.5px solid #2c5c47;border-radius:10px;padding:4px 12px}
+.sim-row .rs{font-family:var(--mono);color:#9ec3ab;font-weight:600}
+.sim-row input{border:none;background:transparent;color:#fff;font-family:var(--mono);font-size:1.3rem;font-weight:600;padding:8px 0}
+.sim-row input:focus{box-shadow:none}
+.gauge-wrap{position:relative;margin:10px auto 2px;width:200px;text-align:center}
+.gauge-txt{margin-top:-34px}
+.gauge-txt b{display:block;font-family:var(--disp);font-size:1.7rem;color:#fff}
+.gauge-txt span{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#9ec3ab}
+.sim-stats{list-style:none;margin:12px 0;display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:#cfe2d2}
+.sim-stats b{float:right;font-family:var(--mono);color:#fff;font-weight:500}
+.sim-stats .neg b{color:#ff9d84}
+.slider-row{display:flex;align-items:center;gap:12px}
+.slider-row input[type=range]{flex:1;accent-color:var(--sun);padding:0;border:none;background:transparent}
+.slider-row b{font-family:var(--mono);color:var(--sun);font-size:1.05rem;min-width:44px;text-align:right}
+.preco-sugerido{margin-top:10px;font-size:.92rem;background:#0b2e21;border-radius:10px;padding:10px 14px}
+.preco-sugerido b{font-family:var(--disp);font-size:1.35rem}
+
+.sims-list{display:flex;flex-direction:column;gap:8px}
+.sim{background:#0f4430;border:1px solid #1d5c43;border-radius:10px;padding:10px 12px;animation:popin .3s ease}
+.sim .top{display:flex;align-items:center;gap:8px}
+.sim .i{color:#587f6b;font-size:.75rem;font-family:var(--mono)}
+.sim b.p{font-family:var(--mono);font-size:1.05rem;color:#fff}
+.chip-m{margin-left:auto;font-size:.7rem;font-weight:700;border-radius:99px;padding:2px 9px}
+.ok{background:#1c6b45;color:#a9ecc4}.mid{background:#7a5a10;color:#ffd88a}.low{background:#6e2c17;color:#ffb59d}
+.sim .track{position:relative;height:8px;border-radius:99px;background:#092b1e;margin-top:8px;overflow:hidden}
+.sim .fill{height:100%;border-radius:99px;transition:width .4s}
+.sim .fill.ok{background:#58b184}.sim .fill.mid{background:#f0a92e}.sim .fill.low{background:#e2725b}
+.sim .mark{position:absolute;top:-2px;bottom:-2px;width:2px;background:#fff;opacity:.75}
+.sim-del{margin-left:6px;background:none;border:none;color:#6f9c84;font-size:.95rem}
+.sim-del:hover{color:#ff9d84}
+.empty{font-size:.83rem;color:#7fa38d;font-style:italic}
+
+.guia{display:flex;flex-direction:column;gap:8px}
+.guia-ok{background:#0f4430;border:1px solid #2c7a54;color:#b9ecd0;border-radius:10px;padding:10px 12px;font-size:.86rem}
+.guia-warn{background:#4a3410;border:1px solid #8a651f;color:#ffd88a;border-radius:10px;padding:9px 12px;font-size:.83rem}
+.guia-missing{display:flex;flex-wrap:wrap;gap:7px}
+.p-btns{display:flex;flex-direction:column;gap:10px;padding-top:16px;grid-column:1/-1}
+.btn-green-line{background:transparent;border:2px solid #5f9c7d;color:#dff0e4;border-radius:10px;padding:9px 16px;font-weight:700;transition:.15s}
+.btn-green-line:hover{background:rgba(95,156,125,.18)}
+.linkbtn{background:none;border:none;color:#9ec3ab;font-size:.75rem;text-decoration:underline}
+.linkbtn:hover{color:#fff}
+.edit-banner{background:var(--sun-soft);border:1.5px solid var(--sun-deep);color:#6b4703;border-radius:10px;padding:8px 12px;font-size:.82rem;display:flex;gap:8px;align-items:center;margin-bottom:12px;grid-column:1/-1}
+.edit-banner button{margin-left:auto;background:none;border:none;color:#6b4703;font-weight:700;text-decoration:underline;font-size:.75rem}
+
+.despesa-note{margin-top:12px;font-size:.85rem;background:var(--sun-soft);border:1.5px dashed var(--sun-deep);border-radius:10px;padding:10px 14px;color:#6b4703}
+.viavel-grid{display:flex;gap:18px;flex-wrap:wrap}
+.v-nums{display:flex;gap:12px;flex-wrap:wrap;flex:1;min-width:280px}
+.v-num{flex:1;min-width:130px;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:12px 14px}
+.v-num span{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);font-weight:700}
+.v-num b{display:block;font-family:var(--disp);font-size:1.35rem;margin-top:2px}
+.v-num b.neg{color:var(--clay)} .v-num b.pos{color:var(--green-deep)}
+.v-cov{flex:1;min-width:260px;display:flex;flex-direction:column;justify-content:center}
+.cov-track{position:relative;height:18px;border-radius:99px;background:#e8e1cb;border:1.5px solid var(--line-strong);overflow:hidden}
+#covFill{display:block;height:100%;width:0;transition:width .5s ease;background:var(--sun)}
+#covFill.ok{background:var(--green)} #covFill.low{background:var(--clay)}
+.cov-mark{position:absolute;left:calc(100% - 2px);top:-4px;bottom:-4px;width:3px;background:var(--ink)}
+.cov-txt{font-size:.84rem;margin-top:8px;color:var(--ink-soft)}
+.cov-txt b{font-family:var(--mono);font-size:1rem;color:var(--ink)}
+.min-stamp{margin-top:18px;border:3px solid var(--green);border-radius:12px;transform:rotate(-.6deg);padding:16px 18px;text-align:center;background:rgba(30,107,79,.05);transition:border-color .3s}
+.min-stamp.warn{border-color:var(--clay);background:rgba(192,80,47,.05)}
+.ms-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+.ms-val{display:block;font-family:var(--disp);font-weight:800;font-size:2.4rem;color:var(--green-deep);line-height:1.1}
+.min-stamp.warn .ms-val{color:var(--clay)}
+.ms-sub{font-size:.82rem;color:var(--ink-soft)}
+.ms-chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.ms-chips span{background:#fff;border:1.5px solid var(--line-strong);border-radius:99px;padding:4px 12px;font-size:.8rem}
+.ms-chips b{font-family:var(--mono)}
+
+.shelf{margin-top:0}
+.shelf h2{font-family:var(--disp);font-size:1.5rem;font-weight:800}
+.shelf h2 span{background:linear-gradient(transparent 62%,var(--green-soft) 62%)}
+.shelf-sub{color:var(--ink-soft);font-size:.9rem;margin:4px 0 14px}
+.shelf-wrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:12px;box-shadow:var(--shadow);background:var(--card)}
+.shelf-table{width:100%;border-collapse:collapse;min-width:900px}
+.shelf-table th{background:var(--green-deep);color:#fff;font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;padding:10px 10px;text-align:left;white-space:nowrap}
+.shelf-table th.num{text-align:right}
+.shelf-table td{padding:10px 10px;border-top:1.5px dashed var(--line);font-size:.88rem;vertical-align:middle}
+.shelf-table tbody tr:hover td{background:rgba(226,239,227,.5)}
+.shelf-table td.num{text-align:right;font-family:var(--mono)}
+.t-name b{font-family:var(--disp);font-size:.98rem}
+.t-name small{display:block;color:var(--ink-soft);font-size:.73rem}
+.t-name small.mini-min{color:var(--clay);font-weight:600}
+.subc{display:block;font-size:.68rem;color:var(--ink-soft);font-family:var(--body)}
+.badge{display:inline-block;border-radius:99px;padding:3px 10px;font-size:.75rem;font-weight:700;font-family:var(--mono)}
+.bg-ok{background:#dcf2e4;color:#1c6b45}.bg-mid{background:#fdeecb;color:#8a5a06}.bg-low{background:#fadfd5;color:#a13a1c}
+.badge.none{background:#eee;color:#777}
+.shelf-table tr.abaixo td:first-child{box-shadow:inset 4px 0 0 var(--clay)}
+.in-tbl{width:86px;padding:6px 8px;text-align:right;font-size:.86rem}
+.t-acts{white-space:nowrap;text-align:right}
+.t-acts button{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:5px 9px;font-size:.8rem;margin-left:5px;transition:.15s}
+.t-acts button:hover{border-color:var(--green);background:var(--green-soft)}
+.t-acts .rm:hover{border-color:var(--clay);background:var(--clay-soft)}
+.shelf-summary{margin-top:12px;font-size:.86rem;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 20px}
+.shelf-summary b{font-family:var(--mono);color:var(--green-deep)}
+.shelf-empty{padding:28px;text-align:center;color:var(--ink-soft);font-style:italic}
+
+.dicas{margin:44px auto 10px}
+.dicas h2{font-family:var(--disp);font-weight:800;font-size:1.5rem;margin-bottom:18px}
+.dicas h2 span{background:linear-gradient(transparent 62%,var(--sun-soft) 62%)}
+.notes{display:flex;flex-wrap:wrap;gap:20px}
+.note{width:248px;padding:20px 16px 16px;border-radius:4px;font-size:.86rem;position:relative;box-shadow:3px 6px 14px -8px rgba(34,48,31,.45);transition:transform .2s}
+.note::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);width:74px;height:20px;background:rgba(238,163,32,.4);border:1px solid rgba(0,0,0,.06)}
+.note:hover{transform:translateY(-5px) rotate(0deg)!important}
+.note b{display:block;font-family:var(--disp);font-size:.98rem;margin-bottom:6px}
+.n1{background:var(--sun-soft);transform:rotate(-2deg)} .n2{background:var(--green-soft);transform:rotate(1.5deg)}
+.n3{background:var(--blue-soft);transform:rotate(-1deg)} .n4{background:var(--clay-soft);transform:rotate(2deg)}
+.n5{background:#f0eed8;transform:rotate(-1.6deg)}
+
+footer{margin-top:40px;border-top:2px dashed var(--line-strong);padding:22px 0 34px;text-align:center;font-size:.82rem;color:var(--ink-soft)}
+footer b{color:var(--green-deep)}
+
+.rv{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.rv.in{opacity:1;transform:none}
+
+dialog{border:2px solid var(--green-deep);border-radius:14px;padding:26px;max-width:460px;width:92%;box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(14,59,42,.5)}
+dialog h3{font-family:var(--disp);font-size:1.25rem;margin-bottom:12px;color:var(--green-deep)}
+dialog .dl{display:flex;flex-direction:column;gap:12px}
+dialog textarea{min-height:90px;resize:vertical;font-family:inherit;border:1.5px solid var(--line);border-radius:8px;padding:9px}
+dialog .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:16px}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:var(--green-deep);color:#fff;padding:11px 22px;border-radius:99px;font-size:.88rem;box-shadow:var(--shadow);transition:transform .35s ease;z-index:60;pointer-events:none;max-width:92vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Tooltips */
+.tooltip{position:relative;display:inline-block;cursor:help;margin-left:6px;color:var(--green);font-weight:700;font-size:.85rem}
+.tooltip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--green-deep);color:#fff;padding:10px 14px;border-radius:8px;font-size:.78rem;font-weight:400;line-height:1.4;white-space:normal;width:240px;text-align:left;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.tooltip:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--green-deep);z-index:100}
+
+.apostila-banner{background:var(--blue-soft);border:2px solid #2e6f95;border-radius:12px;padding:16px 20px;margin:20px 0;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.apostila-banner b{font-family:var(--disp);font-size:1.05rem;color:#1a4a6a}
+.apostila-banner p{font-size:.88rem;color:#1a4a6a;margin:0;flex:1;min-width:260px}
+
+.cadastro-banner{background:var(--sun-soft);border:2px dashed var(--sun-deep);border-radius:12px;padding:16px 20px;margin:20px 0;text-align:center}
+.cadastro-banner p{font-size:.92rem;color:#6b4703;margin:0 0 10px}
+.cadastro-banner b{color:var(--green-deep)}
+
+@media(max-width:1000px){
+  .painel-grid{grid-template-columns:1fr}
 }
+@media(max-width:760px){
+  .f-grid{grid-template-columns:1fr 1fr}
+  .f-wide{grid-column:1/-1}
+  .perc-grid{grid-template-columns:1fr}
+  .tempo-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .rh{display:none}
+  .row-mat{grid-template-columns:1fr 1fr 1fr 34px;grid-template-areas:"n n n d" "q u f f" "v v s s"}
+  .row-com{grid-template-columns:1fr 1fr 34px;grid-template-areas:"n n d" "f v s"}
+  .row-des{grid-template-columns:1fr 34px;grid-template-areas:"n d" "v v"}
+  .r-nome{grid-area:n}.r-qtd{grid-area:q}.r-un{grid-area:u}.r-freq{grid-area:f}.r-val{grid-area:v}.r-sub{grid-area:s;justify-self:end}.del{grid-area:d}
+  .tooltip:hover::after{width:200px;font-size:.72rem}
+}
+
 @media print{
-  @page{size:A4;margin:13mm 12mm}
+  body::before,body::after,.bunting,.no-print,.dicas,footer,#toast,dialog{display:none!important}
   body{background:#fff}
-  #printBtn{display:none!important}
-  .sheet{border:none;box-shadow:none;border-radius:0;margin:0;max-width:none;padding:0}
-  .bunting{margin:0 0 22px}
-  a{color:inherit;text-decoration:none}
-  .bx,.step,.tbl,.ch-head{break-inside:avoid}
+  .layout,.wrap-wide{display:block}
+  .card,.painel{box-shadow:none;break-inside:avoid;margin-bottom:14px}
+  .card::after{display:none}
+  .rv{opacity:1;transform:none}
+  input,select,textarea{border:none;padding:2px 0;background:transparent;box-shadow:none}
+  .in-tbl{width:auto;border:1px solid #bbb}
+  .row{border-color:#bbb}
+  .painel{background:#fff;color:#000;border:2px solid #22301f;max-height:none;position:static}
+  .p-title,.big,.minimo-stamp .val,.gauge-txt b,.preco-sugerido b{color:#000!important}
+  .p-label,.sim-stats,.legend,.sim-stats b,.preco-sugerido,.stamp-note{color:#444!important}
+  .sim,.p-sec{border-color:#bbb!important;background:#fff!important}
+  .sim b.p{color:#000}.sim .track{background:#ddd}
+  .minimo-stamp{border-color:#000;background:#fff}.minimo-stamp .p-label,.minimo-stamp .val{color:#000}
+  .bar-comp{border-color:#999}
+  .shelf-wrap{box-shadow:none;border-color:#bbb}
+  .shelf-table th{background:#fff;color:#000;border-bottom:2px solid #000}
+  .print-note{display:block!important;text-align:center;font-size:.75rem;margin-top:16px;color:#555}
+  .apostila-banner,.cadastro-banner{display:none!important}
+}
+.print-note{display:none}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<button id="printBtn" onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <div class="brand">
+      <div class="stamp">PREÇO<br>JUSTO ★</div>
+      <div>
+        <h1 class="display">Precifica <em>Ecosol</em></h1>
+        <p>Ficha de precificação para grupos de Economia Solidária — o preço cobre tudo: materiais, taxas, despesas do mês e o pró-labore.</p>
+        <p class="credits"><b>Gáudia Maria Costa Leite Pereira e João Batista de Oliveira</b><br>Contato: jbtist7@gmail.com</p>
+      </div>
+    </div>
+    <div class="top-actions no-print">
+      <a href="https://jbatist7.github.io/pesquisa/apostilapreco.html" target="_blank" class="btn btn-blue">📖 Apostila</a>
+      <button type="button" class="btn btn-ghost" data-act="nova">✚ Novo Produto</button>
+      <button type="button" class="btn btn-sun" data-act="excel">⬇ Excel</button>
+      <button type="button" class="btn btn-green" data-act="pdf">🖨 Salvar PDF</button>
+    </div>
+  </div>
+  <div class="bunting no-print" aria-hidden="true"><div class="flagrow" id="flagrow"></div></div>
+</header>
 
-<!-- ============ CAPA ============ -->
-<div class="sheet cover">
-  <div class="bunting"><div class="flagrow">
-    <span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag"></span><span class="flag">......
+<div class="wrap">
+  <div class="apostila-banner">
+    <b>📖 Leia a apostila antes de começar</b>
+    <p>Antes de preencher o formulário de precificação, leia a apostila completa com exemplos, dicas e passo a passo detalhado.</p>
+    <a href="https://jbatist7.github.io/pesquisa/apostilapreco.html" target="_blank" class="btn btn-blue">Abrir Apostila</a>
+  </div>
+
+  <div class="cadastro-banner">
+    <p><b>Faça seu cadastro para receber, por e-mail, material complementar de apoio</b> (planilhas, formulários, apostilas).</p>
+    <a href="https://forms.gle/6X6spXbrwRp7bGKU8" target="_blank" class="btn btn-sun">Cadastrar para Receber Material</a>
+  </div>
+</div>
+
+<main class="wrap layout">
+  <!-- FORMULÁRIO -->
+  <form class="col-form" onsubmit="return false" autocomplete="off">
+
+    <section class="card rv" id="sec-produto">
+      <div class="c-head">
+        <span class="n-big">✱</span>
+        <div><h2>Identificação</h2><p class="c-sub">Que produto estamos precificando hoje?</p></div>
+      </div>
+      <div class="f-grid">
+        <label class="f-wide">Nome do produto <span class="tooltip" data-tip="Seja específica: 'Geleia de manga 250g' é melhor que 'geleia'. Isso ajuda a organizar a prateleira depois.">?</span>
+          <input data-bind="meta.nome" id="inpProduto" placeholder="Ex.: Bolsa de retalhos · Geleia de manga 250g">
+        </label>
+        <label>Tipo de empreendimento <span class="tooltip" data-tip="Escolha o tipo mais próximo do seu produto. Isso muda as sugestões de itens em todas as seções.">?</span>
+          <span class="cat-line">
+            <select id="selCat"></select>
+            <button type="button" class="chip no-print" data-act="novo-tipo" title="Criar um novo tipo de empreendimento">＋ novo</button>
+            <button type="button" class="del no-print" id="btnCatDel" data-act="cat-del" hidden title="Excluir este tipo criado">×</button>
+          </span>
+        </label>
+        <label>Data <input type="date" data-bind="meta.data" id="inpData"></label>
+        <label>Ficha nº <input data-bind="meta.n" id="inpN" value="001"></label>
+        <label>Produção / mês <span class="tooltip" data-tip="Quantas unidades deste produto vocês planejam fazer por mês? Esse número divide as despesas mensais e calcula o tempo total.">?</span>
+          <input type="number" min="0" id="inpProdFicha" data-bind="state.producao" placeholder="Ex.: 40">
+        </label>
+      </div>
+      <p class="cat-dica" id="catDica"></p>
+    </section>
+
+    <section class="card rv" id="sec-mat">
+      <div class="c-head">
+        <span class="n-big">1</span>
+        <div><h2>Materiais e insumos <span class="tooltip" data-tip="Tudo o que vai DENTRO do produto. Se o produto não fosse feito, esse gasto não existiria.">?</span></h2><p class="c-sub">Compras feitas por mês podem ser rateadas pela produção.</p></div>
+        <span class="sum-pill" id="sumMat">R$ 0,00</span>
+      </div>
+      <div class="pick-line no-print">
+        <div class="pick" id="pick-mat"><button type="button" class="pick-btn" data-act="pick-toggle" data-sec="mat">🧾 Adicionar da lista de sugestões <span class="car">▼</span></button><div class="pick-list"></div></div>
+        <button type="button" class="add-free" data-act="add-free" data-sec="mat">＋ item livre</button>
+      </div>
+      <p class="chip-hint">Itens frequentes neste tipo: <span class="chips" id="chips-mat"></span></p>
+      <div class="rh rh-mat no-print"><span>Item</span><span>Qtd <span class="tooltip" data-tip="Quantidade usada para fazer UMA unidade do produto.">?</span></span><span>Un. <span class="tooltip" data-tip="Unidade de medida: metro (m), quilo (kg), unidade (un), etc.">?</span></span><span>Cobrança <span class="tooltip" data-tip="Se o item é comprado por mês (ex.: compra mensal de etiquetas), marque 'por mês' e o sistema divide pela produção.">?</span></span><span>Valor (R$) <span class="tooltip" data-tip="Preço pago por unidade de medida ou por mês.">?</span></span><span>Custo/un <span class="tooltip" data-tip="Quanto esse item custa em CADA produto final. Calculado automaticamente.">?</span></span><span></span></div>
+      <div class="rows" id="rows-mat"></div>
+      <datalist id="dl-mat"></datalist>
+      <div class="perdas-line">
+        <label>Perdas &amp; quebras <span class="tooltip" data-tip="Porcentagem de material que se perde na produção (retalhos, queima, validade). Em alimentos e agricultura, 5-15% é comum.">?</span>
+          <input type="number" class="perdas-in" min="0" step="0.5" data-bind="perdas" placeholder="0"> %
+        </label>
+        <small>acréscimo sobre os materiais — comum em alimentos e agricultura: 5 a 15%</small>
+      </div>
+    </section>
+
+    <section class="card rv" id="sec-tempo">
+      <div class="c-head">
+        <span class="n-big">2</span>
+        <div><h2>Tempo de produção <span class="tooltip" data-tip="As horas de cada produto distribuem as despesas do mês (inclusive o pró-labore) de forma justa. Quem consome mais tempo carrega mais despesas.">?</span></h2><p class="c-sub">As horas de cada produto distribuem as despesas do mês (inclusive o pró-labore) de forma justa.</p></div>
+      </div>
+      <div class="tempo-grid">
+        <label>Horas gastas por unidade <span class="tooltip" data-tip="Some TODAS as horas: compra, produção, acabamento, embalagem, ida à feira. Aceita frações: 0,5 = meia hora, 1,5 = uma hora e meia.">?</span>
+          <input type="number" min="0" step="0.25" data-bind="trab.horas" placeholder="Ex.: 2,5">
+        </label>
+        <div class="tempo-out" id="outTempo">—</div>
+      </div>
+    </section>
+
+    <section class="card rv" id="sec-com">
+      <div class="c-head">
+        <span class="n-big">3</span>
+        <div><h2>Comercialização <span class="tooltip" data-tip="O que a VENDA acrescenta de custo: embalagem de entrega, frete, taxa por evento, etc.">?</span></h2><p class="c-sub">O que a venda acrescenta de custo: embalagem, frete, taxas e percentuais.</p></div>
+        <span class="sum-pill" id="sumCom">R$ 0,00</span>
+      </div>
+      <div class="pick-line no-print">
+        <div class="pick" id="pick-com"><button type="button" class="pick-btn" data-act="pick-toggle" data-sec="com">🛒 Adicionar da lista de sugestões <span class="car">▼</span></button><div class="pick-list"></div></div>
+        <button type="button" class="add-free" data-act="add-free" data-sec="com">＋ item livre</button>
+      </div>
+      <p class="chip-hint">Na hora de vender, aparece: <span class="chips" id="chips-com"></span></p>
+      <div class="rh rh-com no-print"><span>Item</span><span>Cobrança <span class="tooltip" data-tip="Se é gasto por mês (ex.: taxa mensal de aplicativo), marque 'por mês'.">?</span></span><span>Valor (R$) <span class="tooltip" data-tip="Se for 'por unidade', esse valor já é o custo por produto vendido.">?</span></span><span>Custo/un <span class="tooltip" data-tip="Custo de comercialização por unidade vendida.">?</span></span><span></span></div>
+      <div class="rows" id="rows-com"></div>
+      <datalist id="dl-com"></datalist>
+
+      <h3 class="mini-h">Percentuais que incidem sobre o preço de venda <span class="tooltip" data-tip="Custos que são uma porcentagem do preço: maquininha de cartão, comissão de aplicativo, tributos.">?</span></h3>
+      <div class="perc-grid">
+        <label>Tributos (%) <span class="tooltip" data-tip="Se o grupo é MEI, deixe 0% e some o DAS nas despesas do mês.">?</span>
+          <input type="number" min="0" step="0.1" data-bind="perc.trib">
+          <small class="hintline">É MEI? Some o DAS mensal nas despesas do mês e deixe 0%.</small></label>
+        <label>Maquininha / pagamento (%) <span class="tooltip" data-tip="Taxa do cartão de crédito/débito. Pix costuma ser 0%.">?</span>
+          <input type="number" min="0" step="0.1" data-bind="perc.pag">
+          <small class="hintline">Pix costuma ser 0%. Cartão de crédito: 3 a 6%.</small></label>
+        <label>Comissão / intermediação (%) <span class="tooltip" data-tip="Taxa de aplicativos, lojas parceiras, revendedoras, feiras.">?</span>
+          <input type="number" min="0" step="0.1" data-bind="perc.comi">
+          <small class="hintline">Feiras, aplicativos, lojas parceiras, revendedoras.</small></label>
+      </div>
+    </section>
+  </form>
+</main>
+
+<!-- PAINEL DO PREÇO -->
+<div class="wrap-wide">
+  <div class="painel rv" id="painel">
+    <div class="painel-grid">
+      <div class="edit-banner no-print" id="editBanner" hidden>✏️ Editando: <b id="editNome"></b> <button type="button" data-act="edit-cancel">✕ cancelar edição</button></div>
+      <p class="p-title">Painel do preço</p>
+
+      <div class="p-sec">
+        <p class="p-label">Custo direto por unidade <span class="tooltip" data-tip="Soma de materiais + comercialização. Não inclui despesas do mês nem taxas sobre o preço.">?</span></p>
+        <p class="big" id="outCusto">R$ 0,00</p>
+        <div class="bar-comp"><span id="bMat"></span><span id="bCom"></span></div>
+        <ul class="legend">
+          <li><i class="dot d1"></i>Materiais <b id="lMat">0,00</b></li>
+          <li><i class="dot d4"></i>Comercialização <b id="lCom">0,00</b></li>
+        </ul>
+      </div>
+
+      <div class="p-sec minimo-stamp" id="stampMin">
+        <span class="p-label">Preço mínimo · cobre custos diretos <span class="tooltip" data-tip="O piso absoluto: abaixo desse preço, cada venda tira dinheiro do bolso. Calculado como: custo direto ÷ (1 − taxas%).">?</span></span>
+        <span class="val" id="outMinimo">R$ 0,00</span>
+        <small>com <b id="outPercTot">0%</b> de taxas sobre a venda</small>
+        <p class="stamp-note">As despesas do mês (e o pró-labore) entram na conta da viabilidade, mais abaixo.</p>
+      </div>
+
+      <div class="p-sec">
+        <p class="p-label">Simular preço de venda</p>
+        <div class="sim-row"><span class="rs">R$</span><input type="number" min="0" step="0.01" id="inpSim" data-bind="sim.preco" placeholder="0,00"></div>
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 112" width="200" height="112" aria-hidden="true">
+            <path d="M26 96 A74 74 0 0 1 174 96" fill="none" stroke="#24523e" stroke-width="10" stroke-linecap="round"/>
+            <path id="gArc" d="M26 96 A74 74 0 0 1 26 96" fill="none" stroke="#f0a92e" stroke-width="10" stroke-linecap="round"/>
+            <line x1="42.8" y1="63" x2="35.9" y2="59" stroke="#7fa38d" stroke-width="2"/>
+            <text x="44" y="52" font-size="10" fill="#9ec3ab">0%</text>
+            <line id="gNeedle" x1="100" y1="96" x2="42" y2="96" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="100" cy="96" r="5" fill="#fff"/>
+          </svg>
+          <div class="gauge-txt"><b id="gMargem">0%</b><span>margem direta <span class="tooltip" data-tip="Lucro em porcentagem do preço, depois de pagar custos diretos e taxas.">?</span></span></div>
+        </div>
+        <ul class="sim-stats">
+          <li>Taxas sobre o preço <b id="outTaxasR">–</b></li>
+          <li id="liLucro">Sobra direta por unidade <b id="outLucro">–</b></li>
+          <li id="liMensal">Sobra do mês (antes das despesas) <b id="outMensal">–</b></li>
+        </ul>
+        <button type="button" class="btn btn-sun w100 no-print" data-act="sim-save">📌 Salvar simulação na lista</button>
+      </div>
+
+      <div class="p-sec">
+        <p class="p-label">Ou parta da margem desejada <span class="tooltip" data-tip="Arraste o controle e receba o preço sugerido para aquela margem de lucro.">?</span></p>
+        <div class="slider-row">
+          <input type="range" id="inpMargem" min="0" max="60" step="1" value="25" data-bind="sim.margem">
+          <b id="outMargemLbl">25%</b>
+        </div>
+        <p class="preco-sugerido">Preço sugerido: <b id="outSugerido" class="sun">R$ 0,00</b> <small style="color:#9ec3ab">(custo direto ÷ (1 − taxas − margem))</small></p>
+      </div>
+
+      <div class="p-sec">
+        <div class="p-label-row">
+          <p class="p-label">Simulações salvas</p>
+          <button type="button" class="linkbtn no-print" data-act="sims-clear">limpar tudo</button>
+        </div>
+        <div id="simsList" class="sims-list"><p class="empty">Nenhuma simulação salva ainda.</p></div>
+      </div>
+
+      <div class="p-sec">
+        <p class="p-label">🧭 Guia: será que você lembrou de tudo?</p>
+        <div id="guia" class="guia"></div>
+      </div>
+
+      <div class="p-btns no-print">
+        <button type="button" class="btn btn-green w100" data-act="prod-save">💾 Salvar produto na prateleira</button>
+        <button type="button" class="btn btn-sun w100" data-act="excel">⬇ Exportar planilha Excel</button>
+        <button type="button" class="btn-green-line w100" data-act="pdf">🖨 Salvar em PDF</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap-wide">
+  <section class="card rv" id="sec-despesas">
+    <div class="c-head">
+      <span class="n-big">🏠</span>
+      <div><h2>Despesas do mês do empreendimento <span class="tooltip" data-tip="Contas que chegam MESMO que você não venda nada. São divididas entre todos os produtos da prateleira pelo tempo de produção.">?</span></h2><p class="c-sub">As contas do grupo — aluguel, internet, taxa da feira… e o <b>pró-labore</b> de quem trabalha.</p></div>
+      <span class="sum-pill" id="sumDespesas">R$ 0,00/mês</span>
+    </div>
+    <div class="pick-line no-print">
+      <div class="pick" id="pick-des"><button type="button" class="pick-btn" data-act="pick-toggle" data-sec="des">🏠 Adicionar da lista de sugestões <span class="car">▼</span></button><div class="pick-list"></div></div>
+      <button type="button" class="add-free" data-act="add-free" data-sec="des">＋ item livre</button>
+    </div>
+    <p class="chip-hint">Contas que costumam existir: <span class="chips" id="chips-des"></span></p>
+    <div class="rh rh-des no-print"><span>Despesa</span><span>Valor por mês (R$)</span><span></span></div>
+    <div class="rows" id="rows-des"></div>
+    <datalist id="dl-des"></datalist>
+    <p class="prolab-tip">💛 <b>Pró-labore</b> é o pagamento mensal de quem trabalha no empreendimento <span class="tooltip" data-tip="O 'salário' do grupo. Precisa estar coberto pelas vendas todo mês.">?</span>. Ele entra aqui como despesa — e as <b>horas de produção</b> de cada produto é que dizem qual fatia das contas cada um carrega.</p>
+  </section>
+
+  <section class="card shelf rv" id="sec-shelf">
+    <h2>🧺 <span>Prateleira de produtos</span></h2>
+    <p class="shelf-sub">Cada produto mostra o custo unitário <b>e</b> o custo no contexto das despesas previstas. Plano e preço podem ser ajustados direto na tabela — tudo recalcula na hora.</p>
+    <div class="shelf-wrap" id="shelfBody"></div>
+    <div class="shelf-summary" id="shelfSummary"></div>
+  </section>
+
+  <section class="card rv" id="sec-viavel">
+    <div class="c-head">
+      <span class="n-big">⚖️</span>
+      <div><h2>Viabilidade do mês <span class="tooltip" data-tip="O mínimo de unidades por mês que o grupo precisa vender para pagar TODAS as contas, inclusive o pró-labore.">?</span></h2><p class="c-sub">Quanto o grupo precisa produzir e vender para pagar todas as contas — inclusive o pró-labore.</p></div>
+      <span class="sum-pill" id="pillStatus">—</span>
+    </div>
+    <div class="viavel-grid">
+      <div class="v-nums">
+        <div class="v-num"><span>Despesas do mês</span><b id="vM">R$ 0,00</b></div>
+        <div class="v-num"><span>Produção planejada</span><b id="vQ">0 un</b></div>
+        <div class="v-num"><span>Resultado previsto no mês</span><b id="vLucro">R$ 0,00</b></div>
+      </div>
+      <div class="v-cov">
+        <p class="p-label" style="color:var(--ink-soft)">Cobertura das despesas pela produção planejada <span class="tooltip" data-tip="Quanto do mês o plano de vendas já paga. 100% = mês pago.">?</span></p>
+        <div class="cov-track"><span id="covFill"></span><i class="cov-mark"></i></div>
+        <p class="cov-txt"><b id="covPct">0%</b> <span id="covMsg"></span></p>
+      </div>
+    </div>
+    <div class="min-stamp" id="vStamp">
+      <span class="ms-label">Ponto de equilíbrio</span>
+      <b class="ms-val" id="vNmin">—</b>
+      <span class="ms-sub" id="vSub">unidades por mês, no ritmo planejado, para pagar tudo</span>
+      <div class="ms-chips" id="vChips"></div>
+    </div>
+  </section>
+</div>
+
+<section class="wrap dicas rv">
+  <h2><span>Caderno de dicas do preço justo</span></h2>
+  <div class="notes">
+    <div class="note n1"><b>Preço justo é conta completa</b>Um preço é justo quando cobre materiais, taxas, as contas do mês… e a sua vida. Se o pró-labore ficou de fora, o desconto saiu do seu bolso.</div>
+    <div class="note n2"><b>Comece pelo mínimo</b>O preço mínimo não é sugestão de venda: é a linha abaixo da qual ninguém pode ir sem sair no prejuízo. Venda sempre acima dele.</div>
+    <div class="note n3"><b>Compare, mas não copie</b>Pesquise preços parecidos na sua região como referência — sem esquecer que produto artesanal tem outra história, qualidade e origem.</div>
+    <div class="note n4"><b>No mutirão, a conta é coletiva</b>Definam custos, plano de produção e margens em grupo. Revisem a ficha sempre que mudar fornecedor, safra ou tarifa.</div>
+    <div class="note n5"><b>Ponto de equilíbrio é meta coletiva</b>O mínimo mensal de vendas não é pressão: é a meta que o grupo combina para que o trabalho de todo mundo seja pago.</div>
+  </div>
+</section>
+
+<footer>
+  <b>Precifica Ecosol</b> · ferramenta livre para grupos de Economia Solidária · os dados ficam salvos apenas neste navegador<br>
+  comércio justo · autogestão · cooperação<br><br>
+  <small>Códigos construídos com assistência da IAG <b>Qwen</b> (Alibaba Cloud) · qwen.ai</small>
+</footer>
+<p class="print-note">Ficha gerada pelo Precifica Ecosol — <span id="printDate"></span></p>
+
+<dialog id="mNovo">
+  <h3>➕ Novo tipo de empreendimento</h3>
+  <div class="dl">
+    <label>Nome do tipo <input id="mNome" placeholder="Ex.: Biojoias, Velas artesanais, Marmitas..."></label>
+    <label>Itens de custo sugeridos (um por linha, opcional)
+      <textarea id="mItens" placeholder="Ex.:&#10;Sementes de açaí&#10;Cordão encerado&#10;Fecho de metal"></textarea>
+    </label>
+  </div>
+  <div class="acts">
+    <button type="button" class="btn btn-ghost" data-act="novo-tipo-cancel">Cancelar</button>
+    <button type="button" class="btn btn-green" data-act="novo-tipo-ok">Criar tipo</button>
+  </div>
+</dialog>
+
+<div id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const nf=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtM=v=>'R$ '+nf.format(v||0);
+const num2=v=>nf.format(v||0);
+const norm=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const numVal=el=>parseFloat(el.value)||0;
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function tween(el,to,fmt){fmt=fmt||fmtM;if(reduceMotion){el.textContent=fmt(to);el._v=to;return;}
+  const from=el._v||0;el._v=to;if(Math.abs(to-from)<.005){el.textContent=fmt(to);return;}
+  const t0=performance.now(),dur=420;
+  (function step(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(from+(to-from)*e);if(p<1)requestAnimationFrame(step);})(t0);}
+let toastT;function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),3200);}
+
+const GENERIC={diretos:['Matéria-prima principal','Material complementar','Embalagem','Etiqueta / rótulo'],
+  comercial:['Frete / transporte','Taxa de feira ou evento','Embalagem para entrega'],
+  fixos:['Aluguel do espaço','Energia elétrica','Água','Internet','Taxa mensal da feira','Depreciação de ferramentas'],
+  lembrar:[{n:'Embalagem',s:'com'},{n:'Etiqueta / rótulo',s:'mat'},{n:'Frete / transporte',s:'com'},{n:'Pró-labore do grupo',s:'des'},{n:'Energia elétrica',s:'des'}],
+  dica:'Anote cada gasto desta produção — nada é pequeno demais para entrar na conta.'};
+
+const BASE=[
+ {id:'textil',nome:'Têxtil & Costura',icone:'🧵',
+  diretos:['Tecido','Forro','Linha de costura','Botões','Zíper','Elástico','Renda / passamanaria','Viés','Etiqueta personalizada','Tinta de serigrafia','Manta / interfela'],
+  comercial:['Saco ou sacola de entrega','Tag de papel','Frete ou motoboy','Taxa de feira','Comissão de loja parceira'],
+  fixos:['Aluguel do ateliê','Energia elétrica','Água','Internet','Taxa mensal da feira','Manutenção das máquinas','Depreciação da máquina de costura'],
+  lembrar:[{n:'Tecido',s:'mat'},{n:'Linha de costura',s:'mat'},{n:'Etiqueta personalizada',s:'mat'},{n:'Saco ou sacola de entrega',s:'com'},{n:'Energia elétrica',s:'des'},{n:'Pró-labore do grupo',s:'des'}],
+  dica:'Considere ±10% de perda de tecido no corte — retalho também é custo.'},
+ {id:'artesanato',nome:'Artesanato',icone:'🧺',
+  diretos:['Matéria-prima (fibra, barro, madeira, sementes)','Tinta, verniz ou tingimento','Cola, arame e linha','Ferragens e acabamentos','Embalagem protetora','Etiqueta do grupo'],
+  comercial:['Embalagem para transporte','Frete ou entrega','Taxa de feira','Material de exposição'],
+  fixos:['Aluguel do espaço','Energia elétrica','Água','Internet','Taxa mensal da feira','Compra de ferramentas','Depreciação de ferramentas e forno'],
+  lembrar:[{n:'Matéria-prima',s:'mat'},{n:'Tinta, verniz',s:'mat'},{n:'Embalagem para transporte',s:'com'},{n:'Taxa de feira',s:'com'},{n:'Pró-labore do grupo',s:'des'}],
+  dica:'Artesanato leva tempo: registre todas as horas — do preparo do material ao acabamento.'},
+ {id:'alimentos',nome:'Alimentos',icone:'🍲',
+  diretos:['Ingredientes principais','Temperos e complementos','Embalagem (pote, vidro, saco)','Rótulo e lacre','Descartáveis de produção'],
+  comercial:['Sacola ou embalagem de entrega','Frete / entrega refrigerada','Taxa de feira','Taxa de aplicativo','Comissão de empório / revenda'],
+  fixos:['Gás de cozinha','Energia elétrica','Água','Internet','Taxa mensal da feira','Aluguel da cozinha','Alvará / vigilância sanitária','Depreciação de forno e utensílios'],
+  lembrar:[{n:'Ingredientes principais',s:'mat'},{n:'Embalagem (pote',s:'mat'},{n:'Rótulo e lacre',s:'mat'},{n:'Gás de cozinha',s:'des'},{n:'Pró-labore do grupo',s:'des'},{n:'Sacola ou embalagem',s:'com'}],
+  dica:'Calcule pela receita inteira e divida pelas porções — sem esquecer os ±5% que ficam na panela.'},
+ {id:'agricultura',nome:'Agricultura familiar',icone:'🌱',
+  diretos:['Sementes e mudas','Adubo / composto','Insumos naturais','Embalagem (caixa, bandeja, saco)','Rótulo ou carimbo','Custeio da colheita'],
+  comercial:['Frete / combustível','Taxa de feira','Comissão de cestas','Sacolas na feira','Quebra / perda estimada'],
+  fixos:['Água de irrigação','Energia elétrica','Internet','Taxa mensal da feira','Arrendamento / parcela da terra','Manutenção de ferramentas','Depreciação de equipamentos'],
+  lembrar:[{n:'Sementes e mudas',s:'mat'},{n:'Embalagem (caixa',s:'mat'},{n:'Frete / combustível',s:'com'},{n:'Quebra / perda',s:'com'},{n:'Água de irrigação',s:'des'},{n:'Pró-labore do grupo',s:'des'}],
+  dica:'Inclua perdas de colheita, transporte e feira: hortifrúti costuma perder de 5% a 15%.'},
+ {id:'cosmeticos',nome:'Cosméticos & fitoterápicos',icone:'🌿',
+  diretos:['Óleos e manteigas vegetais','Ervas e extratos','Óleo essencial / essência','Embalagem (frasco, tampa)','Rótulo','Caixa ou saquinho','Luvas e EPI'],
+  comercial:['Frete','Taxa de marketplace','Comissão de revenda','Amostras / degustação'],
+  fixos:['Energia elétrica','Água','Internet','Aluguel do espaço','Depreciação de equipamentos','Regularização sanitária'],
+  lembrar:[{n:'Óleos e manteigas',s:'mat'},{n:'Embalagem (frasco',s:'mat'},{n:'Rótulo',s:'mat'},{n:'Frete',s:'com'},{n:'Pró-labore do grupo',s:'des'}],
+  dica:'Cosmético natural tem validade curta: produza lotes compatíveis com a venda.'}
+];
+
+const LS='pec31',LSCATS='pec31cats';
+const hoje=()=>new Date().toISOString().slice(0,10);
+function estadoNovo(){return{
+  meta:{nome:'',catId:'textil',data:hoje(),n:'001'},
+  perdas:0, mat:[], trab:{horas:0}, producao:0,
+  com:[], perc:{trib:0,pag:0,comi:0},
+  despesas:[], sim:{preco:0,margem:25}, sims:[], produtos:[]
+};}
+let state=estadoNovo(), editingId=null;
+let customCats=[];
+try{customCats=JSON.parse(localStorage.getItem(LSCATS)||'[]')}catch(e){customCats=[]}
+function allCats(){return BASE.concat(customCats)}
+function getCat(){return allCats().find(c=>c.id===state.meta.catId)||{id:'?',nome:'Outro',icone:'✳️',...GENERIC}}
+function despesasList(){
+  const arr=['Pró-labore do grupo',...(getCat().fixos||GENERIC.fixos)];
+  return arr.filter((x,i)=>arr.findIndex(y=>norm(y)===norm(x))===i);
+}
+function catList(sec){const c=getCat();
+  if(sec==='mat')return c.diretos||GENERIC.diretos;
+  if(sec==='com')return c.comercial||GENERIC.comercial;
+  return despesasList();}
+function rowsOf(sec){return sec==='mat'?state.mat:sec==='com'?state.com:state.despesas}
+
+function rowUnitProd(r,prod,sec){
+  if(r.freq==='mensal')return prod>0?(+r.valor||0)/prod:0;
+  if(sec==='com')return +r.valor||0;
+  return (+r.qtd||0)*(+r.valor||0);
+}
+function subText(r,sec){
+  if(r.freq==='mensal'){const v=+r.valor||0;
+    return state.producao>0?fmtM(v/state.producao)+' <i class="unit">/un</i>':'<i class="unit">informe a produção</i>';}
+  if(sec==='com')return fmtM(+r.valor||0);
+  return fmtM((+r.qtd||0)*(+r.valor||0));
+}
+function calc(){
+  const mat=state.mat.reduce((a,r)=>a+rowUnitProd(r,state.producao,'mat'),0)*(1+(+state.perdas||0)/100);
+  const com=state.com.reduce((a,r)=>a+rowUnitProd(r,state.producao,'com'),0);
+  const base=mat+com;
+  const perc=(+state.perc.trib||0)+(+state.perc.pag||0)+(+state.perc.comi||0);
+  const f=1-perc/100;
+  const minimo=f>0?base/f:null;
+  const m=+state.sim.margem||0;
+  const fd=1-perc/100-m/100;
+  const sugerido=fd>0?base/fd:null;
+  const P=+state.sim.preco||0;
+  const taxas=P*perc/100, custoVenda=base+taxas, lucro=P-custoVenda;
+  const margem=P>0?lucro/P*100:0;
+  return{mat,com,base,perc,minimo,sugerido,P,taxas,custoVenda,lucro,margem,m};
+}
+function calcPortfolio(){
+  const M=state.despesas.reduce((a,r)=>a+(+r.valor||0),0);
+  let W=state.produtos.reduce((a,p)=>a+(+p.horas||0)*(+p.producao||0),0);
+  const byHours=W>0; if(!byHours)W=state.produtos.reduce((a,p)=>a+(+p.producao||0),0);
+  const per=state.produtos.map(p=>{
+    const q=+p.producao||0, preco=+p.preco||0;
+    const mat=p.mat.reduce((a,r)=>a+rowUnitProd(r,q,'mat'),0)*(1+(+p.perdas||0)/100);
+    const com=p.com.reduce((a,r)=>a+rowUnitProd(r,q,'com'),0);
+    const perc=(p.perc.trib||0)+(p.perc.pag||0)+(p.perc.comi||0);
+    const cd=mat+com, taxas=preco*perc/100;
+    const w=byHours?(+p.horas||0)*q:q;
+    const alo=W>0?M*(w/W):0;
+    const aloU=q>0?alo/q:0;
+    const cc=cd+aloU+taxas;
+    const lucro=preco>0?preco-cc:0;
+    const marg=preco>0?lucro/preco*100:0;
+    const contrib=preco>0?preco-cd-taxas:0;
+    return{id:p.id,q,preco,cd,taxas,alo,aloU,cc,lucro,marg,contrib};
+  });
+  const priced=per.filter(x=>x.preco>0);
+  const totQ=priced.reduce((a,x)=>a+x.q,0);
+  const contribPlan=priced.reduce((a,x)=>a+x.contrib*x.q,0);
+  const lucroMes=contribPlan-M;
+  const coverage=M>0?contribPlan/M*100:null;
+  let Nmin=null,qmin={};
+  if(totQ>0){
+    const cbar=contribPlan/totQ;
+    if(cbar>0){Nmin=Math.ceil(M/cbar);
+      priced.forEach(x=>{qmin[x.id]=Math.max(1,Math.ceil(Nmin*x.q/totQ));});}
+  }
+  return{M,per,totQ,contribPlan,lucroMes,coverage,Nmin,qmin,byHours};
+}
+function statusDe(m){return m<5?'low':m<20?'mid':'ok'}
+
+function renderCatOptions(){
+  $('selCat').innerHTML=allCats().map(c=>`<option value="${c.id}">${c.icone} ${c.nome}</option>`).join('');
+  $('selCat').value=state.meta.catId;
+  $('btnCatDel').hidden=!state.meta.catId.startsWith('c');
+}
+function renderDica(){$('catDica').textContent='💡 '+(getCat().dica||GENERIC.dica);}
+function rowHTML(sec,r){
+  if(sec==='mat'){
+    const dis=r.freq==='mensal'?'disabled':'';
+    return `<div class="row row-mat new" data-id="${r.id}">
+    <input class="r-nome" list="dl-mat" data-bind="mat.nome:${r.id}" value="${esc(r.nome)}" placeholder="Nome do item">
+    <input class="r-qtd num" type="number" min="0" step="0.01" data-bind="mat.qtd:${r.id}" value="${r.qtd||''}" placeholder="1" ${dis}>
+    <select class="r-un" data-bind="mat.un:${r.id}" ${dis}>${['un','m','cm','kg','g','L','mL','par','dúzia','pct','cx','sv'].map(u=>`<option ${u===r.un?'selected':''}>${u}</option>`).join('')}</select>
+    <select class="r-freq" data-bind="mat.freq:${r.id}" title="Como esse gasto é cobrado?">
+      <option value="un" ${r.freq!=='mensal'?'selected':''}>por unidade</option>
+      <option value="mensal" ${r.freq==='mensal'?'selected':''}>por mês</option></select>
+    <input class="r-val num" type="number" min="0" step="0.01" data-bind="mat.valor:${r.id}" value="${r.valor||''}" placeholder="${r.freq==='mensal'?'valor/mês':'valor/un'}">
+    <span class="r-sub sub num">${subText(r,'mat')}</span>
+    <button type="button" class="del no-print" data-act="del-row" data-sec="mat" data-id="${r.id}" title="Remover item">×</button></div>`;}
+  if(sec==='com')return `<div class="row row-com new" data-id="${r.id}">
+    <input class="r-nome" list="dl-com" data-bind="com.nome:${r.id}" value="${esc(r.nome)}" placeholder="Nome do item">
+    <select class="r-freq" data-bind="com.freq:${r.id}" title="Como esse gasto é cobrado?">
+      <option value="un" ${r.freq!=='mensal'?'selected':''}>por unidade</option>
+      <option value="mensal" ${r.freq==='mensal'?'selected':''}>por mês</option></select>
+    <input class="r-val num" type="number" min="0" step="0.01" data-bind="com.valor:${r.id}" value="${r.valor||''}" placeholder="${r.freq==='mensal'?'valor/mês':'valor/un'}">
+    <span class="r-sub sub num">${subText(r,'com')}</span>
+    <button type="button" class="del no-print" data-act="del-row" data-sec="com" data-id="${r.id}" title="Remover item">×</button></div>`;
+  const pl=norm(r.nome).includes('pro-labore')||norm(r.nome).includes('prolabore')?' prolab':'';
+  return `<div class="row row-des new${pl}" data-id="${r.id}">
+    <input class="r-nome" list="dl-des" data-bind="des.nome:${r.id}" value="${esc(r.nome)}" placeholder="Nome da despesa">
+    <input class="r-val num" type="number" min="0" step="0.01" data-bind="des.valor:${r.id}" value="${r.valor||''}" placeholder="0,00">
+    <button type="button" class="del no-print" data-act="del-row" data-sec="des" data-id="${r.id}" title="Remover item">×</button></div>`;
+}
+function renderRows(sec){
+  const rows=rowsOf(sec),box=$('rows-'+sec);
+  box.innerHTML=rows.length?rows.map(r=>rowHTML(sec,r)).join(''):
+    `<p class="empty-row">${sec==='des'?'Nenhuma despesa ainda — não esqueçam do pró-labore! 🏠':'Nenhum item ainda — use a lista de sugestões acima 👆'}</p>`;
+}
+function refreshSubs(){
+  document.querySelectorAll('#rows-mat .row').forEach(el=>{const r=state.mat.find(x=>x.id===el.dataset.id);
+    if(r)el.querySelector('.sub').innerHTML=subText(r,'mat');});
+  document.querySelectorAll('#rows-com .row').forEach(el=>{const r=state.com.find(x=>x.id===el.dataset.id);
+    if(r)el.querySelector('.sub').innerHTML=subText(r,'com');});
+}
+function renderPick(sec){
+  const list=catList(sec),el=$('pick-'+sec).querySelector('.pick-list');
+  el.innerHTML=list.map(i=>`<button type="button" class="pick-item" data-act="pick-item" data-sec="${sec}" data-nome="${esc(i)}">＋ ${esc(i)}</button>`).join('')
+    +`<button type="button" class="pick-item custom" data-act="pick-custom" data-sec="${sec}">✏️ Outro item (digitar livremente)</button>`;
+  $('dl-'+sec).innerHTML=list.map(i=>`<option value="${esc(i)}">`).join('');
+}
+function isDone(sec,nome){const nn=norm(nome);return rowsOf(sec).some(r=>{const rn=norm(r.nome);return rn&&(rn.includes(nn)||nn.includes(rn))})}
+function renderChips(sec){
+  $('chips-'+sec).innerHTML=catList(sec).map(i=>
+    isDone(sec,i)?`<span class="chip done">✓ ${esc(i)}</span>`
+    :`<button type="button" class="chip" data-act="chip-add" data-sec="${sec}" data-nome="${esc(i)}">＋ ${esc(i)}</button>`).join('');
+}
+function renderGuia(){
+  const g=[];
+  let done=0,total=0;const missing=[];
+  ['mat','com','des'].forEach(sec=>catList(sec).forEach(i=>{total++;
+    if(isDone(sec,i))done++;else missing.push({n:i,s:sec});}));
+  if(!state.mat.length)g.push(`<p class="guia-warn">🧾 Nenhum material lançado ainda.</p>`);
+  if(!(+state.trab.horas>0))g.push(`<p class="guia-warn">⏱ Registre as <b>horas por unidade</b> — são elas que distribuem as despesas do mês com justiça.</p>`);
+  const temProLab=state.despesas.some(r=>{const n=norm(r.nome);return n.includes('pro-labore')||n.includes('prolabore');});
+  if(!temProLab)g.push(`<p class="guia-warn">💛 O <b>pró-labore</b> ainda não está nas despesas do mês — quem trabalha precisa receber.</p>`);
+  const mensalSemProd=state.mat.concat(state.com).filter(r=>r.freq==='mensal').length;
+  if(mensalSemProd>0&&!(state.producao>0))g.push(`<p class="guia-warn">📦 Há itens "por mês" sem produção informada — preencha a produção/mês na identificação.</p>`);
+  if(missing.length){
+    g.push(`<p style="font-size:.8rem;color:#cfe2d2">Itens sugeridos que ainda faltam (${missing.length} de ${total}) — toque para incluir:</p>
+      <div class="guia-missing">${missing.slice(0,8).map(x=>`<button type="button" class="chip mini" data-act="chip-add" data-sec="${x.s}" data-nome="${esc(x.n)}">＋ ${esc(x.n)}</button>`).join('')}${missing.length>8?`<span style="font-size:.75rem;color:#7fa38d">+${missing.length-8}…</span>`:''}</div>`);
+  }else if(total>0){
+    g.push(`<p class="guia-ok">✓ Tudo certo! Você lembrou dos ${total} itens sugeridos. Agora é precificar com margem. 💪</p>`);
+  }
+  $('guia').innerHTML=g.join('');
+}
+function renderSims(){
+  const c=calc(),box=$('simsList');
+  if(!state.sims.length){box.innerHTML='<p class="empty">Nenhuma simulação salva ainda.</p>';return;}
+  const maxRef=Math.max(...state.sims.map(s=>s.p),c.minimo||0)*1.06||1;
+  box.innerHTML=state.sims.map((s,i)=>{
+    const st=statusDe(s.m),w=Math.max(2,s.p/maxRef*100);
+    const mk=c.minimo>0?`<span class="mark" style="left:${c.minimo/maxRef*100}%" title="preço mínimo"></span>`:'';
+    return `<div class="sim"><div class="top"><span class="i">${String(i+1).padStart(2,'0')}</span><b class="p">${fmtM(s.p)}</b>
+      <span class="chip-m ${st}">${s.m.toFixed(1)}%</span>
+      <button type="button" class="sim-del no-print" data-act="sim-del" data-i="${i}" title="Excluir">×</button></div>
+      <div class="track">${mk}<span class="fill ${st}" style="width:${w}%"></span></div>
+      <small style="font-size:.7rem;color:#7fa38d">sobra direta ${fmtM(s.l)} · custo direto ${fmtM(s.c)}</small></div>`;}).join('');
+}
+let lastMin=null;
+function calcAll(){
+  const c=calc();
+  tween($('outCusto'),c.base);
+  ['bMat','bCom'].forEach((id,i)=>{$(id).style.width=(c.base>0?[c.mat,c.com][i]/c.base*100:0)+'%';});
+  $('lMat').textContent=num2(c.mat);$('lCom').textContent=num2(c.com);
+  $('sumMat').textContent=fmtM(c.mat);$('sumCom').textContent=fmtM(c.com);
+  $('sumDespesas').textContent=fmtM(state.despesas.reduce((a,r)=>a+(+r.valor||0),0))+'/mês';
+  const horasMes=(+state.trab.horas||0)*(state.producao||0);
+  $('outTempo').innerHTML=state.producao>0&&state.trab.horas>0
+    ?`Esta produção usa <b>&nbsp;${nf.format(horasMes)} h por mês&nbsp;</b> do grupo — é essa fatia de tempo que carrega as despesas.`
+    :'Informe a produção mensal e as horas por unidade para ver o tempo usado no mês.';
+  const st=$('stampMin');
+  if(c.minimo!=null){tween($('outMinimo'),c.minimo);
+    if(lastMin!=null&&Math.abs(c.minimo-lastMin)>.01){st.classList.remove('pulse');void st.offsetWidth;st.classList.add('pulse');}}
+  else $('outMinimo').textContent='—';
+  lastMin=c.minimo;
+  $('outPercTot').textContent=nf.format(c.perc)+'%';
+  const mm=Math.max(-10,Math.min(50,c.margem)),t=(mm+10)/60,a=180+t*180;
+  const R=74,cx=100,cy=96,ex=cx+R*Math.cos(a*Math.PI/180),ey=cy+R*Math.sin(a*Math.PI/180);
+  const arc=$('gArc');arc.setAttribute('d',`M26 96 A74 74 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+  arc.setAttribute('stroke',c.margem<5?'#e2725b':c.margem<20?'#f0a92e':'#8fd6a8');
+  const nx=cx+58*Math.cos(a*Math.PI/180),ny=cy+58*Math.sin(a*Math.PI/180);
+  const nd=$('gNeedle');nd.setAttribute('x2',nx.toFixed(1));nd.setAttribute('y2',ny.toFixed(1));
+  tween($('gMargem'),c.margem,v=>v.toFixed(1)+'%');
+  $('outTaxasR').textContent=c.P>0?fmtM(c.taxas):'–';
+  $('outLucro').textContent=c.P>0?fmtM(c.lucro):'–';
+  $('liLucro').classList.toggle('neg',c.lucro<0);
+  $('outMensal').textContent=(state.producao>0&&c.P>0)?fmtM(c.lucro*state.producao)+' /mês':'–';
+  $('liMensal').classList.toggle('neg',c.lucro<0);
+  $('outMargemLbl').textContent=(+state.sim.margem||0)+'%';
+  $('outSugerido').textContent=c.sugerido!=null?fmtM(c.sugerido):'— taxas+margem ≥ 100%';
+  renderGuia();renderSims();
+  refreshPortfolio();
+}
+
+function renderShelf(){
+  const wrap=$('shelfBody');
+  if(!state.produtos.length){
+    wrap.innerHTML='<div class="shelf-empty">Nenhum produto salvo ainda. Monte a ficha, simule o preço e clique em <b>"💾 Salvar produto na prateleira"</b>.</div>';
+    refreshPortfolio();return;}
+  wrap.innerHTML=`<table class="shelf-table"><thead><tr>
+    <th>Produto</th><th>Plano (un/mês)</th><th class="num">Horas/un</th><th class="num">Custo/un direto</th>
+    <th class="num">Custo/un no contexto</th><th class="num">Preço</th><th class="num">Margem</th><th class="num">Lucro/un</th><th class="no-print"></th>
+  </tr></thead><tbody>${state.produtos.map(p=>`
+    <tr data-pid="${p.id}">
+      <td class="t-name"><b>${esc(p.meta.nome||'Sem nome')}</b><small>${p.icone||''} ${esc(p.catNome||'')}</small><small class="mini-min" data-c="min"></small></td>
+      <td><input class="in-tbl num" type="number" min="0" data-bind="prod.producao:${p.id}" value="${p.producao||''}" placeholder="0"></td>
+      <td class="num">${nf.format(p.horas||0)}</td>
+      <td class="num" data-c="cd">–</td>
+      <td class="num" data-c="cc">–</td>
+      <td><input class="in-tbl num" type="number" min="0" step="0.01" data-bind="prod.preco:${p.id}" value="${p.preco||''}" placeholder="0,00"></td>
+      <td class="num" data-c="mg">–</td>
+      <td class="num" data-c="lc">–</td>
+      <td class="t-acts no-print"><button type="button" data-act="prod-edit" data-id="${p.id}">✏️ editar</button><button type="button" class="rm" data-act="prod-del" data-id="${p.id}" title="Excluir">🗑</button></td>
+    </tr>`).join('')}</tbody></table>`;
+  refreshPortfolio();
+}
+function refreshPortfolio(){
+  const V=calcPortfolio();
+  state.produtos.forEach(p=>{
+    const m=V.per.find(x=>x.id===p.id),tr=document.querySelector(`tr[data-pid="${p.id}"]`);
+    if(!m||!tr)return;
+    tr.querySelector('[data-c="cd"]').textContent=fmtM(m.cd);
+    tr.querySelector('[data-c="cc"]').innerHTML=m.preco>0||m.q>0
+      ?fmtM(m.cc)+`<small class="subc">inclui ${fmtM(m.aloU)} das despesas${m.preco>0?' + taxas':''}</small>`:'—';
+    const mg=tr.querySelector('[data-c="mg"]'),lc=tr.querySelector('[data-c="lc"]');
+    if(m.preco>0){mg.innerHTML=`<span class="badge bg-${statusDe(m.marg)}">${m.marg.toFixed(1)}%</span>`;
+      lc.textContent=fmtM(m.lucro);lc.style.color=m.lucro<0?'var(--clay)':'';}
+    else{mg.innerHTML='<span class="badge none">sem preço</span>';lc.textContent='—';}
+    const mini=tr.querySelector('[data-c="min"]');
+    if(V.qmin[p.id])mini.textContent=`mínimo p/ pagar as contas: ${V.qmin[p.id]} un/mês`;
+    else if(m.preco>0&&V.Nmin==null)mini.textContent='⚠ contribuição negativa';
+    else mini.textContent='';
+    tr.classList.toggle('abaixo',m.preco>0&&m.lucro<0);
+  });
+  const n=state.produtos.length;
+  $('shelfSummary').innerHTML=n?`
+    <span>🧺 <b>${n}</b> produto${n>1?'s':''}</span>
+    <span>rateio das despesas por <b>${V.byHours?'horas de produção':'quantidade planejada'}</b></span>
+    <span>resultado projetado do mês <b style="color:${V.lucroMes<0?'var(--clay)':'var(--green-deep)'}">${fmtM(V.lucroMes)}</b></span>`:'';
+  $('vM').textContent=fmtM(V.M);
+  $('vQ').textContent=nf.format(V.totQ)+' un';
+  const vl=$('vLucro');vl.textContent=fmtM(V.lucroMes);vl.className=V.lucroMes<0?'neg':'pos';
+  const cf=$('covFill');
+  const cov=V.coverage;
+  if(cov!=null){cf.style.width=Math.min(100,cov)+'%';
+    cf.className=cov>=100?'ok':cov>=60?'':'low';
+    $('covPct').textContent=cov.toFixed(0)+'%';
+    $('covMsg').textContent=cov>=100?'· a produção planejada cobre as despesas 🎉'
+      :cov>=60?'· quase lá — falta pouco para cobrir tudo':'· a produção planejada ainda não paga as contas';}
+  else{cf.style.width='0';$('covPct').textContent='—';$('covMsg').textContent='· lance despesas e produtos para calcular';}
+  const stamp=$('vStamp'),pill=$('pillStatus');
+  if(V.Nmin!=null){
+    $('vNmin').textContent=nf.format(V.Nmin)+' unidades';
+    const gap=V.Nmin-V.totQ;
+    stamp.classList.toggle('warn',gap>0);
+    $('vSub').textContent=gap>0
+      ?`por mês, para pagar tudo — o plano atual deixa ${nf.format(gap)} unidades de fora`
+      :'por mês, no ritmo planejado, para pagar tudo — o plano já cobre ✅';
+    $('vChips').innerHTML=state.produtos
+      .map(p=>V.qmin[p.id]?`<span>${p.icone||'•'} ${esc(p.meta.nome||'produto')}: <b>${V.qmin[p.id]} un</b></span>`:'').join('');
+    pill.textContent=gap>0?`⚠ faltam ${nf.format(gap)} un`:'✅ mês viável';
+    pill.className='sum-pill '+(gap>0?'bad':'ok');
+  }else{
+    $('vNmin').textContent='—';
+    $('vSub').textContent=n&&V.M>0?'nenhum produto tem preço ou contribuição suficiente para pagar as contas'
+      :'salve produtos com preço e produção para calcular o ponto de equilíbrio';
+    $('vChips').innerHTML='';pill.textContent='—';pill.className='sum-pill';
+  }
+}
+
+function closePicks(){document.querySelectorAll('.pick.open').forEach(p=>p.classList.remove('open'))}
+function addRow(sec,nome){
+  const r={id:uid(),nome:nome||''};
+  if(sec==='mat'){r.qtd=1;r.un='un';r.valor='';r.freq='un';}
+  else if(sec==='com'){r.valor='';r.freq='un';}
+  else r.valor='';
+  rowsOf(sec).push(r);renderRows(sec);renderChips(sec);calcAll();saveSoon();
+  const el=document.querySelector(`.row[data-id="${r.id}"]`);
+  if(el)el.querySelector(nome?'input[type=number]':'.r-nome').focus();
+}
+function setCategory(id){state.meta.catId=id;$('selCat').value=id;
+  $('btnCatDel').hidden=!id.startsWith('c');
+  renderDica();['mat','com','des'].forEach(s=>{renderPick(s);renderChips(s);});calcAll();saveSoon();}
+function cancelEdit(){editingId=null;$('editBanner').hidden=true;}
+function loadProduct(p){
+  editingId=p.id;
+  state.meta={...p.meta};state.perdas=p.perdas||0;
+  state.mat=p.mat.map(r=>({...r}));state.trab={horas:p.horas||0};
+  state.producao=p.producao;state.com=p.com.map(r=>({...r}));state.perc={...p.perc};
+  state.sim={preco:p.preco,margem:state.sim.margem};state.sims=[];
+  hydrate();renderAll();
+  $('editNome').textContent=p.meta.nome||'produto';$('editBanner').hidden=false;
+  saveNow();window.scrollTo({top:0,behavior:reduceMotion?'auto':'smooth'});
+  toast(`✏️ Editando "${p.meta.nome||'produto'}" — salve de novo quando terminar`);
+}
+function exportExcel(){
+  const c=calc(),cat=getCat(),V=calcPortfolio();
+  const tm=state.mat.map(r=>`<tr><td>${esc(r.nome)}</td><td>${r.freq==='mensal'?'—':(r.qtd||0)}</td><td>${r.freq==='mensal'?'':esc(r.un)}</td><td>${r.freq==='mensal'?'por mês':'por unidade'}</td><td>${num2(r.valor)}</td><td>${num2(rowUnitProd(r,state.producao,'mat'))}</td></tr>`).join('');
+  const tc=state.com.map(r=>`<tr><td>${esc(r.nome)}</td><td>${r.freq==='mensal'?'por mês':'por unidade'}</td><td>${num2(r.valor)}</td><td>${num2(rowUnitProd(r,state.producao,'com'))}</td></tr>`).join('');
+  const td=state.despesas.map(r=>`<tr><td>${esc(r.nome)}</td><td>${num2(r.valor)}</td></tr>`).join('');
+  const ts=state.sims.map((s,i)=>`<tr><td>${i+1}</td><td>${num2(s.p)}</td><td>${num2(s.c)}</td><td class="${s.l<0?'neg':''}">${num2(s.l)}</td><td>${s.m.toFixed(1)}%</td></tr>`).join('');
+  const tp=state.produtos.map(p=>{const m=V.per.find(x=>x.id===p.id)||{};
+    return `<tr><td>${esc(p.meta.nome)}</td><td>${esc(p.catNome)}</td><td>${p.producao||0}</td><td>${nf.format(p.horas||0)}</td><td>${num2(m.cd||0)}</td><td>${num2(m.aloU||0)}</td><td>${num2(m.cc||0)}</td><td>${num2(p.preco)}</td><td>${(m.marg||0).toFixed(1)}%</td><td>${num2(m.lucro||0)}</td><td>${V.qmin[p.id]||'—'}</td></tr>`;}).join('');
+  const html=`<html xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8">
+<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Precificacao</x:Name><x:WorksheetOptions/></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+<style>td,th{padding:4px 8px;border:1px solid #bbb;font-family:Calibri;font-size:12px}th{background:#1e6b4f;color:#fff}h1{color:#1e6b4f}h2{color:#b97a05;margin-top:14px}.neg{color:#c0502f;font-weight:bold}</style></head><body>
+<h1>FICHA DE PRECIFICAÇÃO — ${esc(state.meta.nome||'Produto sem nome')}</h1>
+<p>Tipo: ${esc(cat.icone+' '+cat.nome)} · Data: ${esc(state.meta.data)} · Ficha nº ${esc(state.meta.n)} · Produção planejada: ${state.producao||0} un/mês</p>
+<h2>1. Materiais e insumos</h2>
+<table><tr><th>Item</th><th>Qtd</th><th>Un</th><th>Cobrança</th><th>Valor (R$)</th><th>Custo/un (R$)</th></tr>${tm}
+<tr><th colspan="5">Perdas &amp; quebras</th><th>+${state.perdas||0}%</th></tr>
+<tr><th colspan="5">Total materiais por unidade</th><th>${num2(c.mat)}</th></tr></table>
+<h2>2. Tempo de produção</h2>
+<table><tr><th>Horas por unidade</th><td>${nf.format(state.trab.horas||0)}</td></tr><tr><th>Horas usadas no mês</th><td>${nf.format((state.trab.horas||0)*(state.producao||0))}</td></tr></table>
+<h2>3. Comercialização</h2>
+<table><tr><th>Item</th><th>Cobrança</th><th>Valor (R$)</th><th>Custo/un (R$)</th></tr>${tc}<tr><th colspan="3">Total por unidade</th><th>${num2(c.com)}</th></tr></table>
+<h2>4. Despesas do mês do empreendimento</h2>
+<table><tr><th>Despesa</th><th>Valor mensal (R$)</th></tr>${td}<tr><th>Total mensal</th><th>${num2(V.M)}</th></tr></table>
+<h2>5. Percentuais sobre a venda</h2>
+<table><tr><th>Tributos</th><td>${state.perc.trib}%</td></tr><tr><th>Pagamento/maquininha</th><td>${state.perc.pag}%</td></tr><tr><th>Comissão</th><td>${state.perc.comi}%</td></tr><tr><th>Total</th><th>${num2(c.perc)}%</th></tr></table>
+<h2>6. Resultado da ficha atual</h2>
+<table><tr><th>Custo direto por unidade</th><th>${num2(c.base)}</th></tr>
+<tr><th>PREÇO MÍNIMO (cobre custos diretos)</th><th class="neg">${c.minimo!=null?num2(c.minimo):'—'}</th></tr>
+<tr><th>Preço sugerido (margem ${c.m}%)</th><th>${c.sugerido!=null?num2(c.sugerido):'—'}</th></tr>
+<tr><th>Simulação atual</th><td>${num2(c.P)} · margem direta ${c.margem.toFixed(1)}% (${num2(c.lucro)})</td></tr></table>
+<h2>7. Prateleira de produtos (custos no contexto das despesas)</h2>
+<table><tr><th>Produto</th><th>Tipo</th><th>Plano/mês</th><th>Horas/un</th><th>Custo/un direto (R$)</th><th>Despesas/un (R$)</th><th>Custo completo/un (R$)</th><th>Preço (R$)</th><th>Margem</th><th>Lucro/un (R$)</th><th>Mínimo/mês p/ pagar contas</th></tr>${tp||'<tr><td colspan="11">—</td></tr>'}</table>
+<h2>8. Viabilidade do mês</h2>
+<table><tr><th>Despesas do mês</th><th>${num2(V.M)}</th></tr>
+<tr><th>Produção planejada</th><td>${nf.format(V.totQ)} un</td></tr>
+<tr><th>Contribuição planejada</th><td>${num2(V.contribPlan)}</td></tr>
+<tr><th>Resultado previsto no mês</th><th class="${V.lucroMes<0?'neg':''}">${num2(V.lucroMes)}</th></tr>
+<tr><th>Cobertura das despesas</th><td>${V.coverage!=null?V.coverage.toFixed(0)+'%':'—'}</td></tr>
+<tr><th>PONTO DE EQUILÍBRIO (mínimo mensal)</th><th class="neg">${V.Nmin!=null?nf.format(V.Nmin)+' unidades':'—'}</th></tr>
+<tr><th>Rateio das despesas</th><td>${V.byHours?'por horas de produção':'por quantidade planejada'}</td></tr></table>
+<h2>9. Simulações salvas</h2>
+<table><tr><th>#</th><th>Preço (R$)</th><th>Custo direto (R$)</th><th>Sobra (R$)</th><th>Margem</th></tr>${ts||'<tr><td colspan="5">—</td></tr>'}</table>
+<p><i>Gerado pelo Precifica Ecosol em ${new Date().toLocaleDateString('pt-BR')}</i></p></body></html>`;
+  const blob=new Blob(['\ufeff',html],{type:'application/vnd.ms-excel;charset=utf-8'});
+  const slug=norm(state.meta.nome||'ficha').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'ficha';
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`precificacao-${slug}.xls`;a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast('Planilha Excel gerada ✔');
+}
+
+document.addEventListener('input',onEdit);
+document.addEventListener('change',onEdit);
+function onEdit(ev){
+  const t=ev.target,b=t.dataset.bind;if(!b)return;
+  const [path,id]=b.split(':'),isNum=t.type==='number'||t.type==='range';
+  const v=isNum?numVal(t):t.value;
+  if(path.startsWith('mat.')||path.startsWith('com.')||path.startsWith('des.')){
+    const sec=path.split('.')[0],k=path.split('.')[1],r=rowsOf(sec).find(x=>x.id===id);
+    if(!r)return;
+    if(k==='freq'){r.freq=v;renderRows(sec);}
+    else{
+      r[k]=(k==='nome'||k==='un')?t.value:v;
+      if(k==='nome'&&sec==='des'){const row=t.closest('.row');if(row)row.classList.toggle('prolab',norm(r.nome).includes('pro-labore')||norm(r.nome).includes('prolabore'));}
+      if((k==='valor'||k==='qtd')&&sec!=='des'){
+        const sub=t.closest('.row').querySelector('.sub');if(sub)sub.innerHTML=subText(r,sec);}
+      if(k==='nome')renderChips(sec);
+    }
+  }
+  else if(path.startsWith('prod.')){
+    const p=state.produtos.find(x=>x.id===id);if(!p)return;
+    p[path.split('.')[1]]=v;refreshPortfolio();
+  }
+  else if(path.startsWith('meta.')){state.meta[path.split('.')[1]]=t.value;}
+  else if(path.startsWith('trab.')){state.trab[path.split('.')[1]]=v;}
+  else if(path.startsWith('perc.')){state.perc[path.split('.')[1]]=v;}
+  else if(path==='state.producao'){state.producao=v;refreshSubs();}
+  else if(path==='perdas'){state.perdas=v;}
+  else if(path==='sim.preco'){state.sim.preco=v;}
+  else if(path==='sim.margem'){state.sim.margem=v;}
+  calcAll();saveSoon();
+}
+
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-act]');
+  if(!b){if(!ev.target.closest('.pick'))closePicks();return;}
+  const act=b.dataset.act,sec=b.dataset.sec;
+  switch(act){
+    case'pick-toggle':{const p=b.closest('.pick'),was=p.classList.contains('open');closePicks();if(!was)p.classList.add('open');break;}
+    case'pick-item':closePicks();addRow(sec,b.dataset.nome);break;
+    case'pick-custom':closePicks();addRow(sec,'');break;
+    case'add-free':addRow(sec,'');break;
+    case'chip-add':addRow(sec,b.dataset.nome);break;
+    case'del-row':{const rows=rowsOf(sec),row=b.closest('.row');row.classList.add('removing');
+      setTimeout(()=>{const i=rows.findIndex(r=>r.id===b.dataset.id);if(i>-1)rows.splice(i,1);
+        renderRows(sec);renderChips(sec);calcAll();saveSoon();},190);break;}
+    case'sim-save':{const c=calc();
+      if(c.P<=0){toast('Digite um preço para simular 🙂');break;}
+      state.sims.push({p:c.P,c:c.custoVenda,m:c.margem,l:c.lucro});
+      renderSims();saveSoon();toast('Simulação salva 📌');break;}
+    case'sim-del':state.sims.splice(+b.dataset.i,1);renderSims();saveSoon();break;
+    case'sims-clear':if(state.sims.length&&confirm('Apagar todas as simulações salvas?')){state.sims=[];renderSims();saveSoon();}break;
+    case'prod-save':{
+      const c=calc(),cat=getCat();
+      if(!state.meta.nome.trim()){toast('Dê um nome ao produto antes de salvar 🙂');$('inpProduto').focus();break;}
+      if(c.base<=0){toast('A ficha está vazia — lance os custos primeiro.');break;}
+      let preco=+state.sim.preco||0;
+      if(!(preco>0)){
+        if(c.sugerido!=null){preco=+c.sugerido.toFixed(2);toast('Sem preço simulado: salvamos com o sugerido '+fmtM(preco));}
+        else{toast('Simule um preço de venda antes de salvar.');break;}}
+      if(!(state.producao>0))toast('💡 Dica: informe a produção/mês para o produto entrar no rateio e no ponto de equilíbrio');
+      const snap={id:editingId||uid(),meta:{...state.meta},catNome:cat.nome,icone:cat.icone,
+        perdas:+state.perdas||0,mat:state.mat.map(r=>({...r})),horas:+state.trab.horas||0,
+        producao:state.producao,com:state.com.map(r=>({...r})),perc:{...state.perc},preco};
+      if(editingId){const i=state.produtos.findIndex(p=>p.id===editingId);if(i>-1)state.produtos[i]=snap;}
+      else{state.produtos.push(snap);editingId=snap.id;}
+      $('editNome').textContent=snap.meta.nome||'produto';$('editBanner').hidden=false;
+      renderShelf();saveNow();toast('Produto salvo na prateleira 🧺');
+      $('sec-shelf').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});break;}
+    case'prod-edit':{const p=state.produtos.find(x=>x.id===b.dataset.id);if(!p)break;
+      if(!confirm(`Carregar "${p.meta.nome||'produto'}" para edição? A ficha atual será substituída.`))break;
+      loadProduct(p);break;}
+    case'prod-del':{const i=state.produtos.findIndex(x=>x.id===b.dataset.id);if(i<0)break;
+      const p=state.produtos[i];
+      if(!confirm(`Excluir "${p.meta.nome||'produto'}" da prateleira?`))break;
+      state.produtos.splice(i,1);if(editingId===p.id)cancelEdit();
+      renderShelf();saveNow();toast('Produto removido');break;}
+    case'edit-cancel':cancelEdit();toast('Edição cancelada — a ficha continua como está');break;
+    case'nova':if(confirm('Começar uma ficha nova? Os dados atuais serão apagados (despesas do mês e prateleira são mantidas).')){
+      const keep={produtos:state.produtos,despesas:state.despesas};
+      state=estadoNovo();state.produtos=keep.produtos;state.despesas=keep.despesas;cancelEdit();
+      hydrate();renderAll();saveNow();toast('Ficha nova criada ✨');}break;
+    case'novo-tipo':$('mNome').value='';$('mItens').value='';$('mNovo').showModal();$('mNome').focus();break;
+    case'novo-tipo-cancel':$('mNovo').close();break;
+    case'novo-tipo-ok':{const nome=$('mNome').value.trim();
+      if(!nome){toast('Dê um nome ao novo tipo');break;}
+      const itens=$('mItens').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      const cat={id:'c'+Date.now(),nome,icone:'✳️',
+        diretos:itens.length?itens:GENERIC.diretos,comercial:GENERIC.comercial,fixos:GENERIC.fixos,
+        lembrar:GENERIC.lembrar,dica:'Tipo criado pelo grupo — completem as sugestões conforme a realidade de vocês.'};
+      customCats.push(cat);localStorage.setItem(LSCATS,JSON.stringify(customCats));
+      renderCatOptions();setCategory(cat.id);$('mNovo').close();toast(`Tipo "${nome}" criado 🎉`);break;}
+    case'cat-del':{const cat=getCat();
+      if(confirm(`Excluir o tipo "${cat.nome}"?`)){customCats=customCats.filter(c=>c.id!==cat.id);
+        localStorage.setItem(LSCATS,JSON.stringify(customCats));renderCatOptions();setCategory('textil');}break;}
+    case'excel':exportExcel();break;
+    case'pdf':$('printDate').textContent=new Date().toLocaleString('pt-BR');window.print();break;
+  }
+});
+$('selCat').addEventListener('change',e=>setCategory(e.target.value));
+
+let saveT;
+function saveNow(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}}
+function saveSoon(){clearTimeout(saveT);saveT=setTimeout(saveNow,400)}
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(LS));if(!s)return;
+    state=Object.assign(estadoNovo(),s);
+    state.meta=Object.assign(estadoNovo().meta,s.meta||{});
+    state.trab=Object.assign(estadoNovo().trab,s.trab||{});
+    state.perc=Object.assign(estadoNovo().perc,s.perc||{});
+    state.sim=Object.assign(estadoNovo().sim,s.sim||{});
+    if(!Array.isArray(state.produtos))state.produtos=[];
+    if(!Array.isArray(state.despesas))state.despesas=[];
+  }catch(e){}
+}
+function hydrate(){
+  $('inpProduto').value=state.meta.nome;$('inpData').value=state.meta.data;$('inpN').value=state.meta.n;
+  $('inpProdFicha').value=state.producao||'';
+  document.querySelector('[data-bind="trab.horas"]').value=state.trab.horas||'';
+  document.querySelector('[data-bind="perdas"]').value=state.perdas||'';
+  document.querySelector('[data-bind="perc.trib"]').value=state.perc.trib||'';
+  document.querySelector('[data-bind="perc.pag"]').value=state.perc.pag||'';
+  document.querySelector('[data-bind="perc.comi"]').value=state.perc.comi||'';
+  $('inpSim').value=state.sim.preco||'';
+  $('inpMargem').value=state.sim.margem??25;
+}
+function renderAll(){
+  renderCatOptions();renderDica();
+  ['mat','com','des'].forEach(s=>{renderRows(s);renderPick(s);renderChips(s);});
+  renderShelf();calcAll();
+}
+
+(function(){const fr=$('flagrow');let f='';for(let i=0;i<26;i++)f+='<span class="flag"></span>';fr.innerHTML=f;})();
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.08});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+loadState();hydrate();renderAll();
+</script>
+</body>
+</html>
