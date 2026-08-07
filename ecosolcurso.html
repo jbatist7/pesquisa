@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trilha de Formação — Economia Solidária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EFE6D0;
+    --paper-deep:#E4D8B7;
+    --paper-line:#CBB98C;
+    --ink:#141C0F;
+    --ink-soft:#3A4330;
+    --green:#2E4A29;
+    --green-deep:#1E331B;
+    --brick:#8A3D22;
+    --brick-deep:#6E2F18;
+    --indigo:#1F4550;
+    --plum:#452C42;
+    --gold:#7A5710;
+    --gold-fill:#C99A3A;
+    --correct:#3A5320;
+    --wrong:#7A2A1F;
+    --shadow: 0 2px 0 rgba(20,28,15,0.12), 0 8px 20px -12px rgba(20,28,15,0.4);
+    --radius: 4px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(rgba(34,48,31,0.035) 1px, transparent 1px);
+    background-size: 4px 4px;
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3,h4{
+    font-family:'Zilla Slab', serif;
+    color:var(--ink);
+    margin:0 0 .5em 0;
+    line-height:1.15;
+  }
+  p{margin:0 0 1em 0;}
+  a{color:var(--indigo);}
+  ::selection{background:var(--gold-fill); color:var(--ink);}
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:.02em;}
+
+  /* ---------- layout shells ---------- */
+  .wrap{max-width:1080px; margin:0 auto; padding:0 20px;}
+  .visually-hidden{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0);}
+
+  a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible{
+    outline:3px solid var(--indigo); outline-offset:2px;
+  }
+
+  /* ---------- top banner (curso + frase de efeito) ---------- */
+  .top-banner{
+    background:var(--green-deep); color:var(--paper); text-align:center;
+    padding:24px 20px 22px;
+  }
+  .top-banner .course-title{
+    font-family:'Zilla Slab',serif; font-weight:700; font-size:clamp(1.9rem, 4vw, 2.7rem);
+    line-height:1.15; margin:0 0 14px 0; color:var(--paper);
+  }
+  .top-banner .tagline{
+    font-family:'Zilla Slab',serif; font-style:italic; font-size:.95rem; line-height:1.5;
+    max-width:52ch; margin:0 auto; color:var(--paper); opacity:.97;
+  }
+  .top-banner .byline{
+    font-family:'IBM Plex Mono',monospace; font-size:.76rem; letter-spacing:.04em;
+    margin:12px 0 0 0; color:var(--paper); opacity:.82;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:40;
+    background:var(--paper); border-bottom:1px solid var(--paper-line);
+    backdrop-filter:saturate(1.1);
+  }
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 0; gap:16px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:'Zilla Slab',serif; font-weight:600; font-size:1.05rem; cursor:pointer; background:none; border:none; color:var(--ink); padding:0;}
+  .brand .brand-mark{
+    width:30px; height:30px; border-radius:50%;
+    border:2px solid var(--brick); display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:.7rem; font-weight:600; color:var(--brick);
+    transform:rotate(-6deg);
+  }
+  .progress-pill{
+    font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:var(--ink-soft);
+    border:1px solid var(--paper-line); border-radius:999px; padding:5px 12px;
+    display:flex; align-items:center; gap:8px; white-space:nowrap;
+  }
+  .progress-pill .bar{width:70px; height:5px; background:var(--paper-deep); border-radius:3px; overflow:hidden;}
+  .progress-pill .bar > span{display:block; height:100%; background:var(--green);}
+
+  .trilha-nav{display:flex; gap:8px; overflow-x:auto; padding:0 0 12px 0; scrollbar-width:thin;}
+  .trilha-nav a{
+    flex:0 0 auto; text-decoration:none; font-size:.78rem; font-weight:700;
+    padding:6px 12px; border-radius:999px; border:1.5px solid currentColor;
+    color:var(--tag-color, var(--ink-soft)); white-space:nowrap;
+    transition:background-color .12s ease, color .12s ease;
+  }
+  .trilha-nav a.active{
+    background:var(--tag-color, var(--ink-soft)); color:var(--paper);
+  }
+
+  .signup-strip{
+    background:var(--paper-deep); border:1px solid var(--paper-line); border-radius:2px;
+    padding:14px 16px; margin:16px 0 0 0; font-size:.85rem; color:var(--ink-soft);
+  }
+  .signup-strip p{margin:0 0 6px 0;}
+  .signup-strip p:last-child{margin-bottom:0;}
+  .signup-strip a{color:var(--indigo); font-weight:700; word-break:break-word;}
+
+  /* ---------- hero ---------- */
+  .hero{padding:44px 0 24px 0;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--brick); margin-bottom:10px; display:block;
+  }
+  .hero h1{font-size:clamp(1.9rem, 4vw, 2.7rem); max-width:16ch;}
+  .hero .lede{max-width:62ch; font-size:1.05rem; color:var(--ink-soft);}
+
+  .trail-svg{width:100%; height:auto; margin:22px 0 6px 0; display:block;}
+
+  .callout{
+    background:var(--paper-deep); border:1px solid var(--paper-line); border-left:4px solid var(--gold);
+    border-radius:2px; padding:16px 18px; margin:20px 0; font-size:.93rem; color:var(--ink-soft);
+  }
+  .callout strong{color:var(--ink);}
+
+  /* ---------- trilha sections ---------- */
+  .trilha-section{padding:38px 0 6px 0; scroll-margin-top:150px;}
+  .trilha-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px; flex-wrap:wrap;}
+  .trilha-head h2{font-size:1.5rem; color:var(--trilha-color);}
+  .trilha-head .trilha-desc{color:var(--ink-soft); font-size:.92rem; max-width:60ch; margin-bottom:20px;}
+
+  .module-grid{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px; margin-bottom:8px;
+  }
+  .module-card{
+    text-align:left; cursor:pointer; background:var(--paper-deep); border:1px solid var(--paper-line);
+    border-radius:var(--radius); padding:18px 16px 16px 16px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:10px; font-family:inherit; color:inherit;
+    transition:transform .12s ease, box-shadow .12s ease;
+    position:relative;
+  }
+  .module-card:hover{transform:translateY(-2px);}
+  .stamp{
+    width:44px; height:44px; flex:0 0 auto;
+    border:2px solid var(--card-color, var(--brick));
+    border-radius:48% 52% 51% 49% / 52% 48% 53% 47%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:.85rem;
+    color:var(--card-color, var(--brick));
+    transform:rotate(var(--stamp-rot, -4deg));
+    mix-blend-mode:multiply;
+    position:relative;
+  }
+  .stamp::after{
+    content:''; position:absolute; inset:4px;
+    border:1px solid var(--card-color, var(--brick));
+    border-radius:48% 52% 51% 49% / 52% 48% 53% 47%;
+    opacity:.55;
+  }
+  .card-title{font-family:'Zilla Slab',serif; font-weight:600; font-size:1.05rem;}
+  .card-teaser{font-size:.86rem; color:var(--ink-soft); flex-grow:1;}
+  .card-foot{display:flex; align-items:center; justify-content:space-between; font-size:.72rem;}
+  .card-status{
+    font-family:'IBM Plex Mono',monospace; padding:3px 9px; border-radius:999px; border:1px solid var(--paper-line); color:var(--ink-soft);
+  }
+  .card-status.done{border-color:var(--correct); color:var(--correct); background:rgba(76,107,42,.08);}
+  .card-cta{color:var(--card-color,var(--brick)); font-weight:600;}
+
+  /* ---------- module detail view ---------- */
+  .module-view{padding:30px 0 70px 0;}
+  .back-btn{
+    background:var(--brick); border:none; border-radius:999px; padding:12px 22px 12px 18px;
+    font-family:'IBM Plex Mono',monospace; font-size:.85rem; font-weight:700; letter-spacing:.02em;
+    cursor:pointer; color:var(--paper); margin-bottom:26px;
+    display:inline-flex; align-items:center; gap:8px; box-shadow:var(--shadow);
+  }
+  .back-btn:hover{background:var(--brick-deep);}
+  .module-head{display:flex; gap:18px; align-items:center; margin-bottom:6px;}
+  .module-head .stamp{width:58px; height:58px; font-size:1rem;}
+  .module-eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--card-color);}
+  .module-head h1{font-size:clamp(1.5rem,3.2vw,2.1rem); margin:0;}
+
+  .tabs{display:flex; gap:4px; margin:26px 0 22px 0; border-bottom:1px solid var(--paper-line);}
+  .tab-btn{
+    background:none; border:none; font-family:'IBM Plex Mono',monospace; font-size:.82rem; font-weight:600;
+    padding:10px 4px; margin-right:22px; cursor:pointer; color:var(--ink-soft); border-bottom:2px solid transparent; letter-spacing:.02em;
+  }
+  .tab-btn.active{color:var(--ink); border-bottom-color:var(--brick);}
+
+  .content-panel{max-width:70ch;}
+  .content-panel h3{font-size:1.15rem; margin-top:1.6em; color:var(--ink);}
+  .content-panel h3:first-child{margin-top:0;}
+  .content-panel ul, .content-panel ol{padding-left:1.2em; margin:0 0 1em 0;}
+  .content-panel li{margin-bottom:.4em;}
+  .content-panel .note{
+    background:var(--paper-deep); border:1px solid var(--paper-line); border-left:4px solid var(--indigo);
+    padding:12px 16px; font-size:.9rem; color:var(--ink-soft); margin:1.3em 0;
+  }
+
+  .module-nav{
+    display:flex; justify-content:space-between; align-items:stretch; gap:12px;
+    margin-top:40px; padding-top:24px; border-top:1px solid var(--paper-line); flex-wrap:wrap;
+  }
+  .module-nav-btn{
+    display:flex; flex-direction:column; gap:4px; max-width:47%;
+    background:var(--paper-deep); border:1px solid var(--paper-line); border-radius:2px;
+    padding:12px 16px; cursor:pointer; text-align:left; font-family:inherit;
+  }
+  .module-nav-btn.next{ margin-left:auto; text-align:right; align-items:flex-end; background:var(--green-deep); border:none; }
+  .module-nav-btn .module-nav-label{
+    font-family:'IBM Plex Mono',monospace; font-size:.72rem; letter-spacing:.04em; color:var(--ink-soft);
+  }
+  .module-nav-btn.next .module-nav-label{ color:var(--paper); opacity:.85; }
+  .module-nav-btn .module-nav-title{ font-family:'Zilla Slab',serif; font-weight:600; font-size:.98rem; color:var(--ink); }
+  .module-nav-btn.next .module-nav-title{ color:var(--paper); }
+  .module-nav-btn.prev:hover{ border-color:var(--ink-soft); }
+  .module-nav-btn.next:hover{ background:var(--green); }
+  .module-nav-done{
+    margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:.85rem; color:var(--correct);
+    align-self:center;
+  }
+
+  /* ---------- quiz ---------- */
+  .quiz-panel{max-width:70ch;}
+  .quiz-score{
+    display:none; align-items:flex-start; gap:14px; padding:16px; border-radius:2px; margin-bottom:22px;
+    border:1px solid var(--paper-line); background:var(--paper-deep); font-size:.92rem;
+  }
+  .quiz-score.show{display:flex;}
+  .quiz-score .stamp{width:46px; height:46px; font-size:.7rem; flex:0 0 auto;}
+  .quiz-score-body{display:flex; flex-direction:column; gap:12px; align-items:flex-start;}
+  .next-module-btn{}
+  .question-block{margin-bottom:30px; padding-bottom:26px; border-bottom:1px dashed var(--paper-line);}
+  .question-block:last-of-type{border-bottom:none;}
+  .question-block legend, .q-text{font-family:'Zilla Slab',serif; font-weight:600; font-size:1.02rem; margin-bottom:12px; padding:0; display:block;}
+  .options{display:flex; flex-direction:column; gap:8px; list-style:none; margin:0; padding:0;}
+  .option-label{
+    display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border:1px solid var(--paper-line);
+    border-radius:2px; cursor:pointer; background:var(--paper); font-size:.93rem;
+  }
+  .option-label:hover{border-color:var(--ink-soft);}
+  .option-label input{margin-top:3px;}
+  .option-label.correct{border-color:var(--correct); background:rgba(76,107,42,.1);}
+  .option-label.wrong{border-color:var(--wrong); background:rgba(150,56,43,.08);}
+  .explain{font-size:.87rem; color:var(--ink-soft); margin-top:10px; padding:10px 12px; background:var(--paper-deep); border-left:3px solid var(--gold); display:none;}
+  .explain.show{display:block;}
+  .quiz-actions{display:flex; gap:12px; margin-top:8px; flex-wrap:wrap;}
+  .btn{
+    font-family:'IBM Plex Mono',monospace; font-size:.82rem; font-weight:600; letter-spacing:.02em;
+    padding:11px 22px; border-radius:2px; border:none; cursor:pointer;
+  }
+  .btn-primary{background:var(--green-deep); color:var(--paper);}
+  .btn-primary:hover{background:var(--green);}
+  .btn-ghost{background:none; border:1px solid var(--paper-line); color:var(--ink-soft);}
+  .btn-ghost:hover{border-color:var(--ink-soft); color:var(--ink);}
+  .quiz-hint{font-size:.82rem; color:var(--ink-soft); margin-top:6px;}
+
+  footer{border-top:1px solid var(--paper-line); padding:26px 0 50px 0; margin-top:40px;}
+  footer p{font-size:.82rem; color:var(--ink-soft); margin:0 0 8px 0; max-width:60ch;}
+  footer p:last-child{margin-bottom:0;}
+  footer .credits{color:var(--ink); font-weight:600;}
+  footer a{color:var(--indigo); font-weight:600;}
+
+  @media (max-width:640px){
+    .module-head{align-items:flex-start;}
+    .module-head .stamp{width:46px;height:46px;font-size:.85rem;}
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ============================================================
+   DADOS: trilhas e módulos
+   ============================================================ */
+const TRILHAS = {
+  fundamentos: { label:'Fundamentos da Economia Solidária', color:'var(--indigo)', hex:'#1F4550',
+    desc:'Os princípios que diferenciam a economia solidária de um negócio comum: propriedade coletiva, autogestão e participação política.' },
+  gestao: { label:'Planejamento e Gestão', color:'var(--green)', hex:'#2E4A29',
+    desc:'As ferramentas para organizar o dia a dia do empreendimento: planejar, administrar, controlar dinheiro.' },
+  mercado: { label:'Mercado e Comercialização', color:'var(--brick)', hex:'#8A3D22',
+    desc:'Do produto até a venda: o que produzir, para quem, por quanto e por onde escoar.' },
+  politicas: { label:'Políticas Públicas e Projetos', color:'var(--plum)', hex:'#452C42',
+    desc:'Como acessar crédito, editais e cadastros públicos sem se perder na burocracia.' },
+  territorio: { label:'Território, Produção e Tecnologia', color:'var(--gold)', hex:'#7A5710',
+    desc:'A base produtiva do grupo e as ferramentas digitais que hoje atravessam tudo isso.' },
+};
+
+const MODULES = [];
+
+MODULES.push({
+  id:'economia-solidaria', num:1, trilha:'fundamentos',
+  title:'Economia Popular e Solidária',
+  teaser:'O que diferencia um empreendimento solidário de uma empresa comum — e por que isso muda tudo na prática.',
+  content:`
+    <h3>O que é</h3>
+    <p>Economia solidária é um jeito de organizar trabalho, produção, comercialização, crédito e consumo baseado em três coisas ao mesmo tempo: propriedade coletiva ou associada dos meios de produção, autogestão (quem trabalha também decide) e cooperação em vez de competição. Cabem aí cooperativas, associações, grupos informais organizados coletivamente, redes de troca, feiras solidárias e bancos comunitários.</p>
+    <h3>A diferença real para uma empresa comum</h3>
+    <p>Numa empresa tradicional, o capital contrata trabalho: quem investiu decide e fica com o lucro; quem trabalha recebe salário. Na economia solidária essa separação não existe — ou existe bem menos. As pessoas que produzem também são, coletivamente, donas do empreendimento e decidem o que fazer com o resultado do trabalho, chamado geralmente de "sobras" em vez de "lucro", porque a lógica de divisão é outra: por trabalho realizado, por produção entregue, por necessidade, conforme o grupo combinar.</p>
+    <h3>Por que isso importa na prática</h3>
+    <p>Entender esse princípio evita repetir, sem perceber, a lógica de patrão-empregado dentro do próprio grupo — por exemplo, uma coordenação que decide sozinha "porque é mais prático" ou sobras que só uma pessoa controla. Também é a base para acessar políticas específicas de economia solidária: cadastro no Sistema Nacional de Economia Solidária (SIES), editais e linhas de crédito costumam pedir essa caracterização.</p>
+    <h3>Como aplicar no seu grupo</h3>
+    <ol>
+      <li>Reuniões coletivas de decisão, com pauta e ata — mesmo que simples, em caderno.</li>
+      <li>Regras escritas sobre entrada e saída de integrantes, divisão do trabalho e das sobras.</li>
+      <li>Formalização gradual (associação, depois cooperativa, se fizer sentido) conforme o grupo amadurece — não é obrigatório começar formalizado.</li>
+    </ol>
+    <div class="note">O cadastro no SIES e as regras de cada linha de crédito ou edital de economia solidária mudam com o tempo. Antes de usar esse enquadramento para acessar uma política pública específica, confirme os critérios atuais com a entidade gestora ou uma incubadora/assessoria técnica.</div>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Confundir economia solidária com trabalho voluntário ou não remunerado — o trabalho deve ser remunerado e as sobras repartidas.</li>
+      <li>Deixar toda a gestão nas mãos de uma pessoa "porque é mais prático", o que corrói a autogestão aos poucos.</li>
+      <li>Não registrar as decisões, o que vira fonte de conflito quando alguém não lembra o que foi combinado.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que caracteriza principalmente um empreendimento de economia solidária, diferenciando-o de uma empresa tradicional?',
+      options:['O uso de tecnologia mais simples','A autogestão coletiva e a propriedade associada dos meios de produção','O fato de não vender para o mercado','A ausência de qualquer remuneração pelo trabalho'],
+      correct:1, explain:'Autogestão e propriedade coletiva/associada são os traços centrais. A economia solidária vende normalmente no mercado e remunera quem trabalha — a diferença está em quem decide e quem fica com o resultado.' },
+    { q:'Uma cooperativa quer praticar autogestão de fato. Qual atitude é coerente com isso?',
+      options:['Só a presidência decide sobre o uso das sobras','As decisões importantes são tomadas em assembleia, com atas registradas','As decisões são tomadas por quem investiu mais dinheiro no início','Não é necessário registrar decisões, basta confiar nas pessoas'],
+      correct:1, explain:'Autogestão exige que as decisões relevantes passem pelo coletivo e fiquem registradas, para que todo mundo tenha acesso ao que foi combinado — inclusive quem não estava na reunião.' },
+    { q:'Um grupo informal, sem CNPJ, mas que produz e vende coletivamente com decisões partilhadas, pode ser considerado economia solidária?',
+      options:['Não, só cooperativas registradas contam','Sim — a formalização é recomendável, mas o que define é a prática de autogestão e cooperação','Não, é preciso ter pelo menos 20 associados','Sim, mas só se vender exclusivamente para o poder público'],
+      correct:1, explain:'A formalização jurídica ajuda a acessar crédito e editais, mas não é o que define economia solidária — o critério central é a prática de autogestão e cooperação.' },
+    { q:'Qual é um risco real quando um grupo concentra toda a gestão numa liderança, mesmo se dizendo "autogestionário"?',
+      options:['Nenhum, desde que a liderança seja competente','O grupo perde automaticamente o direito a crédito','Reproduz por dentro a lógica de patrão-empregado e enfraquece a participação e a confiança','É obrigado por lei a se dissolver'],
+      correct:2, explain:'Concentrar decisões numa só pessoa recria, na prática, a relação de patrão e empregado que a economia solidária busca superar — mesmo sem essa intenção.' },
+  ]
+});
+
+MODULES.push({
+  id:'autogestao-participacao', num:2, trilha:'fundamentos',
+  title:'Práticas de Autogestão e Participação Coletiva',
+  teaser:'As rotinas concretas que fazem a autogestão acontecer de verdade — não só no discurso.',
+  content:`
+    <h3>O que é</h3>
+    <p>Autogestão não é ausência de organização — é o oposto. É um conjunto de rotinas e regras claras que garantem que as decisões sejam tomadas coletivamente, com informação circulando entre todos. Participação coletiva é o exercício constante dessas rotinas: quem participa, com que frequência, com que poder de fala e de voto.</p>
+    <h3>Estruturas que sustentam a autogestão</h3>
+    <ul>
+      <li><strong>Assembleia geral:</strong> instância máxima de decisão, define regras, elege coordenação, aprova contas.</li>
+      <li><strong>Coordenação ou diretoria rotativa:</strong> executa o que foi decidido, não decide sozinha o que é estratégico.</li>
+      <li><strong>Conselho fiscal:</strong> acompanha as finanças de forma independente da coordenação, mesmo em grupos pequenos.</li>
+      <li><strong>Regimento interno:</strong> regras escritas sobre entrada, saída, divisão de trabalho e de sobras, faltas e conflitos.</li>
+    </ul>
+    <h3>Sinais de que a autogestão está fraca</h3>
+    <p>Reuniões que só informam decisões já tomadas; informação financeira que circula só entre duas ou três pessoas; a mesma pessoa ocupando toda função de destaque por anos; assembleias sem pauta prévia, onde ninguém teve tempo de pensar antes de votar.</p>
+    <h3>Como fortalecer na prática</h3>
+    <ol>
+      <li>Defina uma periodicidade fixa de assembleia (mensal, bimestral) e cumpra.</li>
+      <li>Envie a pauta com alguns dias de antecedência, mesmo que por um grupo de mensagens.</li>
+      <li>Apresente as contas em linguagem simples e por escrito, não só de memória.</li>
+      <li>Faça rodízio de funções de coordenação, com um período de transição em que a pessoa nova acompanha a antiga.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Achar que "todo mundo decide tudo o tempo todo" é autogestão — na prática isso trava o grupo; o certo é combinar o que é decisão coletiva e o que é execução do dia a dia.</li>
+      <li>Deixar o regimento interno "para depois" — sem regras escritas, cada conflito vira uma negociação do zero.</li>
+      <li>Punir quem discorda em vez de abrir espaço para o desacordo aparecer antes da decisão.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que melhor define autogestão num empreendimento solidário?',
+      options:['Ausência de qualquer regra ou hierarquia de funções','Rotinas e regras claras que garantem decisão coletiva e circulação de informação','Um sistema em que ninguém precisa prestar contas a ninguém','Uma pessoa de confiança decidindo em nome do grupo'],
+      correct:1, explain:'Autogestão depende de estrutura — assembleias, regimento, prestação de contas — não da ausência de organização.' },
+    { q:'Qual é um sinal claro de que a autogestão está enfraquecendo num grupo?',
+      options:['A coordenação é rotativa entre os membros','As contas são apresentadas por escrito na assembleia','Reuniões só comunicam decisões já tomadas por poucas pessoas','O regimento interno é revisado periodicamente'],
+      correct:2, explain:'Quando a assembleia vira um informe em vez de um espaço de decisão, o poder já se concentrou em poucas mãos, mesmo que o discurso continue sendo de autogestão.' },
+    { q:'Qual é a função do conselho fiscal num empreendimento solidário?',
+      options:['Substituir a assembleia geral nas decisões do dia a dia','Acompanhar as finanças de forma independente da coordenação','Definir sozinho o valor das sobras de cada pessoa','Representar o grupo perante bancos e editais'],
+      correct:1, explain:'O conselho fiscal existe justamente para que as finanças não fiquem sob controle exclusivo de quem coordena, reforçando a confiança mútua.' },
+    { q:'Por que "todo mundo decidir tudo o tempo todo" costuma travar um grupo, em vez de fortalecer a autogestão?',
+      options:['Porque decisão coletiva é sempre desnecessária','Porque isso confunde decisão estratégica com execução do dia a dia, tornando tudo lento','Porque a lei proíbe esse modelo de gestão','Porque reduz a arrecadação do grupo'],
+      correct:1, explain:'Autogestão saudável distingue o que precisa passar pelo coletivo (rumos, regras, contas) do que pode ser executado no dia a dia sem reunião — sem essa distinção, o grupo trava.' },
+  ]
+});
+
+MODULES.push({
+  id:'politica-cidadania', num:3, trilha:'fundamentos',
+  title:'Política e Cidadania',
+  teaser:'Por que participar de conselhos e espaços de controle social é parte do trabalho do empreendimento, não algo à parte.',
+  content:`
+    <h3>O que é</h3>
+    <p>Neste módulo, "política" não significa partido — significa a participação organizada dos grupos de economia solidária nos espaços onde as regras do jogo são decididas: conselhos municipais, estaduais e federais, conferências, fóruns de economia solidária, audiências públicas. Cidadania, aqui, é o exercício desse direito de participar e influenciar políticas que afetam diretamente o empreendimento.</p>
+    <h3>Por que isso é parte do trabalho, não um extra</h3>
+    <p>Créditos, editais, feiras apoiadas pela prefeitura, compras públicas (merenda escolar, aquisição de alimentos) — quase tudo isso nasce de uma política pública que foi debatida em algum conselho ou conferência. Grupos que nunca participam desses espaços tendem a descobrir as regras só depois de prontas, quando já é tarde para influenciá-las.</p>
+    <h3>Espaços comuns de participação e controle social</h3>
+    <ul>
+      <li>Conselhos municipais de desenvolvimento rural, de assistência social, de segurança alimentar.</li>
+      <li>Fóruns e conselhos de economia solidária (municipais, estaduais, e o espaço nacional ligado ao tema).</li>
+      <li>Conferências temáticas, que costumam ocorrer em ciclos e alimentam planos de governo.</li>
+      <li>Redes e federações de cooperativas e associações, que fazem essa articulação de forma permanente.</li>
+    </ul>
+    <h3>Como começar, sem se perder na burocracia</h3>
+    <ol>
+      <li>Descubra quais conselhos existem no seu município e quando se reúnem — a prefeitura costuma ter essa lista.</li>
+      <li>Comece participando como ouvinte, antes de assumir uma cadeira.</li>
+      <li>Divida a tarefa: nem sempre a mesma pessoa do grupo precisa ir a tudo — isso também evita dependência de uma liderança única.</li>
+      <li>Leve demandas concretas por escrito, não só queixas gerais — isso é mais fácil de virar pauta.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Tratar participação política como perda de tempo produtivo, sem perceber que decisões tomadas nesses espaços afetam diretamente o caixa do grupo.</li>
+      <li>Deixar sempre a mesma pessoa representar o grupo, criando dependência e desgaste.</li>
+      <li>Participar só quando já existe um problema urgente, perdendo o momento em que a política ainda estava sendo desenhada.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Por que a participação em conselhos e fóruns é relevante para um empreendimento de economia solidária?',
+      options:['Porque é obrigatória por lei para qualquer grupo produtivo','Porque políticas que afetam crédito, editais e compras públicas costumam ser debatidas nesses espaços','Porque aumenta o número de sócios do grupo automaticamente','Porque substitui a necessidade de assembleia interna'],
+      correct:1, explain:'Regras de crédito, editais e compras públicas nascem de debates em conselhos e conferências — participar é uma forma de influenciar essas regras antes que estejam prontas.' },
+    { q:'Qual prática ajuda a evitar que a participação política dependa de uma única pessoa do grupo?',
+      options:['Revezar quem representa o grupo em diferentes espaços','Concentrar a representação numa liderança "mais preparada" permanentemente','Evitar qualquer participação externa','Delegar essa função para uma consultoria contratada'],
+      correct:0, explain:'Revezar a representação distribui conhecimento e reduz a dependência de uma única pessoa, além de fortalecer a autogestão do grupo.' },
+    { q:'O que significa "controle social" nesse contexto?',
+      options:['Fiscalização feita exclusivamente por órgãos do governo','O acompanhamento e participação da sociedade civil na formulação e fiscalização de políticas públicas','Um sistema de vigilância interna do grupo','Uma exigência que só se aplica a cooperativas de grande porte'],
+      correct:1, explain:'Controle social é justamente a participação da sociedade — inclusive de grupos de economia solidária — no acompanhamento das políticas públicas, e não algo restrito ao próprio governo.' },
+    { q:'Qual é uma forma prática de começar a participar sem se perder na burocracia?',
+      options:['Esperar ser convidado formalmente por um órgão público','Descobrir quais conselhos existem no município e participar primeiro como ouvinte','Só participar quando já houver uma crise a resolver','Contratar um representante externo para ir no lugar do grupo'],
+      correct:1, explain:'Começar como ouvinte permite entender a dinâmica do espaço antes de assumir compromissos, e é uma porta de entrada mais realista do que esperar um convite.' },
+  ]
+});
+
+MODULES.push({
+  id:'planejamento-iniciativa', num:4, trilha:'gestao',
+  title:'Planejamento da Iniciativa de Economia Solidária',
+  teaser:'Antes de gerir o dia a dia, é preciso decidir para onde o grupo quer ir — e por quê.',
+  content:`
+    <h3>O que é</h3>
+    <p>Planejar a iniciativa é definir, de forma coletiva, onde o grupo quer chegar em um horizonte de tempo (geralmente 1 a 3 anos), quais passos vai dar para chegar lá e como vai saber se está no caminho certo. É diferente do plano de negócio (módulo específico), que é mais formal e voltado a convencer um investidor ou banco — o planejamento da iniciativa é o mapa interno de decisões do grupo.</p>
+    <h3>As perguntas que todo planejamento precisa responder</h3>
+    <ul>
+      <li><strong>Onde estamos?</strong> Diagnóstico honesto: produção atual, número de pessoas envolvidas, situação financeira, principais dificuldades.</li>
+      <li><strong>Onde queremos chegar?</strong> Objetivos concretos e com prazo — "aumentar a renda média em X" é melhor do que "crescer".</li>
+      <li><strong>Como vamos chegar lá?</strong> Ações, responsáveis e prazos.</li>
+      <li><strong>Como saberemos que está funcionando?</strong> Indicadores simples que o grupo consegue acompanhar sem depender de especialista.</li>
+    </ul>
+    <h3>Ferramenta simples: plano de ação em quatro colunas</h3>
+    <p>Uma tabela com as colunas "o que" (a ação), "quem" (responsável), "quando" (prazo) e "como saberemos que foi feito" já resolve boa parte da necessidade de planejamento de um grupo pequeno — não é preciso um documento sofisticado para começar.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Faça o diagnóstico em assembleia, ouvindo todos, não só a coordenação.</li>
+      <li>Escolha no máximo 3 a 5 objetivos prioritários — planejamento com 20 metas não sai do papel.</li>
+      <li>Revise o plano a cada 3 ou 4 meses, ajustando o que não está funcionando.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Planejar sozinho (ou só a coordenação) e depois "apresentar" ao grupo — isso não é planejamento coletivo, é comunicação de uma decisão já tomada.</li>
+      <li>Definir metas vagas demais para saber se foram cumpridas.</li>
+      <li>Fazer o plano uma vez e nunca mais revisitá-lo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é a principal diferença entre o planejamento da iniciativa e um plano de negócio formal?',
+      options:['Não existe diferença, são a mesma coisa','O planejamento da iniciativa é o mapa interno de decisões do grupo; o plano de negócio é mais formal, voltado a convencer bancos ou investidores','O plano de negócio é sempre mais simples que o planejamento da iniciativa','O planejamento da iniciativa só serve para cooperativas grandes'],
+      correct:1, explain:'Os dois se complementam, mas têm públicos e formatos diferentes: um é o guia interno do grupo, o outro fala principalmente com quem pode financiar o empreendimento.' },
+    { q:'Por que definir metas vagas como "crescer" ou "melhorar" prejudica o planejamento?',
+      options:['Porque a lei exige metas numéricas em qualquer planejamento','Porque sem um critério claro o grupo não consegue saber se a meta foi alcançada','Porque metas vagas aumentam automaticamente os custos','Porque isso impede o cadastro no SIES'],
+      correct:1, explain:'Uma meta só é útil para orientar decisões se for possível checar, no futuro, se ela foi cumprida ou não — daí a importância de metas com número e prazo.' },
+    { q:'O que caracteriza um planejamento feito de forma coletiva, e não apenas "pela coordenação"?',
+      options:['O diagnóstico e as prioridades são discutidos e decididos em assembleia com todo o grupo','O plano é escrito por um consultor externo contratado','A coordenação decide e depois comunica o plano pronto ao grupo','O plano é feito uma única vez e nunca mais revisado'],
+      correct:0, explain:'Planejamento coletivo significa que o diagnóstico e as escolhas de prioridade passam pelo grupo — apresentar um plano já pronto é comunicação, não planejamento participativo.' },
+    { q:'Qual é a vantagem prática de um plano de ação simples, em quatro colunas (o quê, quem, quando, como saber que foi feito)?',
+      options:['Ele substitui a necessidade de assembleias','Ele é acessível para grupos pequenos, sem exigir documentos sofisticados para começar a organizar as ações','Ele é exigido por lei para qualquer empreendimento solidário','Ele elimina a necessidade de revisar o planejamento depois'],
+      correct:1, explain:'A força dessa ferramenta é a simplicidade: um grupo pequeno consegue montar e acompanhar esse quadro sem depender de conhecimento técnico especializado.' },
+  ]
+});
+
+MODULES.push({
+  id:'metodos-gestao', num:5, trilha:'gestao',
+  title:'Métodos de Gestão',
+  teaser:'Ferramentas de gestão que funcionam num coletivo — nem tudo que serve para uma empresa comum serve aqui.',
+  content:`
+    <h3>O que é</h3>
+    <p>Métodos de gestão são as ferramentas e rotinas que organizam o funcionamento do empreendimento: como as tarefas são divididas, como o desempenho é acompanhado, como os problemas são resolvidos. A diferença, na economia solidária, é que esses métodos precisam caber dentro da autogestão — não podem virar um sistema de controle de cima para baixo.</p>
+    <h3>Ferramentas que costumam funcionar bem em coletivos</h3>
+    <ul>
+      <li><strong>Quadro de tarefas visível</strong> (físico ou digital): o que precisa ser feito, quem está fazendo, o que já foi concluído.</li>
+      <li><strong>Reunião curta e periódica de acompanhamento</strong> (semanal ou quinzenal): 20 a 30 minutos, focada em decisões operacionais, não estratégicas.</li>
+      <li><strong>Indicadores simples</strong>: quantidade produzida, vendida, valor arrecadado por período — acompanhados por todos, não só pela coordenação.</li>
+      <li><strong>Ciclo de melhoria contínua</strong>: planejar, fazer, checar o resultado, ajustar — repetido em pequenos ciclos, em vez de tentar acertar tudo de uma vez.</li>
+    </ul>
+    <h3>O que evitar</h3>
+    <p>Métodos de gestão pensados para hierarquias rígidas (metas individuais competitivas, punição por não bater meta, controle detalhado do tempo de cada pessoa) tendem a corroer a cooperação que sustenta o grupo. Adote a lógica, não a fórmula pronta de um manual de empresa comum.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Escolha uma única ferramenta nova por vez — tentar implantar tudo junto costuma fracassar.</li>
+      <li>Explique o "porquê" da ferramenta antes de pedir que o grupo a use.</li>
+      <li>Revise depois de um ou dois meses: a ferramenta ajudou ou virou burocracia sem uso?</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Copiar um sistema de gestão de empresa privada sem adaptar à lógica coletiva.</li>
+      <li>Usar indicadores para comparar e cobrar pessoas em vez de melhorar processos.</li>
+      <li>Abandonar a ferramenta ao primeiro sinal de dificuldade, sem dar tempo de virar hábito.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que diferencia um método de gestão adequado à economia solidária de um método de gestão de empresa comum?',
+      options:['Não existe diferença relevante','O método precisa caber dentro da autogestão, sem virar controle hierárquico de cima para baixo','Métodos de gestão não podem ser usados em empreendimentos solidários','A diferença está apenas no software utilizado'],
+      correct:1, explain:'A ferramenta em si pode ser parecida, mas o uso precisa respeitar a lógica coletiva — sem virar um sistema de cobrança individual e competição.' },
+    { q:'Qual é o risco de usar indicadores de produção para comparar e cobrar pessoas dentro do grupo?',
+      options:['Nenhum, é a forma correta de usar indicadores','Corroer a cooperação entre os membros, criando competição interna','Aumentar automaticamente a produtividade sem efeitos negativos','Facilitar o acesso a crédito bancário'],
+      correct:1, explain:'Indicadores são úteis para melhorar processos coletivamente; usados para comparar e punir pessoas, tendem a minar a confiança e a cooperação do grupo.' },
+    { q:'Por que é recomendável implantar uma ferramenta de gestão nova por vez, em vez de várias ao mesmo tempo?',
+      options:['Porque a lei limita o número de ferramentas de gestão','Porque implantar tudo junto costuma sobrecarregar o grupo e fazer as mudanças fracassarem','Porque cada ferramenta exige um CNPJ diferente','Porque isso reduz o valor das sobras'],
+      correct:1, explain:'Mudanças de rotina exigem adaptação; introduzir várias ao mesmo tempo dificulta que qualquer uma delas realmente vire hábito.' },
+    { q:'O que caracteriza o "ciclo de melhoria contínua" como método de gestão?',
+      options:['Fazer um planejamento único e definitivo, sem revisão','Planejar, fazer, checar o resultado e ajustar, em pequenos ciclos repetidos','Delegar toda a gestão a uma única pessoa de forma permanente','Eliminar a necessidade de indicadores'],
+      correct:1, explain:'O ciclo de planejar-fazer-checar-ajustar permite corrigir o rumo aos poucos, em vez de depender de acertar tudo de uma vez em um plano fechado.' },
+  ]
+});
+
+MODULES.push({
+  id:'gestao-administrativa-financeira', num:6, trilha:'gestao',
+  title:'Gestão Administrativa e Financeira da Iniciativa',
+  teaser:'A rotina que sustenta o empreendimento no dia a dia: documentos, obrigações e controle do dinheiro.',
+  content:`
+    <h3>O que é</h3>
+    <p>É o conjunto de rotinas que mantêm o empreendimento funcionando de forma organizada e regular: guarda de documentos, cumprimento de obrigações (fiscais, trabalhistas, associativas), e controle contínuo das entradas e saídas de dinheiro. É diferente do plano de finanças (módulo específico), que é mais voltado ao planejamento futuro — aqui o foco é a rotina do presente.</p>
+    <h3>Rotina administrativa básica</h3>
+    <ul>
+      <li>Pasta (física ou digital) organizada com atas, estatuto ou regimento, comprovantes e contratos.</li>
+      <li>Calendário de obrigações: prazos de declarações, renovação de cadastros (como o CAF — Cadastro Nacional da Agricultura Familiar — para quem se enquadra), vencimento de certidões.</li>
+      <li>Registro de quem é integrante ativo, quem entrou, quem saiu, e desde quando.</li>
+    </ul>
+    <h3>Rotina financeira básica</h3>
+    <ul>
+      <li>Livro-caixa simples: toda entrada e saída de dinheiro, com data, descrição e valor.</li>
+      <li>Separação clara entre o caixa do empreendimento e o dinheiro pessoal de cada integrante — mesmo em grupos informais, essa separação evita conflitos.</li>
+      <li>Prestação de contas periódica em assembleia, em linguagem acessível a quem não é da área financeira.</li>
+    </ul>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Nomeie (ou revezem) uma pessoa responsável por manter o livro-caixa atualizado — mas com acesso e revisão aberta ao grupo.</li>
+      <li>Feche as contas no mesmo dia da semana ou do mês, criando hábito.</li>
+      <li>Guarde comprovantes de tudo, mesmo pequenas compras — no futuro, isso sustenta pedidos de crédito e prestação de contas de editais.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Misturar o dinheiro do grupo com o dinheiro pessoal de quem administra o caixa.</li>
+      <li>Deixar a papelada acumular "para organizar depois" — o que costuma nunca acontecer.</li>
+      <li>Perder prazos de renovação de cadastros por falta de um calendário simples de acompanhamento.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é a diferença entre gestão administrativa e financeira do dia a dia e o plano de finanças?',
+      options:['São exatamente a mesma coisa','A gestão do dia a dia cuida da rotina presente; o plano de finanças projeta e planeja o futuro','O plano de finanças substitui a necessidade de livro-caixa','A gestão administrativa só existe em cooperativas formalizadas'],
+      correct:1, explain:'Os dois se complementam: a rotina do dia a dia mantém tudo organizado agora, enquanto o plano de finanças projeta cenários futuros com base nessa rotina.' },
+    { q:'Por que é importante separar o caixa do empreendimento do dinheiro pessoal de cada integrante, mesmo em grupos informais?',
+      options:['Porque é uma exigência apenas de cooperativas de grande porte','Porque a mistura de valores costuma gerar conflitos e dificulta saber o real resultado financeiro do grupo','Porque a lei proíbe qualquer grupo de guardar dinheiro em espécie','Porque isso elimina a necessidade de prestação de contas'],
+      correct:1, explain:'Sem essa separação, fica quase impossível saber quanto o empreendimento realmente ganhou ou gastou — e abre espaço para desconfiança entre os membros.' },
+    { q:'Qual é a função de um calendário de obrigações no dia a dia do grupo?',
+      options:['Substituir o livro-caixa','Ajudar a não perder prazos de declarações, renovação de cadastros e certidões','Definir o valor das sobras de cada pessoa','Registrar apenas as vendas realizadas'],
+      correct:1, explain:'Perder prazos de renovação de cadastros (como os que dão acesso a políticas da agricultura familiar) pode bloquear o acesso a crédito e editais — o calendário existe para evitar isso.' },
+    { q:'Por que guardar comprovantes de compras pequenas também é importante, e não só das grandes?',
+      options:['Porque isso não tem nenhuma utilidade prática','Porque sustenta futuros pedidos de crédito e prestações de contas de editais, além de dar clareza ao livro-caixa','Porque a lei exige isso apenas para compras acima de determinado valor','Porque substitui a necessidade de ata de assembleia'],
+      correct:1, explain:'O histórico completo de comprovantes dá consistência ao livro-caixa e é frequentemente exigido em prestação de contas de projetos e editais, mesmo para valores pequenos.' },
+  ]
+});
+
+MODULES.push({
+  id:'plano-negocio', num:7, trilha:'gestao',
+  title:'Plano de Negócio',
+  teaser:'O documento que organiza, de ponta a ponta, se e como a iniciativa é viável — e que abre portas com bancos e editais.',
+  content:`
+    <h3>O que é</h3>
+    <p>Plano de negócio é um documento que reúne, de forma organizada, o que o empreendimento produz, para quem vende, como se organiza, quanto custa operar e qual é a expectativa de resultado financeiro. Serve tanto para orientar decisões internas quanto para apresentar a iniciativa a bancos, editais e parceiros — muitas linhas de crédito e chamadas públicas exigem esse documento, ou uma versão simplificada dele.</p>
+    <h3>As partes que normalmente compõem um plano de negócio</h3>
+    <ul>
+      <li><strong>Apresentação do empreendimento:</strong> histórico, forma de organização, número de pessoas envolvidas.</li>
+      <li><strong>Produtos ou serviços:</strong> o que é produzido e o que o diferencia.</li>
+      <li><strong>Mercado:</strong> quem compra, onde, e quem mais vende algo parecido (ver módulo de Estudos de Mercado).</li>
+      <li><strong>Operação:</strong> como o trabalho é organizado, do insumo até a entrega.</li>
+      <li><strong>Finanças:</strong> investimento necessário, custos, receita esperada, ponto de equilíbrio (ver módulos de Plano de Finanças e Viabilidade de Produto).</li>
+    </ul>
+    <h3>Por que fazer isso mesmo sem pedir crédito agora</h3>
+    <p>O maior valor do plano de negócio costuma não ser o documento em si, mas o exercício de responder, com dados reais, perguntas que o grupo às vezes evita: o que realmente sobra depois de pagar tudo? O produto atual sustenta o número de pessoas envolvidas? Fazer esse exercício antes de precisar dele com urgência dá tempo de corrigir o rumo.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Comece por uma versão simples, de poucas páginas — um plano de negócio de grupo pequeno não precisa ter o tamanho de um projeto de grande empresa.</li>
+      <li>Preencha com números reais do grupo, não estimativas otimistas — o documento só ajuda se for honesto.</li>
+      <li>Revise a cada seis meses ou um ano, ou sempre que algo mudar significativamente (novo produto, novo mercado, mudança de custo de insumo).</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Copiar um modelo pronto da internet sem adaptar aos números e à realidade do grupo.</li>
+      <li>Inflar a projeção de vendas para parecer mais atraente a um edital, o que compromete o planejamento real depois.</li>
+      <li>Fazer o plano uma única vez, para conseguir um crédito específico, e nunca mais atualizá-lo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é a principal utilidade do plano de negócio além de conseguir crédito ou edital?',
+      options:['Nenhuma, ele só serve para apresentar a bancos','Obrigar o grupo a responder, com dados reais, se o empreendimento realmente sustenta as pessoas envolvidas','Substituir a necessidade de assembleia sobre finanças','Eliminar a necessidade de estudo de mercado'],
+      correct:1, explain:'O exercício de reunir números reais costuma revelar problemas ou oportunidades que o grupo não enxergava só pela vivência do dia a dia.' },
+    { q:'Por que inflar a projeção de vendas para parecer mais atraente num edital é um erro sério?',
+      options:['Porque isso é ilegal em qualquer circunstância','Porque compromete o planejamento real do grupo depois, quando a expectativa não se confirma','Porque editais nunca avaliam projeções de venda','Porque aumenta automaticamente os custos de produção'],
+      correct:1, explain:'Um plano inflado pode até "ganhar" o edital no papel, mas deixa o grupo com metas irreais para cumprir depois, gerando frustração e problemas de caixa.' },
+    { q:'Com que frequência, no mínimo, é recomendável revisar o plano de negócio?',
+      options:['Nunca — o plano de negócio é definitivo depois de pronto','A cada seis meses ou um ano, ou quando algo relevante mudar','Somente quando um banco exigir uma nova versão','A cada dia, junto com o livro-caixa'],
+      correct:1, explain:'O plano de negócio precisa acompanhar mudanças reais do empreendimento (novo produto, novo custo, novo mercado) para continuar sendo útil.' },
+    { q:'Por que copiar um modelo pronto de plano de negócio da internet, sem adaptação, costuma ser problemático?',
+      options:['Porque modelos prontos são sempre proibidos por lei','Porque o documento só tem valor se refletir os números e a realidade real do grupo','Porque isso aumenta automaticamente os custos do empreendimento','Porque bancos não aceitam nenhum modelo padronizado'],
+      correct:1, explain:'Um plano de negócio genérico, com números que não são do grupo, não ajuda a tomar decisão nenhuma — o valor está em refletir a realidade concreta da iniciativa.' },
+  ]
+});
+
+MODULES.push({
+  id:'plano-financas', num:8, trilha:'gestao',
+  title:'Plano de Finanças',
+  teaser:'Fluxo de caixa, precificação e capital de giro — a base para o grupo não trabalhar no escuro.',
+  content:`
+    <h3>O que é</h3>
+    <p>O plano de finanças é a parte do planejamento dedicada especificamente ao dinheiro: quanto entra, quanto sai, quando entra, quando sai, e quanto é preciso ter guardado para não faltar caixa em momentos de baixa venda. É mais projetivo do que a gestão financeira do dia a dia (módulo anterior) — aqui o objetivo é olhar para frente.</p>
+    <h3>Três ferramentas centrais</h3>
+    <ul>
+      <li><strong>Fluxo de caixa projetado:</strong> uma previsão, mês a mês, de entradas e saídas esperadas — permite ver com antecedência em que mês o caixa pode ficar apertado.</li>
+      <li><strong>Formação de preço:</strong> o preço de venda precisa cobrir custo de insumo, mão de obra (mesmo que seja o próprio trabalho dos integrantes), custos fixos rateados e ainda deixar uma margem — vender abaixo disso corrói o caixa aos poucos, mesmo com boas vendas.</li>
+      <li><strong>Capital de giro:</strong> uma reserva mínima para cobrir despesas nos períodos entre a produção e o recebimento das vendas, comum em atividades sazonais como agricultura.</li>
+    </ul>
+    <h3>Por que muitos grupos vendem "no prejuízo" sem perceber</h3>
+    <p>É comum precificar olhando só o custo do insumo, esquecendo o valor do próprio trabalho ou dos custos fixos (transporte, embalagem, taxas). O resultado é um grupo que vende bastante, parece ativo, mas no fim do mês não sabe para onde foi o dinheiro — porque o preço nunca cobriu tudo.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Liste todos os custos de um produto, incluindo os que parecem pequenos (embalagem, combustível até a feira, taxa de cartão).</li>
+      <li>Calcule o preço mínimo que cobre tudo isso, e só depois defina a margem desejada.</li>
+      <li>Monte uma planilha simples de fluxo de caixa projetado para os próximos 3 a 6 meses.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Não contar o próprio trabalho como custo, "porque é do grupo mesmo" — isso mascara se a atividade é realmente sustentável.</li>
+      <li>Ignorar a sazonalidade e ser pego de surpresa em meses de baixa produção.</li>
+      <li>Definir preço só olhando o que o concorrente cobra, sem calcular o custo real do grupo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é o objetivo central do fluxo de caixa projetado?',
+      options:['Registrar vendas já realizadas no passado','Prever, mês a mês, entradas e saídas esperadas para antecipar períodos de aperto financeiro','Substituir a necessidade de prestação de contas em assembleia','Calcular apenas o valor de impostos devidos'],
+      correct:1, explain:'O valor do fluxo projetado está em enxergar com antecedência os meses em que o caixa pode ficar apertado, permitindo se preparar antes que o problema aconteça.' },
+    { q:'Por que não contar o próprio trabalho como custo na formação de preço é um erro comum e sério?',
+      options:['Porque a lei exige que o trabalho seja sempre remunerado com salário mínimo','Porque isso mascara se a atividade realmente sustenta as pessoas envolvidas','Porque isso é sempre ilegal em qualquer empreendimento','Porque reduz automaticamente as vendas'],
+      correct:1, explain:'Se o preço não cobre o valor do trabalho, o grupo pode estar, na prática, trabalhando de graça sem perceber — mesmo vendendo regularmente.' },
+    { q:'O que é capital de giro, no contexto de um empreendimento com produção sazonal?',
+      options:['O valor total investido na compra de equipamentos','Uma reserva mínima para cobrir despesas entre a produção e o recebimento das vendas','O lucro acumulado ao final do ano','O valor pago em impostos sobre a produção'],
+      correct:1, explain:'Atividades sazonais, como muitas da agricultura, têm intervalo entre gastar com produção e receber pela venda — o capital de giro cobre esse intervalo.' },
+    { q:'Por que definir o preço só com base no que o concorrente cobra pode ser arriscado?',
+      options:['Porque a concorrência nunca deve ser levada em conta','Porque o custo real do grupo pode ser diferente do custo de quem está sendo usado como referência','Porque é proibido comparar preços com concorrentes','Porque isso elimina a necessidade de fluxo de caixa'],
+      correct:1, explain:'Copiar o preço de outra pessoa ou empresa sem calcular o próprio custo pode levar a vender abaixo do necessário para cobrir as despesas reais do grupo.' },
+  ]
+});
+
+MODULES.push({
+  id:'desenvolvimento-produtos', num:9, trilha:'mercado',
+  title:'Desenvolvimento de Produtos ou Serviços',
+  teaser:'Como melhorar ou criar um produto pensando em quem compra, sem perder a identidade do grupo.',
+  content:`
+    <h3>O que é</h3>
+    <p>Desenvolver um produto ou serviço é o processo de criar algo novo, ou melhorar o que já existe, considerando ao mesmo tempo três coisas: o que o grupo sabe e consegue produzir bem, o que o mercado quer pagar, e o que é viável financeiramente. Muitos grupos já produzem algo bom, mas não passaram por esse processo de forma intencional — o produto "aconteceu" e nunca foi revisado.</p>
+    <h3>Perguntas para orientar o desenvolvimento</h3>
+    <ul>
+      <li>Quem vai comprar isso, especificamente — não "todo mundo", mas um público real?</li>
+      <li>O que esse público valoriza: preço baixo, origem do produto, qualidade, praticidade, história por trás?</li>
+      <li>O grupo consegue produzir isso de forma consistente, com qualidade parecida a cada lote?</li>
+      <li>Qual é o diferencial em relação ao que já existe no mercado?</li>
+    </ul>
+    <h3>Do protótipo ao produto final</h3>
+    <p>Antes de produzir em escala, vale testar em pequena quantidade: uma feira, um grupo de clientes de confiança, uma roda de degustação ou avaliação. O objetivo é ouvir crítica real antes de investir tempo e insumo em produção maior — e ajustar embalagem, ponto de sabor, tamanho, ou o serviço prestado, com base nesse retorno.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Liste os produtos ou serviços atuais e avalie, com o grupo, o que está vendendo bem e o que não está — e por quê.</li>
+      <li>Escolha um produto para desenvolver ou melhorar de cada vez, evitando dispersar esforço em muitas frentes.</li>
+      <li>Teste pequeno, colete opinião de quem não é do grupo (evita o viés de "achar que está bom" só porque é familiar).</li>
+      <li>Ajuste e só depois amplie a produção.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Desenvolver o produto pensando só no que o grupo gosta de fazer, sem checar se existe demanda por isso.</li>
+      <li>Pular a etapa de teste e ir direto para produção em grande escala.</li>
+      <li>Copiar um produto de sucesso de outro grupo sem adaptar à realidade e identidade própria.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Quais três fatores um bom processo de desenvolvimento de produto ou serviço precisa considerar juntos?',
+      options:['Só o que o grupo gosta de produzir','O que o grupo sabe produzir, o que o mercado valoriza e a viabilidade financeira','Apenas o preço da concorrência','Somente a disponibilidade de matéria-prima'],
+      correct:1, explain:'Um produto que ignora qualquer uma dessas três dimensões tende a falhar: seja por não ter demanda, não ser viável de produzir, ou não fechar as contas.' },
+    { q:'Por que testar o produto em pequena escala antes de ampliar a produção é uma boa prática?',
+      options:['Porque a lei exige testes formais para qualquer produto artesanal','Porque permite ouvir crítica real e ajustar antes de investir tempo e insumo em produção maior','Porque reduz automaticamente o custo de produção','Porque elimina a necessidade de estudo de mercado depois'],
+      correct:1, explain:'É mais barato corrigir um problema num teste pequeno do que descobrir o mesmo problema depois de produzir um lote grande.' },
+    { q:'Qual é um risco de desenvolver um produto pensando apenas no que o grupo gosta de fazer?',
+      options:['Nenhum, gostar de produzir sempre garante boas vendas','O produto pode não ter demanda real no mercado, mesmo sendo bem feito','Isso torna o produto automaticamente mais caro','Isso impede o cadastro em editais de economia solidária'],
+      correct:1, explain:'Gostar de produzir algo é importante para a sustentabilidade do trabalho, mas não substitui checar se existe alguém disposto a comprar aquilo pelo preço necessário.' },
+    { q:'Por que copiar diretamente um produto de sucesso de outro grupo pode não funcionar?',
+      options:['Porque copiar produtos é sempre proibido por lei','Porque a realidade, os insumos disponíveis e a identidade de cada grupo são diferentes','Porque produtos copiados não podem ser vendidos em feiras','Porque isso invalida automaticamente o plano de negócio'],
+      correct:1, explain:'O que funciona para um grupo, num território e com uma história específica, pode não fazer sentido para outro — o desenvolvimento precisa partir da realidade própria.' },
+  ]
+});
+
+MODULES.push({
+  id:'estudos-mercado', num:10, trilha:'mercado',
+  title:'Estudos de Mercado',
+  teaser:'Descobrir, com informação real, quem compra, por quanto e onde — antes de produzir em quantidade.',
+  content:`
+    <h3>O que é</h3>
+    <p>Estudo de mercado é o levantamento de informações sobre quem pode comprar o que o grupo produz, quanto essas pessoas estão dispostas a pagar, onde compram produtos parecidos hoje, e quem mais oferece algo semelhante. Não precisa ser uma pesquisa cara ou complexa — para um grupo pequeno, um estudo de mercado bem feito muitas vezes cabe em conversas estruturadas e observação direta.</p>
+    <h3>As quatro perguntas centrais</h3>
+    <ul>
+      <li><strong>Quem compra?</strong> Descreva o público de forma concreta: onde mora, o que valoriza, quanto costuma gastar nesse tipo de produto.</li>
+      <li><strong>Quanto pagam?</strong> Pesquise preços de produtos parecidos em feiras, mercados e redes sociais da região.</li>
+      <li><strong>Onde compram?</strong> Feira, porta a porta, aplicativo de entrega, venda para o poder público, atravessador — cada canal tem custo e alcance diferentes.</li>
+      <li><strong>Quem mais vende algo parecido?</strong> Concorrência direta (produto igual) e indireta (produto que resolve a mesma necessidade de outro jeito).</li>
+    </ul>
+    <h3>Métodos simples e de baixo custo</h3>
+    <ol>
+      <li>Observação em feiras e mercados: o que vende mais, a que preço, em que embalagem.</li>
+      <li>Conversas estruturadas com potenciais compradores: mesmas 4 ou 5 perguntas para várias pessoas, para poder comparar respostas.</li>
+      <li>Pesquisa em redes sociais e grupos de WhatsApp/Facebook de compra e venda da região.</li>
+      <li>Conversa com técnicos de assistência (Emater e similares), sindicatos e incubadoras, que costumam ter esse tipo de informação já sistematizada.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Perguntar só para parentes e amigos, que tendem a responder de forma gentil demais, sem representar o mercado real.</li>
+      <li>Confundir "gostei do produto" com "eu compraria pelo preço necessário" — são perguntas diferentes.</li>
+      <li>Fazer o estudo uma vez e nunca atualizar, mesmo quando o mercado muda.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Quais são as quatro perguntas centrais de um estudo de mercado simples?',
+      options:['Quanto custa produzir, quanto tempo leva, qual o lucro, qual o imposto','Quem compra, quanto paga, onde compra, quem mais vende algo parecido','Qual a cor da embalagem, qual o nome do produto, qual o logotipo, qual a fonte usada','Quantos integrantes tem o grupo, há quanto tempo existe, onde fica sediado, qual o CNPJ'],
+      correct:1, explain:'Essas quatro perguntas — público, preço, canal de venda e concorrência — formam a base de qualquer estudo de mercado, simples ou complexo.' },
+    { q:'Por que perguntar só para parentes e amigos sobre um novo produto costuma distorcer o estudo de mercado?',
+      options:['Porque parentes e amigos nunca compram produtos do grupo','Porque eles tendem a responder de forma gentil demais, sem representar o comportamento real do mercado','Porque a lei proíbe pesquisar com pessoas próximas','Porque isso torna o produto automaticamente mais caro'],
+      correct:1, explain:'Respostas de pessoas próximas tendem a ser enviesadas positivamente por afeto, o que pode esconder problemas reais de aceitação do produto no mercado mais amplo.' },
+    { q:'Qual é a diferença entre "gostei do produto" e "eu compraria pelo preço necessário", e por que ela importa?',
+      options:['Não há diferença relevante entre essas respostas','Gostar do produto não garante disposição a pagar o preço que cobre os custos do grupo — são informações diferentes','A segunda pergunta é sempre mais fácil de responder','Isso só importa para produtos vendidos ao poder público'],
+      correct:1, explain:'Muita gente elogia um produto, mas isso não significa que pagaria o preço que o grupo precisa cobrar para ser sustentável — por isso vale perguntar as duas coisas separadamente.' },
+    { q:'Quem pode ser uma fonte útil e de baixo custo de informação de mercado para um grupo pequeno?',
+      options:['Somente empresas de consultoria especializadas e pagas','Técnicos de assistência (como Emater e similares), sindicatos e incubadoras que já sistematizam esse tipo de dado','Somente órgãos internacionais de estatística','Apenas concorrentes diretos do grupo'],
+      correct:1, explain:'Serviços públicos de assistência técnica, sindicatos e incubadoras universitárias frequentemente já têm informação de mercado da região, sem custo direto para o grupo.' },
+  ]
+});
+
+MODULES.push({
+  id:'viabilidade-produto', num:11, trilha:'mercado',
+  title:'Viabilidade de Produto',
+  teaser:'O cálculo que responde a uma pergunta simples e desconfortável: esse produto se paga?',
+  content:`
+    <h3>O que é</h3>
+    <p>Viabilidade de produto é a análise que verifica se, considerando custos, preço de venda possível e volume que dá para vender, aquele produto realmente compensa produzir. Um produto pode ser tecnicamente bom e ainda assim não ser viável — e um grupo sustentável precisa saber diferenciar as duas coisas.</p>
+    <h3>O cálculo central: ponto de equilíbrio</h3>
+    <p>Ponto de equilíbrio é a quantidade que precisa ser vendida para cobrir todos os custos, sem lucro nem prejuízo. Ele depende de três números: o custo fixo do período (o que se gasta independente de produzir muito ou pouco, como aluguel de um espaço ou manutenção de equipamento), o custo variável por unidade (o que se gasta a mais para cada unidade produzida, como insumo e embalagem) e o preço de venda. A conta básica é: ponto de equilíbrio = custo fixo dividido pela diferença entre o preço de venda e o custo variável por unidade.</p>
+    <h3>Por que isso importa</h3>
+    <p>Sem esse cálculo, é comum um grupo produzir com entusiasmo, vender tudo, e mesmo assim não sobrar dinheiro — porque o volume vendido nunca alcançou o ponto de equilíbrio. Fazer essa conta, mesmo de forma simples, evita continuar investindo tempo e recurso num produto que estruturalmente não fecha as contas, a não ser que algo mude (preço, custo, ou volume).</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Liste os custos fixos do período (mês, safra) e os custos variáveis por unidade produzida.</li>
+      <li>Calcule o ponto de equilíbrio com a fórmula acima.</li>
+      <li>Compare com o volume que o grupo realisticamente consegue vender, com base no estudo de mercado.</li>
+      <li>Se o volume necessário for maior do que o mercado absorve, revise preço, custo ou escala — ou reconsidere o produto.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Calcular viabilidade só uma vez, no início, e nunca refazer quando o custo de um insumo sobe.</li>
+      <li>Ignorar custos "pequenos" (transporte até a feira, taxa de máquina de cartão, embalagem) no cálculo.</li>
+      <li>Confundir "estamos vendendo tudo que produzimos" com "o produto é viável" — são perguntas diferentes.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que é o ponto de equilíbrio de um produto?',
+      options:['O preço médio praticado pela concorrência','A quantidade que precisa ser vendida para cobrir todos os custos, sem lucro nem prejuízo','O valor total investido na produção do primeiro lote','A margem de lucro desejada pelo grupo'],
+      correct:1, explain:'O ponto de equilíbrio marca a fronteira entre prejuízo e lucro: abaixo dele o grupo perde dinheiro produzindo aquele item, acima dele começa a sobrar algo.' },
+    { q:'Por que um produto pode ser "tecnicamente bom" e mesmo assim não ser viável?',
+      options:['Isso nunca acontece na prática','Porque qualidade do produto não garante, sozinha, que o preço e o volume vendável cubram os custos','Porque produtos bons são sempre mais caros de produzir','Porque a viabilidade depende apenas da opinião dos clientes'],
+      correct:1, explain:'Qualidade e viabilidade são análises diferentes: um produto pode ser excelente e ainda assim não fechar as contas se o custo for alto demais ou o mercado não absorver o volume necessário.' },
+    { q:'Se o volume necessário para atingir o ponto de equilíbrio for maior do que o mercado local consegue absorver, o que o grupo deveria considerar?',
+      options:['Ignorar o cálculo e continuar produzindo do mesmo jeito','Rever preço, custo ou escala de produção — ou reconsiderar o produto','Aumentar automaticamente o número de integrantes do grupo','Reduzir a qualidade do produto para produzir mais rápido'],
+      correct:1, explain:'Quando a conta não fecha com o mercado real disponível, é sinal de que algo na equação (preço, custo ou escala) precisa mudar, ou que o produto talvez não seja a melhor aposta agora.' },
+    { q:'Por que é importante refazer o cálculo de viabilidade quando o custo de um insumo sobe?',
+      options:['Porque o ponto de equilíbrio pode mudar, exigindo ajuste de preço ou volume de venda','Porque a lei exige recálculo formal a cada aumento de insumo','Porque isso é necessário apenas para produtos vendidos ao governo','Porque o cálculo de viabilidade nunca muda depois de feito uma vez'],
+      correct:0, explain:'Como o ponto de equilíbrio depende diretamente dos custos, uma mudança relevante no custo de insumo pode tornar um produto antes viável em inviável, se nada mais for ajustado.' },
+  ]
+});
+
+MODULES.push({
+  id:'comercializacao-vendas', num:12, trilha:'mercado',
+  title:'Comercialização e Vendas',
+  teaser:'A diferença entre produzir bem e conseguir vender bem — habilidades distintas que o grupo também precisa desenvolver.',
+  content:`
+    <h3>O que é</h3>
+    <p>Comercialização e vendas trata das habilidades e rotinas para efetivamente escoar a produção: como apresentar o produto, negociar preço e condições, atender quem compra, fechar a venda e manter clientes voltando. É comum um grupo dominar a produção e ter dificuldade justamente nessa etapa — que exige outro tipo de prática.</p>
+    <h3>Elementos de uma boa venda</h3>
+    <ul>
+      <li><strong>Apresentação do produto:</strong> embalagem, informação clara (o que é, de onde vem, como foi feito), organização do ponto de venda.</li>
+      <li><strong>Argumento de venda honesto:</strong> destacar o que realmente diferencia o produto, sem prometer o que não se cumpre.</li>
+      <li><strong>Atendimento:</strong> escutar o que a pessoa procura antes de "empurrar" o que o grupo quer vender.</li>
+      <li><strong>Follow-up:</strong> guardar contato de quem comprou (mesmo que informalmente) para avisar de novos produtos ou datas de feira.</li>
+    </ul>
+    <h3>Negociação sem perder a base</h3>
+    <p>É comum haver pressão para dar desconto, principalmente de compradores maiores ou intermediários. Negociar não significa aceitar qualquer proposta — é importante saber, antes da conversa, qual é o preço mínimo viável (calculado no módulo de Viabilidade de Produto) e não ceder abaixo dele, mesmo sob pressão.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Padronize a apresentação do produto e do ponto de venda, mesmo que simples.</li>
+      <li>Treine com o grupo um argumento de venda curto e honesto, que qualquer integrante consiga usar.</li>
+      <li>Registre contato de clientes recorrentes, ainda que num caderno.</li>
+      <li>Defina previamente o limite mínimo de negociação, para que ninguém precise decidir isso sob pressão, na hora.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Dar desconto na hora, sob pressão, sem saber se aquele preço ainda cobre os custos.</li>
+      <li>Prometer prazo de entrega ou quantidade que o grupo não consegue cumprir de fato.</li>
+      <li>Não guardar nenhum registro de quem comprou, perdendo a chance de fidelizar clientes.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Por que produzir bem e vender bem são consideradas habilidades distintas?',
+      options:['Porque não têm nenhuma relação entre si','Porque um grupo pode dominar a produção e ainda assim ter dificuldade em apresentar, negociar e fechar vendas','Porque a lei exige pessoas diferentes para cada função','Porque vender sempre exige mais tempo do que produzir'],
+      correct:1, explain:'É comum grupos com produto de qualidade terem baixa venda por falta de prática em apresentação, negociação e atendimento — por isso vale desenvolver isso intencionalmente.' },
+    { q:'Qual é a recomendação para lidar com pedidos de desconto durante uma negociação?',
+      options:['Sempre aceitar, para não perder a venda','Definir previamente o preço mínimo viável e não ceder abaixo dele, mesmo sob pressão','Nunca negociar preço em nenhuma circunstância','Aumentar o preço automaticamente quando alguém pede desconto'],
+      correct:1, explain:'Saber de antemão o limite mínimo (calculado a partir dos custos reais) evita decisões precipitadas durante a negociação, que podem comprometer a viabilidade do produto.' },
+    { q:'Por que registrar o contato de clientes, mesmo em grupos pequenos e informais, é uma boa prática?',
+      options:['Porque é uma exigência legal para qualquer venda','Porque permite avisar sobre novos produtos e datas de feira, ajudando a fidelizar quem já comprou','Porque substitui a necessidade de estudo de mercado','Porque aumenta automaticamente o preço de venda'],
+      correct:1, explain:'Manter contato com quem já comprou é uma forma barata de gerar vendas futuras, sem depender só de atrair gente nova a cada feira ou período.' },
+    { q:'O que caracteriza um "argumento de venda honesto"?',
+      options:['Prometer qualquer coisa que aumente a chance de fechar a venda','Destacar o que realmente diferencia o produto, sem prometer o que não se cumpre','Evitar falar sobre o produto e deixar o cliente decidir sozinho','Focar apenas no preço, ignorando outras características do produto'],
+      correct:1, explain:'Um argumento honesto constrói confiança de longo prazo com quem compra — promessas que não se cumprem prejudicam a reputação do grupo e a venda futura.' },
+  ]
+});
+
+MODULES.push({
+  id:'comercializacao-redes', num:13, trilha:'mercado',
+  title:'Comercialização e Redes de Economia Solidária',
+  teaser:'Vender junto com outros grupos: circuitos curtos, feiras solidárias, redes de cooperação e moeda social.',
+  content:`
+    <h3>O que é</h3>
+    <p>Além da venda individual do grupo, a economia solidária tem construído formas coletivas de comercialização: redes onde vários empreendimentos compram e vendem entre si, feiras solidárias organizadas conjuntamente, centrais de comercialização que reúnem produção de vários grupos para vender com mais força de negociação, e circuitos curtos que aproximam quem produz de quem consome, reduzindo intermediários.</p>
+    <h3>Por que vender em rede pode ser mais forte do que vender sozinho</h3>
+    <ul>
+      <li><strong>Escala:</strong> juntos, vários grupos conseguem atender pedidos maiores (como compras públicas) que sozinhos não dariam conta.</li>
+      <li><strong>Poder de negociação:</strong> comprar insumos ou negociar espaço de venda em conjunto costuma sair mais barato.</li>
+      <li><strong>Diversificação:</strong> uma central de comercialização com produtos de vários grupos atrai mais clientes do que uma barraca isolada.</li>
+      <li><strong>Redução de intermediário:</strong> circuitos curtos (feira do produtor, entrega direta, grupos de consumo responsável) deixam mais valor com quem produz.</li>
+    </ul>
+    <h3>Moeda social: o que é e quando faz sentido</h3>
+    <p>Moeda social é uma moeda complementar, usada dentro de uma comunidade ou rede específica, que estimula a circulação de dinheiro entre negócios locais em vez de "vazar" para fora do território. Funciona bem quando há uma rede local já ativa de comércio disposta a aceitá-la — sem essa base, a moeda social tende a não decolar.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Mapeie redes, fóruns e centrais de comercialização de economia solidária já existentes na sua região antes de tentar criar algo do zero.</li>
+      <li>Comece participando de uma feira solidária coletiva antes de tentar organizar uma.</li>
+      <li>Avalie coletivamente se compras conjuntas de insumo (adubo, embalagem, transporte) reduziriam custo para o grupo.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Tentar competir com outros grupos de economia solidária da região em vez de buscar cooperação — o que enfraquece o movimento como um todo.</li>
+      <li>Entrar numa rede de comercialização sem entender as regras de participação e divisão de custos.</li>
+      <li>Achar que moeda social resolve sozinha um problema de baixa demanda real por um produto.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é uma vantagem prática de vender em rede com outros empreendimentos de economia solidária?',
+      options:['Elimina a necessidade de qualquer estudo de mercado','Permite atender pedidos maiores (como compras públicas) e ganhar poder de negociação em compras de insumo','Torna desnecessário calcular o ponto de equilíbrio','Substitui a necessidade de planejamento da iniciativa'],
+      correct:1, explain:'Sozinho, um grupo pequeno pode não conseguir atender uma demanda maior; em rede, a soma da produção de vários grupos amplia essa capacidade e o poder de negociação.' },
+    { q:'O que é um circuito curto de comercialização?',
+      options:['Uma venda feita exclusivamente por aplicativo','Uma forma de aproximar quem produz de quem consome, reduzindo intermediários','Um tipo de crédito bancário para pequenos produtores','Um imposto reduzido para produtos agroecológicos'],
+      correct:1, explain:'Circuitos curtos (feira do produtor, entrega direta, grupos de consumo) diminuem o número de intermediários entre produção e consumo, deixando mais valor com quem produz.' },
+    { q:'Em que condição uma moeda social tende a funcionar melhor?',
+      options:['Quando é criada isoladamente por um único grupo, sem rede local','Quando existe uma rede local já ativa de comércio disposta a aceitá-la','Quando substitui totalmente o uso de dinheiro oficial','Quando é usada apenas entre membros da mesma família'],
+      correct:1, explain:'Moeda social depende de circulação — sem uma rede mínima de comércios e pessoas dispostas a aceitá-la, ela não tem onde circular e tende a não se sustentar.' },
+    { q:'Por que competir com outros grupos de economia solidária da mesma região, em vez de cooperar, tende a enfraquecer o movimento?',
+      options:['Porque a legislação proíbe qualquer tipo de concorrência entre grupos solidários','Porque reduz o potencial de ganho coletivo com escala, negociação conjunta e redes de comercialização','Porque grupos concorrentes perdem automaticamente o cadastro no SIES','Porque isso aumenta os custos fixos de produção'],
+      correct:1, explain:'A força da economia solidária está justamente na cooperação entre empreendimentos — competir entre si, em vez de com o mercado convencional, desperdiça esse potencial coletivo.' },
+  ]
+});
+
+MODULES.push({
+  id:'marketing-digital', num:14, trilha:'mercado',
+  title:'Publicidade e Marketing Digital',
+  teaser:'Usar redes sociais e mensagens digitais para vender mais, sem depender de orçamento grande.',
+  content:`
+    <h3>O que é</h3>
+    <p>Publicidade e marketing digital, aqui, significa usar ferramentas digitais — redes sociais, WhatsApp, marketplaces — para dar visibilidade ao produto, atrair novos clientes e manter contato com quem já comprou. Para grupos de economia solidária, o desafio costuma ser fazer isso de forma simples e sustentável, sem depender de orçamento de publicidade paga ou de uma pessoa especializada em tempo integral.</p>
+    <h3>O básico que faz diferença</h3>
+    <ul>
+      <li><strong>Perfil claro e atualizado</strong> numa rede social (foto de qualidade simples, descrição do que o grupo produz, forma de contato e local de venda).</li>
+      <li><strong>Fotos com luz natural</strong> do produto, sem precisar de equipamento caro — costuma fazer mais diferença do que qualquer filtro.</li>
+      <li><strong>Postagem regular</strong>, mesmo que pouco frequente, é melhor do que postar muito uma vez e sumir por meses.</li>
+      <li><strong>Lista de transmissão ou grupo de WhatsApp</strong> de clientes, para avisar sobre datas de feira e novidades sem depender do alcance das redes sociais.</li>
+    </ul>
+    <h3>Contar a história real do grupo é a maior vantagem</h3>
+    <p>Empreendimentos de economia solidária costumam ter uma história genuína — de onde vêm os insumos, como o grupo se organiza, o território de onde saem os produtos. Essa história é um diferencial difícil de copiar por grandes empresas, e costuma engajar mais do que uma comunicação apenas comercial.</p>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Escolha uma ou duas redes para manter ativas, em vez de tentar estar em todas ao mesmo tempo sem conseguir sustentar.</li>
+      <li>Defina quem do grupo (ou em rodízio) cuida da postagem, com um combinado simples de frequência.</li>
+      <li>Peça, com naturalidade, que clientes satisfeitos indiquem o grupo ou deixem uma avaliação.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Investir tempo em muitas redes ao mesmo tempo e não conseguir manter nenhuma delas ativa.</li>
+      <li>Só postar quando tem produto para vender, sem construir relação nos períodos entre uma venda e outra.</li>
+      <li>Prometer, na publicidade, algo que o grupo depois não consegue cumprir (prazo, quantidade, característica do produto).</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é um dos principais desafios do marketing digital para grupos de economia solidária?',
+      options:['A proibição legal de usar redes sociais para vendas','Fazer isso de forma simples e sustentável, sem depender de orçamento grande ou pessoal especializado em tempo integral','A impossibilidade técnica de tirar fotos de produtos artesanais','A obrigatoriedade de contratar agência de publicidade'],
+      correct:1, explain:'O desafio real costuma ser de tempo e recurso disponível, não de proibição — por isso o foco em práticas simples e de baixo custo, mantidas com regularidade.' },
+    { q:'Por que manter uma ou duas redes sociais ativas costuma funcionar melhor do que tentar estar em muitas ao mesmo tempo?',
+      options:['Porque redes sociais adicionais são pagas para empreendimentos coletivos','Porque é mais fácil sustentar regularidade em poucas redes do que em muitas, com o tempo disponível do grupo','Porque a lei limita o número de redes sociais por CNPJ','Porque múltiplas redes reduzem automaticamente as vendas'],
+      correct:1, explain:'Um perfil pouco atualizado em várias redes costuma passar pior impressão do que um ou dois perfis bem cuidados e atualizados com regularidade.' },
+    { q:'Qual é uma vantagem específica que grupos de economia solidária costumam ter na comunicação, em relação a grandes empresas?',
+      options:['Orçamento de publicidade maior','Uma história genuína de território, origem e organização coletiva, difícil de copiar','Acesso exclusivo a determinadas redes sociais','Isenção automática de qualquer regra de publicidade'],
+      correct:1, explain:'A autenticidade da história do grupo — de onde vem, como se organiza — é um diferencial real que comunicação apenas comercial dificilmente reproduz.' },
+    { q:'Por que uma lista de transmissão ou grupo de WhatsApp de clientes é útil, mesmo tendo redes sociais?',
+      options:['Porque substitui totalmente a necessidade de redes sociais','Porque permite avisar clientes diretamente, sem depender do alcance variável das redes sociais','Porque é a única forma legal de vender produtos artesanais','Porque elimina a necessidade de estudo de mercado'],
+      correct:1, explain:'O alcance de postagens em redes sociais varia e nem sempre chega a quem já é cliente; uma mensagem direta garante que a informação chegue a quem já tem relação com o grupo.' },
+  ]
+});
+
+MODULES.push({
+  id:'acesso-politicas-financiamento', num:15, trilha:'politicas',
+  title:'Acesso a Políticas Públicas de Financiamento',
+  teaser:'Um panorama de onde buscar crédito e apoio financeiro público — e como se preparar para não perder a chance.',
+  content:`
+    <h3>O que é</h3>
+    <p>Existem, no Brasil, diferentes linhas de financiamento e apoio voltadas a empreendimentos de economia solidária e agricultura familiar — crédito rural (como as linhas do Pronaf), editais de fomento, compras públicas que garantem mercado (Programa de Aquisição de Alimentos e alimentação escolar, por exemplo), e linhas específicas de bancos públicos ou fundos solidários. Este módulo trata de como se orientar nesse universo, não de listar cada linha específica — que muda com frequência.</p>
+    <h3>O que quase toda política pública de financiamento exige</h3>
+    <ul>
+      <li>Algum tipo de cadastro prévio (CAF para agricultura familiar, cadastro no SIES para economia solidária, CNPJ para muitas linhas).</li>
+      <li>Documentação organizada: estatuto ou regimento, atas, comprovante de atividade.</li>
+      <li>Alguma forma de plano — de negócio, de trabalho ou de aplicação dos recursos — mostrando para que o dinheiro será usado.</li>
+      <li>Regularidade fiscal e associativa (certidões, prestação de contas de recursos anteriores, se houver).</li>
+    </ul>
+    <h3>Por que muitos grupos perdem oportunidades</h3>
+    <p>Não costuma ser falta de linha de crédito ou edital disponível — é a falta de preparação prévia: cadastro desatualizado, documentação incompleta, ou desconhecimento de que aquela chamada existia até o prazo já ter passado. Os módulos de Gestão Administrativa e Financeira e de Planejamento da Iniciativa preparam exatamente essa base.</p>
+    <h3>Como se organizar</h3>
+    <ol>
+      <li>Mantenha os cadastros básicos (CAF, SIES, CNPJ se houver) sempre atualizados, mesmo sem uma oportunidade específica em vista.</li>
+      <li>Acompanhe canais oficiais (prefeitura, sindicato, incubadoras, redes de economia solidária) para saber de editais com antecedência.</li>
+      <li>Tenha sempre uma versão atualizada e simples do plano de negócio pronta — muitos editais pedem esse documento com prazo curto.</li>
+    </ol>
+    <div class="note">Linhas de crédito, programas e plataformas de cadastro mudam de nome, regra e prazo com frequência. Use este módulo para entender a lógica geral de preparação — e confirme sempre as linhas atualmente disponíveis com um técnico de assistência rural, sindicato ou incubadora.</div>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Buscar informação sobre crédito só quando já existe uma necessidade urgente.</li>
+      <li>Deixar a documentação para organizar depois que o edital já foi divulgado, perdendo o prazo.</li>
+      <li>Desconhecer o próprio enquadramento (se o grupo se qualifica como agricultura familiar, economia solidária, ou ambos).</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Qual é o motivo mais comum de grupos perderem oportunidades de financiamento público, segundo este módulo?',
+      options:['A inexistência de linhas de crédito disponíveis','Falta de preparação prévia: cadastro desatualizado, documentação incompleta ou desconhecimento do edital a tempo','A proibição legal de grupos informais acessarem qualquer crédito','O valor sempre insuficiente das linhas disponíveis'],
+      correct:1, explain:'Na maioria dos casos, o problema não é ausência de política pública, mas falta de preparação prévia do grupo para aproveitar a oportunidade quando ela aparece.' },
+    { q:'O que quase toda política pública de financiamento costuma exigir do grupo?',
+      options:['Um número mínimo obrigatório de 50 integrantes','Cadastro prévio, documentação organizada e algum tipo de plano de uso dos recursos','Um contrato exclusivo com um único comprador','A ausência total de dívidas anteriores de qualquer natureza'],
+      correct:1, explain:'Cadastro, documentação em ordem e um plano mínimo são a base comum à maioria das linhas de crédito e editais, independentemente do nome específico do programa.' },
+    { q:'Por que é recomendável manter cadastros como CAF ou SIES sempre atualizados, mesmo sem uma oportunidade específica em vista?',
+      options:['Porque cadastros desatualizados geram multa automática','Porque isso evita perder o prazo de um edital por falta de preparação prévia quando a oportunidade surgir','Porque a atualização é feita apenas uma vez na vida do grupo','Porque isso substitui a necessidade de plano de negócio'],
+      correct:1, explain:'Manter os cadastros em dia evita que, quando surgir um edital com prazo curto, o grupo perca a chance por falta de documentação básica pronta.' },
+    { q:'Por que este módulo evita listar nomes específicos de linhas de crédito e recomenda confirmar com um técnico local?',
+      options:['Porque essas informações são sigilosas','Porque programas, plataformas e regras de financiamento mudam de nome e de regra com frequência','Porque técnicos de assistência rural não têm essa informação','Porque grupos de economia solidária não têm acesso a crédito rural'],
+      correct:1, explain:'Nomes de programas, plataformas de cadastro e regras específicas mudam com frequência — por isso a orientação é entender a lógica geral e confirmar sempre a versão atual com quem acompanha essas políticas de perto.' },
+  ]
+});
+
+MODULES.push({
+  id:'transferegov', num:16, trilha:'politicas',
+  title:'Cadastramento de Projetos no Transferegov',
+  teaser:'Como funciona, em linhas gerais, o cadastro de propostas na plataforma federal de transferências.',
+  content:`
+    <h3>O que é</h3>
+    <p>Transferegov é a plataforma do governo federal usada para gerenciar transferências de recursos da União a estados, municípios e organizações da sociedade civil — como convênios, termos de fomento e termos de colaboração — incluindo boa parte dos editais federais que grupos de economia solidária podem acessar por meio de uma organização parceira (associação, cooperativa, ou uma entidade que execute o projeto em nome da rede).</p>
+    <h3>Como o processo costuma funcionar, em linhas gerais</h3>
+    <ol>
+      <li><strong>Publicação do edital ou chamamento</strong> pelo órgão federal responsável, com objeto, valor disponível, critérios e prazo.</li>
+      <li><strong>Cadastro da organização proponente</strong> na plataforma, com documentação institucional (estatuto, CNPJ, situação fiscal regular).</li>
+      <li><strong>Elaboração e envio do plano de trabalho</strong>: o que será feito, com que recurso, em que prazo, com que resultado esperado.</li>
+      <li><strong>Análise e, se aprovado, celebração do instrumento</strong> (convênio ou termo), seguida de execução e prestação de contas.</li>
+    </ol>
+    <h3>Por que isso costuma ser um obstáculo para grupos pequenos</h3>
+    <p>A exigência de documentação institucional completa, regularidade fiscal e um plano de trabalho técnico bem detalhado costuma pesar mais para grupos pequenos e recém-formalizados. Por isso é comum, na prática, que redes de economia solidária se organizem para que uma entidade com mais capacidade institucional (uma federação, uma incubadora parceira, uma associação maior) seja a proponente formal, distribuindo o benefício entre os grupos participantes.</p>
+    <h3>Como se preparar</h3>
+    <ol>
+      <li>Mantenha a documentação institucional do grupo (ou da entidade que vai propor) sempre regularizada — é a base de qualquer cadastro na plataforma.</li>
+      <li>Busque apoio de uma incubadora, federação ou assessoria técnica para a elaboração do plano de trabalho, especialmente na primeira vez.</li>
+      <li>Organize desde já um sistema simples de guarda de comprovantes — a prestação de contas costuma ser tão exigente quanto a proposta inicial.</li>
+    </ol>
+    <div class="note">A interface, as exigências e até o nome da plataforma de transferências federais já mudaram nos últimos anos (o Transferegov substituiu o antigo Siconv). Verifique sempre a versão vigente do sistema e os manuais oficiais atualizados antes de iniciar um cadastro, e busque apoio técnico de quem já tem experiência prática na plataforma.</div>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Subestimar o tempo necessário para reunir a documentação institucional completa.</li>
+      <li>Elaborar o plano de trabalho sem apoio técnico na primeira experiência, aumentando o risco de erro na análise.</li>
+      <li>Não planejar, desde o início, como será feita a prestação de contas — deixando isso "para depois".</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que é o Transferegov, em linhas gerais?',
+      options:['Uma linha exclusiva de crédito bancário privado','A plataforma do governo federal usada para gerenciar transferências de recursos a estados, municípios e organizações da sociedade civil','Um cadastro exclusivo para cooperativas de crédito','Uma rede social de grupos de economia solidária'],
+      correct:1, explain:'É a plataforma federal onde tramitam convênios, termos de fomento e termos de colaboração — os instrumentos pelos quais boa parte dos recursos federais chega a projetos de organizações da sociedade civil.' },
+    { q:'Por que redes de economia solidária costumam optar por ter uma entidade maior (federação, incubadora parceira) como proponente formal em editais federais?',
+      options:['Porque a lei proíbe grupos pequenos de participar diretamente','Porque a exigência de documentação institucional completa costuma pesar mais para grupos pequenos e recém-formalizados','Porque isso elimina a necessidade de prestação de contas','Porque apenas entidades com mais de 100 associados podem se cadastrar'],
+      correct:1, explain:'Entidades com mais capacidade institucional já têm, geralmente, a documentação e experiência necessárias para lidar com as exigências do processo, o que reduz o risco de erro para a rede como um todo.' },
+    { q:'Qual etapa do processo costuma exigir tanto cuidado quanto a proposta inicial, e é frequentemente subestimada?',
+      options:['A divulgação do edital','A prestação de contas após a execução do recurso','A escolha do nome do projeto','A votação em assembleia sobre participar ou não'],
+      correct:1, explain:'A prestação de contas exige comprovação detalhada do uso do recurso — organizar esse processo desde o início evita problemas sérios ao final da execução.' },
+    { q:'Por que este módulo recomenda verificar sempre a versão vigente da plataforma antes de iniciar um cadastro?',
+      options:['Porque o Transferegov nunca teve mudanças relevantes','Porque a plataforma e suas exigências já passaram por mudanças significativas (substituindo o antigo Siconv) e podem seguir mudando','Porque cadastros antigos são automaticamente aceitos','Porque a verificação é apenas uma formalidade sem efeito prático'],
+      correct:1, explain:'Sistemas de gestão de transferências federais têm histórico de mudança de plataforma e de regra — por isso vale sempre checar a versão e os manuais oficiais atuais antes de agir.' },
+  ]
+});
+
+MODULES.push({
+  id:'mrosc', num:17, trilha:'politicas',
+  title:'Desenvolvimento de Projetos com Base no MROSC',
+  teaser:'O marco legal (Lei 13.019/2014) que organiza a relação entre poder público e organizações da sociedade civil.',
+  content:`
+    <h3>O que é</h3>
+    <p>MROSC é a sigla para Marco Regulatório das Organizações da Sociedade Civil, estabelecido principalmente pela Lei federal 13.019/2014. Ele define as regras para que o poder público (federal, estadual ou municipal) repasse recursos e estabeleça parcerias com organizações da sociedade civil — associações, cooperativas sociais, fundações — por meio de instrumentos como termo de colaboração, termo de fomento e acordo de cooperação.</p>
+    <h3>Os principais instrumentos previstos</h3>
+    <ul>
+      <li><strong>Termo de colaboração:</strong> quando a proposta parte do poder público, geralmente por meio de chamamento público.</li>
+      <li><strong>Termo de fomento:</strong> quando a proposta parte da própria organização da sociedade civil, também via chamamento público.</li>
+      <li><strong>Acordo de cooperação:</strong> quando não há repasse de recurso financeiro do poder público, mas outros tipos de apoio mútuo.</li>
+      <li><strong>Chamamento público:</strong> o processo de seleção que, via de regra, precede a celebração desses instrumentos — o equivalente a uma licitação, mas voltado a parcerias com organizações sem fins lucrativos.</li>
+    </ul>
+    <h3>Por que conhecer esse marco importa</h3>
+    <p>Muitas parcerias entre prefeituras (ou governos estaduais) e associações e cooperativas de economia solidária — para gestão de espaços, execução de projetos sociais, feiras apoiadas pelo poder público — passam por esse marco legal. Entender a lógica básica (chamamento público, plano de trabalho, prestação de contas) ajuda o grupo a não ser pego de surpresa por exigências burocráticas no meio do processo.</p>
+    <h3>Como se preparar</h3>
+    <ol>
+      <li>Verifique se a entidade (associação ou cooperativa) tem o registro e a documentação exigidos para celebrar parcerias com o poder público local.</li>
+      <li>Acompanhe publicações de chamamento público do município ou estado nas áreas de interesse do grupo.</li>
+      <li>Busque apoio de assessoria jurídica ou técnica ao elaborar o plano de trabalho, especialmente na primeira parceria.</li>
+    </ol>
+    <div class="note">Este é um resumo geral de um marco legal com muitos detalhes técnicos e prazos específicos. Antes de firmar qualquer parceria com base no MROSC, procure orientação jurídica ou técnica especializada — o não cumprimento de exigências formais pode gerar responsabilização da diretoria da organização.</div>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Assumir uma parceria sem entender as obrigações de prestação de contas envolvidas.</li>
+      <li>Não observar o prazo e as regras do chamamento público, perdendo o processo por questão formal.</li>
+      <li>Deixar a responsabilidade formal da parceria recair só sobre uma pessoa da diretoria, sem apoio do grupo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'O que é o MROSC?',
+      options:['Um tipo específico de crédito bancário rural','O Marco Regulatório das Organizações da Sociedade Civil, principalmente a Lei federal 13.019/2014','Um cadastro exclusivo de cooperativas de crédito','Uma linha de financiamento internacional'],
+      correct:1, explain:'O MROSC é o conjunto de regras, estabelecido principalmente pela Lei 13.019/2014, que organiza como o poder público faz parcerias e repassa recursos a organizações da sociedade civil.' },
+    { q:'Qual é a diferença central entre termo de colaboração e termo de fomento?',
+      options:['Não há diferença, são sinônimos','No termo de colaboração a proposta parte do poder público; no termo de fomento, parte da organização da sociedade civil','O termo de fomento nunca envolve recurso financeiro','O termo de colaboração é exclusivo para cooperativas de crédito'],
+      correct:1, explain:'A origem da proposta é o que diferencia os dois instrumentos — em ambos os casos, normalmente há um chamamento público antes da celebração da parceria.' },
+    { q:'O que é um chamamento público, no contexto do MROSC?',
+      options:['Uma reunião informal entre prefeitura e um único grupo escolhido diretamente','O processo de seleção que normalmente precede a celebração de parcerias com organizações da sociedade civil','Um tipo de assembleia interna da organização','Um edital exclusivo para grandes empresas privadas'],
+      correct:1, explain:'O chamamento público é o mecanismo de seleção, comparável a uma licitação, usado para escolher organizações parceiras de forma transparente e competitiva.' },
+    { q:'Por que este módulo recomenda buscar orientação jurídica ou técnica antes de firmar uma parceria com base no MROSC?',
+      options:['Porque isso é apenas uma formalidade sem consequência real','Porque o não cumprimento de exigências formais pode gerar responsabilização da diretoria da organização','Porque parcerias com base no MROSC nunca envolvem recurso financeiro','Porque a lei proíbe associações pequenas de participar'],
+      correct:1, explain:'Como há responsabilidades legais e financeiras envolvidas, contar com orientação especializada reduz o risco de erros que podem recair sobre quem representa formalmente a organização.' },
+  ]
+});
+
+MODULES.push({
+  id:'transicao-agroecologica', num:18, trilha:'territorio',
+  title:'Transição Agroecológica',
+  teaser:'Sair de um sistema dependente de insumos externos para um sistema que se sustenta no próprio território — em etapas.',
+  content:`
+    <h3>O que é</h3>
+    <p>Transição agroecológica é o processo, geralmente gradual, de mudar de um sistema produtivo dependente de insumos externos (adubo químico, agrotóxico, sementes compradas todo ano) para um sistema baseado em processos naturais do próprio território: manejo do solo, diversidade de cultivos, uso de insumos produzidos na propriedade ou na comunidade, e menor dependência de compras externas.</p>
+    <h3>Por que "transição" e não uma troca de uma vez</h3>
+    <p>Mudar de sistema de produção de forma abrupta costuma gerar queda temporária de produtividade, porque o solo e o sistema levam tempo para reequilibrar. Por isso a agroecologia costuma ser tratada como um processo em etapas, não uma troca de pacote tecnológico de um ano para o outro — o que exige planejamento financeiro para atravessar esse período de ajuste (ver módulo de Plano de Finanças).</p>
+    <h3>Práticas comuns num processo de transição</h3>
+    <ul>
+      <li>Diversificação de cultivos, reduzindo a dependência de uma única cultura (monocultivo).</li>
+      <li>Manejo do solo com adubação orgânica, cobertura vegetal e redução gradual de insumo químico.</li>
+      <li>Uso e troca de sementes crioulas ou adaptadas à região, em vez de depender exclusivamente de sementes compradas.</li>
+      <li>Consórcio de culturas e sistemas agroflorestais, quando o contexto e o conhecimento técnico local permitem.</li>
+    </ul>
+    <h3>Como aplicar</h3>
+    <ol>
+      <li>Comece a transição numa parte da área produtiva, não em toda de uma vez, para aprender e ajustar com menor risco.</li>
+      <li>Busque apoio técnico de assistência rural especializada em agroecologia, redes de agroecologia da região e trocas com outros agricultores em transição.</li>
+      <li>Planeje financeiramente o período de ajuste, considerando possível queda temporária de produtividade.</li>
+      <li>Documente o processo (o que funcionou, o que não funcionou) — esse registro também costuma ser exigido em certificações e alguns editais.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Tentar converter toda a área de uma vez, sem reserva financeira para o período de ajuste.</li>
+      <li>Abandonar a transição ao primeiro ano de queda de produtividade, sem dar tempo do sistema reequilibrar.</li>
+      <li>Fazer a transição isoladamente, sem buscar redes e trocas de experiência com quem já passou pelo processo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Por que a transição agroecológica costuma ser tratada como um processo gradual, e não uma troca de uma vez?',
+      options:['Porque a lei exige um prazo mínimo obrigatório de dez anos','Porque a mudança abrupta costuma gerar queda temporária de produtividade, já que o sistema leva tempo para reequilibrar','Porque insumos orgânicos são sempre mais caros que os químicos','Porque agroecologia só é permitida em pequenas propriedades'],
+      correct:1, explain:'O solo e o sistema produtivo levam tempo para se reequilibrar sem os insumos externos anteriores — por isso o processo gradual reduz o risco de perda de produção.' },
+    { q:'Qual é uma prática comum num processo de transição agroecológica?',
+      options:['Aumentar a dependência de uma única cultura para simplificar o manejo','Diversificar cultivos e reduzir gradualmente o uso de insumo químico','Eliminar imediatamente qualquer uso de máquina agrícola','Depender exclusivamente de sementes compradas todos os anos'],
+      correct:1, explain:'Diversificação de cultivos e redução gradual de insumo externo são práticas centrais da transição, ao contrário de aumentar a dependência de monocultivo ou de compras externas.' },
+    { q:'Por que planejar financeiramente o período de transição é importante?',
+      options:['Porque não há nenhum impacto financeiro nesse processo','Porque pode haver queda temporária de produtividade enquanto o sistema se reequilibra','Porque a transição agroecológica é sempre mais barata desde o primeiro ano','Porque isso substitui a necessidade de assistência técnica'],
+      correct:1, explain:'Sem uma reserva ou planejamento para o período de ajuste, a queda temporária de produtividade pode inviabilizar financeiramente a continuidade da transição.' },
+    { q:'Por que começar a transição numa parte da área produtiva, em vez de toda de uma vez, é uma recomendação prática?',
+      options:['Porque a lei limita a área que pode estar em transição por vez','Porque permite aprender e ajustar o processo com menor risco financeiro','Porque áreas maiores nunca podem passar por transição agroecológica','Porque isso elimina totalmente o risco de queda de produtividade'],
+      correct:1, explain:'Testar o processo numa área menor primeiro permite aprender com o próprio território antes de comprometer toda a produção do grupo ao mesmo tempo.' },
+  ]
+});
+
+MODULES.push({
+  id:'letramento-digital', num:19, trilha:'territorio',
+  title:'Letramento Digital',
+  teaser:'As habilidades digitais básicas que hoje atravessam quase todos os outros módulos desta trilha.',
+  content:`
+    <h3>O que é</h3>
+    <p>Letramento digital é a capacidade de usar ferramentas digitais de forma funcional e crítica: não apenas saber apertar botões, mas entender o que cada ferramenta serve, avaliar informação encontrada online, proteger dados pessoais e do grupo, e resolver problemas simples sem depender sempre de outra pessoa.</p>
+    <h3>Por que isso deixou de ser opcional</h3>
+    <p>Cadastro em plataformas públicas de crédito e editais, emissão de nota fiscal eletrônica ou de produtor rural, comunicação com clientes, participação em grupos de WhatsApp de rede de comercialização, acesso a informações de mercado — praticamente todos os outros módulos desta trilha hoje passam, em algum momento, por uma ferramenta digital. Faltar essa base atrasa o acesso a quase tudo o mais.</p>
+    <h3>Habilidades essenciais para começar</h3>
+    <ul>
+      <li>Criar e organizar contas de e-mail e senhas de forma segura (sem repetir a mesma senha em tudo).</li>
+      <li>Preencher formulários e cadastros online com atenção, salvando comprovantes.</li>
+      <li>Usar aplicativos de mensagem e redes sociais para fins do empreendimento, distinguindo do uso pessoal.</li>
+      <li>Reconhecer sinais de golpe digital (links suspeitos, pedidos de senha por mensagem, promessas exageradas).</li>
+      <li>Guardar arquivos importantes (fotos de documentos, comprovantes) de forma organizada, com cópia de segurança.</li>
+    </ul>
+    <h3>Como aplicar no grupo</h3>
+    <ol>
+      <li>Identifique quem no grupo já tem mais familiaridade digital e organize um sistema de apoio mútuo, em vez de depender de uma única pessoa.</li>
+      <li>Priorize aprender as ferramentas que o grupo realmente vai usar (cadastro específico, aplicativo de venda), em vez de tentar aprender tudo de uma vez.</li>
+      <li>Reserve um tempo fixo, mesmo curto, para praticar — letramento digital se constrói com uso repetido, não numa única oficina.</li>
+    </ol>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Concentrar todo o conhecimento digital numa única pessoa, que se torna um ponto único de falha para o grupo inteiro.</li>
+      <li>Usar a mesma senha simples para tudo, ou compartilhar senhas por mensagem sem cuidado.</li>
+      <li>Ignorar sinais de golpe por pressa ou por confiar demais numa mensagem que parece oficial.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Por que o letramento digital passou a ser considerado uma base para quase todos os outros temas de formação?',
+      options:['Porque substitui a necessidade de qualquer outro conhecimento técnico','Porque cadastros, editais, vendas e comunicação hoje passam, em algum momento, por ferramentas digitais','Porque a lei exige certificação digital para qualquer empreendimento','Porque reduz automaticamente os custos de produção'],
+      correct:1, explain:'De acesso a crédito até comercialização, praticamente toda a trilha de formação toca em alguma ferramenta digital — por isso essa base afeta o acesso a quase tudo o mais.' },
+    { q:'Qual é o risco de concentrar todo o conhecimento digital do grupo numa única pessoa?',
+      options:['Nenhum, desde que essa pessoa seja de confiança','Essa pessoa se torna um ponto único de falha: se ela sai ou fica indisponível, o grupo perde acesso a processos importantes','Isso é sempre proibido pelas plataformas públicas','Isso reduz automaticamente a segurança das senhas do grupo'],
+      correct:1, explain:'Se apenas uma pessoa sabe operar cadastros e ferramentas essenciais, a saída ou indisponibilidade dela pode travar processos importantes do grupo inteiro.' },
+    { q:'O que caracteriza um sinal comum de golpe digital que o letramento digital ajuda a reconhecer?',
+      options:['Um e-mail com informações claras sobre um cadastro já solicitado pelo grupo','Uma mensagem pedindo senha ou dados sigilosos com urgência e promessas exageradas','Um formulário oficial de um órgão público conhecido pelo grupo','Uma ligação de um cliente confirmando um pedido já combinado'],
+      correct:1, explain:'Pedidos urgentes de senha ou dado sigiloso, especialmente com promessas exageradas, são um padrão clássico de golpe — reconhecer esse padrão é parte central do letramento digital.' },
+    { q:'Por que priorizar aprender as ferramentas que o grupo realmente vai usar, em vez de tentar aprender tudo de uma vez, é uma boa estratégia?',
+      options:['Porque aprender várias ferramentas ao mesmo tempo é proibido','Porque foca o esforço limitado de tempo do grupo no que trará resultado prático mais rápido','Porque isso elimina totalmente o risco de golpes digitais','Porque reduz o custo de qualquer linha de crédito'],
+      correct:1, explain:'Grupos costumam ter pouco tempo disponível para capacitação — focar nas ferramentas que serão efetivamente usadas gera resultado prático mais rápido do que dispersar o esforço.' },
+  ]
+});
+
+MODULES.push({
+  id:'qualificacao-especifica', num:20, trilha:'territorio',
+  title:'Qualificação na Área Específica de Atuação',
+  teaser:'Este módulo não ensina uma técnica pronta — ensina como o grupo organiza sua própria trilha de aprendizado técnico.',
+  content:`
+    <h3>Por que este módulo é diferente dos outros</h3>
+    <p>Os outros 19 módulos tratam de temas comuns a praticamente qualquer grupo de economia solidária. Este último item da lista original é diferente: refere-se à qualificação técnica específica do que cada grupo produz — apicultura, costura, processamento de frutas, artesanato em determinado material, produção de mudas, laticínios, e assim por diante. Esse conteúdo técnico específico não cabe num módulo genérico; o que cabe aqui é um método para o grupo organizar essa qualificação por conta própria.</p>
+    <h3>Um método simples para organizar a qualificação técnica do grupo</h3>
+    <ol>
+      <li><strong>Liste as lacunas reais</strong>, com o grupo: em que etapa da produção o resultado ainda fica abaixo do desejado (qualidade irregular, desperdício alto, dificuldade técnica específica)?</li>
+      <li><strong>Identifique fontes de qualificação disponíveis</strong> na região: assistência técnica pública (Emater e similares), SENAR, SENAI, SENAC, institutos federais, sindicatos, cooperativas de referência na mesma atividade, cursos e materiais gratuitos de instituições públicas de pesquisa (como a Embrapa, para temas agropecuários).</li>
+      <li><strong>Priorize uma lacuna por vez</strong>, evitando tentar resolver tudo simultaneamente.</li>
+      <li><strong>Registre o aprendizado</strong> de quem participa de um curso ou capacitação, para que o conhecimento não fique só com uma pessoa — apresentação ao grupo, material escrito simples, ou demonstração prática.</li>
+    </ol>
+    <h3>Onde buscar apoio técnico gratuito ou de baixo custo</h3>
+    <p>Serviços públicos de assistência técnica rural, sistema S (SENAR, SENAI, SENAC, SEBRAE), institutos federais de educação, universidades com programas de extensão e incubadoras tecnológicas, sindicatos de trabalhadores rurais e cooperativas, e órgãos de pesquisa pública costumam oferecer cursos gratuitos ou de baixo custo — muitas vezes pouco divulgados, exigindo busca ativa do grupo.</p>
+    <h3>Erros comuns</h3>
+    <ul>
+      <li>Esperar que a qualificação técnica "apareça" sem busca ativa por parte do grupo.</li>
+      <li>Mandar sempre a mesma pessoa para cursos, sem repassar o conhecimento ao restante do grupo.</li>
+      <li>Investir tempo em qualificações que não respondem a uma lacuna real identificada pelo grupo.</li>
+    </ul>
+  `,
+  quiz:[
+    { q:'Por que este módulo não apresenta um conteúdo técnico específico, ao contrário dos demais?',
+      options:['Porque qualificação técnica não é importante para grupos de economia solidária','Porque o conteúdo técnico específico varia conforme o que cada grupo produz, e o módulo oferece um método para organizar essa busca','Porque não existem cursos técnicos disponíveis no Brasil','Porque essa formação é sempre paga e inacessível a grupos pequenos'],
+      correct:1, explain:'Como cada grupo produz algo diferente (apicultura, costura, laticínios, entre tantos outros), um conteúdo técnico fixo não serviria à maioria — por isso o foco é no método de identificar e buscar a qualificação certa.' },
+    { q:'Qual é o primeiro passo sugerido no método para organizar a qualificação técnica do grupo?',
+      options:['Contratar imediatamente uma consultoria especializada cara','Listar, com o grupo, as lacunas reais em alguma etapa da produção','Enviar todos os integrantes para o mesmo curso ao mesmo tempo','Aguardar que um órgão público ofereça um curso, sem buscar ativamente'],
+      correct:1, explain:'Identificar com clareza onde está a lacuna real de conhecimento é o que permite escolher uma qualificação relevante, em vez de investir tempo em algo que não resolve o problema do grupo.' },
+    { q:'Por que é importante registrar e repassar o aprendizado de quem participa de um curso, em vez de deixar o conhecimento só com essa pessoa?',
+      options:['Porque a lei exige isso para qualquer curso gratuito','Porque evita que o grupo dependa de uma única pessoa para aplicar o que foi aprendido','Porque isso reduz automaticamente o custo do curso','Porque cursos sem repasse são automaticamente invalidados'],
+      correct:1, explain:'Sem repasse, o aprendizado fica concentrado numa pessoa só, criando o mesmo risco de dependência já visto em outros módulos, como o de letramento digital.' },
+    { q:'Quais instituições são citadas como fontes possíveis de qualificação técnica gratuita ou de baixo custo?',
+      options:['Apenas universidades privadas de grande porte','Assistência técnica pública, sistema S (SENAR, SENAI, SENAC), institutos federais, sindicatos e órgãos de pesquisa pública','Somente empresas multinacionais do setor','Exclusivamente plataformas pagas de ensino online'],
+      correct:1, explain:'Esses são exemplos de instituições públicas ou de sistema público-privado que costumam oferecer capacitação técnica gratuita ou de baixo custo, muitas vezes pouco divulgada.' },
+  ]
+});
+
+
+/* ============================================================
+   ESTADO E ARMAZENAMENTO
+   ============================================================ */
+let progress = {};
+let activeTrilha = null;
+let state = { view:'home', moduleId:null, tab:'conteudo', answers:{} };
+
+const PROGRESS_KEY = 'economia-solidaria-progress';
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(PROGRESS_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); }
+  catch(e){ /* armazenamento local indisponível: o site continua funcionando, só não guarda o progresso entre sessões */ }
+}
+
+/* ============================================================
+   RENDER: HOME
+   ============================================================ */
+function moduleStatus(id){
+  const p = progress[id];
+  if(!p) return null;
+  return p;
+}
+
+function renderTopBanner(){
+  return `
+  <div class="top-banner">
+    <p class="course-title">Curso Básico em Economia Solidária</p>
+    <p class="tagline">"Nesse momento histórico de grandes mudanças, mulheres e homens descobriram que produzir e decidir juntos é mais forte do que produzir sozinhos."</p>
+    <p class="byline">João Batista de Oliveira e Gáudia Maria Costa Leite Pereira</p>
+  </div>`;
+}
+
+function renderTopbar(){
+  const done = Object.keys(progress).length;
+  const total = MODULES.length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  return `
+  <div class="topbar">
+    <div class="wrap topbar-inner">
+      <button class="brand" onclick="goHome()">
+        <span class="brand-mark">ES</span>
+        Trilha de Formação
+      </button>
+      <div class="progress-pill">
+        <span>${done}/${total} módulos</span>
+        <span class="bar"><span style="width:${pct}%"></span></span>
+      </div>
+    </div>
+    <div class="wrap trilha-nav">
+      ${Object.entries(TRILHAS).map(([key,t])=>`<a href="javascript:void(0)" data-trilha="${key}" style="--tag-color:${t.hex}" onclick="goToTrilha('${key}')">${t.label}</a>`).join('')}
+    </div>
+  </div>`;
+}
+
+function updateNavActive(){
+  document.querySelectorAll('.trilha-nav a').forEach(a=>{
+    a.classList.toggle('active', a.dataset.trilha === activeTrilha);
+  });
+}
+
+function goToTrilha(key){
+  if(state.view !== 'home'){
+    state.view='home'; state.moduleId=null; state.tab='conteudo';
+    renderHome();
+  }
+  activeTrilha = key;
+  updateNavActive();
+  requestAnimationFrame(()=>{
+    const link = document.querySelector('.trilha-nav a[data-trilha="'+key+'"]');
+    if(link){ link.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}); }
+    const el = document.getElementById('trilha-'+key);
+    if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+}
+
+let scrollObserver = null;
+function setupScrollSpy(){
+  if(scrollObserver){ scrollObserver.disconnect(); scrollObserver=null; }
+  const sections = document.querySelectorAll('.trilha-section');
+  if(!sections.length) return;
+  scrollObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        activeTrilha = entry.target.id.replace('trilha-','');
+        updateNavActive();
+      }
+    });
+  }, { rootMargin:'-130px 0px -65% 0px', threshold:0 });
+  sections.forEach(s=>scrollObserver.observe(s));
+}
+
+function renderFooter(){
+  return `
+  <footer>
+    <p>Material de apoio para estudo coletivo. Adapte os exemplos à realidade do seu grupo, sua região e seu produto — a economia solidária se constrói na prática, não só na leitura.</p>
+    <p class="credits">Autoria: João Batista de Oliveira e Gáudia Maria Costa Leite Pereira.</p>
+    <p>Desenvolvido com apoio tecnológico do Claude, assistente de IA da Anthropic (<a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>).</p>
+  </footer>`;
+}
+
+function renderHome(){
+  const app = document.getElementById('app');
+  const groups = Object.entries(TRILHAS).map(([key,t])=>{
+    const mods = MODULES.filter(m=>m.trilha===key);
+    return `
+    <section class="trilha-section" id="trilha-${key}">
+      <div class="trilha-head" style="--trilha-color:${t.hex}">
+        <h2>${t.label}</h2>
+      </div>
+      <p class="trilha-desc">${t.desc}</p>
+      <div class="module-grid">
+        ${mods.map(m=>renderCard(m)).join('')}
+      </div>
+    </section>`;
+  }).join('');
+
+  app.innerHTML = `
+    ${renderTopBanner()}
+    ${renderTopbar()}
+    <div class="wrap">
+      <div class="signup-strip">
+        <p><strong>Inscreva-se para receber material complementar de apoio</strong> (planilhas, roteiros, textos para estudo...) por e-mail: <a href="https://forms.gle/g3jfqw7fVfU9pMHu6" target="_blank" rel="noopener">forms.gle/g3jfqw7fVfU9pMHu6</a></p>
+        <p>Contato com os autores: <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a></p>
+      </div>
+      <div class="hero">
+        <span class="eyebrow">Formação para grupos de economia solidária</span>
+        <h1>Estudar junto, decidir junto</h1>
+        <p class="lede">Este material reúne, em 20 módulos, os 21 temas de formação pedidos pelos grupos. Cada módulo tem um conteúdo direto para estudar (sozinho ou em roda de conversa) e um teste curto para fixar o que importa antes de aplicar no empreendimento.</p>
+        <div class="callout">
+          <strong>Uma nota honesta antes de começar:</strong> como leis, editais e plataformas públicas (como o Transferegov) mudam com frequência, trate os nomes e prazos aqui como ponto de partida — confirme sempre a versão atual com a prefeitura, o sindicato, uma incubadora ou assessoria técnica antes de agir.
+        </div>
+      </div>
+      ${groups}
+      ${renderFooter()}
+    </div>
+  `;
+  activeTrilha = activeTrilha || 'fundamentos';
+  updateNavActive();
+  setupScrollSpy();
+}
+
+function renderCard(m){
+  const t = TRILHAS[m.trilha];
+  const p = moduleStatus(m.id);
+  const rot = (m.num % 2 === 0) ? '3deg' : '-4deg';
+  let statusHtml = `<span class="card-status">Não iniciado</span>`;
+  if(p){
+    const pass = p.score/p.total >= 0.75;
+    statusHtml = `<span class="card-status ${pass?'done':''}">${pass?'✓ ':''}${p.score}/${p.total} no teste</span>`;
+  }
+  return `
+  <button class="module-card" style="--card-color:${t.hex}; --stamp-rot:${rot}" onclick="openModule('${m.id}')">
+    <span class="stamp mono">${String(m.num).padStart(2,'0')}</span>
+    <span class="card-title">${m.title}</span>
+    <span class="card-teaser">${m.teaser}</span>
+    <span class="card-foot">
+      ${statusHtml}
+      <span class="card-cta">Estudar →</span>
+    </span>
+  </button>`;
+}
+
+function goHome(){
+  state.view='home'; state.moduleId=null; state.tab='conteudo'; state.answers={};
+  renderHome();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+/* ============================================================
+   RENDER: MÓDULO (conteúdo + teste)
+   ============================================================ */
+function openModule(id){
+  state.view='module'; state.moduleId=id; state.tab='conteudo'; state.answers={};
+  renderModule();
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function switchTab(tab){
+  state.tab = tab;
+  renderModule();
+}
+
+function renderModule(){
+  const m = MODULES.find(x=>x.id===state.moduleId);
+  const t = TRILHAS[m.trilha];
+  const app = document.getElementById('app');
+  const prevM = getPrevModule(m);
+  const nextM = getNextModule(m);
+  app.innerHTML = `
+    ${renderTopBanner()}
+    ${renderTopbar()}
+    <div class="wrap module-view">
+      <button class="back-btn" onclick="goHome()">← Voltar para a trilha</button>
+      <div class="module-head" style="--card-color:${t.hex}">
+        <span class="stamp mono">${String(m.num).padStart(2,'0')}</span>
+        <div>
+          <span class="module-eyebrow">${t.label}</span>
+          <h1>${m.title}</h1>
+        </div>
+      </div>
+      <div class="tabs">
+        <button class="tab-btn ${state.tab==='conteudo'?'active':''}" onclick="switchTab('conteudo')">Conteúdo</button>
+        <button class="tab-btn ${state.tab==='quiz'?'active':''}" onclick="switchTab('quiz')">Teste (${m.quiz.length} perguntas)</button>
+      </div>
+      <div id="tab-body"></div>
+      <div class="module-nav">
+        ${prevM
+          ? `<button class="module-nav-btn prev" onclick="openModule('${prevM.id}')"><span class="module-nav-label">← Módulo anterior</span><span class="module-nav-title">${String(prevM.num).padStart(2,'0')} · ${prevM.title}</span></button>`
+          : `<span></span>`}
+        ${nextM
+          ? `<button class="module-nav-btn next" onclick="openModule('${nextM.id}')"><span class="module-nav-label">Próximo módulo →</span><span class="module-nav-title">${String(nextM.num).padStart(2,'0')} · ${nextM.title}</span></button>`
+          : `<span class="module-nav-done">🎉 Você chegou ao fim da trilha.</span>`}
+      </div>
+    </div>
+    <div class="wrap">${renderFooter()}</div>
+  `;
+  activeTrilha = m.trilha;
+  updateNavActive();
+  const body = document.getElementById('tab-body');
+  if(state.tab==='conteudo'){
+    body.innerHTML = `<div class="content-panel">${m.content}
+      <div class="quiz-actions" style="margin-top:24px;">
+        <button class="btn btn-primary" onclick="switchTab('quiz')">Ir para o teste →</button>
+      </div>
+    </div>`;
+  } else {
+    renderQuiz(m);
+  }
+}
+
+function getNextModule(m){ return MODULES.find(x=>x.num === m.num+1) || null; }
+function getPrevModule(m){ return MODULES.find(x=>x.num === m.num-1) || null; }
+
+function renderQuiz(m){
+  const body = document.getElementById('tab-body');
+  const p = moduleStatus(m.id);
+  body.innerHTML = `
+    <div class="quiz-panel">
+      <div class="quiz-score" id="quiz-score"></div>
+      <p class="quiz-hint">Responda todas as perguntas e clique em "Corrigir respostas". Você pode refazer quantas vezes quiser.</p>
+      <form id="quiz-form">
+        ${m.quiz.map((q,qi)=>`
+          <fieldset class="question-block" data-qi="${qi}">
+            <legend class="q-text">${qi+1}. ${q.q}</legend>
+            <ul class="options">
+              ${q.options.map((opt,oi)=>`
+                <li>
+                  <label class="option-label" data-oi="${oi}">
+                    <input type="radio" name="q${qi}" value="${oi}">
+                    <span>${opt}</span>
+                  </label>
+                </li>`).join('')}
+            </ul>
+            <div class="explain" id="explain-${qi}"></div>
+          </fieldset>
+        `).join('')}
+        <div class="quiz-actions">
+          <button type="button" class="btn btn-primary" onclick="checkQuiz('${m.id}')">Corrigir respostas</button>
+          <button type="button" class="btn btn-ghost" onclick="resetQuiz('${m.id}')">Recomeçar</button>
+        </div>
+      </form>
+    </div>
+  `;
+  if(p){ showQuizScore(m, p.score, p.total, false); }
+}
+
+function checkQuiz(moduleId){
+  const m = MODULES.find(x=>x.id===moduleId);
+  const form = document.getElementById('quiz-form');
+  let answered = 0;
+  let score = 0;
+  m.quiz.forEach((q,qi)=>{
+    const chosen = form.querySelector(`input[name="q${qi}"]:checked`);
+    const block = form.querySelector(`.question-block[data-qi="${qi}"]`);
+    const labels = block.querySelectorAll('.option-label');
+    const explainEl = document.getElementById(`explain-${qi}`);
+    labels.forEach(l=>l.classList.remove('correct','wrong'));
+    if(chosen){
+      answered++;
+      const oi = parseInt(chosen.value,10);
+      const correctLabel = block.querySelector(`.option-label[data-oi="${q.correct}"]`);
+      correctLabel.classList.add('correct');
+      if(oi === q.correct){ score++; }
+      else{
+        block.querySelector(`.option-label[data-oi="${oi}"]`).classList.add('wrong');
+      }
+    } else {
+      const correctLabel = block.querySelector(`.option-label[data-oi="${q.correct}"]`);
+      correctLabel.classList.add('correct');
+    }
+    explainEl.textContent = q.explain;
+    explainEl.classList.add('show');
+    form.querySelectorAll(`input[name="q${qi}"]`).forEach(inp=>inp.disabled=true);
+  });
+  showQuizScore(m, score, m.quiz.length, true);
+  progress[moduleId] = { score, total:m.quiz.length, date:new Date().toISOString() };
+  saveProgress();
+}
+
+function showQuizScore(m, score, total, justChecked){
+  const el = document.getElementById('quiz-score');
+  const pass = score/total >= 0.75;
+  const t = TRILHAS[m.trilha];
+  const next = getNextModule(m);
+  el.classList.add('show');
+  el.innerHTML = `
+    <span class="stamp mono" style="--card-color:${pass?'var(--correct)':t.hex}">${pass? '✓' : score+'/'+total}</span>
+    <span class="quiz-score-body">
+      <span>${
+        pass
+          ? '<strong>Resultado sólido.</strong> Você já domina os pontos-chave deste módulo — vale revisar com o grupo o que ficou menos claro.'
+          : `<strong>${score} de ${total} corretas.</strong> Sem problema — releia o conteúdo e tente de novo. O teste é para fixar, não para reprovar.`
+      }</span>
+      ${next
+        ? `<button class="btn btn-primary next-module-btn" onclick="openModule('${next.id}')">Seguir para o módulo ${String(next.num).padStart(2,'0')}: ${next.title} →</button>`
+        : `<span class="module-nav-done">🎉 Este é o último módulo da trilha.</span>`}
+    </span>
+  `;
+}
+
+function resetQuiz(moduleId){
+  const m = MODULES.find(x=>x.id===moduleId);
+  state.answers={};
+  renderQuiz(m);
+  const scoreEl = document.getElementById('quiz-score');
+  if(scoreEl) scoreEl.classList.remove('show');
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+(function init(){
+  loadProgress();
+  renderHome();
+})();
+</script>
+</body>
+</html>
