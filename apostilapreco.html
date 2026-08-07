@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apostila · Precifica Ecosol — Passo a passo da precificação solidária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f0e1; --card:#fffdf6; --ink:#22301f; --ink-soft:#5c6854;
+  --green:#1e6b4f; --green-deep:#0e3b2a; --green-soft:#e2efe3;
+  --sun:#eea320; --sun-deep:#b97a05; --sun-soft:#fbf0d6;
+  --clay:#c0502f; --clay-soft:#f8e5dc; --blue:#2e6f95; --blue-soft:#e4eef4;
+  --line:#d9d0b6; --line-strong:#b3a887;
+  --mono:'IBM Plex Mono',monospace; --disp:'Bricolage Grotesque',sans-serif; --body:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.65;font-size:16px}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(rgba(30,107,79,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(30,107,79,.05) 1px,transparent 1px);
+  background-size:26px 26px;}
+::selection{background:var(--sun);color:#2b1d02}
+.wrap{max-width:880px;margin-inline:auto;padding-inline:22px}
+b,strong{font-weight:700}
+.num{font-family:var(--mono)}
+h1,h2,h3{font-family:var(--disp)}
+
+/* barra de ações */
+.bar{position:sticky;top:0;z-index:40;background:var(--green-deep);color:#fff;padding:10px 0;box-shadow:0 6px 18px -10px rgba(0,0,0,.5)}
+.bar-in{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar .t{font-family:var(--disp);font-weight:800;font-size:1rem}
+.bar .t small{font-family:var(--body);font-weight:400;opacity:.75}
+.bar button{margin-left:auto;background:var(--sun);border:2px solid var(--sun-deep);color:#2b1d02;border-radius:10px;padding:7px 14px;font-weight:700;cursor:pointer;box-shadow:0 2px 0 var(--sun-deep)}
+.bar button:hover{transform:translateY(-1px)}
+
+/* capa */
+.cover{padding:60px 0 40px;text-align:center;position:relative}
+.cover .stamp{width:110px;height:110px;margin:0 auto 18px;border-radius:50%;background:var(--sun);border:3px solid var(--sun-deep);
+  box-shadow:inset 0 0 0 5px var(--sun),inset 0 0 0 8px var(--sun-deep),0 10px 20px -8px rgba(0,0,0,.35);
+  display:grid;place-content:center;transform:rotate(-8deg);font-family:var(--disp);font-weight:800;font-size:.85rem;color:#3a2504;line-height:1.2}
+.cover h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+.cover h1 em{font-style:italic;color:var(--green)}
+.cover .sub{font-size:1.1rem;color:var(--ink-soft);max-width:52ch;margin:14px auto 0}
+.cover .autores{margin-top:22px;font-size:.92rem}
+.cover .autores b{color:var(--green-deep)}
+.bunting{height:44px;overflow:hidden;margin:34px 0 0;border-top:3px solid rgba(34,48,31,.28)}
+.flagrow{display:flex;justify-content:center;gap:9px}
+.flag{width:28px;height:34px;clip-path:polygon(0 0,100% 0,50% 100%)}
+.flag:nth-child(5n+1){background:var(--green)} .flag:nth-child(5n+2){background:var(--sun)}
+.flag:nth-child(5n+3){background:var(--clay)} .flag:nth-child(5n+4){background:#7fb0cf}
+.flag:nth-child(5n){background:#8faf52}
+
+/* sumário */
+.toc{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:24px 28px;margin:34px 0;box-shadow:0 12px 26px -16px rgba(34,48,31,.4)}
+.toc h2{font-size:1.3rem;margin-bottom:12px;color:var(--green-deep)}
+.toc ol{list-style:none;columns:1;counter-reset:cap}
+.toc li{counter-increment:cap;padding:6px 0;border-bottom:1.5px dashed var(--line);break-inside:avoid}
+.toc li:last-child{border:none}
+.toc a{color:var(--ink);text-decoration:none;display:flex;gap:10px;align-items:baseline}
+.toc a:hover{color:var(--green)}
+.toc a::before{content:counter(cap,decimal-leading-zero);font-family:var(--mono);font-weight:600;color:var(--sun-deep)}
+.toc small{color:var(--ink-soft)}
+
+/* capítulos */
+.chapter{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:34px 36px;margin:30px 0;box-shadow:0 12px 26px -16px rgba(34,48,31,.4);position:relative}
+.chapter::after{content:'';position:absolute;inset:8px;border:2px dashed rgba(30,107,79,.12);border-radius:10px;pointer-events:none}
+.ch-head{display:flex;gap:18px;align-items:flex-start;margin-bottom:20px}
+.ch-num{font-family:var(--disp);font-weight:800;font-size:3rem;line-height:.9;color:var(--green);text-shadow:4px 4px 0 rgba(238,163,32,.35);flex:none}
+.ch-head h2{font-size:1.6rem;font-weight:800;letter-spacing:-.01em}
+.ch-head p{color:var(--ink-soft);font-size:.95rem}
+.chapter h3{font-size:1.12rem;margin:26px 0 10px;color:var(--green-deep)}
+.chapter h3 .tag{display:inline-block;background:var(--green-soft);border-radius:6px;padding:1px 8px;font-size:.72rem;vertical-align:middle;margin-left:8px;color:var(--green-deep);font-family:var(--body);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.chapter p{margin:10px 0}
+.chapter ul,.chapter ol{margin:10px 0 10px 22px}
+.chapter li{margin:6px 0}
+.chapter li::marker{color:var(--sun-deep);font-weight:700}
+
+/* caixas didáticas */
+.box{border-radius:12px;padding:14px 18px;margin:16px 0;font-size:.94rem;position:relative}
+.box .bt{font-family:var(--disp);font-weight:800;font-size:.95rem;display:block;margin-bottom:4px}
+.box-dica{background:var(--green-soft);border-left:5px solid var(--green)}
+.box-dica .bt{color:var(--green-deep)}
+.box-alerta{background:var(--clay-soft);border-left:5px solid var(--clay)}
+.box-alerta .bt{color:var(--clay)}
+.box-conta{background:var(--sun-soft);border-left:5px solid var(--sun)}
+.box-conta .bt{color:var(--sun-deep)}
+.box-exe{background:var(--blue-soft);border-left:5px solid var(--blue)}
+.box-exe .bt{color:var(--blue)}
+.box-formula{background:var(--green-deep);color:#e9f2e9;border:none;font-family:var(--mono);font-size:.88rem;padding:16px 20px}
+.box-formula .bt{color:var(--sun);font-family:var(--disp)}
+
+/* tabelas */
+table{width:100%;border-collapse:collapse;margin:14px 0;background:#fff;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;font-size:.9rem}
+th{background:var(--green-deep);color:#fff;text-align:left;padding:9px 12px;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+td{padding:9px 12px;border-top:1.5px dashed var(--line)}
+td.r,th.r{text-align:right;font-family:var(--mono)}
+tr.tot td{background:var(--sun-soft);font-weight:700}
+tr.tot td.r{font-family:var(--mono)}
+
+/* passo a passo numerado */
+.steps{list-style:none;margin:16px 0 16px 0;counter-reset:passo}
+.steps li{counter-increment:passo;position:relative;padding:10px 14px 10px 56px;margin:10px 0;background:#fff;border:1.5px solid var(--line);border-radius:10px}
+.steps li::before{content:counter(passo);position:absolute;left:12px;top:12px;width:32px;height:32px;border-radius:50%;background:var(--sun);border:2px solid var(--sun-deep);color:#2b1d02;font-family:var(--disp);font-weight:800;display:grid;place-content:center}
+.steps b.k{color:var(--green-deep)}
+
+/* telas simuladas */
+.screen{background:var(--green-panel);color:#e9f2e9;border-radius:12px;padding:16px 18px;margin:14px 0;font-size:.88rem}
+.screen .lbl{font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:#9ec3ab;font-weight:700}
+.screen .big{font-family:var(--disp);font-weight:800;font-size:1.6rem;color:#fff}
+.screen .sun{color:var(--sun)}
+.screen .mini-stamp{border:2px solid var(--sun);border-radius:10px;padding:8px 12px;text-align:center;margin-top:8px;transform:rotate(-1deg)}
+.screen .mini-stamp b{font-family:var(--disp);font-size:1.3rem;color:var(--sun);display:block}
+
+kbd{font-family:var(--mono);background:#fff;border:1.5px solid var(--line-strong);border-bottom-width:3px;border-radius:6px;padding:1px 7px;font-size:.82em}
+
+footer{margin:44px 0 30px;text-align:center;font-size:.82rem;color:var(--ink-soft)}
+footer b{color:var(--green-deep)}
+
+@media print{
+  .bar,.bunting{display:none!important}
+  body{background:#fff}
+  body::before{display:none}
+  .chapter,.toc{box-shadow:none;break-inside:auto}
+  .chapter{page-break-before:always;border-color:#bbb}
+  .cover{page-break-after:always;padding-top:30px}
+  .box,table,.steps li,.screen{break-inside:avoid}
+  a{color:inherit;text-decoration:none}
+}
+@media(max-width:640px){
+  .chapter{padding:24px 20px}
+  .ch-num{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <div class="wrap bar-in">
+    <span class="t">📖 Apostila Precifica Ecosol <small>· material de formação</small></span>
+    <button onclick="window.print()">🖨 Imprimir / Salvar PDF</button>
+  </div>
+</div>
+
+<!-- ============ CAPA ============ -->
+<header class="cover wrap">
+  <div class="stamp">PREÇO<br>JUSTO ★</div>
+  <h1>Apostila do<br><em>Precifica Ecosol</em></h1>
+  <p class="sub">Passo a passo para precificar com justiça: do custo de cada produto ao ponto de equilíbrio do grupo — sem deixar ninguém no prejuízo.</p>
+  <p class="autores"><b>Gáudia Maria Costa Leite Pereira</b> e <b>João Batista de Oliveira</b><br>Contato: jbtist7@gmail.com</p>
+  <div class="bunting" aria-hidden="true"><div class="flagrow" id="flagrow"></div></div>
+</header>
+
+<div class="wrap">
+  <nav class="toc">
+    <h2>Sumário</h2>
+    <ol>
+      <li><a href="#c1">Para que serve esta apostila (e como usá-la bem)</a></li>
+      <li><a href="#c2">Os conceitos que sustentam o preço justo</a></li>
+      <li><a href="#c3">Conhecendo o formulário, seção por seção</a></li>
+      <li><a href="#c4">Exemplo completo: Rede Mãos que Criam</a></li>
+      <li><a href="#c5">Rotina de precificação em grupo</a></li>
+      <li><a href="#c6">Erros frequentes (e como evitá-los)</a></li>
+      <li><a href="#c7">Atividades para oficinas e encontros</a></li>
+      <li><a href="#c8">Fórmulas usadas pelo sistema e glossário</a></li>
+      <li><a href="#c9">Perguntas frequentes</a></li>
+    </ol>
+  </nav>
+
+  <!-- ============ CAP 1 ============ -->
+  <section class="chapter" id="c1">
+    <div class="ch-head"><span class="ch-num">1</span><div><h2>Para que serve esta apostila</h2><p>E como tirar o melhor proveito dela no seu grupo</p></div></div>
+    <p>O <b>Precifica Ecosol</b> é uma ficha de precificação feita para <b>grupos de Economia Solidária</b>: costureiras, artesãs(os), cozinheiras(os), agricultoras(es), coletivos de cosméticos naturais e outros empreendimentos coletivos. Esta apostila ensina, com calma e em linguagem simples, <b>como preencher a ficha</b> e <b>o que cada número significa</b>.</p>
+    <p>Ela foi escrita para três usos:</p>
+    <ul>
+      <li><b>Estudo individual:</b> leia na ordem, com o formulário aberto ao lado, e vá testando.</li>
+      <li><b>Formação em grupo:</b> use os capítulos 2 e 4 como roteiro de conversa e o capítulo 7 como banco de atividades.</li>
+      <li><b>Consulta rápida:</b> o capítulo 8 reúne as fórmulas e o glossário para tirar dúvidas na hora.</li>
+    </ul>
+    <h3>Como reconhecer as caixas de ajuda</h3>
+    <p>Ao longo do texto você encontrará quatro tipos de caixa:</p>
+    <div class="box box-dica"><span class="bt">💡 Dica</span>Sugestões práticas para usar o formulário com mais agilidade.</div>
+    <div class="box box-alerta"><span class="bt">⚠ Fique de olho</span>Erros comuns que fazem o preço ficar errado — e como evitar.</div>
+    <div class="box box-conta"><span class="bt">✏️ Conta na ponta do lápis</span>Um cálculo explicado passo a passo, com números de verdade.</div>
+    <div class="box box-exe"><span class="bt">🤝 Vamos praticar</span>Propostas de exercício para fazer em grupo ou em oficina.</div>
+    <div class="box box-dica"><span class="bt">💡 Dica de ouro</span>Não tente decorar nada. O formulário faz as contas sozinho: o seu trabalho é <b>informar bem os dados</b> e <b>entender o que os resultados dizem</b>. Esta apostila serve justamente para isso.</div>
+  </section>
+
+  <!-- ============ CAP 2 ============ -->
+  <section class="chapter" id="c2">
+    <div class="ch-head"><span class="ch-num">2</span><div><h2>Os conceitos que sustentam o preço justo</h2><p>Oito ideias que aparecem o tempo todo na ficha — explicadas sem economês</p></div></div>
+
+    <h3>2.1 Custo direto <span class="tag">seções 1 e 3</span></h3>
+    <p>É tudo o que você consegue <b>apontar o dedo</b> para dentro do produto: o tecido da bolsa, o pote da geleia, a embalagem, o rótulo, o frete daquela entrega. Se o produto não fosse feito, esse gasto não existiria.</p>
+
+    <h3>2.2 Despesa mensal <span class="tag">tabela 🏠</span></h3>
+    <p>É a conta que chega <b>mesmo que você não venda nada</b>: aluguel, internet, energia, taxa mensal da feira, o DAS do MEI… e o <b>pró-labore</b>.</p>
+    <div class="box box-conta"><span class="bt">✏️ O que é pró-labore?</span>É o <b>pagamento mensal de quem trabalha no empreendimento</b> — o “salário” do grupo. Na Economia Solidária, o trabalho precisa ser remunerado todo mês, e não só “se sobrar”. Por isso o pró-labore entra na ficha como <b>despesa do mês</b>: ele precisa estar coberto pelas vendas.</div>
+
+    <h3>2.3 Rateio: dividir as despesas entre os produtos</h3>
+    <p>As despesas mensais são do <b>empreendimento inteiro</b>, não de um produto só. O formulário divide esse total entre os produtos da prateleira usando o critério do <b>tempo</b>: quanto mais horas de produção um produto consome, maior a fatia das despesas que ele carrega. Se ninguém informar horas, o sistema divide pela <b>quantidade planejada</b> — e avisa qual critério está usando.</p>
+
+    <h3>2.4 Custo direto × custo “no contexto”</h3>
+    <p>Na prateleira, cada produto mostra dois números:</p>
+    <ul>
+      <li><b>Custo/un direto:</b> só materiais + comercialização daquele produto.</li>
+      <li><b>Custo/un no contexto:</b> o direto <b>+ a fatia das despesas mensais + as taxas sobre o preço</b>. É o custo “completo”, já considerando a vida real do empreendimento.</li>
+    </ul>
+
+    <h3>2.5 Taxas que incidem sobre o preço</h3>
+    <p>Alguns custos são uma <b>porcentagem do preço de venda</b>: maquininha de cartão, comissão de aplicativo ou de loja parceira, tributos (quando há). Se a taxa é 3% e o preço é R$ 20,00, R$ 0,60 “saem” do preço antes de sobrar qualquer coisa.</p>
+
+    <h3>2.6 Preço mínimo</h3>
+    <p>É o preço que <b>empata</b> com os custos diretos e as taxas. Abaixo dele, cada venda tira dinheiro do bolso de quem produz. O painel mostra esse valor como um carimbo amarelo — ele é o <b>piso absoluto</b> da negociação.</p>
+
+    <h3>2.7 Sobra, lucro e margem</h3>
+    <p><b>Sobra (lucro) por unidade</b> é o que resta do preço depois de pagar tudo, inclusive a fatia das despesas. <b>Margem</b> é essa sobra em porcentagem do preço: margem de 25% significa que, de cada R$ 100 vendidos, R$ 25 ficam para o grupo.</p>
+
+    <h3>2.8 Ponto de equilíbrio (viabilidade do mês)</h3>
+    <p>É o <b>número mínimo de unidades por mês</b> que o grupo precisa vender para pagar <b>todas</b> as despesas — pró-labore incluso. É a meta coletiva do mês: acima dela, o empreendimento gera sobra; abaixo, alguém está trabalhando de graça.</p>
+    <div class="box box-dica"><span class="bt">💡 Por que tudo isso importa?</span>Porque preço “no olho” quase sempre esquece algo: a embalagem, o gás, a hora de quem faz, o aluguel. A ficha existe para que <b>nada fique de fora</b> — e para que o grupo veja, com números, se o mês fecha.</div>
+  </section>
+
+  <!-- ============ CAP 3 ============ -->
+  <section class="chapter" id="c3">
+    <div class="ch-head"><span class="ch-num">3</span><div><h2>Conhecendo o formulário, seção por seção</h2><p>Um passeio completo, na ordem em que as coisas aparecem na tela</p></div></div>
+
+    <h3>3.1 Cabeçalho e identificação</h3>
+    <p>No topo ficam o nome da ferramenta, os créditos e os botões <b>✚ Nova ficha</b>, <b>⬇ Excel</b> e <b>🖨 Salvar PDF</b>. Logo abaixo, o cartão <b>Identificação</b> pede:</p>
+    <ul>
+      <li><b>Nome do produto</b> — seja específica: “Geleia de manga 250 g” é melhor que “geleia”.</li>
+      <li><b>Tipo de empreendimento</b> — a lista suspensa (têxtil, artesanato, alimentos, agricultura familiar, cosméticos…) muda as <b>sugestões de itens</b> em todas as seções. O botão <b>＋ novo</b> cria um tipo próprio do grupo, que fica guardado.</li>
+      <li><b>Data e nº da ficha</b> — para manter histórico e organização.</li>
+      <li><b>Produção/mês</b> — quantas unidades deste produto o grupo planeja fazer por mês. Esse número rateia itens “por mês” e alimenta o cálculo de tempo.</li>
+    </ul>
+    <p>A faixa verde logo abaixo traz uma <b>dica específica do tipo escolhido</b> (por exemplo, a perda de tecido no têxtil). Leia sempre: é o grupo “conversando” com você.</p>
+
+    <h3>3.2 Seção 1 — Materiais e insumos</h3>
+    <ol class="steps">
+      <li>Toque em <b class="k">🧾 Adicionar da lista de sugestões</b>: abre a lista suspensa com os itens típicos do seu tipo de empreendimento. Clicou, o item entra na tabela.</li>
+      <li>Prefere digitar? Use <b class="k">＋ item livre</b> ou escreva direto no campo do item (a ficha vai sugerindo nomes parecidos).</li>
+      <li>Preencha <b class="k">quantidade</b>, <b class="k">unidade</b> (m, kg, un…) e o <b class="k">valor</b>. O subtotal aparece sozinho na coluna <b class="k">Custo/un</b>.</li>
+      <li>O campo <b class="k">Cobrança</b> deixa marcar um item como <b class="k">por mês</b> (ex.: compra mensal de etiquetas). Nesse caso, o sistema divide o valor pela produção/mês e mostra o custo por unidade.</li>
+      <li>No rodapé da seção, informe o <b class="k">% de perdas e quebras</b> (5–15% é comum em alimentos e agricultura). Ele acresce os materiais automaticamente.</li>
+    </ol>
+    <p>Os <b>chips tracejados</b> (“itens frequentes”) também adicionam com um toque; depois de incluídos, viram chips verdes com ✓.</p>
+
+    <h3>3.3 Seção 2 — Tempo de produção</h3>
+    <p>Informe as <b>horas gastas por unidade</b> (aceita frações: 0,5 = meia hora). A caixa verde ao lado mostra quantas <b>horas por mês</b> esse plano de produção usa do grupo. São essas horas que distribuem as despesas mensais com justiça — inclusive o pró-labore.</p>
+    <div class="box box-alerta"><span class="bt">⚠ Fique de olho</span>Horas “invisíveis” são o erro nº 1 da precificação artesanal: tempo de compra, de acabamento, de embalar, de ir à feira. Some <b>todas</b> as horas e divida pelas unidades feitas.</div>
+
+    <h3>3.4 Seção 3 — Comercialização</h3>
+    <p>Aqui entra o que a <b>venda</b> acrescenta de custo: embalagem de entrega, frete, tag, taxa por evento etc. Funciona como a seção 1 (sugestões, item livre, cobrança por unidade ou por mês). <b>Atenção:</b> nesta seção, o valor de um item “por unidade” já é o custo por unidade vendida — não há campo de quantidade, e o subtotal aparece na hora.</p>
+    <p>Abaixo, os três <b>percentuais sobre o preço de venda</b>:</p>
+    <table>
+      <tr><th>Campo</th><th>O que colocar</th><th>Referência</th></tr>
+      <tr><td>Tributos (%)</td><td>Se o grupo é MEI, deixe 0 e some o DAS nas despesas do mês</td><td class="r">0% no MEI</td></tr>
+      <tr><td>Maquininha / pagamento (%)</td><td>Taxa do cartão; Pix costuma ser 0</td><td class="r">3 a 6%</td></tr>
+      <tr><td>Comissão / intermediação (%)</td><td>Aplicativos, lojas parceiras, revenda</td><td class="r">10 a 30%</td></tr>
+    </table>
+
+    <h3>3.5 O Painel do preço</h3>
+    <p>Fica logo abaixo do formulário, em largura total, e reage a cada tecla digitada. Ele tem seis blocos:</p>
+    <ul>
+      <li><b>Custo direto por unidade</b> — com a barrinha mostrando a proporção de materiais e comercialização.</li>
+      <li><b>Preço mínimo</b> (carimbo amarelo) — o piso que cobre custos diretos + taxas.</li>
+      <li><b>Simular preço de venda</b> — digite um preço e veja o medidor de <b>margem</b>, as taxas em R$, a sobra por unidade e a sobra do mês (antes das despesas).</li>
+      <li><b>Margem desejada</b> — arraste o controle e receba o <b>preço sugerido</b> para aquela margem.</li>
+      <li><b>Simulações salvas</b> — o botão 📌 guarda preços testados para comparar lado a lado.</li>
+      <li><b>Guia 🧭</b> — o “conselho” da ficha: avisa se faltou material, se as horas não foram lançadas, se o <b>pró-labore</b> está fora das despesas e lista itens sugeridos que ainda faltam (um toque inclui).</li>
+    </ul>
+    <div class="screen"><span class="lbl">Preço mínimo · cobre custos diretos</span><div class="mini-stamp"><b>R$ 14,62</b></div><p style="margin-top:8px">com 3% de taxas sobre a venda · as despesas do mês entram na viabilidade, mais abaixo.</p></div>
+
+    <h3>3.6 Salvar na prateleira</h3>
+    <p>O botão verde <b>💾 Salvar produto na prateleira</b> grava o produto com o preço simulado (ou o sugerido, se você não simulou). A tela desce até a prateleira, onde todos os produtos do grupo ficam lado a lado. Para alterar um produto depois, use <b>✏️ editar</b> na tabela — um aviso amarelo no painel lembra que você está editando.</p>
+
+    <h3>3.7 Despesas do mês do empreendimento</h3>
+    <p>A tabela única das contas do grupo: aluguel, internet, taxa da feira, gás, DAS… e o <b>pró-labore</b>, que aparece em primeiro lugar nas sugestões e ganha <b>destaque dourado</b> quando lançado. Essas despesas são rateadas entre os produtos da prateleira pelo critério do tempo (cap. 2.3).</p>
+
+    <h3>3.8 A prateleira de produtos</h3>
+    <p>Para cada produto: <b>plano (un/mês)</b> e <b>preço</b> podem ser ajustados <b>direto na tabela</b> — tudo recalcula na hora. As colunas mostram custo direto, <b>custo no contexto</b> (com a fatia das despesas detalhada em letra pequena), margem colorida (verde ≥ 20%, âmbar 5–20%, vermelho &lt; 5%) e lucro por unidade. Produtos cujo preço não paga nem o custo direto ganham uma barra vermelha à esquerda.</p>
+
+    <h3>3.9 Viabilidade do mês</h3>
+    <p>O “termômetro” do empreendimento: mostra as despesas do mês, a produção planejada, o resultado previsto, a <b>barra de cobertura</b> (quanto do mês já está pago pelo plano de vendas) e o carimbo do <b>ponto de equilíbrio</b>: o mínimo de unidades por mês, com a meta de cada produto. Selo <b>✅ mês viável</b> ou <b>⚠ faltam X unidades</b>.</p>
+
+    <h3>3.10 Nova ficha, Excel, PDF e o salvamento automático</h3>
+    <ul>
+      <li><b>✚ Nova ficha</b> limpa o produto atual, mas <b>mantém despesas do mês e prateleira</b> (elas são do grupo, não do produto).</li>
+      <li><b>⬇ Excel</b> baixa uma planilha completa com todas as seções, a prateleira e a viabilidade.</li>
+      <li><b>🖨 Salvar PDF</b> abre a impressão: escolha “Salvar como PDF” na janela.</li>
+      <li>Tudo é <b>salvo automaticamente no navegador</b>. Mas atenção: se outra pessoa usar o mesmo computador, ou o navegador for limpo, os dados somem. <b>Exporte Excel/PDF ao fim de cada encontro</b> — é o backup do grupo.</li>
+    </ul>
+  </section>
+
+  <!-- ============ CAP 4 ============ -->
+  <section class="chapter" id="c4">
+    <div class="ch-head"><span class="ch-num">4</span><div><h2>Exemplo completo: Rede Mãos que Criam</h2><p>Do primeiro item ao ponto de equilíbrio, com todos os números</p></div></div>
+    <p>O grupo tem dois produtos: <b>Bolsa de retalhos</b> e <b>Geleia de manga 250 g</b>. Vamos preencher a ficha da bolsa e depois olhar o conjunto.</p>
+
+    <h3>4.1 Ficha da Bolsa de retalhos</h3>
+    <p><b>Materiais</b> (por unidade), com 10% de perdas de tecido:</p>
+    <table>
+      <tr><th>Item</th><th>Qtd</th><th>Valor</th><th class="r">Custo/un</th></tr>
+      <tr><td>Tecido</td><td>0,5 m</td><td>R$ 16,00/m</td><td class="r">8,00</td></tr>
+      <tr><td>Linha de costura</td><td>1</td><td>R$ 0,50</td><td class="r">0,50</td></tr>
+      <tr><td>Zíper</td><td>1</td><td>R$ 2,50</td><td class="r">2,50</td></tr>
+      <tr><td>Etiqueta personalizada</td><td>1</td><td>R$ 0,80</td><td class="r">0,80</td></tr>
+      <tr class="tot"><td colspan="3">Subtotal + 10% de perdas</td><td class="r">12,98</td></tr>
+    </table>
+    <p><b>Tempo:</b> 1,5 h por unidade. <b>Comercialização:</b> saco de entrega R$ 1,20/un. <b>Taxas:</b> 3% (cartão).</p>
+    <div class="box box-conta"><span class="bt">✏️ Conta na ponta do lápis</span>
+      Custo direto = 12,98 + 1,20 = <b>R$ 14,18</b><br>
+      Preço mínimo = 14,18 ÷ (1 − 0,03) = 14,18 ÷ 0,97 = <b>R$ 14,62</b><br>
+      Preço sugerido com 30% de margem = 14,18 ÷ (1 − 0,03 − 0,30) = <b>R$ 21,16</b><br>
+      O grupo compara com a feira e decide vender a <b>R$ 70,00</b> (bolso artesanal com acabamento fino).
+    </div>
+
+    <h3>4.2 Ficha da Geleia de manga 250 g</h3>
+    <table>
+      <tr><th>Item</th><th>Qtd</th><th>Valor</th><th class="r">Custo/un</th></tr>
+      <tr><td>Manga</td><td>0,35 kg</td><td>R$ 6,00/kg</td><td class="r">2,10</td></tr>
+      <tr><td>Açúcar</td><td>0,15 kg</td><td>R$ 8,00/kg</td><td class="r">1,20</td></tr>
+      <tr><td>Pote de vidro c/ tampa</td><td>1</td><td>R$ 2,80</td><td class="r">2,80</td></tr>
+      <tr><td>Rótulo e lacre</td><td>1</td><td>R$ 0,60</td><td class="r">0,60</td></tr>
+      <tr class="tot"><td colspan="3">Subtotal + 5% de perdas</td><td class="r">7,04</td></tr>
+    </table>
+    <p>Tempo: 0,5 h/un (produção em leva). Comercialização: embalagem protetora R$ 0,50. Taxas: 3%.<br>
+    Custo direto = <b>R$ 7,54</b> · Preço mínimo = <b>R$ 7,77</b> · Sugerido (30%) = <b>R$ 11,25</b> · Preço decidido: <b>R$ 24,00</b>.</p>
+
+    <h3>4.3 As despesas do mês do grupo</h3>
+    <table>
+      <tr><th>Despesa</th><th class="r">Valor/mês</th></tr>
+      <tr><td>💛 Pró-labore do grupo (2 pessoas)</td><td class="r">1.800,00</td></tr>
+      <tr><td>Aluguel do espaço</td><td class="r">300,00</td></tr>
+      <tr><td>Energia elétrica</td><td class="r">150,00</td></tr>
+      <tr><td>Água</td><td class="r">80,00</td></tr>
+      <tr><td>Internet</td><td class="r">100,00</td></tr>
+      <tr><td>Taxa mensal da feira</td><td class="r">120,00</td></tr>
+      <tr><td>DAS do MEI (2 pessoas)</td><td class="r">150,00</td></tr>
+      <tr><td>Manutenção e depreciação</td><td class="r">100,00</td></tr>
+      <tr class="tot"><td>Total</td><td class="r">2.800,00</td></tr>
+    </table>
+
+    <h3>4.4 O rateio pelo tempo</h3>
+    <p>Planos: 40 bolsas (×1,5 h = 60 h) e 120 geleias (×0,5 h = 60 h) → <b>120 h/mês</b>. Despesas por hora = 2.800 ÷ 120 = <b>R$ 23,33/h</b>.</p>
+    <table>
+      <tr><th>Produto</th><th class="r">Horas/mês</th><th class="r">Fatia das despesas</th><th class="r">Despesas por unidade</th></tr>
+      <tr><td>Bolsa</td><td class="r">60</td><td class="r">1.400,00</td><td class="r">35,00</td></tr>
+      <tr><td>Geleia</td><td class="r">60</td><td class="r">1.400,00</td><td class="r">11,67</td></tr>
+    </table>
+
+    <h3>4.5 A prateleira: custo direto e custo no contexto</h3>
+    <table>
+      <tr><th>Produto</th><th class="r">Custo direto</th><th class="r">Despesas/un</th><th class="r">Taxas</th><th class="r">Custo no contexto</th><th class="r">Preço</th><th class="r">Lucro/un</th><th class="r">Margem</th></tr>
+      <tr><td>Bolsa</td><td class="r">14,18</td><td class="r">35,00</td><td class="r">2,10</td><td class="r">51,28</td><td class="r">70,00</td><td class="r">18,72</td><td class="r">26,7%</td></tr>
+      <tr><td>Geleia</td><td class="r">7,54</td><td class="r">11,67</td><td class="r">0,72</td><td class="r">19,93</td><td class="r">24,00</td><td class="r">4,07</td><td class="r">17,0%</td></tr>
+    </table>
+    <p>As duas margens ficam na faixa saudável (verde e âmbar). Se a geleia aparecesse vermelha, o grupo teria três saídas: <b>subir o preço</b>, <b>reduzir o tempo/custo</b> ou <b>revisar o plano de produção</b>.</p>
+
+    <h3>4.6 A viabilidade do mês</h3>
+    <div class="box box-conta"><span class="bt">✏️ Conta na ponta do lápis</span>
+      Sobra (contribuição) da bolsa = 70 − 14,18 − 2,10 = 53,72 → ×40 = R$ 2.148,80<br>
+      Sobra da geleia = 24 − 7,54 − 0,72 = 15,74 → ×120 = R$ 1.888,80<br>
+      Total = <b>R$ 4.037,60</b> para pagar R$ 2.800,00 → cobertura de <b>144%</b> ✅<br>
+      Resultado previsto: <b>+ R$ 1.237,60/mês</b> (sobra para reinvestir e para imprevistos)<br>
+      Ponto de equilíbrio = 2.800 ÷ (4.037,60 ÷ 160 un) ≈ <b>111 unidades/mês</b> — sendo ≈ 28 bolsas e ≈ 83 geleias, no ritmo planejado.
+    </div>
+    <p>Na tela, o carimbo mostra “<b>111 unidades</b>” com os chips por produto e o selo <b>✅ mês viável</b>. Se o grupo cortasse o plano pela metade, a barra de cobertura ficaria vermelha e o selo viraria “⚠ faltam X unidades” — o aviso certo na hora certa.</p>
+    <div class="box box-exe"><span class="bt">🤝 Vamos praticar</span>Refilm o exemplo mudando uma coisa de cada vez: (a) e se o tecido subir 20%? (b) e se a feira cobrar R$ 200 a mais? (c) e se o grupo quiser R$ 2.400 de pró-labore? Observem o que acontece com o ponto de equilíbrio e discutam qual decisão tomar.</div>
+  </section>
+
+  <!-- ============ CAP 5 ============ -->
+  <section class="chapter" id="c5">
+    <div class="ch-head"><span class="ch-num">5</span><div><h2>Rotina de precificação em grupo</h2><p>Um passo a passo sugerido para encontros de precificação</p></div></div>
+    <ol class="steps">
+      <li><b class="k">Abrir e conferir:</b> o formulário salva tudo sozinho. Comecem vendo o que já existe: prateleira, despesas e a última ficha.</li>
+      <li><b class="k">Atualizar as despesas do mês:</b> confiram juntas(os) aluguel, contas, taxas e o <b>pró-labore</b>. Esse é o pacto do mês.</li>
+      <li><b class="k">Preencher a ficha do produto:</b> uma pessoa digita, o grupo dita os itens. Usem as sugestões e o Guia 🧭 para não esquecer nada.</li>
+      <li><b class="k">Debatir o tempo:</b> “quanto tempo leva, de verdade?” — incluindo compras, acabamento e feira. Definam a produção/mês realista.</li>
+      <li><b class="k">Simular preços:</b> testem 2 ou 3 preços e salvem com 📌. Comparem margem e sobra antes de decidir.</li>
+      <li><b class="k">Salvar na prateleira</b> e olhar a <b>viabilidade do mês</b>: o plano paga as contas? Se não, ajustem preço, plano ou custos — juntos.</li>
+      <li><b class="k">Registrar:</b> exportem <b>Excel</b> e <b>PDF</b> e guardem na pasta do grupo. Ata simples: data, produtos revisados, preços combinados.</li>
+      <li><b class="k">Revisar com gatilho:</b> sempre que mudar fornecedor, safra, tarifa ou pró-labore, reabram a ficha. Preço não é tatuagem: é acordo vivo.</li>
+    </ol>
+    <div class="box box-dica"><span class="bt">💡 Papéis sugeridos</span>Uma pessoa <b>digita</b>, outra <b>confere os valores</b> (notas, preços de mercado), uma terceira <b>anota as decisões</b>. Revezem a cada encontro para que todas dominem a ferramenta.</div>
+  </section>
+
+  <!-- ============ CAP 6 ============ -->
+  <section class="chapter" id="c6">
+    <div class="ch-head"><span class="ch-num">6</span><div><h2>Erros frequentes (e como evitá-los)</h2><p>Checklist para passar antes de fechar qualquer preço</p></div></div>
+    <table>
+      <tr><th>Erro</th><th>Consequência</th><th>Como o formulário ajuda</th></tr>
+      <tr><td>Esquecer o próprio trabalho</td><td>Você banca o desconto do bolso</td><td>Seção 2 + pró-labore nas despesas; o Guia avisa</td></tr>
+      <tr><td>Não lançar o pró-labore</td><td>O mês “fecha” mas ninguém recebe</td><td>Aviso 💛 no Guia até ele aparecer</td></tr>
+      <tr><td>Ignorar perdas e quebras</td><td>Custo subestimado (alimentos/agro)</td><td>Campo de % de perdas na seção 1</td></tr>
+      <tr><td>Esquecer embalagem, frete e taxa da feira</td><td>Margem derrete na entrega</td><td>Sugestões e chips da seção 3</td></tr>
+      <tr><td>Superestimar a produção</td><td>Rateio “barato” demais e preço irreal</td><td>Barra de cobertura e ponto de equilíbrio entregam o exagero</td></tr>
+      <tr><td>Copiar o preço do concorrente</td><td>Realidades de custo diferentes</td><td>Use o mercado como referência, partindo do seu custo mínimo</td></tr>
+      <tr><td>Não registrar nada</td><td>Perde-se o histórico e o aprendizado</td><td>Botões Excel e PDF ao fim de cada encontro</td></tr>
+    </table>
+    <div class="box box-alerta"><span class="bt">⚠ Regra da casa</span>Preço abaixo do <b>preço mínimo</b> só em decisão coletiva e temporária (ex.: promoção de fim de feira para não perder produção perecível) — e anotando o motivo na ata.</div>
+  </section>
+
+  <!-- ============ CAP 7 ============ -->
+  <section class="chapter" id="c7">
+    <div class="ch-head"><span class="ch-num">7</span><div><h2>Atividades para oficinas e encontros</h2><p>Três dinâmicas testáveis em 40–60 minutos</p></div></div>
+    <h3>Atividade 1 — “O mercado e a ficha” (40 min)</h3>
+    <p><b>Objetivo:</b> sentir a diferença entre preço de referência e preço de custo. Divida em duplas; cada dupla precifica um produto simples (ex.: sacola de tecido) na ficha. Depois, comparem os preços mínimos de cada dupla: por que diferem? O que cada uma esqueceu? Feche mostrando que <b>não existe um preço único</b>, existe o preço que cobre a realidade de cada grupo.</p>
+    <h3>Atividade 2 — “Quanto vale a hora?” (30 min)</h3>
+    <p><b>Objetivo:</b> construir o pró-labore. Cada pessoa escreve, em silêncio, a renda mensal de que precisa. Some os valores do grupo → esse é o pró-labore a lançar nas despesas. Discutam: o que os preços precisam fazer para pagar isso? Lancem juntos na tabela 🏠 e vejam a viabilidade reagir.</p>
+    <h3>Atividade 3 — “O desafio do equilíbrio” (50 min)</h3>
+    <p><b>Objetivo:</b> entender o ponto de equilíbrio. Com dois produtos na prateleira, proponha cenários (“choveu e a feira caiu pela metade”, “uma pessoa saiu e o pró-labore mudou”) e peça que o grupo preveja o que acontece <b>antes</b> de digitar. Depois, digitem e comparem previsão e resultado. Terminem combinando uma meta coletiva de unidades para o mês seguinte.</p>
+    <div class="box box-exe"><span class="bt">🤝 Para fechar qualquer oficina</span>Peça que cada pessoa diga <b>uma coisa que vai mudar na sua precificação</b> a partir de hoje. Escrevam num cartaz e cole no espaço do grupo.</div>
+  </section>
+
+  <!-- ============ CAP 8 ============ -->
+  <section class="chapter" id="c8">
+    <div class="ch-head"><span class="ch-num">8</span><div><h2>Fórmulas usadas pelo sistema e glossário</h2><p>Transparência total: assim o Precifica Ecosol calcula</p></div></div>
+    <h3>8.1 Fórmulas</h3>
+    <div class="box box-formula"><span class="bt">Fórmulas do formulário</span>
+      materiais/un = Σ(qtd × valor) × (1 + perdas%) · itens “por mês”: valor ÷ produção<br>
+      custo direto = materiais/un + comercialização/un<br>
+      preço mínimo = custo direto ÷ (1 − taxas%)<br>
+      preço sugerido = custo direto ÷ (1 − taxas% − margem%)<br>
+      horas do produto = horas/un × plano · despesas/un = despesas totais × (horas do produto ÷ horas totais) ÷ plano<br>
+      custo no contexto = custo direto + despesas/un + taxas% × preço<br>
+      lucro/un = preço − custo no contexto · margem = lucro ÷ preço<br>
+      cobertura = Σ(sobra × plano) ÷ despesas do mês<br>
+      ponto de equilíbrio = despesas ÷ sobra média do mix · mínimo por produto = equilíbrio × participação no mix
+    </div>
+    <h3>8.2 Glossário rápido</h3>
+    <table>
+      <tr><th>Termo</th><th>Significado em uma linha</th></tr>
+      <tr><td>Custo direto</td><td>O que existe só porque o produto existe.</td></tr>
+      <tr><td>Despesa mensal</td><td>Conta que chega mesmo sem vendas (inclui pró-labore).</td></tr>
+      <tr><td>Pró-labore</td><td>Remuneração mensal de quem trabalha no empreendimento.</td></tr>
+      <tr><td>Rateio</td><td>Divisão das despesas entre produtos, pelo tempo de produção.</td></tr>
+      <tr><td>Taxas sobre o preço</td><td>Percentuais que saem do preço: cartão, comissão, tributos.</td></tr>
+      <tr><td>Preço mínimo</td><td>Piso que empata com custos diretos + taxas.</td></tr>
+      <tr><td>Margem</td><td>Sobra em % do preço, depois de pagar tudo.</td></tr>
+      <tr><td>Ponto de equilíbrio</td><td>Mínimo de unidades/mês para pagar todas as contas.</td></tr>
+      <tr><td>Cobertura</td><td>Quanto do mês o plano de vendas já paga (100% = mês pago).</td></tr>
+    </table>
+  </section>
+
+  <!-- ============ CAP 9 ============ -->
+  <section class="chapter" id="c9">
+    <div class="ch-head"><span class="ch-num">9</span><div><h2>Perguntas frequentes</h2><p>Respostas curtas para as dúvidas que mais aparecem</p></div></div>
+    <p><b>Meus dados vão para a internet?</b> Não. Tudo fica salvo apenas no navegador do computador/celular usado. Por isso, exporte Excel/PDF como backup.</p>
+    <p><b>Posso usar no celular?</b> Pode. As tabelas rolam para o lado e as linhas se reorganizam em telas pequenas.</p>
+    <p><b>Criei um tipo novo. Ele some?</b> Não: tipos criados ficam guardados no navegador, junto com as sugestões que você escreveu.</p>
+    <p><b>O rateio usa sempre as horas?</b> Se houver horas informadas, sim — é o critério mais justo. Sem horas, o sistema divide pela quantidade planejada e mostra qual critério está usando no rodapé da prateleira.</p>
+    <p><b>Um produto apareceu “abaixo do mínimo”. E agora?</b> É um convite à decisão coletiva: rever preço, custos, tempo ou plano. A ferramenta aponta; quem decide é o grupo.</p>
+    <p><b>Como zerar tudo e começar do zero?</b> <kbd>✚ Nova ficha</kbd> limpa o produto mantendo despesas e prateleira. Para apagar tudo, limpe os dados do navegador.</p>
+    <p><b>Posso imprimir a apostila para a oficina?</b> Sim — botão <kbd>🖨 Imprimir / Salvar PDF</kbd> no topo. Cada capítulo sai em página própria.</p>
+  </section>
+
+  <footer>
+    <b>Apostila Precifica Ecosol</b> · Gáudia Maria Costa Leite Pereira e João Batista de Oliveira · jbtist7@gmail.com<br>
+    comércio justo · autogestão · cooperação<br><br>
+    <small>Códigos e materiais construídos com assistência da IAG <b>Qwen</b> (Alibaba Cloud) · qwen.ai</small>
+  </footer>
+</div>
+
+<script>
+(function(){const fr=document.getElementById('flagrow');let f='';for(let i=0;i<24;i++)f+='<span class="flag"></span>';fr.innerHTML=f;})();
+</script>
+</body>
+</html>
