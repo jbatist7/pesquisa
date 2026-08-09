@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Precifica Ecosol · Simples</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f0e1; --card:#fffdf6; --ink:#22301f; --ink-soft:#5c6854;
+  --green:#1e6b4f; --green-deep:#0e3b2a; --green-soft:#e2efe3;
+  --sun:#eea320; --sun-deep:#b97a05; --sun-soft:#fbf0d6;
+  --clay:#c0502f; --clay-soft:#f8e5dc;
+  --line:#d9d0b6; --line-strong:#b3a887;
+  --radius:12px; --mono:'IBM Plex Mono',monospace; --disp:'Bricolage Grotesque',sans-serif; --body:'Instrument Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.5}
+.num,input[type=number]{font-family:var(--mono)}
+button{font-family:inherit;cursor:pointer}
+input,select{font-family:inherit;font-size:.95rem;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+input:focus,select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(30,107,79,.15)}
+label{display:flex;flex-direction:column;gap:5px;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)}
+.wrap{max-width:1080px;margin-inline:auto;padding-inline:20px}
+
+header.top{padding:26px 0 18px;border-bottom:2px solid var(--line-strong)}
+header.top .in{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end}
+h1{font-family:var(--disp);font-weight:800;font-size:clamp(1.7rem,3.6vw,2.3rem);color:var(--green-deep)}
+h1 em{font-style:normal;color:var(--sun-deep)}
+header.top p{font-size:.88rem;color:var(--ink-soft);max-width:52ch;margin-top:4px}
+.credits{font-size:.76rem;color:var(--ink-soft);margin-top:8px}
+.credits b{color:var(--ink)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.btn{border-radius:9px;padding:8px 14px;font-weight:700;font-size:.85rem;border:1.5px solid;display:inline-flex;align-items:center;gap:6px;transition:transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn-green{background:var(--green);border-color:var(--green-deep);color:#fff}
+.btn-sun{background:var(--sun);border-color:var(--sun-deep);color:#2b1d02}
+.btn-ghost{background:#fff;border-color:var(--line-strong);color:var(--ink)}
+.btn-ghost.small{padding:5px 10px;font-size:.76rem}
+
+.explica{background:var(--green-soft);border:1.5px solid var(--green);border-radius:var(--radius);padding:16px 20px;margin:22px 0}
+.explica b{font-family:var(--disp);color:var(--green-deep);font-size:1rem;display:block;margin-bottom:8px}
+.explica ol{margin-left:1.1em;font-size:.87rem;color:var(--ink)}
+.explica li{margin-bottom:4px}
+.explica-obs{margin-top:14px;background:var(--sun-soft);border:1.5px dashed var(--sun-deep);border-radius:8px;padding:10px 14px;font-size:.84rem;color:#6b4703}
+.explica-obs b{display:inline;color:inherit;font-size:inherit;margin-bottom:0}
+
+section.card{background:var(--card);border:1.5px solid var(--line);border-radius:var(--radius);padding:20px 22px;margin-top:22px}
+.c-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.c-head h2{font-family:var(--disp);font-size:1.15rem;color:var(--green-deep)}
+.c-head p{font-size:.83rem;color:var(--ink-soft);margin-top:2px}
+.pill{font-family:var(--mono);font-size:.85rem;font-weight:600;background:var(--sun-soft);border:1.5px solid var(--sun);border-radius:999px;padding:4px 12px;color:#6b4703;white-space:nowrap}
+
+/* despesas table */
+.tbl-des{display:flex;flex-direction:column;gap:8px}
+.d-row{display:grid;grid-template-columns:1fr 160px 32px;gap:8px;align-items:center;background:#fff;border:1.5px solid var(--line);border-radius:8px;padding:6px 8px}
+.d-row input{padding:6px 8px;font-size:.88rem}
+.rm{width:28px;height:28px;border-radius:7px;border:1.5px solid var(--line);background:#fff;color:var(--clay);font-size:1rem;line-height:1}
+.rm:hover{background:var(--clay-soft);border-color:var(--clay)}
+.hint{font-size:.78rem;color:var(--ink-soft);margin-top:10px}
+.tot-line{margin-top:12px;font-size:.9rem;font-weight:600;text-align:right}
+.tot-line b{font-family:var(--mono);color:var(--green-deep)}
+
+.taxa-box{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.taxa-box label{width:220px}
+
+/* produtos */
+.prod{background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);margin-bottom:14px}
+.prod summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;align-items:center;gap:10px;background:var(--sun-soft);font-family:var(--disp);font-weight:700;color:var(--green-deep);border-radius:var(--radius) var(--radius) 0 0}
+.prod:not([open]) summary{border-radius:var(--radius)}
+.prod summary::-webkit-details-marker{display:none}
+.prod summary .p-title-txt{flex:1}
+.prod summary .car{font-size:.8rem;transition:transform .15s;color:var(--ink-soft)}
+.prod[open] summary .car{transform:rotate(180deg)}
+.prod summary .del-chip{background:transparent;border:1.5px solid transparent;color:#7a4b06;font-size:1rem;line-height:1;padding:3px 8px;border-radius:7px}
+.prod summary .del-chip:hover{background:#fff;border-color:var(--clay);color:var(--clay)}
+.prod-body{padding:16px 18px}
+.p-grid{display:grid;grid-template-columns:1.3fr 1.3fr .8fr .8fr .9fr;gap:12px;margin-bottom:16px}
+.item-grid-mat{display:grid;grid-template-columns:1.5fr 90px 110px 100px 32px;gap:8px;align-items:center}
+.item-grid-com{display:grid;grid-template-columns:1.5fr 130px 32px;gap:8px;align-items:center}
+.item-row{margin-bottom:6px}
+.item-row input{padding:6px 8px;font-size:.87rem}
+.item-row .sub{font-family:var(--mono);font-size:.85rem;text-align:right;color:var(--green-deep)}
+.sub-h{display:grid;font-size:.66rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);padding:0 2px 4px}
+.sub-h.mat{grid-template-columns:1.5fr 90px 110px 100px 32px}
+.sub-h.com{grid-template-columns:1.5fr 130px 32px}
+.mini-h{font-family:var(--disp);font-size:.92rem;color:var(--green-deep);margin:14px 0 8px}
+.add-item{background:transparent;border:1.5px dashed var(--line-strong);color:var(--ink-soft);border-radius:8px;padding:5px 12px;font-size:.8rem;margin-top:4px}
+.add-item:hover{border-color:var(--green);color:var(--green-deep);background:var(--green-soft)}
+.perdas-inline{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:.82rem;color:var(--ink-soft)}
+.perdas-inline input{width:70px;text-align:right}
+.p-foot{margin-top:16px;padding-top:14px;border-top:1.5px dashed var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.p-foot .f{background:var(--green-soft);border-radius:8px;padding:8px 10px}
+.p-foot .f span{display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);margin-bottom:2px}
+.p-foot .f b{font-family:var(--mono);font-size:1rem;color:var(--green-deep)}
+.p-foot .f.warn{background:var(--clay-soft)}
+.p-foot .f.warn b{color:var(--clay)}
+.badge{display:inline-block;border-radius:999px;padding:3px 11px;font-size:.76rem;font-weight:700;font-family:var(--mono)}
+.badge-ok{background:#dcf2e4;color:#1c6b45}.badge-mid{background:#fdeecb;color:#8a5a06}
+.badge-low{background:#fadfd5;color:#a13a1c}.badge-none{background:#eee;color:#777}
+
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:2px 0 12px}
+.chip-row .lbl{font-size:.74rem;color:var(--ink-soft);width:100%}
+.chip{border:1.5px dashed var(--green);color:var(--green-deep);background:#fff;border-radius:999px;padding:4px 12px;font-size:.78rem;transition:.15s}
+.chip:hover{background:var(--green-soft);transform:translateY(-1px)}
+.chip.done{border-style:solid;background:var(--green);color:#fff;cursor:default;opacity:.85}
+
+.tooltip{position:relative;display:inline-flex;align-items:center;justify-content:center;cursor:help;margin-left:4px;color:var(--sun-deep);font-weight:800;font-size:.66rem;width:15px;height:15px;border-radius:50%;background:var(--sun-soft);border:1px solid var(--sun-deep);flex:none;vertical-align:middle}
+.tooltip:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--green-deep);color:#fff;padding:10px 14px;border-radius:8px;font-size:.76rem;font-weight:400;line-height:1.45;white-space:normal;width:230px;text-align:left;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.25);text-transform:none;letter-spacing:normal}
+.tooltip:hover::before{content:'';position:absolute;bottom:calc(100% + 2px);left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--green-deep);z-index:200}
+.tooltip.down:hover::after{bottom:auto;top:calc(100% + 8px)}
+.tooltip.down:hover::before{bottom:auto;top:calc(100% + 2px);border-top-color:transparent;border-bottom-color:var(--green-deep)}
+th .tooltip{background:#fff}
+
+.tt{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;border:1.3px solid currentColor;background:transparent;color:inherit;font-size:.62rem;font-weight:700;line-height:1;padding:0;margin-left:4px;cursor:help;vertical-align:middle;opacity:.8}
+.tt:hover,.tt:focus{opacity:1;outline:none}
+.tt-pop{display:none;position:fixed;z-index:300;background:var(--green-deep);color:#fff;padding:10px 12px;border-radius:8px;font-size:.78rem;font-weight:400;line-height:1.45;box-shadow:0 10px 24px rgba(0,0,0,.3)}
+
+/* resultados */
+.res-wrap{overflow-x:auto;border:1.5px solid var(--line);border-radius:10px}
+table.res{width:100%;border-collapse:collapse;min-width:1180px}
+table.res th{background:var(--green-deep);color:#fff;font-size:.66rem;text-transform:uppercase;letter-spacing:.05em;padding:9px 10px;text-align:left;white-space:nowrap}
+table.res th.n,table.res td.n{text-align:right}
+table.res td{padding:7px 10px;border-top:1.5px dashed var(--line);font-size:.86rem;vertical-align:middle}
+table.res td.n{font-family:var(--mono)}
+table.res .in-tbl{width:100px;padding:6px 8px;font-size:.85rem;text-align:right}
+table.res tbody tr.low td:first-child{box-shadow:inset 4px 0 0 var(--clay)}
+table.res td.t-acts{text-align:right;white-space:nowrap}
+.res-empty{padding:24px;text-align:center;color:var(--ink-soft);font-style:italic}
+
+.resumo{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.resumo .r{background:var(--green-soft);border-radius:10px;padding:12px 14px}
+.resumo .r span{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);font-weight:700}
+.resumo .r b{display:block;font-family:var(--disp);font-size:1.35rem;color:var(--green-deep);margin-top:2px}
+.resumo .r b.neg{color:var(--clay)}
+.rateio-note{font-size:.8rem;color:var(--ink-soft);margin-top:12px}
+
+footer{margin:36px 0 30px;padding-top:18px;border-top:2px dashed var(--line-strong);text-align:center;font-size:.8rem;color:var(--ink-soft)}
+footer b{color:var(--green-deep)}
+footer p{margin:6px 0}
+footer a{color:var(--green-deep);text-decoration:underline}
+
+@media(max-width:700px){
+  .p-grid{grid-template-columns:1fr 1fr}
+  .item-grid-mat{grid-template-columns:1fr}
+  .item-grid-com{grid-template-columns:1fr}
+  .sub-h{display:none}
+  .item-row{background:#faf7ea;border:1px solid var(--line);border-radius:8px;padding:8px}
+}
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  input,select{border:none;padding:2px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="top wrap">
+  <div class="in">
+    <div>
+      <h1>Precifica <em>Ecosol</em></h1>
+      <p>Ficha simples de precificação para grupos de Economia Solidária: calcule o custo de cada produto e o preço que cobre a produção — e o preço que também cobre as contas do mês.</p>
+      <p class="credits"><b>Gáudia Maria Costa Leite Pereira e João Batista de Oliveira</b> · jbtist7@gmail.com</p>
+    </div>
+    <div class="top-actions no-print">
+      <button type="button" class="btn btn-ghost small" data-act="reset">↺ Recomeçar</button>
+      <button type="button" class="btn btn-sun" data-act="csv">⬇ Baixar CSV</button>
+      <button type="button" class="btn btn-green" data-act="print">🖨 Imprimir / PDF</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="explica">
+    <b>Como a conta funciona</b>
+    <ol>
+      <li><b>Preço mínimo que cobre a produção e a venda</b> — nunca pode ser menor que os materiais e os custos de comercialização daquele produto.</li>
+      <li><b>Preço mínimo que também cobre as despesas do mês</b> — soma, além disso, a fatia das contas fixas (aluguel, energia, pró-labore…) que cada produto carrega, de acordo com o quanto ele é produzido.</li>
+      <li>Preencha as despesas do mês e os produtos abaixo — os dois preços de cada produto, e o resultado geral, são recalculados automaticamente.</li>
+    </ol>
+    <p class="explica-obs"><b>Obs.:</b> os dados ficam salvos apenas neste navegador (memória cache) e podem ser perdidos — por isso, sugerimos sempre salvar em PDF quando houver alteração.</p>
+  </div>
+
+  <section class="card">
+    <div class="c-head">
+      <div><h2>Despesas fixas do mês</h2><p>Contas que existem mesmo sem vender nada — inclua o <b>pró-labore</b> de quem trabalha.</p></div>
+      <span class="pill" id="pillDespTotal">R$ 0,00 / mês</span>
+    </div>
+    <div class="tbl-des" id="rowsDespesas"></div>
+    <button type="button" class="add-item no-print" data-act="add-despesa">＋ nova despesa</button>
+    <p class="hint">Exemplos comuns: aluguel do espaço, taxa da feira, pró-labore do grupo — e as sugestões abaixo.</p>
+    <div class="chip-row no-print" id="chipsDespesas"></div>
+  </section>
+
+  <section class="card">
+    <div class="c-head">
+      <div><h2>Taxas sobre a venda (opcional)</h2><p>Some tributos, maquininha de cartão e comissões em um único percentual sobre o preço.</p></div>
+    </div>
+    <div class="taxa-box">
+      <label>Taxas sobre o preço (%)
+        <input type="number" min="0" max="99" step="0.1" id="inpTaxa" data-bind="taxaVenda" placeholder="0">
+      </label>
+      <p class="hint" style="margin-top:0">Se o grupo é MEI, deixe 0% e inclua o DAS mensal nas despesas acima.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="c-head">
+      <div><h2>Seus produtos</h2><p>Cadastre cada produto com seus custos por unidade. Pode ter quantos produtos forem necessários.</p></div>
+    </div>
+    <div id="rowsProdutos"></div>
+    <button type="button" class="btn btn-ghost no-print" data-act="dup-produto">⧉ Duplicar produto</button>
+    <p class="hint" style="margin-top:8px">Cria uma cópia do último produto cadastrado, já com os campos preenchidos — só ajustar o que muda.</p>
+  </section>
+
+  <section class="card">
+    <div class="c-head">
+      <div><h2>Resultado — os dois preços de cada produto</h2><p>Compare o preço praticado com os dois mínimos calculados.</p></div>
+    </div>
+    <div class="res-wrap" id="resWrap"></div>
+
+    <div class="resumo" id="resumoGeral"></div>
+    <p class="rateio-note" id="rateioNote"></p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p><b>Precifica Ecosol</b> · ferramenta livre para grupos de Economia Solidária.</p>
+  <p>Obs.: já conhecendo o custo unitário de produção/comercialização, use o formulário neste link para fazer uma Análise de Viabilidade mais detalhada do Empreendimento: <a href="https://jbatist7.github.io/ViabilidadeFinanceira/" target="_blank" rel="noopener">jbatist7.github.io/ViabilidadeFinanceira</a></p>
+  <p>Nota: códigos gerados com assistência da IA Claude.ai, desenvolvida pela Anthropic (anthropic.com).</p>
+  <p>Contato com autores: <a href="mailto:jbatist7@gmail.com">jbatist7@gmail.com</a></p>
+</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+const nf=new Intl.NumberFormat('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmtM=v=>'R$ '+nf.format(v||0);
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const numVal=el=>parseFloat(el.value)||0;
+const norm=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const splitList=s=>s.split(',').map(x=>x.trim()).filter(Boolean);
+function parseBR(s){
+  if(typeof s!=='string')return +s||0;
+  s=s.trim(); if(!s)return 0;
+  s=s.replace(/\./g,'').replace(',','.');
+  const v=parseFloat(s);
+  return isNaN(v)?0:v;
+}
+function fmtInputVal(v){const n=+v||0; return n?nf.format(n):'';}
+
+/* Textos explicativos — pensados para quem nunca fez planilha de custos */
+const TIPS={
+  producao:'Quantas unidades desse produto o grupo planeja fabricar e vender neste mês. Pode editar aqui ou no card do produto — os dois lugares se atualizam juntos.',
+  preco:'O preço de venda de cada unidade. Pode editar aqui ou no card do produto — os dois lugares se atualizam juntos.',
+  faturamento:'Quanto entra em dinheiro com esse produto no mês: preço vezes quantidade vendida. É a receita bruta, antes de tirar qualquer custo.',
+  custoDireto:'Quanto custa fazer e vender UMA unidade: soma dos materiais usados mais os gastos de comercialização (embalagem, frete, taxas...). Não inclui as contas fixas do mês.',
+  despesasAlocadas:'Esse valor corresponde ao rateio dos custos fixos do mês (aluguel, energia, pró-labore...) pela quantidade de unidades produzidas/vendidas no mês. Quem produz mais, carrega mais dessa conta.',
+  custoContexto:'O custo direto de uma unidade somado à fatia das despesas fixas que esse produto carrega. É o custo "completo" de cada unidade, contando também as contas do mês.',
+  pm1:'O menor preço que cobre os materiais e a comercialização de uma unidade. Vender abaixo disso já dá prejuízo, mesmo sem contar as despesas fixas.',
+  pm2:'O menor preço que, além dos materiais e da comercialização, também cobre a fatia das despesas fixas do mês. É o preço que garante que as contas do grupo sejam pagas.',
+  margemContrib:'Quanto esse produto contribui, somando o mês inteiro, para pagar as despesas fixas do grupo — depois de descontar só os custos diretos, antes de ratear as despesas.',
+  lucroMes:'O que sobra desse produto no mês depois de descontar os custos diretos, as taxas de venda e a fatia das despesas fixas. É o lucro líquido daquele produto.',
+  situacao:'Compara o preço praticado com os dois preços mínimos: mostra se o produto está dando prejuízo, cobrindo só a produção, ou cobrindo tudo (produção + despesas).',
+  despesasMes:'Soma de todas as contas fixas cadastradas — aluguel, energia, pró-labore etc. — que o grupo precisa pagar mesmo que não venda nada.',
+  receitaProjetada:'A receita bruta é a soma de todos os itens vendidos, somando todos os produtos, sem retirar nenhuma despesa.',
+  custoDiretoTotal:'Soma do custo direto (materiais + comercialização) de todas as unidades planejadas no mês, somando todos os produtos.',
+  margemContribTotal:'Quanto sobra de todas as vendas do mês, somando todos os produtos, depois de pagar só os custos diretos. É o dinheiro disponível para pagar as despesas fixas.',
+  resultadoMes:'Lucro líquido: o que fica de verdade no caixa do grupo depois de pagar os custos de produção/comercialização E todas as despesas fixas do mês. Se for negativo, as vendas planejadas não bastam para cobrir as contas.',
+  cobertura:'Quanto das despesas fixas do mês já está garantido pela produção e pelos preços planejados. 100% ou mais significa que as vendas cobrem todas as contas do grupo.'
+};
+function tip(key,down){return `<span class="tooltip${down?' down':''}" data-tip="${esc(cap(TIPS[key].toLowerCase()))}">?</span>`;}
+
+/* Taxonomia de insumos por segmento produtivo — sugestões, nunca obrigatórias */
+const SEGMENTOS={
+'Têxtil e Confecção':splitList('tecidos, malhas, linhas, botões, zíperes, velcro, elásticos, rendas, fitas, viés, etiquetas, entretela, manta acrílica, espumas, enchimentos, tintas para tecido, cola para tecido, agulhas, cones de linha'),
+'Artesanato em Tecido':splitList('retalhos, feltro, EVA, manta, enchimento siliconado, barbante, linhas, fitas, rendas, olhos móveis, tintas, cola quente, botões, madeira, papelão'),
+'Crochê, Tricô e Macramê':splitList('barbante, fios de algodão, lã, linhas, cordas, argolas, miçangas, madeira, agulhas'),
+'Couro e Artefatos':splitList('couro, sintético, rebites, fivelas, botões de pressão, linhas enceradas, cola de contato, zíperes, ilhoses, tintas para couro'),
+'Calçados':splitList('solados, couro, EVA, palmilhas, tecidos, cola, cadarços, espumas, borracha, linhas'),
+'Joias e Bijuterias':splitList('miçangas, pedras, cristais, sementes, fios de nylon, metais, correntes, fechos, anzóis, resinas'),
+'Cerâmica':splitList('argila, esmaltes, pigmentos, tintas, vernizes, moldes, gesso'),
+'Vidro':splitList('garrafas, chapas, tintas vitrificáveis, chumbo, estanho, cobre, cola UV'),
+'Madeira e Marcenaria':splitList('tábuas, MDF, compensado, sarrafos, parafusos, pregos, dobradiças, cola branca, verniz, tinta, lixas'),
+'Bambu':splitList('colmos, fibras, vernizes, cola, parafusos, cordas'),
+'Metalurgia':splitList('ferro, aço, alumínio, cobre, solda, eletrodos, tintas, parafusos, discos de corte'),
+'Papelaria Artesanal':splitList('papel reciclado, papel kraft, papel cartão, cola, tintas, barbantes, fitas, envelopes'),
+'Gráfica':splitList('papel, tinta, toner, cola, espiral, capas, laminados'),
+'Sabões e Produtos de Limpeza':splitList('soda cáustica, óleos, essências, corantes, álcool, lauril, conservantes, embalagens, rótulos'),
+'Cosméticos Naturais':splitList('óleos vegetais, manteigas, ceras, essências, extratos, hidrolatos, embalagens, conservantes'),
+'Velas':splitList('parafina, cera de abelha, pavios, essências, corantes, potes'),
+'Alimentos — Panificação':splitList('farinha, fermento, açúcar, sal, ovos, leite, manteiga, óleo, recheios, embalagens'),
+'Alimentos — Doces':splitList('açúcar, leite condensado, chocolate, frutas, coco, leite, manteiga, embalagens'),
+'Alimentos — Conservas':splitList('hortaliças, frutas, vinagre, sal, açúcar, potes, tampas'),
+'Alimentos — Geleias':splitList('frutas, açúcar, pectina, limão, embalagens'),
+'Alimentos — Polpas':splitList('frutas, embalagens, conservantes permitidos, etiquetas'),
+'Alimentos — Temperos':splitList('ervas, especiarias, sal, embalagens'),
+'Alimentos — Refeições':splitList('carnes, legumes, verduras, arroz, feijão, óleo, temperos, embalagens descartáveis'),
+'Bebidas':splitList('frutas, água, açúcar, fermentos, garrafas, tampas, rótulos'),
+'Apicultura':splitList('cera, potes, tampas, rótulos, caixas, alimentação suplementar'),
+'Agroindústria':splitList('matérias-primas agrícolas, ingredientes, embalagens, conservantes autorizados'),
+'Agricultura':splitList('sementes, mudas, adubos, composto, calcário, biofertilizantes, defensivos biológicos, irrigação'),
+'Agroecologia':splitList('sementes crioulas, bioinsumos, composto, esterco, cobertura morta, microorganismos'),
+'Hortas Urbanas':splitList('substrato, sementes, vasos, bandejas, mangueiras, composto'),
+'Floricultura':splitList('mudas, vasos, substratos, adubos, embalagens'),
+'Pesca Artesanal':splitList('redes, anzóis, linhas, boias, gelo, caixas térmicas'),
+'Aquicultura':splitList('alevinos, ração, medicamentos, tanques, telas'),
+'Avicultura':splitList('pintos, ração, vacinas, maravalha'),
+'Caprinocultura / Bovinocultura':splitList('ração, sal mineral, medicamentos, vacinas'),
+'Reciclagem':splitList('papel, plástico, vidro, metal, sacarias, EPIs'),
+'Móveis Reciclados':splitList('pallets, madeira, parafusos, tintas, vernizes'),
+'Costura de Reciclagem':splitList('banners, lonas, jeans, cintos de segurança, câmaras de pneu'),
+'Brinquedos':splitList('madeira, MDF, tecido, tintas atóxicas, parafusos'),
+'Instrumentos Musicais':splitList('madeira, couro, cordas, metais, vernizes'),
+'Produtos Digitais':splitList('hospedagem, domínio, softwares, imagens, licenças'),
+'Prestação de Serviços':splitList('materiais de consumo, uniformes, deslocamento, equipamentos')
+};
+const MATERIAIS_COMUNS=['embalagens','sacolas','caixas','papel kraft','papelão','potes','frascos','tampas','filmes plásticos','etiquetas','rótulos','lacres','barbantes','fitas adesivas'];
+const COMERCIALIZACAO_COMUNS=['frete / transporte','pedágios','cartões de visita','banner','folder','publicidade'];
+const DESPESAS_COMUNS=['energia elétrica','água','gás','internet','telefonia','combustível','manutenção de ferramentas e equipamentos','materiais de limpeza','materiais de escritório','EPIs (luvas, máscaras, aventais)'];
+
+function dedupeNorm(list){const seen=new Set(),out=[];list.forEach(x=>{const n=norm(x);if(!seen.has(n)){seen.add(n);out.push(x);}});return out;}
+function isDoneIn(list,nome){const nn=norm(nome);return list.some(r=>norm(r.nome)===nn);}
+function chipRow(list,doneCheck,act,extraData){
+  if(!list.length)return'';
+  return `<div class="chip-row"><span class="lbl">💡 Sugestões — clique para adicionar:</span>`+
+    list.map(nome=>{
+      const done=doneCheck(nome);
+      return `<button type="button" class="chip${done?' done':''}" ${done?'disabled':`data-act="${act}" data-nome="${esc(nome)}"${extraData||''}`}>${done?'✓ ':'＋ '}${esc(cap(nome))}</button>`;
+    }).join('')+`</div>`;
+}
+function chipsMatHTML(p){
+  const seg=SEGMENTOS[p.segmento]||[];
+  const list=dedupeNorm([...seg,...MATERIAIS_COMUNS]);
+  return chipRow(list,nome=>isDoneIn(p.materiais,nome),'chip-mat',` data-pid="${p.id}"`);
+}
+function chipsComHTML(p){
+  return chipRow(COMERCIALIZACAO_COMUNS,nome=>isDoneIn(p.comerc,nome),'chip-com',` data-pid="${p.id}"`);
+}
+function chipsDespesasHTML(){
+  return chipRow(DESPESAS_COMUNS,nome=>isDoneIn(state.despesas,nome),'chip-des','');
+}
+
+const LS='pecoSimples_v1';
+function estadoNovo(){return{
+  taxaVenda:0,
+  despesas:[{id:uid(),nome:'Pró-labore do grupo',valor:''}],
+  produtos:[novoProduto()]
+};}
+function novoProduto(){return{
+  id:uid(), nome:'', segmento:'', producao:'', horas:'', preco:'', perdas:0,
+  materiais:[{id:uid(),nome:'',qtd:1,valor:''}],
+  comerc:[{id:uid(),nome:'',valor:''}]
+};}
+function cloneProduto(p){return{
+  id:uid(), nome:p.nome?p.nome+' — cópia':'', segmento:p.segmento, producao:p.producao, horas:p.horas, preco:p.preco, perdas:p.perdas,
+  materiais:p.materiais.map(m=>({id:uid(),nome:m.nome,qtd:m.qtd,valor:m.valor})),
+  comerc:p.comerc.map(c=>({id:uid(),nome:c.nome,valor:c.valor}))
+};}
+let state=estadoNovo();
+
+function saveNow(){try{localStorage.setItem(LS,JSON.stringify(state))}catch(e){}}
+let saveT;function saveSoon(){clearTimeout(saveT);saveT=setTimeout(saveNow,400)}
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(LS));if(!s)return;
+    state=Object.assign(estadoNovo(),s);
+    if(!Array.isArray(state.despesas)||!state.despesas.length)state.despesas=estadoNovo().despesas;
+    if(!Array.isArray(state.produtos)||!state.produtos.length)state.produtos=[novoProduto()];
+  }catch(e){}
+}
+
+/* ---------- cálculo ---------- */
+function materiaisTotal(p){
+  const soma=p.materiais.reduce((a,m)=>a+((+m.qtd||0)*(+m.valor||0)),0);
+  return soma*(1+(+p.perdas||0)/100);
+}
+function comercTotal(p){return p.comerc.reduce((a,c)=>a+(+c.valor||0),0)}
+function custoDireto(p){return materiaisTotal(p)+comercTotal(p)}
+
+function calc(){
+  const despesasTotal=state.despesas.reduce((a,d)=>a+(+d.valor||0),0);
+  const taxaFrac=Math.min(99,(+state.taxaVenda||0))/100;
+  const byHours=state.produtos.every(p=>(+p.horas||0)>0 && (+p.producao||0)>0);
+  let totalWeight=0;
+  const weights={};
+  state.produtos.forEach(p=>{
+    const w=byHours?(+p.horas||0)*(+p.producao||0):(+p.producao||0);
+    weights[p.id]=w; totalWeight+=w;
+  });
+  const linhas=state.produtos.map(p=>{
+    const cd=custoDireto(p);
+    const producao=+p.producao||0;
+    const preco=+p.preco||0;
+    const temProducao=producao>0;
+    const w=weights[p.id];
+    const alocado=(temProducao&&totalWeight>0)?despesasTotal*(w/totalWeight):0;
+    const alocadoUn=temProducao?alocado/producao:null;
+    const cc=temProducao?cd+alocadoUn:null;
+    const pm1=taxaFrac<1?cd/(1-taxaFrac):null;
+    const pm2=(temProducao&&taxaFrac<1)?cc/(1-taxaFrac):null;
+    const taxaUn=preco*taxaFrac;
+    const faturamento=(temProducao&&preco>0)?preco*producao:0;
+    const margemContribUn=preco>0?(preco-cd-taxaUn):null;
+    const margemContribTotal=(temProducao&&preco>0)?margemContribUn*producao:0;
+    const lucroUn=(temProducao&&preco>0)?(preco-cc-taxaUn):null;
+    const lucroTotal=(temProducao&&preco>0)?lucroUn*producao:0;
+    let status;
+    if(!temProducao)status='noprod';
+    else if(preco<=0)status='none';
+    else if(pm1!=null&&preco<pm1-.005)status='low';
+    else if(pm2!=null&&preco<pm2-.005)status='mid';
+    else status='ok';
+    return{id:p.id,nome:p.nome,producao,preco,cd,alocadoUn,cc,pm1,pm2,faturamento,margemContribUn,margemContribTotal,lucroUn,lucroTotal,status};
+  });
+  const receitaProjetada=linhas.reduce((a,l)=>a+l.faturamento,0);
+  const custoDiretoTotal=linhas.reduce((a,l)=>a+(l.producao>0?l.cd*l.producao:0),0);
+  const taxasTotal=linhas.reduce((a,l)=>a+(l.producao>0&&l.preco>0?l.preco*l.producao*taxaFrac:0),0);
+  const resultadoMes=receitaProjetada-custoDiretoTotal-taxasTotal-despesasTotal;
+  const contribuicaoTotal=receitaProjetada-custoDiretoTotal-taxasTotal;
+  const cobertura=despesasTotal>0?contribuicaoTotal/despesasTotal*100:null;
+  return{despesasTotal,taxaFrac,byHours,totalWeight,linhas,receitaProjetada,custoDiretoTotal,taxasTotal,resultadoMes,contribuicaoTotal,cobertura};
+}
+
+/* ---------- render: despesas ---------- */
+function renderDespesas(){
+  $('rowsDespesas').innerHTML=state.despesas.map(d=>`
+    <div class="d-row" data-id="${d.id}">
+      <input data-bind="des.nome:${d.id}" value="${esc(d.nome)}" placeholder="Nome da despesa">
+      <input class="num moeda" type="text" inputmode="decimal" data-bind="des.valor:${d.id}" value="${fmtInputVal(d.valor)}" placeholder="Valor/mês (R$)">
+      <button type="button" class="rm no-print" data-act="del-despesa" data-id="${d.id}" title="Remover">×</button>
+    </div>`).join('');
+  const cd=$('chipsDespesas'); if(cd)cd.innerHTML=chipsDespesasHTML();
+}
+function segOptionsHTML(sel){
+  let out='<option value="">Selecione (opcional)</option>';
+  Object.keys(SEGMENTOS).forEach(s=>{out+=`<option value="${esc(s)}" ${s===sel?'selected':''}>${esc(s)}</option>`;});
+  out+=`<option value="Outro" ${sel==='Outro'?'selected':''}>Outro / não listado</option>`;
+  return out;
+}
+
+/* ---------- render: produtos ---------- */
+function matRowHTML(p,m){
+  return `<div class="item-row item-grid-mat" data-id="${m.id}">
+    <input data-bind="mat.nome:${p.id}:${m.id}" value="${esc(m.nome)}" placeholder="Item (ex.: tecido, farinha...)">
+    <input class="num" type="number" min="0" step="0.01" data-bind="mat.qtd:${p.id}:${m.id}" value="${m.qtd||''}" placeholder="Qtd">
+    <input class="num moeda" type="text" inputmode="decimal" data-bind="mat.valor:${p.id}:${m.id}" value="${fmtInputVal(m.valor)}" placeholder="Valor unit. (R$)">
+    <span class="sub" data-sub="mat:${p.id}:${m.id}">${fmtM((+m.qtd||0)*(+m.valor||0))}</span>
+    <button type="button" class="rm no-print" data-act="del-mat" data-pid="${p.id}" data-id="${m.id}" title="Remover">×</button>
+  </div>`;
+}
+function comRowHTML(p,c){
+  return `<div class="item-row item-grid-com" data-id="${c.id}">
+    <input data-bind="com.nome:${p.id}:${c.id}" value="${esc(c.nome)}" placeholder="Item (ex.: embalagem, frete...)">
+    <input class="num moeda" type="text" inputmode="decimal" data-bind="com.valor:${p.id}:${c.id}" value="${fmtInputVal(c.valor)}" placeholder="Valor por unidade (R$)">
+    <button type="button" class="rm no-print" data-act="del-com" data-pid="${p.id}" data-id="${c.id}" title="Remover">×</button>
+  </div>`;
+}
+function prodCardHTML(p){
+  return `<details class="prod" open data-id="${p.id}">
+    <summary>
+      <span class="p-title-txt">${esc(p.nome)||'Novo produto'}</span>
+      <button type="button" class="del-chip no-print" data-act="del-produto" data-id="${p.id}" title="Excluir produto">🗑</button>
+      <span class="car">▾</span>
+    </summary>
+    <div class="prod-body">
+      <div class="p-grid">
+        <label>Nome do produto <input data-bind="prod.nome:${p.id}" value="${esc(p.nome)}" placeholder="Ex.: Geleia de manga 250g"></label>
+        <label>Segmento produtivo <select data-bind="prod.segmento:${p.id}">${segOptionsHTML(p.segmento)}</select></label>
+        <label>Produção / mês <input class="num" type="number" min="0" data-bind="prod.producao:${p.id}" value="${p.producao||''}" placeholder="un/mês"></label>
+        <label>Horas por unidade <input class="num" type="number" min="0" step="0.25" data-bind="prod.horas:${p.id}" value="${p.horas||''}" placeholder="opcional"></label>
+        <label>Preço praticado (R$) <input class="num moeda" type="text" inputmode="decimal" data-bind="prod.preco:${p.id}" value="${fmtInputVal(p.preco)}" placeholder="0,00"></label>
+      </div>
+
+      <h3 class="mini-h">Materiais e insumos (por unidade)</h3>
+      <div class="sub-h mat"><span>Item</span><span>Qtd</span><span>Valor unit.</span><span>Subtotal</span><span></span></div>
+      <div id="mat-${p.id}">${p.materiais.map(m=>matRowHTML(p,m)).join('')}</div>
+      <button type="button" class="add-item no-print" data-act="add-mat" data-pid="${p.id}">＋ item</button>
+      <div class="perdas-inline"><label style="text-transform:none;font-weight:400;font-size:.82rem;color:var(--ink-soft)">Perdas &amp; quebras (%)</label>
+        <input class="num" type="number" min="0" step="0.5" data-bind="prod.perdas:${p.id}" value="${p.perdas||''}" placeholder="0"></div>
+      <div class="no-print" id="chipsMat-${p.id}">${chipsMatHTML(p)}</div>
+
+      <h3 class="mini-h">Comercialização (por unidade)</h3>
+      <div class="sub-h com"><span>Item</span><span>Valor por unidade</span><span></span></div>
+      <div id="com-${p.id}">${p.comerc.map(c=>comRowHTML(p,c)).join('')}</div>
+      <button type="button" class="add-item no-print" data-act="add-com" data-pid="${p.id}">＋ item</button>
+      <div class="no-print" id="chipsCom-${p.id}">${chipsComHTML(p)}</div>
+
+      <div class="p-foot" id="foot-${p.id}"></div>
+      <div style="margin-top:14px;text-align:right">
+        <button type="button" class="btn btn-ghost small no-print" data-act="del-produto" data-id="${p.id}">🗑 excluir produto</button>
+      </div>
+    </div>
+  </details>`;
+}
+function renderProdutos(){
+  $('rowsProdutos').innerHTML=state.produtos.map(prodCardHTML).join('');
+}
+
+/* ---------- render: resultados ---------- */
+function statusInfo(s){
+  if(s==='ok')return{cls:'badge-ok',txt:'cobre tudo'};
+  if(s==='mid')return{cls:'badge-mid',txt:'cobre a produção, não as despesas'};
+  if(s==='low')return{cls:'badge-low',txt:'abaixo do mínimo'};
+  if(s==='noprod')return{cls:'badge-none',txt:'sem produção este mês'};
+  return{cls:'badge-none',txt:'sem preço definido'};
+}
+function syncBindTargets(bindKey,sourceEl,val){
+  document.querySelectorAll(`[data-bind="${bindKey}"]`).forEach(el=>{if(el!==sourceEl)el.value=val;});
+}
+function rowResultHTML(l){
+  const st=statusInfo(l.status);
+  return `<tr data-id="${l.id}" class="${l.status==='low'?'low':''}">
+    <td>${esc(l.nome)||'<i>sem nome</i>'}</td>
+    <td><input class="num in-tbl" type="number" min="0" data-bind="prod.producao:${l.id}" value="${l.producao||''}" placeholder="un/mês"></td>
+    <td><input class="num moeda in-tbl" type="text" inputmode="decimal" data-bind="prod.preco:${l.id}" value="${fmtInputVal(l.preco)}" placeholder="0,00"></td>
+    <td class="n" data-c="fat">${l.producao>0&&l.preco>0?fmtM(l.faturamento):'—'}</td>
+    <td class="n" data-c="cd">${fmtM(l.cd)}</td>
+    <td class="n" data-c="da">${l.alocadoUn!=null?fmtM(l.alocadoUn):'—'}</td>
+    <td class="n" data-c="cc">${l.cc!=null?fmtM(l.cc):'—'}</td>
+    <td class="n" data-c="pm1">${l.pm1!=null?fmtM(l.pm1):'—'}</td>
+    <td class="n" data-c="pm2">${l.pm2!=null?fmtM(l.pm2):'—'}</td>
+    <td class="n" data-c="mc">${l.producao>0&&l.preco>0?fmtM(l.margemContribTotal):'—'}</td>
+    <td class="n" data-c="lc">${l.producao>0&&l.preco>0?fmtM(l.lucroTotal):'—'}</td>
+    <td data-c="st"><span class="badge ${st.cls}">${st.txt}</span></td>
+    <td class="t-acts no-print"><button type="button" class="rm" data-act="del-produto" data-id="${l.id}" title="Excluir produto">×</button></td>
+  </tr>`;
+}
+function renderResultsTable(c){
+  if(!c.linhas.length||c.linhas.every(l=>!l.nome&&!l.preco)){
+    $('resWrap').innerHTML='<div class="res-empty">Cadastre ao menos um produto para ver os dois preços mínimos aqui.</div>';
+    return;
+  }
+  $('resWrap').innerHTML=`<table class="res"><thead><tr>
+    <th>Produto</th><th>Produção/mês ${tip('producao',true)}</th><th>Preço praticado ${tip('preco',true)}</th><th class="n">Faturamento ${tip('faturamento',true)}</th>
+    <th class="n">Custo direto/un ${tip('custoDireto',true)}</th><th class="n">Despesas/un ${tip('despesasAlocadas',true)}</th><th class="n">Custo no contexto/un ${tip('custoContexto',true)}</th>
+    <th class="n">Preço mín. produção ${tip('pm1',true)}</th><th class="n">Preço mín. despesas ${tip('pm2',true)}</th>
+    <th class="n">Margem contrib. ${tip('margemContrib',true)}</th><th class="n">Lucro do mês ${tip('lucroMes',true)}</th><th>Situação ${tip('situacao',true)}</th><th class="no-print"></th>
+  </tr></thead><tbody>${c.linhas.map(rowResultHTML).join('')}</tbody></table>`;
+}
+function updateResultRowCells(l){
+  const tr=document.querySelector(`table.res tr[data-id="${l.id}"]`);if(!tr)return;
+  const st=statusInfo(l.status);
+  const set=(k,html)=>{const el=tr.querySelector(`[data-c="${k}"]`);if(el)el.innerHTML=html;};
+  set('fat',l.producao>0&&l.preco>0?fmtM(l.faturamento):'—');
+  set('cd',fmtM(l.cd));
+  set('da',l.alocadoUn!=null?fmtM(l.alocadoUn):'—');
+  set('cc',l.cc!=null?fmtM(l.cc):'—');
+  set('pm1',l.pm1!=null?fmtM(l.pm1):'—');
+  set('pm2',l.pm2!=null?fmtM(l.pm2):'—');
+  set('mc',l.producao>0&&l.preco>0?fmtM(l.margemContribTotal):'—');
+  set('lc',l.producao>0&&l.preco>0?fmtM(l.lucroTotal):'—');
+  set('st',`<span class="badge ${st.cls}">${st.txt}</span>`);
+  tr.classList.toggle('low',l.status==='low');
+}
+function updateResultados(){
+  const c=calc();
+
+  // per-product footer cards
+  c.linhas.forEach(l=>{
+    const foot=$('foot-'+l.id); if(!foot)return;
+    const st=statusInfo(l.status);
+    foot.innerHTML=`
+      <div class="f"><span>Custo direto / un ${tip('custoDireto')}</span><b>${fmtM(l.cd)}</b></div>
+      <div class="f"><span>Despesas alocadas / un ${tip('despesasAlocadas')}</span><b>${l.alocadoUn!=null?fmtM(l.alocadoUn):'—'}</b></div>
+      <div class="f"><span>Custo no contexto / un ${tip('custoContexto')}</span><b>${l.cc!=null?fmtM(l.cc):'—'}</b></div>
+      <div class="f${l.pm1!=null&&l.preco>0&&l.preco<l.pm1-.005?' warn':''}"><span>Preço mín. — cobre produção ${tip('pm1')}</span><b>${l.pm1!=null?fmtM(l.pm1):'—'}</b></div>
+      <div class="f${l.pm2!=null&&l.preco>0&&l.preco<l.pm2-.005?' warn':''}"><span>Preço mín. — cobre despesas ${tip('pm2')}</span><b>${l.pm2!=null?fmtM(l.pm2):'—'}</b></div>
+      <div class="f"><span>Faturamento no mês ${tip('faturamento')}</span><b>${l.producao>0&&l.preco>0?fmtM(l.faturamento):'—'}</b></div>
+      <div class="f"><span>Lucro no mês ${tip('lucroMes')}</span><b>${l.producao>0&&l.preco>0?fmtM(l.lucroTotal):'—'}</b></div>
+      <div class="f"><span>Situação ${tip('situacao')}</span><b><span class="badge ${st.cls}">${st.txt}</span></b></div>`;
+  });
+
+  // results table — só reconstrói tudo se o foco não estiver dentro dela (evita perder o campo em edição)
+  const resWrapEl=$('resWrap');
+  const active=document.activeElement;
+  const editingInTable=resWrapEl&&active&&resWrapEl.contains(active);
+  if(editingInTable) c.linhas.forEach(updateResultRowCells);
+  else renderResultsTable(c);
+
+  // resumo geral
+  $('resumoGeral').innerHTML=`
+    <div class="r"><span>Despesas do mês ${tip('despesasMes')}</span><b>${fmtM(c.despesasTotal)}</b></div>
+    <div class="r"><span>Receita projetada ${tip('receitaProjetada')}</span><b>${c.receitaProjetada>0?fmtM(c.receitaProjetada):'—'}</b></div>
+    <div class="r"><span>Custo direto total ${tip('custoDiretoTotal')}</span><b>${c.custoDiretoTotal>0?fmtM(c.custoDiretoTotal):'—'}</b></div>
+    <div class="r"><span>Margem de contribuição total ${tip('margemContribTotal')}</span><b>${fmtM(c.contribuicaoTotal)}</b></div>
+    <div class="r"><span>Resultado do mês (lucro) ${tip('resultadoMes')}</span><b class="${c.resultadoMes<0?'neg':''}">${fmtM(c.resultadoMes)}</b></div>
+    <div class="r"><span>Cobertura das despesas ${tip('cobertura')}</span><b class="${c.cobertura!=null&&c.cobertura<100?'neg':''}">${c.cobertura!=null?c.cobertura.toFixed(0)+'%':'—'}</b></div>`;
+
+  $('pillDespTotal').textContent=fmtM(c.despesasTotal)+' / mês';
+
+  $('rateioNote').textContent=c.totalWeight>0
+    ? `As despesas do mês estão sendo divididas entre os produtos por ${c.byHours?'horas de produção':'quantidade planejada'} — quem consome mais ${c.byHours?'tempo':'produção'} carrega mais despesa. Produtos com produção zero não recebem despesa alocada nem entram no resultado do mês.`
+    : 'Informe a produção planejada (e, se possível, as horas por unidade) de cada produto para que as despesas sejam divididas entre eles.';
+}
+
+function renderAll(){renderDespesas();renderProdutos();updateResultados();}
+
+/* ---------- eventos: digitação ---------- */
+function onFieldChange(ev){
+  const t=ev.target,b=t.dataset.bind;if(!b)return;
+  const parts=b.split(':'),field=parts[0];
+  const isMoeda=t.classList&&t.classList.contains('moeda');
+  const isNum=t.type==='number';
+  const v=isMoeda?parseBR(t.value):(isNum?numVal(t):t.value);
+
+  if(field==='taxaVenda'){state.taxaVenda=v;}
+  else if(field.startsWith('des.')){
+    const d=state.despesas.find(x=>x.id===parts[1]); if(!d)return;
+    const k=field.split('.')[1]; d[k]=k==='nome'?t.value:v;
+    if(k==='nome'){const el=$('chipsDespesas'); if(el)el.innerHTML=chipsDespesasHTML();}
+  }
+  else if(field.startsWith('prod.')){
+    const p=state.produtos.find(x=>x.id===parts[1]); if(!p)return;
+    const k=field.split('.')[1]; p[k]=k==='nome'?t.value:v;
+    if(k==='nome'){const s=document.querySelector(`details.prod[data-id="${p.id}"] > summary .p-title-txt`); if(s)s.textContent=t.value||'Novo produto';}
+    if(k==='segmento'){const el=$('chipsMat-'+p.id); if(el)el.innerHTML=chipsMatHTML(p);}
+    if(k==='producao')syncBindTargets(b,t,p.producao||'');
+    if(k==='preco')syncBindTargets(b,t,fmtInputVal(p.preco));
+  }
+  else if(field.startsWith('mat.')){
+    const p=state.produtos.find(x=>x.id===parts[1]); if(!p)return;
+    const m=p.materiais.find(x=>x.id===parts[2]); if(!m)return;
+    const k=field.split('.')[1]; m[k]=k==='nome'?t.value:v;
+    if(k==='qtd'||k==='valor'){
+      const sub=document.querySelector(`[data-sub="mat:${p.id}:${m.id}"]`);
+      if(sub)sub.textContent=fmtM((+m.qtd||0)*(+m.valor||0));
+    }
+    if(k==='nome'){const el=$('chipsMat-'+p.id); if(el)el.innerHTML=chipsMatHTML(p);}
+  }
+  else if(field.startsWith('com.')){
+    const p=state.produtos.find(x=>x.id===parts[1]); if(!p)return;
+    const c=p.comerc.find(x=>x.id===parts[2]); if(!c)return;
+    const k=field.split('.')[1]; c[k]=k==='nome'?t.value:v;
+    if(k==='nome'){const el=$('chipsCom-'+p.id); if(el)el.innerHTML=chipsComHTML(p);}
+  }
+  updateResultados();saveSoon();
+}
+document.addEventListener('input',onFieldChange);
+document.addEventListener('change',onFieldChange);
+document.addEventListener('focusout',ev=>{
+  const t=ev.target;
+  if(t.classList&&t.classList.contains('moeda')){
+    t.value=fmtInputVal(parseBR(t.value));
+  }
+});
+
+function focusRow(sel,focusSel){
+  const el=document.querySelector(sel);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  const inp=focusSel?el.querySelector(focusSel):el.querySelector('input,select');
+  if(inp)setTimeout(()=>inp.focus(),120);
+}
+
+/* ---------- eventos: cliques ---------- */
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-act]');if(!b)return;
+  if(b.closest('summary'))ev.preventDefault();
+  const act=b.dataset.act;
+  switch(act){
+    case'add-despesa':{
+      const d={id:uid(),nome:'',valor:''};state.despesas.push(d);
+      renderDespesas();updateResultados();saveSoon();
+      focusRow(`.d-row[data-id="${d.id}"]`);break;}
+    case'del-despesa':{
+      const i=state.despesas.findIndex(x=>x.id===b.dataset.id);if(i<0)break;
+      state.despesas.splice(i,1);renderDespesas();updateResultados();saveSoon();break;}
+    case'chip-des':{
+      const d={id:uid(),nome:cap(b.dataset.nome),valor:''};state.despesas.push(d);
+      renderDespesas();updateResultados();saveSoon();
+      focusRow(`.d-row[data-id="${d.id}"]`,'.moeda');break;}
+    case'chip-mat':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      const m={id:uid(),nome:cap(b.dataset.nome),qtd:1,valor:''};p.materiais.push(m);
+      $('mat-'+p.id).insertAdjacentHTML('beforeend',matRowHTML(p,m));
+      $('chipsMat-'+p.id).innerHTML=chipsMatHTML(p);
+      updateResultados();saveSoon();
+      focusRow(`#mat-${p.id} .item-row[data-id="${m.id}"]`,'.moeda');break;}
+    case'chip-com':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      const c={id:uid(),nome:cap(b.dataset.nome),valor:''};p.comerc.push(c);
+      $('com-'+p.id).insertAdjacentHTML('beforeend',comRowHTML(p,c));
+      $('chipsCom-'+p.id).innerHTML=chipsComHTML(p);
+      updateResultados();saveSoon();
+      focusRow(`#com-${p.id} .item-row[data-id="${c.id}"]`,'.moeda');break;}
+    case'dup-produto':{
+      const src=state.produtos[state.produtos.length-1];
+      const novo=src?cloneProduto(src):novoProduto();
+      state.produtos.push(novo);renderProdutos();updateResultados();saveSoon();
+      const el=document.querySelector(`details.prod[data-id="${novo.id}"]`);
+      if(el){el.scrollIntoView({behavior:'smooth',block:'center'});const inp=el.querySelector('input');if(inp)inp.focus();}break;}
+    case'del-produto':{
+      const p=state.produtos.find(x=>x.id===b.dataset.id);if(!p)break;
+      if(!confirm(`Excluir o produto "${p.nome||'sem nome'}"?`))break;
+      state.produtos=state.produtos.filter(x=>x.id!==p.id);
+      if(!state.produtos.length)state.produtos=[novoProduto()];
+      renderProdutos();updateResultados();saveSoon();break;}
+    case'add-mat':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      const m={id:uid(),nome:'',qtd:1,valor:''};p.materiais.push(m);
+      $('mat-'+p.id).insertAdjacentHTML('beforeend',matRowHTML(p,m));
+      $('chipsMat-'+p.id).innerHTML=chipsMatHTML(p);
+      updateResultados();saveSoon();
+      focusRow(`#mat-${p.id} .item-row[data-id="${m.id}"]`);break;}
+    case'del-mat':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      p.materiais=p.materiais.filter(x=>x.id!==b.dataset.id);
+      if(!p.materiais.length)p.materiais=[{id:uid(),nome:'',qtd:1,valor:''}];
+      $('mat-'+p.id).innerHTML=p.materiais.map(m=>matRowHTML(p,m)).join('');
+      $('chipsMat-'+p.id).innerHTML=chipsMatHTML(p);
+      updateResultados();saveSoon();break;}
+    case'add-com':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      const c={id:uid(),nome:'',valor:''};p.comerc.push(c);
+      $('com-'+p.id).insertAdjacentHTML('beforeend',comRowHTML(p,c));
+      $('chipsCom-'+p.id).innerHTML=chipsComHTML(p);
+      updateResultados();saveSoon();
+      focusRow(`#com-${p.id} .item-row[data-id="${c.id}"]`);break;}
+    case'del-com':{
+      const p=state.produtos.find(x=>x.id===b.dataset.pid);if(!p)break;
+      p.comerc=p.comerc.filter(x=>x.id!==b.dataset.id);
+      if(!p.comerc.length)p.comerc=[{id:uid(),nome:'',valor:''}];
+      $('com-'+p.id).innerHTML=p.comerc.map(c=>comRowHTML(p,c)).join('');
+      $('chipsCom-'+p.id).innerHTML=chipsComHTML(p);
+      updateResultados();saveSoon();break;}
+    case'reset':
+      if(confirm('Apagar todos os dados e começar do zero?')){state=estadoNovo();hydrate();renderAll();saveNow();}break;
+    case'csv':exportCSV();break;
+    case'print':window.print();break;
+  }
+});
+
+function hydrate(){$('inpTaxa').value=state.taxaVenda||'';}
+
+function exportCSV(){
+  const c=calc();
+  const rows=[['Produto','Produção/mês','Preço praticado','Faturamento','Custo direto/un','Despesas alocadas/un','Custo no contexto/un','Preço mínimo (produção)','Preço mínimo (despesas)','Margem de contribuição (mês)','Lucro (mês)','Situação']];
+  c.linhas.forEach(l=>{
+    const st=statusInfo(l.status);
+    rows.push([l.nome||'',l.producao||0,l.preco>0?nf.format(l.preco):'',l.producao>0&&l.preco>0?nf.format(l.faturamento):'',nf.format(l.cd),l.alocadoUn!=null?nf.format(l.alocadoUn):'',l.cc!=null?nf.format(l.cc):'',l.pm1!=null?nf.format(l.pm1):'',l.pm2!=null?nf.format(l.pm2):'',l.producao>0&&l.preco>0?nf.format(l.margemContribTotal):'',l.producao>0&&l.preco>0?nf.format(l.lucroTotal):'',st.txt]);
+  });
+  rows.push([]);
+  rows.push(['Despesas do mês',nf.format(c.despesasTotal)]);
+  rows.push(['Receita projetada',nf.format(c.receitaProjetada)]);
+  rows.push(['Custo direto total',nf.format(c.custoDiretoTotal)]);
+  rows.push(['Margem de contribuição total',nf.format(c.contribuicaoTotal)]);
+  rows.push(['Resultado do mês (lucro)',nf.format(c.resultadoMes)]);
+  rows.push(['Cobertura das despesas (%)',c.cobertura!=null?c.cobertura.toFixed(1):'']);
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\r\n');
+  const blob=new Blob(['\ufeff',csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='precificacao-ecosol.csv';a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),3000);
+}
+
+loadState();hydrate();renderAll();
+</script>
+</body>
+</html>
