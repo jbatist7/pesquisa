@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gerador de Cola Eleitoral 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
+<style>
+  :root {
+    --color-bg: #EEF1F5;
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F7F8FA;
+    --color-border: #D7DCE3;
+    --color-text: #1C2530;
+    --color-text-muted: #5B6672;
+    --color-red: #C0392B;
+    --color-red-dark: #A93226;
+    --color-red-tint: #FBEAE8;
+    --color-gold: #C99A3D;
+    --color-gold-tint: #FBF3E1;
+    --color-gold-border: #E3C687;
+    --color-green: #2E7D50;
+    --color-green-dark: #24623F;
+    --color-grey-btn: #6B7280;
+    --color-grey-btn-dark: #565F6B;
+    --shadow-soft: 0 2px 10px rgba(15, 30, 55, 0.08);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --color-bg: #12161C;
+      --color-surface: #1B212B;
+      --color-surface-alt: #20272F;
+      --color-border: #2B333F;
+      --color-text: #E7EAEE;
+      --color-text-muted: #9AA4B0;
+      --color-red: #E05B4D;
+      --color-red-dark: #C0392B;
+      --color-red-tint: #3A211E;
+      --color-gold: #E3B65B;
+      --color-gold-tint: #2A2416;
+      --color-gold-border: #4A3D22;
+      --color-green: #3C9464;
+      --color-green-dark: #2E7850;
+      --color-grey-btn: #7C8794;
+      --color-grey-btn-dark: #626C78;
+      --shadow-soft: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --color-bg: #12161C;
+    --color-surface: #1B212B;
+    --color-surface-alt: #20272F;
+    --color-border: #2B333F;
+    --color-text: #E7EAEE;
+    --color-text-muted: #9AA4B0;
+    --color-red: #E05B4D;
+    --color-red-dark: #C0392B;
+    --color-red-tint: #3A211E;
+    --color-gold: #E3B65B;
+    --color-gold-tint: #2A2416;
+    --color-gold-border: #4A3D22;
+    --color-green: #3C9464;
+    --color-green-dark: #2E7850;
+    --color-grey-btn: #7C8794;
+    --color-grey-btn-dark: #626C78;
+    --shadow-soft: 0 2px 14px rgba(0,0,0,0.4);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Public Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: var(--color-bg);
+    min-height: 100%;
+    color: var(--color-text);
+    padding-bottom: 40px;
+  }
+  .header-wrap {
+    text-align: center;
+    padding: 18px 20px 6px;
+  }
+  .header-chip {
+    display: inline-block;
+    background: var(--color-red);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 10px;
+    max-width: 92%;
+  }
+  .header-chip h1 {
+    font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+  }
+  .header-chip .subtitle {
+    font-size: 0.78rem;
+    color: #fff;
+    margin-top: 5px;
+    line-height: 1.4;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 18px 20px 0;
+  }
+  .aviso-box {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--color-gold-tint);
+    border: 1px solid var(--color-gold-border);
+    border-left: 5px solid var(--color-gold);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+  }
+  .aviso-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .aviso-text strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--color-text);
+    margin-bottom: 4px;
+  }
+  .aviso-text .aviso-lei {
+    display: block;
+    font-size: 0.76rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+  .form-section {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-soft);
+  }
+  .form-section h2 {
+    font-size: 1.02rem;
+    margin-bottom: 16px;
+    color: var(--color-red);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .form-section h2::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--color-red);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .candidate-group {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .candidate-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .candidate-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.87rem;
+    color: var(--color-text);
+  }
+  .digit-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .digit-box {
+    width: 44px;
+    height: 52px;
+    border: 2px solid var(--color-red);
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text);
+    background: var(--color-surface);
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+  }
+  .digit-box:focus {
+    outline: none;
+    border-color: var(--color-red-dark);
+    box-shadow: 0 0 0 3px var(--color-red-tint);
+  }
+  .digit-box.filled {
+    background: var(--color-red-tint);
+    color: var(--color-red-dark);
+  }
+  .digit-box::placeholder {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+  .btn-generate {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 22px auto 8px;
+    padding: 15px 28px;
+    background: var(--color-red);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    font-family: inherit;
+  }
+  .btn-generate:hover {
+    background: var(--color-red-dark);
+    transform: translateY(-2px);
+  }
+  .btn-generate:disabled {
+    opacity: 0.6;
+    cursor: default;
+    transform: none;
+  }
+  .preview-section {
+    display: none;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+  #colaCanvas {
+    max-width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    margin-bottom: 18px;
+    background: #fff;
+  }
+  .preview-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 11px 22px;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    font-family: inherit;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+  .btn-download { background: var(--color-green); }
+  .btn-download:hover { background: var(--color-green-dark); }
+  .btn-print { background: var(--color-red); }
+  .btn-print:hover { background: var(--color-red-dark); }
+  .btn-back { background: var(--color-grey-btn); }
+  .btn-back:hover { background: var(--color-grey-btn-dark); }
+  .hidden-canvas {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+  }
+  /* Cartão da cola: mantido propositalmente em preto e branco para impressão econômica */
+  .cola-preview-render {
+    width: 190px;
+    height: 220px;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Public Sans', Arial, sans-serif;
+    border: 1px solid #bbb;
+  }
+  .cola-header-bw {
+    background: #fff;
+    color: #000;
+    padding: 5px 4px;
+    text-align: center;
+    border-bottom: 1px solid #000;
+  }
+  .cola-header-bw h2 {
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    color: #000;
+  }
+  .cola-body-bw {
+    padding: 5px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 55px);
+  }
+  .candidate-row-bw {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+  }
+  .candidate-row-bw .label-bw {
+    font-weight: 700;
+    font-size: 0.42rem;
+    color: #000;
+    text-transform: uppercase;
+    min-width: 72px;
+    letter-spacing: 0.2px;
+    line-height: 1.0;
+  }
+  .candidate-row-bw .numbers-bw {
+    display: flex;
+    gap: 2px;
+  }
+  .candidate-row-bw .num-box-bw {
+    width: 16px;
+    height: 17px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.6rem;
+    color: #000;
+  }
+  .cola-footer-bw {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    color: #000;
+    padding: 3px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid #000;
+  }
+  .cola-footer-bw .eleicoes-bw {
+    font-size: 0.48rem;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .cola-footer-bw .lei-bw {
+    font-size: 0.28rem;
+    text-align: right;
+    max-width: 90px;
+    line-height: 1.1;
+  }
+  @media (max-width: 600px) {
+    .header-chip h1 { font-size: 1.05rem; }
+    .form-section { padding: 16px; }
+    .digit-box { width: 38px; height: 46px; font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+<div id="formView">
+  <div class="header-wrap">
+    <div class="header-chip">
+      <h1>🗳️ Gerador de Cola Eleitoral 2026</h1>
+      <p class="subtitle">Preencha os números dos seus candidatos e gere sua cola para levar à urna!</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="aviso-box">
+      <div class="aviso-icon">📵</div>
+      <div class="aviso-text">
+        <strong>Proibido entrar na cabine de votação com celular.</strong>
+        <span class="aviso-lei">Art. 91-A da Lei nº 9.504/1997 · Código Eleitoral, Art. 312: pena de até 2 anos.</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Esses eu apoio!</h2>
+
+      <div class="candidate-group">
+        <label>🏛️ Deputado Federal (4 dígitos)</label>
+        <div class="digit-row" id="rowDepFederal">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depFederal" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depFederal" data-index="1" placeholder="3">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depFederal" data-index="2">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depFederal" data-index="3">
+        </div>
+      </div>
+
+      <div class="candidate-group">
+        <label>🏛️ Deputado Estadual ou Distrital (5 dígitos)</label>
+        <div class="digit-row" id="rowDepEstadual">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depEstadual" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depEstadual" data-index="1" placeholder="3">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depEstadual" data-index="2">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depEstadual" data-index="3">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="depEstadual" data-index="4">
+        </div>
+      </div>
+
+      <div class="candidate-group">
+        <label>🏛️ Senador – Primeira Vaga (3 dígitos)</label>
+        <div class="digit-row" id="rowSenador1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador1" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador1" data-index="1" placeholder="3">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador1" data-index="2">
+        </div>
+      </div>
+
+      <div class="candidate-group">
+        <label>🏛️ Senador – Segunda Vaga (3 dígitos)</label>
+        <div class="digit-row" id="rowSenador2">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador2" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador2" data-index="1" placeholder="3">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="senador2" data-index="2">
+        </div>
+      </div>
+
+      <div class="candidate-group">
+        <label>🏛️ Governador (2 dígitos)</label>
+        <div class="digit-row" id="rowGovernador">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="governador" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="governador" data-index="1" placeholder="3">
+        </div>
+      </div>
+
+      <div class="candidate-group">
+        <label>🇧🇷 Presidente da República (2 dígitos)</label>
+        <div class="digit-row" id="rowPresidente">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="presidente" data-index="0" placeholder="1">
+          <input type="text" class="digit-box" maxlength="1" inputmode="numeric" data-group="presidente" data-index="1" placeholder="3">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-generate" id="btnGerar" onclick="gerarCola()">🖼️ Gerar Cola</button>
+  </div>
+</div>
+
+<div class="preview-section" id="previewSection">
+  <canvas id="colaCanvas"></canvas>
+  <div class="preview-actions">
+    <button class="btn btn-download" id="btnPng" onclick="downloadCola()">⬇️ Baixar PNG</button>
+    <button class="btn btn-print" id="btnPdf" onclick="gerarFolhaA4()">🖨️ Baixar folha A4 (12 cópias)</button>
+    <button class="btn btn-back" onclick="voltar()">↩️ Voltar</button>
+  </div>
+</div>
+
+<div id="colaRender" class="hidden-canvas">
+  <div class="cola-preview-render" id="colaCard">
+    <div class="cola-header-bw">
+      <h2>Esses eu Apoio!</h2>
+    </div>
+    <div class="cola-body-bw" id="colaMain"></div>
+    <div class="cola-footer-bw">
+      <div class="eleicoes-bw">ELEIÇÕES 2026<br><small style="font-size:0.38rem">#VOTONASDEMOCRACIA</small></div>
+      <div class="lei-bw">📵 Proibido entrar na cabine com celular!<br>Art. 91-A Lei nº 9.504/1997<br>Cód. Eleitoral Art. 312: pena até 2 anos.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentColaCanvas = null;
+
+  // Salva um arquivo (Blob) para o visitante. Tenta primeiro o mecanismo de
+  // download do artifact da Claude (quando esta página é vista como um
+  // artifact publicado); se não estiver disponível — por exemplo, quando o
+  // código é incorporado em um site externo como o Google Sites — usa o
+  // método padrão do navegador, que funciona em qualquer página HTML comum.
+  async function salvarArquivo(filename, blob) {
+    try {
+      if (window.claude && typeof window.claude.use === 'function') {
+        const downloadsAPI = await window.claude.use('downloads');
+        if (downloadsAPI) {
+          try {
+            await downloadsAPI.save({ filename, data: blob });
+            return;
+          } catch (err) {
+            if (err && err.code === 'declined') return;
+            // qualquer outro erro: continua para o método padrão abaixo
+          }
+        }
+      }
+    } catch (e) {
+      // continua para o método padrão abaixo
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  }
+
+  document.querySelectorAll('.digit-box').forEach(input => {
+    input.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+      if (this.value.length === 1) {
+        this.classList.add('filled');
+        const group = this.dataset.group;
+        const idx = parseInt(this.dataset.index);
+        const next = document.querySelector(`.digit-box[data-group="${group}"][data-index="${idx + 1}"]`);
+        if (next) next.focus();
+      } else {
+        this.classList.remove('filled');
+      }
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && this.value === '') {
+        const group = this.dataset.group;
+        const idx = parseInt(this.dataset.index);
+        const prev = document.querySelector(`.digit-box[data-group="${group}"][data-index="${idx - 1}"]`);
+        if (prev) {
+          prev.focus();
+          prev.value = '';
+          prev.classList.remove('filled');
+        }
+      }
+    });
+    input.addEventListener('focus', function() {
+      this.select();
+    });
+  });
+
+  function getGroupValue(groupName) {
+    const boxes = document.querySelectorAll(`.digit-box[data-group="${groupName}"]`);
+    let val = '';
+    boxes.forEach(b => val += b.value);
+    return val;
+  }
+
+  function createNumberBoxes(numStr, totalBoxes) {
+    let html = '<div class="numbers-bw">';
+    for (let i = 0; i < totalBoxes; i++) {
+      const digit = i < numStr.length ? numStr[i] : '';
+      const colorStyle = digit ? 'color:#000;' : 'color:#ccc;';
+      html += `<div class="num-box-bw" style="${colorStyle}">${digit}</div>`;
+    }
+    html += '</div>';
+    return html;
+  }
+
+  function gerarCola() {
+    const depFederal = getGroupValue('depFederal');
+    const depEstadual = getGroupValue('depEstadual');
+    const senador1 = getGroupValue('senador1');
+    const senador2 = getGroupValue('senador2');
+    const governador = getGroupValue('governador');
+    const presidente = getGroupValue('presidente');
+
+    const colaMain = document.getElementById('colaMain');
+    colaMain.innerHTML = `
+      <div class="candidate-row-bw">
+        <div class="label-bw">Dep. Federal</div>
+        ${createNumberBoxes(depFederal, 4)}
+      </div>
+      <div class="candidate-row-bw">
+        <div class="label-bw">Dep. Estadual</div>
+        ${createNumberBoxes(depEstadual, 5)}
+      </div>
+      <div class="candidate-row-bw">
+        <div class="label-bw">Senador 1ª</div>
+        ${createNumberBoxes(senador1, 3)}
+      </div>
+      <div class="candidate-row-bw">
+        <div class="label-bw">Senador 2ª</div>
+        ${createNumberBoxes(senador2, 3)}
+      </div>
+      <div class="candidate-row-bw">
+        <div class="label-bw">Governador</div>
+        ${createNumberBoxes(governador, 2)}
+      </div>
+      <div class="candidate-row-bw">
+        <div class="label-bw">Presidente</div>
+        ${createNumberBoxes(presidente, 2)}
+      </div>
+    `;
+
+    const btnGerar = document.getElementById('btnGerar');
+    btnGerar.disabled = true;
+    btnGerar.textContent = 'Gerando...';
+
+    const renderEl = document.getElementById('colaRender');
+    renderEl.style.display = 'block';
+    renderEl.style.left = '0';
+    renderEl.style.top = '0';
+    renderEl.style.position = 'fixed';
+    renderEl.style.zIndex = '-1';
+    renderEl.style.opacity = '0';
+
+    setTimeout(() => {
+      html2canvas(document.getElementById('colaCard'), {
+        scale: 4,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        width: 190,
+        height: 220
+      }).then(canvas => {
+        renderEl.style.display = 'none';
+        btnGerar.disabled = false;
+        btnGerar.textContent = '🖼️ Gerar Cola';
+        currentColaCanvas = canvas;
+        const displayCanvas = document.getElementById('colaCanvas');
+        displayCanvas.width = canvas.width;
+        displayCanvas.height = canvas.height;
+        const ctx = displayCanvas.getContext('2d');
+        ctx.drawImage(canvas, 0, 0);
+        document.getElementById('formView').style.display = 'none';
+        document.getElementById('previewSection').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }).catch(err => {
+        renderEl.style.display = 'none';
+        btnGerar.disabled = false;
+        btnGerar.textContent = '🖼️ Gerar Cola';
+        alert('Erro ao gerar imagem: ' + err.message);
+      });
+    }, 100);
+  }
+
+  function downloadCola() {
+    if (!currentColaCanvas) return;
+    const btn = document.getElementById('btnPng');
+    btn.disabled = true;
+    currentColaCanvas.toBlob(async (blob) => {
+      await salvarArquivo('cola-eleitoral-2026.png', blob);
+      btn.disabled = false;
+    }, 'image/png');
+  }
+
+  function drawDashedLine(doc, x1, y1, x2, y2, dash, gap) {
+    dash = dash || 2;
+    gap = gap || 1.2;
+    const isHorizontal = y1 === y2;
+    const total = isHorizontal ? Math.abs(x2 - x1) : Math.abs(y2 - y1);
+    const step = dash + gap;
+    const dir = isHorizontal ? (x2 > x1 ? 1 : -1) : (y2 > y1 ? 1 : -1);
+    let covered = 0;
+    while (covered < total) {
+      const segStart = covered;
+      const segEnd = Math.min(covered + dash, total);
+      if (isHorizontal) {
+        doc.line(x1 + dir * segStart, y1, x1 + dir * segEnd, y1);
+      } else {
+        doc.line(x1, y1 + dir * segStart, x1, y1 + dir * segEnd);
+      }
+      covered += step;
+    }
+  }
+
+  function drawDashedRect(doc, x, y, w, h) {
+    drawDashedLine(doc, x, y, x + w, y);
+    drawDashedLine(doc, x, y + h, x + w, y + h);
+    drawDashedLine(doc, x, y, x, y + h);
+    drawDashedLine(doc, x + w, y, x + w, y + h);
+  }
+
+  async function gerarFolhaA4() {
+    if (!currentColaCanvas) return;
+    const btn = document.getElementById('btnPdf');
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'Gerando PDF...';
+
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const imgData = currentColaCanvas.toDataURL('image/png');
+
+      const pageWidth = 210, pageHeight = 297;
+      const cols = 4, rows = 3;
+      const marginX = 10, gapX = 5, gapY = 6;
+      const headerSpace = 26, footerSpace = 14;
+
+      const cardWidth = (pageWidth - marginX * 2 - gapX * (cols - 1)) / cols;
+      const cardHeight = cardWidth * (220 / 190);
+      const gridWidth = cols * cardWidth + (cols - 1) * gapX;
+      const gridHeight = rows * cardHeight + (rows - 1) * gapY;
+      const startX = (pageWidth - gridWidth) / 2;
+      const availableY = pageHeight - headerSpace - footerSpace;
+      const startY = headerSpace + Math.max(0, (availableY - gridHeight) / 2);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(15);
+      doc.setTextColor(192, 57, 43);
+      doc.text('Cola Eleitoral 2026', pageWidth / 2, 15, { align: 'center' });
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      doc.text('Recorte pelas linhas pontilhadas e leve à urna', pageWidth / 2, 21, { align: 'center' });
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = startX + c * (cardWidth + gapX);
+          const y = startY + r * (cardHeight + gapY);
+          doc.addImage(imgData, 'PNG', x, y, cardWidth, cardHeight);
+        }
+      }
+
+      doc.setDrawColor(150, 150, 150);
+      doc.setLineWidth(0.15);
+      for (let c = 0; c < cols - 1; c++) {
+        const xMid = startX + c * (cardWidth + gapX) + cardWidth + gapX / 2;
+        drawDashedLine(doc, xMid, startY - 3, xMid, startY + gridHeight + 3);
+      }
+      for (let r = 0; r < rows - 1; r++) {
+        const yMid = startY + r * (cardHeight + gapY) + cardHeight + gapY / 2;
+        drawDashedLine(doc, startX - 3, yMid, startX + gridWidth + 3, yMid);
+      }
+      drawDashedRect(doc, startX - 3, startY - 3, gridWidth + 6, gridHeight + 6);
+
+      doc.setFontSize(7);
+      doc.setTextColor(140, 140, 140);
+      doc.text('Proibido entrar na cabine de votação com celular — Art. 91-A da Lei nº 9.504/1997 · Código Eleitoral, Art. 312: pena de até 2 anos.', pageWidth / 2, pageHeight - 8, { align: 'center', maxWidth: pageWidth - 20 });
+
+      const blob = doc.output('blob');
+      await salvarArquivo('cola-eleitoral-2026-A4.pdf', blob);
+    } catch (err) {
+      alert('Erro ao gerar o PDF: ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
+  }
+
+  function voltar() {
+    document.getElementById('previewSection').style.display = 'none';
+    document.getElementById('formView').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
