@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formulário de Diagnóstico e Planejamento Municipal</title>
+<style>
+:root{--az:#1B3A6B;--am:#2E75B6;--vd:#00A651;--ac:#D6E4F7;--cz:#F2F2F2;--tx:#404040}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--tx);background:#f4f6f9}
+header{background:var(--az);color:#fff;padding:10px 16px;position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+header h1{font-size:1.05em}header small{display:block;color:#B8D4F0;font-size:.78em}
+button{font:inherit;cursor:pointer;border:0;border-radius:6px;padding:8px 12px;background:var(--am);color:#fff;font-weight:700;font-size:.85em}
+button.vd{background:var(--vd)}button.cz{background:var(--cz);color:var(--az);border:1px solid #ccc}button.rd{background:#c0392b}
+nav{display:flex;gap:4px;padding:10px 16px 0;max-width:960px;margin:auto;flex-wrap:wrap}
+nav button{background:#dfe7f3;color:var(--az);border-radius:6px 6px 0 0}nav button.on{background:var(--az);color:#fff}
+main{max-width:960px;margin:auto;padding:0 16px 60px}
+.pn{display:none;background:#fff;border:1px solid #d5dbe5;border-radius:0 8px 8px 8px;padding:16px}.pn.on{display:block}
+.fld{margin:10px 0}label{display:block;font-weight:700;font-size:.9em;color:var(--az);margin-bottom:3px}label small{font-weight:400;color:#666}
+input,select,textarea{width:100%;font:inherit;padding:8px;border:1px solid #bbb;border-radius:6px;background:#fff}
+textarea{min-height:64px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid var(--am)}
+.q{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;margin-left:6px;border-radius:50%;background:var(--vd);color:#fff;font-size:.8em;cursor:pointer;user-select:none}
+.hint{display:none;background:#FFF2CC;border-left:4px solid #E6AC00;padding:7px 10px;margin-bottom:5px;font-size:.84em;border-radius:4px}.hint.on{display:block}
+.row{display:flex;gap:8px;flex-wrap:wrap}.row>input{flex:2;min-width:160px}.row>select{flex:1;min-width:150px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}@media(max-width:640px){.g2{grid-template-columns:1fr}}
+details{border:1px solid #d5dbe5;border-radius:8px;margin:8px 0;background:#fafcff}
+summary{cursor:pointer;padding:11px 14px;font-weight:700;color:var(--az);background:var(--ac);border-radius:8px}
+details[open]>summary{border-radius:8px 8px 0 0}details>div,details>.fld{padding:0 14px}
+.ind{border-bottom:1px dashed #d5dbe5}.cnt{float:right;font-weight:400;font-size:.8em}
+.card{border:1px solid #d5dbe5;border-left:5px solid var(--am);border-radius:8px;padding:12px 14px;margin:12px 0;background:#fafcff}
+.card h3{color:var(--az);font-size:1em;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.bdg{background:var(--az);color:#fff;border-radius:12px;padding:2px 10px;font-size:.78em}
+.bar{background:#e3e8ef;border-radius:6px;height:8px;margin:6px 0 10px}.bar i{display:block;height:100%;background:var(--vd);border-radius:6px;width:0}
+.box{background:var(--ac);border-left:5px solid var(--am);padding:10px 14px;border-radius:6px;margin:10px 0;font-size:.9em}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#prt{display:none}
+@media print{
+@page{size:A4;margin:14mm}
+body>:not(#prt){display:none!important}body{background:#fff}
+#prt{display:block;font-size:10.5pt;color:#000}
+#prt h1{font-size:19pt;color:#1B3A6B;margin-bottom:4pt}#prt h2{font-size:14pt;color:#fff;background:#1B3A6B;padding:5pt 8pt;margin:14pt 0 6pt;break-after:avoid}
+#prt h3{font-size:11.5pt;color:#1B3A6B;margin:10pt 0 4pt;border-bottom:1.5pt solid #2E75B6;break-after:avoid}
+#prt table{width:100%;border-collapse:collapse;margin:4pt 0 8pt;break-inside:avoid}
+#prt th,#prt td{border:.6pt solid #999;padding:3pt 5pt;text-align:left;vertical-align:top;font-size:9.5pt}
+#prt th{background:#D6E4F7}#prt .ac th{background:#1B3A6B;color:#fff}#prt .ac td:first-child{width:32%;font-weight:700;background:#f2f2f2}
+#prt .g{background:#D6F0E0}#prt .y{background:#FFF2CC}#prt .r{background:#FFE0E0}
+#prt .pb{break-before:page}#prt .sg{display:flex;gap:30pt;margin-top:40pt}#prt .sg div{flex:1;border-top:1pt solid #000;text-align:center;padding-top:3pt}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+.hb{display:flex;gap:6px;flex-wrap:wrap}
+.pbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#fff;color:var(--az);padding:6px 10px;border-radius:8px;font-weight:700;font-size:.85em;width:100%}
+.pbar button{background:var(--vd);font-size:1em;padding:9px 14px}.pbar .ve{font-weight:400;color:#555;margin:0;font-size:.8em;display:flex;gap:5px;align-items:center}.pbar .ve input{width:auto}
+.ve2{display:flex;gap:6px;align-items:center;font-weight:400;color:inherit;margin:0}.ve2 input{width:auto}
+.sub{font-weight:700;color:var(--am);margin:14px 14px 2px;font-size:.85em;border-bottom:1px solid #d5dbe5}
+.use{font-weight:400;font-size:.78em;color:#666;margin:6px 0 0;display:flex;gap:5px;align-items:center}.use input{width:auto}.off{opacity:.45}
+.logo{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px dashed #aaa;border-radius:8px;padding:10px;min-height:70px}
+.tb{width:100%;border-collapse:collapse;font-size:.85em}.tb th,.tb td{border:1px solid #ccd;padding:5px 7px;text-align:left;vertical-align:top}.tb th{background:var(--ac)}
+@media(max-width:640px){header{position:static}}
+@media print{#prt .hd{display:flex;align-items:center;gap:12pt;border-bottom:2pt solid #1B3A6B;padding-bottom:6pt;margin-bottom:10pt;font-size:13pt}#prt .hd img{max-height:60pt;max-width:140pt}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Diagnóstico e Planejamento Municipal</h1><small id="bks"></small></div>
+  <div class="hb"><button class="cz" onclick="bk()">💾 Baixar backup</button><button class="cz" onclick="$('#fl').click()">📂 Abrir backup</button></div>
+  <div class="pbar"><span>🖨 IMPRIMIR / GERAR PDF:</span><button onclick="pr('d')">Só Diagnóstico</button><button onclick="pr('p')">Só Planejamento</button><button onclick="pr('t')">Diagnóstico + Planejamento</button><label class="ve"><input type="checkbox" id="ve"> incluir indicadores não preenchidos</label></div>
+</header>
+<nav id="tabs">
+  <button data-t="t0" class="on">1. Identificação</button>
+  <button data-t="t1">2. Diagnóstico</button>
+  <button data-t="t2">3. Planejamento</button>
+</nav>
+<main>
+<section class="pn on" id="t0">
+  <div class="box"><b>Como usar:</b> preencha as três etapas em ordem. Toque no <span class="q" style="margin:0">?</span> verde ao lado de cada pergunta para ver como responder. Tudo é salvo automaticamente neste navegador; para guardar ou levar a outro computador, use <b>Baixar backup</b> e depois <b>Abrir backup</b>. Ao final, use os botões verdes do topo e escolha <i>Salvar como PDF</i> na janela de impressão.</div>
+  <div id="lgw"></div><div class="g2" id="idf"></div>
+  <div class="bar"><i id="pgb"></i></div><small id="pgt"></small>
+  <div class="acts">
+    <button class="cz" onclick="bk()">💾 Baixar backup (.json)</button>
+    <button class="cz" onclick="$('#fl').click()">📂 Abrir backup</button>
+    <input type="file" id="fl" accept=".json" hidden onchange="op(event)">
+    <button class="rd" onclick="clr()">🗑 Limpar tudo</button><button class="vd" onclick="go('t1')">Continuar para o Diagnóstico →</button>
+  </div>
+</section>
+<section class="pn" id="t1">
+  <div class="box">Para cada indicador, informe a <b>situação atual</b> do município e marque o <b>semáforo</b>: 🟢 meta atingida, 🟡 alerta, 🔴 crítico. Todos os indicadores do manual já vêm sugeridos: desmarque <b>Usar no relatório</b> nos que não se aplicam ou acrescente indicadores próprios. Os itens 🔴/🟡 e os problemas descritos seguem automaticamente para o Planejamento.</div>
+  <div class="acts" style="margin:0 0 8px"><button class="cz" onclick="limpaVazios()">Desmarcar indicadores não preenchidos</button><button class="cz" onclick="marcaTodos()">Marcar todos</button></div><div id="dg"></div><div class="acts"><button class="vd" onclick="toPlan()">Enviar ao Planejamento e continuar →</button></div>
+</section>
+<section class="pn" id="t2">
+  <div class="box">Cada ação responde às 9 perguntas do manual: qual problema, quem sofre, onde, causa, meta, como executar, quanto custa, quem executa e como medir. A <b>prioridade</b> é calculada pela matriz Impacto × Viabilidade. Os problemas do diagnóstico chegam aqui automaticamente.</div>
+  <div class="acts"><button class="vd" onclick="addA()">＋ Nova ação em branco</button><button class="cz" onclick="restore()">↺ Reenviar do diagnóstico</button><label class="ve2"><input type="checkbox" id="yy" onchange="setY(this.checked)"> incluir também indicadores em alerta 🟡</label></div>
+  <div class="box" id="msg" style="display:none"></div>
+  <div id="bank" style="margin-top:10px"></div><div id="sg" style="margin-top:10px"></div>
+  <div id="ac"></div>
+  <div class="box" style="margin-top:16px"><b>Planejamento concluído?</b> Gere o PDF:<div class="acts"><button class="vd" onclick="pr('d')">🖨 Só Diagnóstico</button><button class="vd" onclick="pr('p')">🖨 Só Planejamento</button><button class="vd" onclick="pr('t')">🖨 Diagnóstico + Planejamento</button><button class="cz" onclick="bk()">💾 Baixar backup</button></div></div>
+</section>
+</main>
+<div id="prt"></div>
+
+<script>
+const D=[
+["Estrutura Territorial e Ordenamento",[
+"Moradias em áreas de risco (%)|abaixo de 5%|Quantas moradias estão em encosta, margem de rio ou área alagável? Divida pelo total de domicílios. Fonte: Defesa Civil/IBGE.",
+"Impermeabilização do solo urbano (%)|abaixo de 60%|Que parte da área urbana não tem solo permeável? Estime por imagem de satélite ou com o setor de urbanismo.",
+"Comunidades rurais com estrada, energia e água (%)|100%|Quantas comunidades rurais têm os três serviços? Liste as que não têm nas observações.",
+"Vias com calçada regular e acessível (%)|acima de 70%|Em quantas vias há calçada contínua e acessível? Faça amostra por bairro."]],
+["Segurança Pública e Violência",[
+"Homicídios por 100 mil hab.|abaixo de 10|Homicídios no último ano ÷ população × 100.000. Fonte: Secretaria de Segurança estadual.",
+"Violência doméstica/feminicídios (registros no ano)|redução de 20% ao ano|Quantos registros em delegacia, CRAS ou CREAS? Compare com o ano anterior.",
+"Vias com iluminação pública adequada (%)|acima de 95%|Que percentual das vias tem iluminação funcionando? Consulte obras ou o contrato de iluminação.",
+"Satisfação com a segurança (%)|acima de 65%|Quantos moradores se sentem seguros? Se não há pesquisa, escreva \"não existe\"."]],
+["Abastecimento de Água",[
+"Cobertura de abastecimento (%)|100%|Domicílios com água tratada ÷ total. Fonte: SNIS/concessionária. No rural, inclua cisternas.",
+"Perdas na rede (%)|abaixo de 20%|Água produzida menos a faturada, em %. Fonte: SNIS.",
+"Continuidade do fornecimento (horas/dia)|24h por dia|Há bairros com falta de água? Informe as horas por dia e liste os bairros nas observações.",
+"Amostras de água dentro do padrão (%)|100%|Peça à vigilância sanitária o resultado do VIGIAGUA."]],
+["Esgotamento Sanitário e Drenagem",[
+"Cobertura de rede de esgoto (%)|universalização (Lei 14.026/2020)|Domicílios ligados à rede ÷ total. Fonte: SNIS.",
+"Esgoto com tratamento efetivo (%)|acima de 70%|Do esgoto coletado, quanto passa por estação de tratamento em operação?",
+"Pontos de alagamento recorrente (nº)|reduzir 30% em 2 anos|Quantos pontos alagam a cada chuva forte? Localize no mapa com a Defesa Civil.",
+"Doenças diarreicas e leptospirose (casos/ano)|redução anual|Peça os casos à vigilância epidemiológica (DATASUS)."]],
+["Resíduos Sólidos e Reciclagem",[
+"Coleta regular (% das residências)|100%|Quantos domicílios, inclusive rurais, têm coleta regular?",
+"Taxa de reciclagem (%)|acima de 20%|Material reciclado ÷ total de resíduos coletados.",
+"Destino final (lixão, aterro controlado ou sanitário)|aterro sanitário licenciado|Há lixão ou aterro irregular? Descreva e informe a licença ambiental.",
+"Catadores formalizados (%)|100%|Quantos catadores atuam em cooperativa ou estão formalizados?"]],
+["Saúde Pública Integral",[
+"Cobertura da Atenção Básica/ESF (%)|acima de 90%|Fonte: e-Gestor Atenção Básica. Informe também quantas equipes estão incompletas.",
+"Mortalidade infantil (por mil nascidos vivos)|abaixo de 10|Óbitos de menores de 1 ano ÷ nascidos vivos × 1.000. Fonte: DATASUS.",
+"Cobertura vacinal (%)|acima de 95%|Informe a média das vacinas do calendário infantil e cite as que estão abaixo da meta.",
+"Dengue (incidência por 100 mil hab.)|redução anual|Casos no ano ÷ população × 100.000. Fonte: vigilância epidemiológica."]],
+["Educação Integral",[
+"IDEB anos iniciais|acima de 6,0|Use o resultado mais recente do INEP/QEdu e cite o ano.",
+"Alfabetização na idade certa (%)|95%|Quantas crianças estão alfabetizadas até 8 anos? Fonte: avaliação local ou INEP.",
+"Abandono escolar (%)|abaixo de 2%|Alunos que abandonaram ÷ matriculados. Veja por série e por território.",
+"Escolas com internet de qualidade (%)|100%|Quantas escolas, urbanas e rurais, têm conexão que funciona?"]],
+["Segurança Alimentar e Nutricional",[
+"Famílias em insegurança alimentar (%)|redução anual|Use dados do CadÚnico, CRAS ou inquéritos locais. Se não houver, escreva \"sem dado\".",
+"Crianças menores de 5 anos com desnutrição (%)|redução anual|Fonte: SISVAN. Registre também obesidade e sobrepeso nas observações.",
+"Merenda escolar da agricultura familiar (%)|acima de 30%|Valor comprado da agricultura familiar ÷ valor total do PNAE. Veja a prestação de contas.",
+"Famílias no CadÚnico com cadastro atualizado (%)|100% do público|Quantas famílias têm cadastro atualizado nos últimos 2 anos?"]],
+["Habitação e Direito à Cidade",[
+"Déficit habitacional (domicílios)|redução anual de 5%|Fonte: Fundação João Pinheiro/IBGE ou o PLHIS, se existir.",
+"Famílias com aluguel acima de 30% da renda (%)|reduzir|Use dado do Censo ou do CadÚnico. Informe se o PLHIS está aprovado.",
+"Regularizações fundiárias no ano (nº)|crescente|Quantos títulos ou regularizações foram concluídos?",
+"Pessoas em situação de rua (nº)|atender 100%|Fonte: Centro POP, CREAS ou contagem local. Informe o perfil nas observações."]],
+["Mobilidade Urbana e Rural",[
+"Estradas vicinais em boas condições (%)|acima de 80%|Quilômetros em bom estado ÷ total. Ouça a secretaria de obras e as comunidades.",
+"Mortes no trânsito (nº/ano)|redução de 50% em 4 anos|Fonte: órgão de trânsito, SAMU ou SIM/DATASUS.",
+"Calçadas acessíveis no centro e nas escolas (%)|100%|Percorra o entorno das escolas e do centro e anote o que está inacessível.",
+"Cobertura de transporte público e escolar (%)|ampliar|Quais bairros e comunidades rurais ficam sem transporte?"]],
+["Desenvolvimento Econômico e Trabalho",[
+"Taxa de desemprego (%)|redução anual|Fonte: IBGE ou CAGED. Se não houver dado local, descreva a situação.",
+"Trabalhadores na informalidade (%)|reduzir|Estime com dados do Censo ou do CadÚnico.",
+"Renda média per capita (R$)|crescente|Fonte: IBGE/Censo. Informe o ano.",
+"Famílias em extrema pobreza (nº)|redução de 10% ao ano|Fonte: CadÚnico (renda per capita até o limite do programa)."]],
+["Meio Ambiente e Emergência Climática",[
+"Cobertura vegetal do território (%)|ampliar|Fonte: MapBiomas ou secretaria de meio ambiente.",
+"Área desmatada no ano (hectares)|zero|Fonte: MapBiomas/INPE. Cite as áreas mais afetadas.",
+"Nascentes recuperadas (nº)|crescente|Quantas nascentes foram cadastradas e quantas já estão protegidas?",
+"Existe Plano de Adaptação Climática? (sim/não)|sim|Informe se há plano, a data e se foi incorporado ao Plano Diretor e ao PPA."]],
+["Cultura, Esporte e Lazer",[
+"Equipamentos culturais ativos (nº)|ao menos 1 por região|Conte bibliotecas, teatros, centros culturais que estão funcionando de fato.",
+"Bairros ou comunidades sem espaço esportivo (nº)|zero|Liste quais territórios não têm quadra, campo ou ginásio.",
+"Jovens em programas de cultura e esporte (nº)|ampliar|Some os participantes de todos os programas do município.",
+"Investimento per capita em cultura e esporte (R$)|ampliar|Despesa anual das duas áreas ÷ população. Fonte: execução orçamentária."]],
+["Inclusão Social e Direitos Humanos",[
+"Estudantes com deficiência matriculados na escola regular (%)|100%|Matriculados com deficiência ÷ total de crianças com deficiência. Fonte: Censo Escolar.",
+"Denúncias de discriminação (nº/ano)|acompanhar|Fonte: ouvidoria, CREAS, delegacia. Aumento pode indicar mais confiança no canal.",
+"Cobertura da assistência social (% do público)|100%|Quantas famílias elegíveis são atendidas pelo CRAS/CREAS?",
+"Conselho de Direitos Humanos funciona? (sim/não)|sim|Há reuniões regulares com ata? Informe a data da última reunião."]],
+["Governança Pública e Eficiência Institucional",[
+"Nota de transparência (LAI/CGU, pontos)|acima de 80|Consulte o Ranking de Transparência. Se não avaliado, escreva \"sem nota\".",
+"Execução orçamentária (%)|acima de 85%|Despesa executada ÷ autorizada. Fonte: SICONFI/portal da transparência.",
+"Serviços digitalizados (nº)|ampliar|Quantos serviços o cidadão resolve online?",
+"Tempo de resposta da ouvidoria (dias)|até 15 dias|Prazo médio entre a demanda e a resposta."]],
+["Defesa Civil e Gestão de Riscos",[
+"População em áreas de risco mapeadas (nº)|100% mapeada|Há mapeamento com número de pessoas? Informe quem fez e quando.",
+"Plano de contingência/PMRR atualizado? (sim/não)|sim|Informe o ano da última atualização.",
+"Tempo de resposta em emergências (minutos)|reduzir|Tempo médio entre o chamado e a chegada da equipe.",
+"Famílias reassentadas de áreas de risco (nº)|progressivo|Quantas famílias saíram de áreas de risco no último ano?"]]
+];
+const L=[
+["Expansão urbana desordenada e favelização","Ocupações irregulares e conflitos fundiários","Segregação territorial e bairros isolados","Áreas rurais abandonadas sem serviços públicos","Pressão imobiliária e especulação","Áreas de risco: enchentes, deslizamentos e erosão","Drenagem urbana insuficiente","Ilhas de calor urbanas","Conectividade entre bairros e acessibilidade","Infraestrutura rural: estradas, energia e água"],
+["Homicídios: distribuição por bairro","Violência sexual e contra crianças","Violência racial e por orientação sexual","Tráfico de drogas e criminalidade organizada","Criminalidade juvenil e reincidência","Abandono urbano e espaços inseguros","Violência no trânsito e acidentes graves","Atuação e integração da Guarda Municipal"],
+["Situação dos mananciais e nascentes","Risco de escassez hídrica futura","Abastecimento em áreas rurais e isoladas","Infraestrutura de reservação e capacidade","Contaminação de aquíferos e corpos hídricos","Semiárido: cisternas, dessalinizadores e reservatórios"],
+["Lançamento de esgoto in natura em rios e lagos","Fossas inadequadas em áreas periurbanas","Eficiência do sistema de drenagem urbana","Contaminação hídrica por esgoto","Volume de esgoto sem tratamento"],
+["Coleta seletiva: existência e eficiência","Cooperativas de catadores e suas condições","Resíduos hospitalares e da construção civil","Descarte irregular em rios e terrenos baldios","Compostagem e logística reversa","Educação ambiental nas escolas e comunidades"],
+["Agentes comunitários de saúde","Qualidade do pré-natal e atenção preventiva","Saúde mental: depressão, ansiedade e uso de drogas","Atendimento psicossocial (CAPS e NASF)","Violência obstétrica","Nutrição infantil","Doenças crônicas em idosos","Arboviroses: zika e chikungunya","Poluição ambiental e doenças respiratórias"],
+["Violência escolar e bullying","Qualidade e adequação da alimentação escolar (PNAE)","Inclusão de crianças e jovens com deficiência","Formação continuada e valorização dos professores","Infraestrutura física e equipamentos das escolas","Educação profissional e técnica disponível","Educação indígena, quilombola e do campo","Evasão por série e território","Desempenho no SAEB e na Prova Brasil"],
+["Desnutrição infantil e anemia","Obesidade em crianças, adolescentes e adultos","Acesso a alimentos frescos e saudáveis","Desertos alimentares (sem mercados ou feiras)","Agricultura familiar local e abastecimento","Qualidade e adequação da merenda","Banco de alimentos e programas de doação"],
+["Moradias precárias, improvisadas ou insalubres","Assentamentos irregulares sem regularização","Comprometimento da renda com aluguel","Acesso a água, luz e esgoto nas moradias","Populações vulneráveis: idosos, mulheres e PcD"],
+["Qualidade do transporte público urbano","Condições das estradas vicinais","Acessibilidade para PcD e idosos","Calçadas e segurança para pedestres","Ciclovias e infraestrutura para ciclistas","Feridos graves em acidentes de trânsito","Mobilidade rural para escola, saúde e trabalho","Transporte escolar público"],
+["Desemprego por sexo, raça e território","Informalidade nos negócios","Potencial econômico inexplorado (turismo, artesanato, agro)","Micro e pequenos empreendedores","Cooperativas e empreendimentos solidários","Agricultura familiar e agroecologia","Atração de investimentos e simplificação tributária","Economia criativa, cultural e do conhecimento"],
+["Desmatamento e perda de cobertura vegetal","Queimadas e incêndios recorrentes","Erosão e assoreamento de rios e lagos","Desertificação em regiões semiáridas","Qualidade do ar","Nascentes e áreas de preservação permanente","Biodiversidade local ameaçada","Vulnerabilidade climática (enchente e seca)","Emissões de gases de efeito estufa"],
+["Equipamentos culturais (bibliotecas, teatros, centros)","Bairros sem acesso à cultura","Quadras, ginásios e espaços esportivos por território","Patrimônio histórico e cultural inventariado","Eventos culturais regulares","Jovens sem acesso a lazer estruturado","Fomento a artistas locais e economia criativa"],
+["Racismo estrutural: acesso desigual a serviços","Exclusão territorial de populações vulneráveis","Acessibilidade física e digital para PcD","Violência contra LGBTQIA+, mulheres e idosos","Populações indígenas e quilombolas","Inclusão escolar de estudantes com necessidades especiais","Trabalho infantil e exploração de vulneráveis"],
+["Percepção de corrupção e nepotismo","Capacidade técnica da equipe (formação, salários, rotatividade)","Digitalização dos serviços (e-gov, portais, apps)","Transparência ativa em formato aberto","Planejamento plurianual real e operacionalizado","Tempo de resposta ao cidadão","Participação social nos processos decisórios"],
+["Histórico de desastres (enchentes, secas, deslizamentos)","Mapeamento das áreas de risco","Capacidade operacional da Defesa Civil municipal","Sistemas de alerta e comunicação com a população","Plano de contingência para emergências climáticas","População em áreas de risco sem plano de reassentamento"]];
+const XK=[
+["Déficit de infraestrutura urbana por bairro|reduzir|Liste os bairros e o que falta em cada um: pavimento, drenagem, iluminação e calçadas."],
+["Violência contra crianças (registros/ano)|redução anual|Fonte: Conselho Tutelar, CREAS e Disque 100.","Roubos e furtos (por 100 mil hab.)|redução anual|Fonte: Secretaria de Segurança estadual.","Reincidência criminal (%)|reduzir|Dado do sistema prisional/estadual. Se não houver, escreva \"sem dado\"."],
+["Reservação de água (dias de autonomia)|ampliar|Quantos dias o município abastece com a água reservada se houver falha na captação?"],
+["Esgoto tratado por dia (m³)|ampliar|Volume tratado nas estações em operação. Fonte: operador do serviço."],
+["Volume enviado ao aterro (ton/mês)|reduzir|Pese ou estime com a empresa de coleta.","Pontos de descarte irregular (nº)|zero|Percorra o município e anote cada ponto com endereço."],
+["Mortalidade materna (por 100 mil nascidos vivos)|zero evitáveis|Fonte: DATASUS/SIM.","Tempo médio de espera para consulta (dias)|reduzir|Peça à regulação ou à UBS os prazos de consultas e exames.","Atendimentos em saúde mental (nº/mês)|acompanhar|Some CAPS e atenção básica."],
+["Desempenho por território (nota média por escola ou bairro)|reduzir desigualdade|Compare escolas urbanas e rurais e destaque as piores.","Inclusão escolar de pessoas com deficiência (%)|100%|Matriculados com deficiência ÷ crianças com deficiência em idade escolar."],
+["Crianças com obesidade ou sobrepeso (%)|reduzir|Fonte: SISVAN."],
+[],
+["Tempo médio de deslocamento casa-trabalho (min)|reduzir|Estime com pesquisa rápida ou dado do Censo."],
+["MEIs e CNPJs ativos (nº)|crescente|Fonte: Receita Federal/Sebrae."],
+["Área de risco climático mapeada (ha)|100% mapeada|Informe quem mapeou e quando.","Temperatura urbana x áreas verdes (°C)|reduzir ilhas de calor|Compare bairros arborizados e não arborizados, se houver dado."],
+["População com acesso regular a esporte (%)|ampliar|Estime pela participação em programas e pelo uso de espaços públicos."],
+["Acessibilidade urbana para PcD (%)|ampliar|Percentual de vias, prédios públicos e transporte acessíveis."],
+["Qualificação de gestores e servidores (% capacitados)|ampliar|Proporção de servidores com capacitação nos últimos 2 anos."],
+[]];
+const SG=[
+[0,"Mapa de vulnerabilidade territorial (IBGE, INPE e Defesa Civil)"],
+[1,"Iluminação pública em LED em 100% das vias em 2 anos"],
+[2,"Redução de perdas e ampliação do abastecimento de água"],
+[3,"Antecipar as metas de universalização do saneamento (Lei 14.026/2020)"],
+[4,"Encerrar o lixão, implantar coleta seletiva e apoiar cooperativas de catadores"],
+[5,"Ampliar a cobertura da Estratégia Saúde da Família acima de 90%"],
+[6,"Alfabetização na idade certa e combate ao abandono escolar"],
+[7,"Comprar mais de 30% da merenda escolar da agricultura familiar"],
+[8,"Aprovar e implantar o PLHIS"],
+[9,"Recuperar estradas vicinais e garantir transporte escolar"],
+[10,"Apoio à agricultura familiar, ao cooperativismo e à economia criativa"],
+[11,"Plano Municipal de Adaptação Climática (PMAC)"],
+[12,"Equipamentos de cultura e esporte nos territórios sem acesso"],
+[13,"Plano de inclusão e acessibilidade (PcD, igualdade racial e direitos humanos)"],
+[14,"Painel de indicadores e Observatório Municipal (gestão por resultados)"],
+[15,"Atualizar o PMRR e o plano de contingência da Defesa Civil"],
+["","100 dias: auditoria dos contratos vigentes"],
+["","100 dias: censo de equipamentos públicos (UBS, escolas, praças)"],
+["","100 dias: operação zeladoria em todos os bairros"],
+["","100 dias: diagnóstico e correção da iluminação pública"],
+["","100 dias: revisão da merenda escolar"],
+["","100 dias: reunião com todos os conselhos municipais"],
+["","100 dias: auditoria da folha de pagamento"],
+["","100 dias: mapa de famílias em risco e CadÚnico atualizado"],
+["","100 dias: grupo de gestão por resultados (reunião quinzenal)"],
+["","100 dias: publicar o diagnóstico inicial e o plano de 100 dias"]];
+D.forEach((s,i)=>{s[1].push(...XK[i]);s[2]=L[i]});
+
+const SN={g:"🟢 Meta atingida",y:"🟡 Alerta",r:"🔴 Crítico"},PN={g:"Verde",y:"Amarelo",r:"Vermelho"};
+const ID=[
+["inst","Instituição (prefeitura ou outra)","Nome que aparece no topo do PDF, ao lado da logo. Ex.: Prefeitura Municipal de [nome do município].","t"],
+["mun","Município","Nome oficial do município, como consta no IBGE.","t"],
+["uf","UF","Sigla do estado. Ex.: PE.","t"],
+["pop","População (habitantes)","Use o dado mais recente do IBGE e informe o ano.","t"],
+["gestor","Gestor(a) municipal","Nome de quem preside a gestão (prefeito/a ou secretário/a responsável).","t"],
+["tec","Responsável técnico pelo preenchimento","Quem coletou e digitou os dados. Fica registrado como contato para dúvidas.","t"],
+["data","Data do diagnóstico","Data em que os dados foram consolidados.","date"],
+["per","Período de referência","Ano ou mandato a que se refere o diagnóstico. Ex.: 2025–2028.","t"]];
+const AF=[
+["nome","Nome da ação","Título curto e claro. Ex.: \"Drenagem do bairro Alto\".","t"],
+["area","Área do diagnóstico","De qual das 16 áreas vem o problema? Facilita agrupar o plano.","a"],
+["prob","Qual problema?","Descreva o problema com números do diagnóstico: quantos, onde, desde quando. Sem problema claro, a ação fica sem foco.","x"],
+["pop","Quem sofre?","Quantas pessoas são afetadas e qual o perfil (crianças, idosos, mulheres, rural...).","x"],
+["terr","Onde ocorre?","Bairros, distritos ou comunidades exatas. Não escreva só \"município todo\".","t"],
+["causa","Qual a causa estrutural?","Por que isso acontece? Procure a raiz, não o sintoma. Ex.: o alagamento ocorre por falta de drenagem, não por chuva.","x"],
+["meta","Qual a meta?","Resultado mensurável e com prazo. Ex.: reduzir em 30% os alagamentos em 2 anos.","t"],
+["estr","Como executar?","Liste as etapas, parcerias e tecnologias. Quem faz o quê, em que ordem.","x"],
+["custo","Quanto custa? (R$)","Valor total estimado. Sem orçamento o plano vira lista de desejos.","t"],
+["fonte","Fonte de recursos","De onde vem o dinheiro? Escolha a principal.","s",["Própria","Estadual","Federal","Parceria/emenda","Mista"]],
+["resp","Quem executa?","Secretaria e nome da pessoa responsável pela entrega. Evite \"todas as secretarias\".","t"],
+["ind","Como medir?","Indicadores de processo (o que foi feito) e de resultado (o que mudou). Diga a fonte do dado.","x"],
+["aval","Periodicidade da avaliação","Com que frequência a equipe vai conferir os resultados?","s",["Mensal","Trimestral","Semestral"]],
+["prazo","Prazo (início e fim)","Datas previstas de início e conclusão.","t"],
+["imp","Impacto esperado","Alto: atende muita gente ou população vulnerável e gera efeitos em várias áreas. Baixo: efeito restrito.","s",["Alto","Baixo"]],
+["via","Viabilidade / urgência","Alta: há recurso, equipe e a situação é urgente. Baixa: depende de recursos ou condições que ainda faltam.","s",["Alta","Baixa"]]];
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),nl=s=>esc(s).replace(/\n/g,"<br>");
+const NEW=()=>({v:2,f:{},a:[],c:{},dis:{},logo:"",y:1,bk:0,mod:0});
+let S=NEW();
+try{S=Object.assign(NEW(),JSON.parse(localStorage.getItem("diagMun")))}catch(e){}
+const hm=t=>new Date(t).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"});
+function stat(){const e=$("#bks");if(e)e.textContent=!S.bk?"⚠ Backup ainda não baixado":S.mod>S.bk+1500?"⚠ Há alterações depois do backup de "+hm(S.bk):"✅ Backup de "+hm(S.bk)+" em dia"}
+const save=()=>{S.mod=Date.now();try{localStorage.setItem("diagMun",JSON.stringify(S))}catch(e){}prog();stat()};
+const fld=(l,h,c)=>`<div class="fld"><label>${l}${h?'<span class="q" title="Ver orientação" onclick="this.parentNode.nextElementSibling.classList.toggle(\'on\')">?</span>':""}</label>${h?`<div class="hint">💡 ${h}</div>`:""}${c}</div>`;
+const PR=a=>!a.imp||!a.via?"—":a.imp=="Alto"?(a.via=="Alta"?"1 · Faça primeiro":"2 · Planeje com cuidado"):(a.via=="Alta"?"3 · Delegue":"4 · Descarte ou adie");
+const ctrl=(t,attr,v,o)=>t=="x"?`<textarea ${attr}>${esc(v)}</textarea>`:t=="s"||t=="a"?`<select ${attr}><option value=""></option>${(t=="a"?D.map(d=>d[0]):o).map((x,i)=>{const val=t=="a"?i:x;return`<option value="${val}"${v!==undefined&&v!==""&&String(v)===String(val)?" selected":""}>${x}</option>`}).join("")}</select>`:`<input type="${t=="date"?"date":"text"}" ${attr} value="${esc(v)}">`;
+const GEN='Descreva o que foi encontrado: quantos casos, famílias ou locais, em quais territórios, desde quando e a fonte. Se não há dado, escreva "sem dado": isso também é diagnóstico.';
+const items=i=>[...D[i][1].map((t,j)=>{const[l,m,h]=t.split("|");return{k:`s${i}_${j}`,l,m,h}}),...D[i][2].map((l,j)=>({k:`s${i}_l${j}`,l,m:"",h:GEN}))];
+const used=k=>!S.f[k+"x"];
+const sem=v=>'<option value="">Semáforo…</option>'+Object.keys(SN).map(c=>`<option value="${c}"${v==c?" selected":""}>${SN[c]}</option>`).join("");
+/* ===== DIAGNÓSTICO ===== */
+const row=x=>`<div class="ind${used(x.k)?"":" off"}"><label class="use"><input type="checkbox" data-x="${x.k}"${used(x.k)?" checked":""}> Usar no relatório</label>`+fld(`${x.l}${x.m?` <small>(meta: ${x.m})</small>`:""}`,x.h,`<div class="row"><input data-f="${x.k}v" placeholder="${x.m?"Situação atual":"O que foi encontrado"}" value="${esc(S.f[x.k+"v"])}"><select data-f="${x.k}s">${sem(S.f[x.k+"s"])}</select></div>`)+`</div>`;
+function rC(i){$("#cu"+i).innerHTML=(S.c[i]||[]).map((c,j)=>`<div class="ind"><div class="row"><input data-c="${i}.${j}.l" placeholder="Nome do indicador" value="${esc(c.l)}"><input data-c="${i}.${j}.m" placeholder="Meta" value="${esc(c.m)}" style="flex:1"></div><div class="row" style="margin:6px 0"><input data-c="${i}.${j}.v" placeholder="Situação atual" value="${esc(c.v)}"><select data-c="${i}.${j}.s">${sem(c.s)}</select><button class="rd" onclick="delC(${i},${j})">Remover</button></div></div>`).join("")}
+function rD(){
+  $("#dg").innerHTML=D.map((s,i)=>{const it=items(i),nk=s[1].length;
+    return`<details><summary>${String(i+1).padStart(2,"0")}. ${s[0]}<span class="cnt" id="c${i}"></span></summary><div class="sub">Indicadores-chave do manual</div>${it.slice(0,nk).map(row).join("")}<div class="sub">O que levantar</div>${it.slice(nk).map(row).join("")}<div class="sub">Indicadores próprios</div>`+
+    fld("Acrescentar outros indicadores",'Inclua o que o manual não traz e importa no seu município: dê nome claro, defina a meta e informe a fonte. Ex.: "Famílias atendidas por cisterna".',`<div id="cu${i}"></div><button class="cz" onclick="addC(${i})">＋ Adicionar indicador próprio</button>`)+
+    fld("Principais problemas identificados","Descreva com dados os 3 a 5 principais problemas desta área. Evite opinião sem número: quantos? onde? desde quando? Este texto segue automaticamente para o Planejamento.",`<textarea data-f="s${i}_p">${esc(S.f[`s${i}_p`])}</textarea>`)+
+    fld("Territórios mais críticos","Quais bairros, distritos ou comunidades rurais estão pior? Cite nomes: isso orienta a justiça territorial e preenche o campo \"Onde ocorre?\" no Planejamento.",`<input data-f="s${i}_t" value="${esc(S.f[`s${i}_t`])}">`)+
+    fld("Fontes e ano dos dados","De onde vieram os números (IBGE, DATASUS, SNIS, secretaria...) e de que ano? Dado sem fonte não serve para prêmios nem captação de recursos.",`<input data-f="s${i}_f" value="${esc(S.f[`s${i}_f`])}">`)+`</details>`}).join("");
+  D.forEach((_,i)=>rC(i))}
+const addC=i=>{(S.c[i]=S.c[i]||[]).push({id:Math.random().toString(36).slice(2,8),l:"",m:"",v:"",s:""});save();rC(i)};
+const delC=(i,j)=>{S.c[i].splice(j,1);save();rC(i)};
+function limpaVazios(){let n=0;D.forEach((s,i)=>items(i).forEach(x=>{if(used(x.k)&&!S.f[x.k+"v"]&&!S.f[x.k+"s"]){S.f[x.k+"x"]="1";n++}}));save();rD();alert(n+" indicador(es) sem preenchimento foram desmarcados. Você pode marcá-los de novo quando quiser.")}
+function marcaTodos(){D.forEach((s,i)=>items(i).forEach(x=>delete S.f[x.k+"x"]));save();rD()}
+function prog(){let n=0,t=0,c={g:0,y:0,r:0};
+  D.forEach((s,i)=>{let k=0,u=0;items(i).forEach(x=>{if(!used(x.k))return;u++;if(S.f[x.k+"v"])k++;const st=S.f[x.k+"s"];if(st)c[st]++});(S.c[i]||[]).forEach(x=>{u++;if(x.v)k++;if(x.s)c[x.s]++});t+=u;n+=k;const e=$("#c"+i);if(e)e.textContent=k+"/"+u});
+  const p=t?Math.round(n/t*100):0;$("#pgb").style.width=p+"%";$("#pgt").textContent=`Diagnóstico preenchido: ${p}% (${n} de ${t} indicadores em uso) · 🟢 ${c.g}  🟡 ${c.y}  🔴 ${c.r} · ${S.a.length} ação(ões) no plano`}
+/* ===== ENVIO AUTOMÁTICO DIAGNÓSTICO → PLANEJAMENTO ===== */
+function cand(){const r=[],st=S.y?["r","y"]:["r"];
+  D.forEach((s,i)=>{const tt=S.f[`s${i}_t`]||"";
+    const add=(src,l,m,v,s2)=>r.push({src,nome:"Corrigir: "+l.replace(/ \(.*\)$/,""),area:i,prob:`${l}: situação atual ${v||"não informada"}${m?` (meta: ${m})`:""}. Semáforo: ${PN[s2]}.`,meta:m,terr:tt,ind:l+(m?" — meta: "+m:"")});
+    items(i).forEach(x=>{const s2=S.f[x.k+"s"];if(used(x.k)&&st.includes(s2))add(x.k,x.l,x.m,S.f[x.k+"v"],s2)});
+    (S.c[i]||[]).forEach(x=>{if(x.l&&st.includes(x.s))add("c"+x.id,x.l,x.m,x.v,x.s)});
+    const p=S.f[`s${i}_p`];if(p)r.push({src:"p"+i,nome:"Enfrentar: "+s[0],area:i,prob:p,terr:tt,meta:"",ind:""})});
+  return r}
+function sync(){let n=0;cand().forEach(c=>{if(S.dis[c.src]||S.a.some(a=>a.src==c.src))return;S.a.push(c);n++});save();rA();rB();return n}
+const setY=v=>{S.y=v?1:0;sync()};
+const restore=()=>{S.dis={};const n=sync();msg(n+" ação(ões) reenviada(s) do diagnóstico.")};
+function msg(t){const e=$("#msg");e.style.display=t?"block":"none";e.textContent=t}
+function go(id){document.querySelectorAll("#tabs button,.pn").forEach(x=>x.classList.remove("on"));document.querySelector(`[data-t=${id}]`).classList.add("on");$("#"+id).classList.add("on");
+  if(id=="t2"){const n=sync();msg(n?`${n} ação(ões) enviada(s) automaticamente do diagnóstico (indicadores ${S.y?"🔴 e 🟡":"🔴"} e problemas descritos). Complete os campos de cada uma, apague as que não deseja ou acrescente outras.`:"")}
+  scrollTo(0,0)}
+const toPlan=()=>go("t2");
+function rB(){const r=D.map((s,i)=>{const c={r:0,y:0};items(i).forEach(x=>{if(used(x.k)&&c[S.f[x.k+"s"]]!==undefined)c[S.f[x.k+"s"]]++});(S.c[i]||[]).forEach(x=>{if(c[x.s]!==undefined)c[x.s]++});const p=S.f[`s${i}_p`],t=S.f[`s${i}_t`];
+  return c.r+c.y||p?`<tr><td><b>${i+1}. ${s[0]}</b></td><td>🔴 ${c.r} · 🟡 ${c.y}</td><td>${nl(p)||"—"}</td><td>${esc(t)||"—"}</td></tr>`:""}).join("");
+  $("#bank").innerHTML=r?`<details open><summary>📥 Resumo do que veio do diagnóstico</summary><div style="padding:8px 14px;overflow-x:auto"><table class="tb"><tr><th>Área</th><th>Semáforo</th><th>Problemas</th><th>Territórios críticos</th></tr>${r}</table></div></details>`:'<div class="box">Ainda não há indicadores 🔴/🟡 nem problemas registrados no diagnóstico.</div>'}
+/* ===== PLANEJAMENTO ===== */
+const AF_=AF;
+const org=a=>{const s=a.src;if(!s)return"";let t;
+  if(s[0]=="p")t=`problemas descritos na seção ${+s.slice(1)+1}`;
+  else{let l,st,v,u=1;
+    if(s[0]=="c"){for(const i in S.c){const x=S.c[i].find(y=>"c"+y.id==s);if(x){l=x.l;st=x.s;v=x.v}}}
+    else{const x=items(+s.match(/^s(\d+)/)[1]).find(y=>y.k==s);if(x){l=x.l;st=S.f[s+"s"];v=S.f[s+"v"];u=used(s)}}
+    t=l?`${l} · atual: ${v||"—"} · ${SN[st]||"sem semáforo"}${u?"":" · desmarcado no diagnóstico"}${st=="g"?" · ✅ meta atingida: avalie se a ação ainda é necessária":""}`:"indicador removido do diagnóstico"}
+  return`<div class="box" style="font-size:.82em">📥 <b>Veio do diagnóstico:</b> ${esc(t)}</div>`};
+function rA(){
+  $("#ac").innerHTML=S.a.length?S.a.map((a,i)=>`<div class="card"><h3><span>Ação ${i+1}</span><span><span class="bdg" id="pr${i}">${PR(a)}</span> <button class="rd" onclick="delA(${i})">Excluir</button></span></h3>${org(a)}<div class="g2">${AF.map(x=>fld(x[1],x[2],ctrl(x[3],`data-a="${i}.${x[0]}"`,a[x[0]],x[4]))).join("")}</div></div>`).join(""):'<p style="margin-top:12px">Nenhuma ação ainda. Elas chegam automaticamente do diagnóstico, ou use as sugestões do manual e o botão <b>Nova ação</b>.</p>'}
+const addA=()=>{S.a.push({});save();rA();const c=document.querySelectorAll(".card");c[c.length-1].scrollIntoView({behavior:"smooth"})};
+const delA=i=>{if(confirm("Excluir esta ação?")){if(S.a[i].src)S.dis[S.a[i].src]=1;S.a.splice(i,1);save();rA()}};
+function rS(){$("#sg").innerHTML=`<details><summary>📚 Sugestões de ações do manual (marque as que deseja adicionar)</summary><div style="padding:8px 14px">${SG.map((x,i)=>`<label class="ve2" style="margin:4px 0"><input type="checkbox" class="sgc" value="${i}"> <span>${x[0]!==""?`<b>${x[0]+1}.</b> `:""}${x[1]}</span></label>`).join("")}<div class="acts"><button class="vd" onclick="addS()">＋ Adicionar selecionadas ao plano</button></div></div></details>`}
+function addS(){let n=0;document.querySelectorAll(".sgc:checked").forEach(c=>{const x=SG[c.value];if(!S.a.some(a=>a.nome==x[1])){S.a.push({nome:x[1],area:x[0],estr:"Sugestão do manual: detalhe as etapas, parcerias e responsáveis."});n++}c.checked=false});save();rA();msg(n+" ação(ões) sugerida(s) adicionada(s) ao plano.")}
+/* ===== EVENTOS ===== */
+document.addEventListener("input",e=>{const t=e.target,d=t.dataset;
+  if(d.f)S.f[d.f]=t.value;
+  else if(d.x){S.f[d.x+"x"]=t.checked?"":"1";t.closest(".ind").classList.toggle("off",!t.checked)}
+  else if(d.a){const[i,k]=d.a.split(".");S.a[i][k]=t.value;if(k=="imp"||k=="via")$("#pr"+i).textContent=PR(S.a[i])}
+  else if(d.c){const[i,j,k]=d.c.split(".");S.c[i][j][k]=t.value}
+  else return;save()});
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>go(b.dataset.t));
+/* ===== LOGO ===== */
+const rL=()=>{$("#lgp").innerHTML=S.logo?`<img src="${S.logo}" style="max-height:90px;max-width:100%">`:'<span style="color:#888">Sem logo: o PDF sairá só com o nome da instituição.</span>'};
+function lg(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,500/im.width),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL("image/png");save();rL()};im.src=r.result};r.readAsDataURL(f)}
+/* ===== BACKUP ===== */
+function bk(){S.bk=Date.now();save();const a=document.createElement("a"),m=(S.f.mun||"municipio").normalize("NFD").replace(/[^\w]+/g,"_");a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:"application/json"}));a.download=`diagnostico-plano_${m}_${new Date().toISOString().slice(0,10)}.json`;a.click()}
+function op(e){const fl=e.target.files[0];if(!fl)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(!d||typeof d.f!="object"||!Array.isArray(d.a))throw 0;
+    if(Object.keys(S.f).length+S.a.length&&!confirm("Abrir o backup vai SUBSTITUIR os dados atuais deste navegador. Continuar?"))return;
+    S=Object.assign(NEW(),d,{bk:Date.now()});save();init();alert("Backup carregado"+(S.f.mun?": "+S.f.mun:"")+". Continue de onde parou.")}catch(x){alert("Arquivo inválido: use um backup .json gerado por este formulário.")}e.target.value=""};
+  r.readAsText(fl)}
+function clr(){if(confirm("Apagar TODOS os dados preenchidos? Baixe um backup antes se precisar.")){S=NEW();save();init()}}
+/* ===== IMPRESSÃO / PDF ===== */
+function cover(m){const f=S.f,r=(l,v)=>`<tr><th style="width:30%">${l}</th><td>${esc(v)||"—"}</td></tr>`;
+  return`<div class="hd">${S.logo?`<img src="${S.logo}">`:""}<b>${esc(f.inst)}</b></div><h1>${m=="d"?"Diagnóstico Municipal":m=="p"?"Plano de Ação Municipal":"Diagnóstico e Plano de Ação Municipal"}</h1><p style="font-size:13pt;margin-bottom:8pt"><b>${esc(f.mun)||"Município não informado"}${f.uf?" / "+esc(f.uf):""}</b></p><table>${r("População",f.pop)}${r("Gestor(a)",f.gestor)}${r("Responsável técnico",f.tec)}${r("Período de referência",f.per)}${r("Data",f.data?f.data.split("-").reverse().join("/"):"")}</table>`}
+function dg(){const c={g:0,y:0,r:0},ve=$("#ve").checked;let o="",any=0;
+  D.forEach((s,i)=>{let rows="";
+    const add=(l,m,v,st)=>{if(st)c[st]++;if(v||st||ve)rows+=`<tr><td>${esc(l)}</td><td>${esc(v)||"não levantado"}</td><td>${esc(m)||"—"}</td><td class="${st}">${PN[st]||"—"}</td></tr>`};
+    items(i).forEach(x=>{if(used(x.k))add(x.l,x.m,S.f[x.k+"v"],S.f[x.k+"s"])});
+    (S.c[i]||[]).forEach(x=>{if(x.l)add(x.l,x.m,x.v,x.s)});
+    const tx=["p","t","f"].map(x=>S.f[`s${i}_${x}`]||"");if(!rows&&!tx.some(Boolean))return;any=1;
+    o+=`<h3>${i+1}. ${s[0]}</h3><table><tr><th>Indicador / item levantado</th><th>Situação atual</th><th>Meta</th><th>Semáforo</th></tr>${rows}</table>`+(tx[0]?`<p><b>Principais problemas:</b><br>${nl(tx[0])}</p>`:"")+(tx[1]?`<p><b>Territórios mais críticos:</b> ${esc(tx[1])}</p>`:"")+(tx[2]?`<p><b>Fontes dos dados:</b> ${esc(tx[2])}</p>`:"")});
+  return`<h2>Parte I — Diagnóstico Municipal</h2>`+(any?`<p><b>Resumo do semáforo:</b> 🟢 ${c.g} meta atingida · 🟡 ${c.y} alerta · 🔴 ${c.r} crítico</p>`+o:"<p>Nenhum dado de diagnóstico foi preenchido.</p>")}
+function pl(){let o=`<h2>Parte II — Planejamento Estratégico</h2>`;if(!S.a.length)return o+"<p>Nenhuma ação cadastrada.</p>";
+  const ar=a=>a.area!==undefined&&a.area!==""?D[a.area][0]:"—";
+  const Lx=S.a.map((a,i)=>({a,i})).sort((x,y)=>PR(x.a).localeCompare(PR(y.a)));
+  o+=`<h3>Quadro de priorização (matriz Impacto × Viabilidade)</h3><table><tr><th>Ação</th><th>Área</th><th>Meta</th><th>Responsável</th><th>Custo (R$)</th><th>Prioridade</th></tr>${Lx.map(({a,i})=>`<tr><td>${i+1}. ${esc(a.nome)||"—"}</td><td>${esc(ar(a))}</td><td>${esc(a.meta)||"—"}</td><td>${esc(a.resp)||"—"}</td><td>${esc(a.custo)||"—"}</td><td>${PR(a)}</td></tr>`).join("")}</table>`;
+  return o+S.a.map((a,i)=>`<table class="ac"><tr><th colspan="2">Ficha da ação ${i+1}: ${esc(a.nome)||"sem nome"} — Prioridade: ${PR(a)}</th></tr>${AF.filter(x=>x[0]!="nome").map(x=>`<tr><td>${x[1]}</td><td>${x[0]=="area"?esc(ar(a)):nl(a[x[0]])||"—"}</td></tr>`).join("")}</table>`).join("")}
+function pr(m){if(m!="d")sync();
+  const sg=`<div class="sg"><div>${esc(S.f.gestor)||"Gestor(a) municipal"}</div><div>${esc(S.f.tec)||"Responsável técnico"}</div></div>`;
+  $("#prt").innerHTML=cover(m)+(m!="p"?dg():"")+(m=="t"?'<div class="pb"></div>':"")+(m!="d"?pl():"")+sg;
+  const old=document.title;document.title=(m=="d"?"Diagnostico":m=="p"?"Plano":"Diagnostico_e_Plano")+"_"+(S.f.mun||"Municipio").replace(/\s+/g,"_");
+  window.print();document.title=old}
+function init(){
+  $("#lgw").innerHTML=fld("Logomarca da instituição","Envie a logo da prefeitura ou da organização (PNG, JPG ou SVG; fundo transparente fica melhor). Ela sai no topo do PDF. Pode deixar em branco.",`<div class="logo"><div id="lgp"></div><div class="acts" style="margin:0"><input type="file" id="lgf" accept="image/*" hidden onchange="lg(event)"><button class="cz" onclick="$('#lgf').click()">🖼 Escolher logo</button><button class="cz" onclick="S.logo='';save();rL()">Remover</button></div></div>`);
+  rL();
+  $("#idf").innerHTML=ID.map(x=>fld(x[1],x[2],ctrl(x[3],`data-f="${x[0]}"`,S.f[x[0]]))).join("");
+  rD();rA();rS();rB();$("#yy").checked=!!S.y;prog();stat()}
+init();
+</script>
+</body>
+</html>
