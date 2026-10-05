@@ -71,10 +71,10 @@ body>:not(#prt){display:none!important}body{background:#fff}
   <button data-t="t2">3. Planejamento</button>
 </nav>
 
- <div style="max-width:960px;margin:0 auto;padding:10px 16px 0">
+  <div style="max-width:960px;margin:0 auto;padding:10px 16px 0">
   <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FFF2CC;border:2px solid #E6AC00;border-left:8px solid #E6AC00;border-radius:8px;padding:10px 14px;color:#5A4000;font-size:.95em">
     <span style="font-size:1.4em">📘</span>
-    <span><b>Baixe o manual completo para compreender os elementos do Planejamento:</b>
+    <span><b>Baixe o manual completo para orientar o Planejamento:</b>
       <a href="https://jbatist7.github.io/pesquisa/politica.html" target="_blank" rel="noopener" style="color:#1B3A6B;font-weight:700;word-break:break-all">https://jbatist7.github.io/pesquisa/politica.html</a>
     </span>
   </div>
@@ -293,7 +293,7 @@ const ctrl=(t,attr,v,o)=>t=="x"?`<textarea ${attr}>${esc(v)}</textarea>`:t=="s"|
 const GEN='Descreva o que foi encontrado: quantos casos, famílias ou locais, em quais territórios, desde quando e a fonte. Se não há dado, escreva "sem dado": isso também é diagnóstico.';
 const items=i=>[...D[i][1].map((t,j)=>{const[l,m,h]=t.split("|");return{k:`s${i}_${j}`,l,m,h}}),...D[i][2].map((l,j)=>({k:`s${i}_l${j}`,l,m:"",h:GEN}))];
 const used=k=>!S.f[k+"x"];
-const sem=v=>'<option value="">semáforo…</option>'+Object.keys(SN).map(c=>`<option value="${c}"${v==c?" selected":""}>${SN[c]}</option>`).join("");
+const sem=v=>'<option value="">Semáforo…</option>'+Object.keys(SN).map(c=>`<option value="${c}"${v==c?" selected":""}>${SN[c]}</option>`).join("");
 /* ===== DIAGNÓSTICO ===== */
 const row=x=>`<div class="ind${used(x.k)?"":" off"}"><label class="use"><input type="checkbox" data-x="${x.k}"${used(x.k)?" checked":""}> Usar no relatório</label>`+fld(`${x.l}${x.m?` <small>(meta: ${x.m})</small>`:""}`,x.h,`<div class="row"><input data-f="${x.k}v" placeholder="${x.m?"Situação atual":"O que foi encontrado"}" value="${esc(S.f[x.k+"v"])}"><select data-f="${x.k}s">${sem(S.f[x.k+"s"])}</select></div>`)+`</div>`;
 function rC(i){$("#cu"+i).innerHTML=(S.c[i]||[]).map((c,j)=>`<div class="ind"><div class="row"><input data-c="${i}.${j}.l" placeholder="Nome do indicador" value="${esc(c.l)}"><input data-c="${i}.${j}.m" placeholder="Meta" value="${esc(c.m)}" style="flex:1"></div><div class="row" style="margin:6px 0"><input data-c="${i}.${j}.v" placeholder="Situação atual" value="${esc(c.v)}"><select data-c="${i}.${j}.s">${sem(c.s)}</select><button class="rd" onclick="delC(${i},${j})">Remover</button></div></div>`).join("")}
@@ -315,7 +315,7 @@ function prog(){let n=0,t=0,c={g:0,y:0,r:0};
 /* ===== ENVIO AUTOMÁTICO DIAGNÓSTICO → PLANEJAMENTO ===== */
 function cand(){const r=[],st=S.y?["r","y"]:["r"];
   D.forEach((s,i)=>{const tt=S.f[`s${i}_t`]||"";
-    const add=(src,l,m,v,s2)=>r.push({src,nome:"Corrigir: "+l.replace(/ \(.*\)$/,""),area:i,prob:`${l}: situação atual ${v||"não informada"}${m?` (meta: ${m})`:""}. semáforo: ${PN[s2]}.`,meta:m,terr:tt,ind:l+(m?" — meta: "+m:"")});
+    const add=(src,l,m,v,s2)=>r.push({src,nome:"Corrigir: "+l.replace(/ \(.*\)$/,""),area:i,prob:`${l}: situação atual ${v||"não informada"}${m?` (meta: ${m})`:""}. Semáforo: ${PN[s2]}.`,meta:m,terr:tt,ind:l+(m?" — meta: "+m:"")});
     items(i).forEach(x=>{const s2=S.f[x.k+"s"];if(used(x.k)&&st.includes(s2))add(x.k,x.l,x.m,S.f[x.k+"v"],s2)});
     (S.c[i]||[]).forEach(x=>{if(x.l&&st.includes(x.s))add("c"+x.id,x.l,x.m,x.v,x.s)});
     const p=S.f[`s${i}_p`];if(p)r.push({src:"p"+i,nome:"Enfrentar: "+s[0],area:i,prob:p,terr:tt,meta:"",ind:""})});
@@ -330,7 +330,7 @@ function go(id){document.querySelectorAll("#tabs button,.pn").forEach(x=>x.class
 const toPlan=()=>go("t2");
 function rB(){const r=D.map((s,i)=>{const c={r:0,y:0};items(i).forEach(x=>{if(used(x.k)&&c[S.f[x.k+"s"]]!==undefined)c[S.f[x.k+"s"]]++});(S.c[i]||[]).forEach(x=>{if(c[x.s]!==undefined)c[x.s]++});const p=S.f[`s${i}_p`],t=S.f[`s${i}_t`];
   return c.r+c.y||p?`<tr><td><b>${i+1}. ${s[0]}</b></td><td>🔴 ${c.r} · 🟡 ${c.y}</td><td>${nl(p)||"—"}</td><td>${esc(t)||"—"}</td></tr>`:""}).join("");
-  $("#bank").innerHTML=r?`<details open><summary>📥 Resumo do que veio do diagnóstico</summary><div style="padding:8px 14px;overflow-x:auto"><table class="tb"><tr><th>Área</th><th>semáforo</th><th>Problemas</th><th>Territórios críticos</th></tr>${r}</table></div></details>`:'<div class="box">Ainda não há indicadores 🔴/🟡 nem problemas registrados no diagnóstico.</div>'}
+  $("#bank").innerHTML=r?`<details open><summary>📥 Resumo do que veio do diagnóstico</summary><div style="padding:8px 14px;overflow-x:auto"><table class="tb"><tr><th>Área</th><th>Semáforo</th><th>Problemas</th><th>Territórios críticos</th></tr>${r}</table></div></details>`:'<div class="box">Ainda não há indicadores 🔴/🟡 nem problemas registrados no diagnóstico.</div>'}
 /* ===== PLANEJAMENTO ===== */
 const AF_=AF;
 const org=a=>{const s=a.src;if(!s)return"";let t;
@@ -374,7 +374,7 @@ function dg(){const c={g:0,y:0,r:0},ve=$("#ve").checked;let o="",any=0;
     items(i).forEach(x=>{if(used(x.k))add(x.l,x.m,S.f[x.k+"v"],S.f[x.k+"s"])});
     (S.c[i]||[]).forEach(x=>{if(x.l)add(x.l,x.m,x.v,x.s)});
     const tx=["p","t","f"].map(x=>S.f[`s${i}_${x}`]||"");if(!rows&&!tx.some(Boolean))return;any=1;
-    o+=`<h3>${i+1}. ${s[0]}</h3><table><tr><th>Indicador / item levantado</th><th>Situação atual</th><th>Meta</th><th>semáforo</th></tr>${rows}</table>`+(tx[0]?`<p><b>Principais problemas:</b><br>${nl(tx[0])}</p>`:"")+(tx[1]?`<p><b>Territórios mais críticos:</b> ${esc(tx[1])}</p>`:"")+(tx[2]?`<p><b>Fontes dos dados:</b> ${esc(tx[2])}</p>`:"")});
+    o+=`<h3>${i+1}. ${s[0]}</h3><table><tr><th>Indicador / item levantado</th><th>Situação atual</th><th>Meta</th><th>Semáforo</th></tr>${rows}</table>`+(tx[0]?`<p><b>Principais problemas:</b><br>${nl(tx[0])}</p>`:"")+(tx[1]?`<p><b>Territórios mais críticos:</b> ${esc(tx[1])}</p>`:"")+(tx[2]?`<p><b>Fontes dos dados:</b> ${esc(tx[2])}</p>`:"")});
   return`<h2>Parte I — Diagnóstico Municipal</h2>`+(any?`<p><b>Resumo do semáforo:</b> 🟢 ${c.g} meta atingida · 🟡 ${c.y} alerta · 🔴 ${c.r} crítico</p>`+o:"<p>Nenhum dado de diagnóstico foi preenchido.</p>")}
 function pl(){let o=`<h2>Parte II — Planejamento Estratégico</h2>`;if(!S.a.length)return o+"<p>Nenhuma ação cadastrada.</p>";
   const ar=a=>a.area!==undefined&&a.area!==""?D[a.area][0]:"—";
