@@ -396,6 +396,7 @@ init();
 <!-- ===== BLOCO 5W2H: colar logo antes de </body> ===== -->
 <script>
 (function(){
+if(window.__w5)return;window.__w5=1;
 const KS=["what","why","where","who","when","how","much"],
 KL={what:"O quê",why:"Por quê",where:"Onde",who:"Quem",when:"Quando",how:"Como",much:"Quanto"},
 EN={what:"What",why:"Why",where:"Where",who:"Who",when:"When",how:"How",much:"How much"},
@@ -488,9 +489,12 @@ window.exportDocx=async function(only){
   a.href=URL.createObjectURL(b);a.download=`plano-operacional_${m}_${new Date().toISOString().slice(0,10)}.docx`;a.click()};
 })();
 </script>
-  <!-- ===== BLOCO 5W2H: colar logo antes de </body> ===== -->
+
+
+<!-- ===== BLOCO 5W2H: colar logo antes de </body> ===== -->
 <script>
 (function(){
+if(window.__w5)return;window.__w5=1;
 const KS=["what","why","where","who","when","how","much"],
 KL={what:"O quê",why:"Por quê",where:"Onde",who:"Quem",when:"Quando",how:"Como",much:"Quanto"},
 EN={what:"What",why:"Why",where:"Where",who:"Who",when:"When",how:"How",much:"How much"},
@@ -583,5 +587,8 @@ window.exportDocx=async function(only){
   a.href=URL.createObjectURL(b);a.download=`plano-operacional_${m}_${new Date().toISOString().slice(0,10)}.docx`;a.click()};
 })();
 </script>
+
+
+  
 </body>
 </html>
