@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Texto Arte - Reconstrução de Imagens</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-input-wrapper {
+            grid-column: 1 / -1;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: 600;
+        }
+
+        .file-input-label:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            grid-column: 1 / -1;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .preview-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .preview-box h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .preview-box img,
+        .preview-box canvas {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .download-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .controls,
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Texto Arte</h1>
+        <p class="subtitle">Transforme fotos em arte usando palavras como pixels</p>
+
+        <div class="controls">
+            <div class="file-input-wrapper">
+                <input type="file" id="imageInput" accept="image/*">
+                <label for="imageInput" class="file-input-label">
+                    📁 Clique para escolher uma imagem
+                </label>
+            </div>
+
+            <div class="control-group">
+                <label for="wordInput">Palavra para reconstrução:</label>
+                <input type="text" id="wordInput" value="Democracia" placeholder="Digite uma palavra">
+            </div>
+
+            <div class="control-group">
+                <label for="widthInput">Largura (caracteres):</label>
+                <input type="number" id="widthInput" value="100" min="50" max="300" step="10">
+            </div>
+
+            <button class="btn" id="convertBtn" onclick="converterImagem()">
+                🚀 Converter Imagem
+            </button>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Processando imagem...</p>
+        </div>
+
+        <div class="preview-container" id="previewContainer" style="display: none;">
+            <div class="preview-box">
+                <h3>📷 Imagem Original</h3>
+                <img id="originalImage" alt="Original">
+            </div>
+
+            <div class="preview-box">
+                <h3> Resultado</h3>
+                <canvas id="resultCanvas"></canvas>
+                <br>
+                <button class="download-btn" onclick="downloadImage()">
+                    💾 Baixar Imagem
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let originalImageData = null;
+
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        originalImageData = img;
+                        document.getElementById('originalImage').src = event.target.result;
+                        document.getElementById('previewContainer').style.display = 'grid';
+                    };
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function converterImagem() {
+            if (!originalImageData) {
+                alert('Por favor, selecione uma imagem primeiro!');
+                return;
+            }
+
+            const word = document.getElementById('wordInput').value || 'Democracia';
+            const width = parseInt(document.getElementById('widthInput').value) || 100;
+
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('previewContainer').style.display = 'none';
+
+            setTimeout(() => {
+                processarImagem(originalImageData, word, width);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('previewContainer').style.display = 'grid';
+            }, 100);
+        }
+
+        function processarImagem(img, word, targetWidth) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const aspectRatio = img.height / img.width;
+            const targetHeight = Math.floor(targetWidth * aspectRatio * 0.55);
+
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+            const imageData = ctx.getImageData(0, 0, targetWidth, targetHeight);
+            const pixels = imageData.data;
+
+            const chars = word.split('');
+            const textCanvas = document.getElementById('resultCanvas');
+            const textCtx = textCanvas.getContext('2d');
+
+            const fontSize = 14;
+            const lineHeight = fontSize * 0.8;
+            
+            textCanvas.width = targetWidth * fontSize * 0.6;
+            textCanvas.height = targetHeight * lineHeight;
+            textCtx.fillStyle = '#000000';
+            textCtx.fillRect(0, 0, textCanvas.width, textCanvas.height);
+            textCtx.fillStyle = '#FFFFFF';
+            textCtx.font = `${fontSize}px monospace`;
+
+            for (let y = 0; y < targetHeight; y++) {
+                let textLine = '';
+                for (let x = 0; x < targetWidth; x++) {
+                    const idx = (y * targetWidth + x) * 4;
+                    const brightness = (pixels[idx] + pixels[idx + 1] + pixels[idx + 2]) / 3;
+                    const charIndex = Math.floor((brightness / 255) * (chars.length - 1));
+                    textLine += chars[charIndex] || ' ';
+                }
+                textCtx.fillText(textLine, 10, 10 + y * lineHeight);
+            }
+        }
+
+        function downloadImage() {
+            const canvas = document.getElementById('resultCanvas');
+            const link = document.createElement('a');
+            link.download = 'texto-arte-democracia.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        document.getElementById('wordInput').addEventListener('input', function() {
+            if (originalImageData) {
+                const word = this.value || 'Democracia';
+                const width = parseInt(document.getElementById('widthInput').value) || 100;
+                processarImagem(originalImageData, word, width);
+            }
+        });
+
+        document.getElementById('widthInput').addEventListener('input', function() {
+            if (originalImageData) {
+                const word = document.getElementById('wordInput').value || 'Democracia';
+                const width = parseInt(this.value) || 100;
+                processarImagem(originalImageData, word, width);
+            }
+        });
+    </script>
+</body>
+</html>
