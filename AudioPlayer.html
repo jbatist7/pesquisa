@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meu Reprodutor de Áudio</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 25px 12px;
+    background: #101827;
+    color: #f1f5f9;
+    font-family: Arial, sans-serif;
+}
+
+.player {
+    max-width: 680px;
+    margin: auto;
+    padding: 26px;
+    border-radius: 18px;
+    background: #1e293b;
+    box-shadow: 0 12px 35px #0005;
+}
+
+h1 {
+    text-align: center;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.subtitulo {
+    text-align: center;
+    color: #a8b7cb;
+    margin-bottom: 25px;
+}
+
+.seletor {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: #334155;
+    border: 1px dashed #64748b;
+    border-radius: 10px;
+    color: white;
+}
+
+.faixa {
+    text-align: center;
+    margin: 24px 0 15px;
+}
+
+#titulo {
+    font-size: 19px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
+
+#status {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+audio {
+    display: block;
+    width: 100%;
+    margin: 18px 0;
+}
+
+.controles {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 9px;
+    padding: 12px 16px;
+    color: white;
+    background: #334155;
+    font-size: 15px;
+}
+
+button:hover { filter: brightness(1.2); }
+
+.principal {
+    background: #0d9488;
+    font-weight: bold;
+}
+
+.opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 22px 0;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+input[type="range"] { accent-color: #14b8a6; }
+
+.lista-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+#lista {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    max-height: 310px;
+    overflow-y: auto;
+}
+
+#lista li {
+    padding: 13px;
+    margin: 5px 0;
+    background: #263449;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+#lista li:hover { background: #35465e; }
+
+#lista li.ativa {
+    background: #115e59;
+    border-left: 4px solid #2dd4bf;
+}
+
+.numero {
+    color: #94a3b8;
+    margin-right: 8px;
+}
+
+.rodape {
+    text-align: center;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-top: 22px;
+}
+</style>
+</head>
+
+<body>
+<div class="player">
+    <h1>🎵 Meu Reprodutor</h1>
+    <div class="subtitulo">Sua música, sua seleção, sua qualidade.</div>
+
+    <label for="arquivos">Selecione vários arquivos de áudio:</label>
+    <input class="seletor" id="arquivos" type="file"
+           accept="audio/*" multiple>
+
+    <div class="faixa">
+        <div id="titulo">Escolha seus arquivos para começar</div>
+        <div id="status">Nenhuma faixa selecionada</div>
+    </div>
+
+    <audio id="audio" controls preload="metadata"></audio>
+
+    <div class="controles">
+        <button id="anterior">⏮ Anterior</button>
+        <button id="tocar" class="principal">▶ Reproduzir</button>
+        <button id="proxima">⏭ Próxima</button>
+        <button id="parar">⏹ Parar</button>
+    </div>
+
+    <div class="opcoes">
+        <label>
+            Volume
+            <input id="volume" type="range"
+                   min="0" max="100" value="80">
+            <span id="valorVolume">80%</span>
+        </label>
+
+        <label>
+            <input id="repetir" type="checkbox">
+            Repetir lista
+        </label>
+
+        <label>
+            <input id="aleatorio" type="checkbox">
+            Ordem aleatória
+        </label>
+    </div>
+
+    <div class="lista-titulo">
+        <strong>Lista de reprodução</strong>
+        <button id="limpar">Limpar lista</button>
+    </div>
+
+    <ul id="lista"></ul>
+
+    <div class="rodape">
+        Reprodução local • Sem envio dos arquivos para a internet
+    </div>
+</div>
+
+<script>
+const seletor = document.getElementById("arquivos");
+const audio = document.getElementById("audio");
+const titulo = document.getElementById("titulo");
+const status = document.getElementById("status");
+const lista = document.getElementById("lista");
+
+let faixas = [];
+let atual = -1;
+let urls = [];
+let ordem = [];
+let posicaoOrdem = 0;
+
+audio.volume = 0.8;
+
+function nomeFaixa(indice) {
+    return faixas[indice].name.replace(/\.[^.]+$/, "");
+}
+
+function montarLista() {
+    lista.innerHTML = "";
+
+    faixas.forEach((faixa, indice) => {
+        const item = document.createElement("li");
+        item.className = indice === atual ? "ativa" : "";
+        item.textContent = `${indice + 1}. ${faixa.name}`;
+        item.title = faixa.name;
+        item.addEventListener("click", () => reproduzirFaixa(indice));
+        lista.appendChild(item);
+    });
+}
+
+function criarOrdem() {
+    ordem = faixas.map((_, i) => i);
+    if (document.getElementById("aleatorio").checked) {
+        for (let i = ordem.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+        }
+        const pos = ordem.indexOf(atual);
+        if (pos >= 0) ordem.splice(pos, 1);
+        if (atual >= 0) ordem.unshift(atual);
+    }
+    posicaoOrdem = Math.max(0, ordem.indexOf(atual));
+}
+
+async function reproduzirFaixa(indice) {
+    if (indice < 0 || indice >= faixas.length) return;
+
+    atual = indice;
+    if (!ordem.includes(atual)) criarOrdem();
+    posicaoOrdem = ordem.indexOf(atual);
+
+    audio.src = urls[atual];
+    titulo.textContent = nomeFaixa(atual);
+    status.textContent = `Faixa ${atual + 1} de ${faixas.length}`;
+    montarLista();
+
+    try {
+        await audio.play();
+    } catch (erro) {
+        status.textContent =
+            "Não foi possível reproduzir este arquivo neste navegador.";
+    }
+}
+
+function proximaFaixa() {
+    if (!faixas.length) return;
+
+    if (document.getElementById("aleatorio").checked) {
+        if (posicaoOrdem + 1 < ordem.length) {
+            reproduzirFaixa(ordem[posicaoOrdem + 1]);
+        } else if (document.getElementById("repetir").checked) {
+            criarOrdem();
+            if (ordem.length) reproduzirFaixa(ordem[0]);
+        } else {
+            audio.pause();
+            status.textContent = "Fim da lista";
+        }
+    } else if (atual + 1 < faixas.length) {
+        reproduzirFaixa(atual + 1);
+    } else if (document.getElementById("repetir").checked) {
+        reproduzirFaixa(0);
+    } else {
+        audio.pause();
+        status.textContent = "Fim da lista";
+    }
+}
+
+function faixaAnterior() {
+    if (!faixas.length) return;
+
+    if (audio.currentTime > 3) {
+        audio.currentTime = 0;
+    } else if (document.getElementById("aleatorio").checked) {
+        if (posicaoOrdem > 0) {
+            reproduzirFaixa(ordem[posicaoOrdem - 1]);
+        }
+    } else if (atual > 0) {
+        reproduzirFaixa(atual - 1);
+    } else if (document.getElementById("repetir").checked) {
+        reproduzirFaixa(faixas.length - 1);
+    }
+}
+
+seletor.addEventListener("change", () => {
+    urls.forEach(url => URL.revokeObjectURL(url));
+    faixas = Array.from(seletor.files);
+    urls = faixas.map(f => URL.createObjectURL(f));
+    atual = -1;
+
+    if (!faixas.length) {
+        titulo.textContent = "Escolha seus arquivos para começar";
+        status.textContent = "Nenhuma faixa selecionada";
+        audio.removeAttribute("src");
+        montarLista();
+        return;
+    }
+
+    criarOrdem();
+    montarLista();
+    reproduzirFaixa(0);
+});
+
+document.getElementById("tocar").addEventListener("click", async () => {
+    if (atual < 0 && faixas.length) {
+        await reproduzirFaixa(0);
+    } else if (audio.paused && audio.src) {
+        try {
+            await audio.play();
+        } catch (erro) {
+            status.textContent = "Não foi possível iniciar a reprodução.";
+        }
+    } else {
+        audio.pause();
+    }
+});
+
+audio.addEventListener("play", () => {
+    document.getElementById("tocar").textContent = "⏸ Pausar";
+});
+
+audio.addEventListener("pause", () => {
+    document.getElementById("tocar").textContent = "▶ Reproduzir";
+});
+
+audio.addEventListener("ended", proximaFaixa);
+
+document.getElementById("anterior").addEventListener("click", faixaAnterior);
+document.getElementById("proxima").addEventListener("click", proximaFaixa);
+
+document.getElementById("parar").addEventListener("click", () => {
+    audio.pause();
+    audio.currentTime = 0;
+});
+
+document.getElementById("volume").addEventListener("input", e => {
+    audio.volume = Number(e.target.value) / 100;
+    document.getElementById("valorVolume").textContent = e.target.value + "%";
+});
+
+document.getElementById("aleatorio").addEventListener("change", criarOrdem);
+
+document.getElementById("limpar").addEventListener("click", () => {
+    audio.pause();
+    audio.removeAttribute("src");
+    urls.forEach(url => URL.revokeObjectURL(url));
+    urls = [];
+    faixas = [];
+    atual = -1;
+    ordem = [];
+    seletor.value = "";
+    titulo.textContent = "Escolha seus arquivos para começar";
+    status.textContent = "Nenhuma faixa selecionada";
+    montarLista();
+});
+
+montarLista();
+</script>
+</body>
+</html>
