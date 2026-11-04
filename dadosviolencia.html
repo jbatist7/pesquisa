@@ -3,129 +3,143 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Violência Bolsonarista | Dashboard 2018–2026</title>
+  <title>Violência Bolsonarista | Inventário 2018–2026</title>
   <style>
     :root {
-      --bg: #0f0f10;
-      --surface: #1a1a1c;
-      --surface-hover: #232326;
-      --border: #2e2e32;
-      --text: #e8e8ea;
-      --text-secondary: #a0a0a8;
-      --accent: #c0392b;
-      --accent-soft: #e74c3c;
-      --tag-a: #27ae60;
-      --tag-b: #f39c12;
-      --tag-c: #e67e22;
-      --tag-d: #7f8c8d;
-      --radius: 12px;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --bg-color: #dbeafe; /* Azul claro */
+      --surface: #ffffff;
+      --surface-hover: #f8fafc;
+      --border: #bfdbfe;
+      --text-main: #1e293b;
+      --text-secondary: #475569;
+      --accent: #1d4ed8;
+      --tag-a: #15803d; /* Grau A */
+      --tag-b: #b45309; /* Grau B */
+      --tag-c: #c2410c; /* Grau C */
+      --tag-d: #475569; /* Grau D */
+      --radius: 10px;
+      --font: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background: var(--bg);
-      color: var(--text);
+      background-color: var(--bg-color);
+      color: var(--text-main);
       font-family: var(--font);
+      font-size: 12pt; /* Tamanho de fonte 12 */
       line-height: 1.6;
       min-height: 100vh;
-      padding: 1.5rem;
+      padding: 2rem;
     }
+
     .container { max-width: 1400px; margin: 0 auto; }
 
+    /* Cabeçalho */
     .header { text-align: center; margin-bottom: 2.5rem; }
-    .header h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.03em; }
+    .header h1 { font-size: 2rem; font-weight: 800; color: #0f172a; letter-spacing: -0.03em; }
     .header h1 span { color: var(--accent); }
-    .header p { color: var(--text-secondary); font-size: 0.95rem; max-width: 760px; margin: 0.5rem auto 0; }
+    .header h2 { font-size: 1.1rem; font-weight: 500; color: var(--text-secondary); margin-top: 0.5rem; }
+    .header p { color: var(--text-secondary); font-size: 12pt; max-width: 800px; margin: 1rem auto 0; }
 
+    /* Filtros */
     .filters {
       display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end;
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;
+      border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
-    .filter-group { display: flex; flex-direction: column; gap: 0.35rem; flex: 1 1 180px; }
+    .filter-group { display: flex; flex-direction: column; gap: 0.4rem; flex: 1 1 200px; }
     .filter-group label {
-      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;
       font-weight: 700; color: var(--text-secondary);
     }
     .filter-group select {
-      background: var(--bg); color: var(--text); border: 1px solid var(--border);
-      border-radius: 8px; padding: 0.6rem 0.8rem; font-size: 0.9rem;
+      background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border);
+      border-radius: 6px; padding: 0.6rem 0.8rem; font-size: 12pt;
       font-family: var(--font); cursor: pointer; appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a0a0a8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 0.75rem center;
     }
-    .filter-group select:focus { outline: none; border-color: var(--accent); }
+    .filter-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2); }
 
     .results-bar {
       display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;
-      padding: 0 0.25rem;
+      font-size: 12pt; color: var(--text-secondary); margin-bottom: 1.5rem;
+      padding: 0 0.5rem; font-weight: 600;
     }
-    .results-bar strong { color: var(--text); }
+    .results-bar strong { color: var(--accent); }
 
+    /* Grid de Cards */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+      gap: 1.5rem;
     }
-    @media (max-width: 500px) { .cards-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .cards-grid { grid-template-columns: 1fr; } }
 
     .card {
       background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.25rem 1.35rem;
-      display: flex; flex-direction: column; gap: 0.65rem;
-      transition: border-color 0.2s, background 0.2s;
+      border-radius: var(--radius); padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 0.8rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .card:hover { border-color: var(--accent); background: var(--surface-hover); }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-color: #93c5fd; }
 
-    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; }
-    .card-header h3 { font-size: 1rem; font-weight: 700; line-height: 1.35; flex: 1; }
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .card-header h3 { font-size: 1.1rem; font-weight: 700; line-height: 1.3; flex: 1; color: #0f172a; }
+    
     .badge {
-      font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.55rem;
+      font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.6rem;
       border-radius: 20px; white-space: nowrap; text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em; color: #fff;
     }
-    .badge.ano { background: var(--accent); color: #fff; }
-    .badge.grau-A { background: var(--tag-a); color: #fff; }
-    .badge.grau-B { background: var(--tag-b); color: #000; }
-    .badge.grau-C { background: var(--tag-c); color: #000; }
-    .badge.grau-D { background: var(--tag-d); color: #fff; }
+    .badge.ano { background: var(--accent); }
+    .badge.grau-A { background: var(--tag-a); }
+    .badge.grau-B { background: var(--tag-b); }
+    .badge.grau-C { background: var(--tag-c); }
+    .badge.grau-D { background: var(--tag-d); }
 
-    .card .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; font-size: 0.78rem; color: var(--text-secondary); }
-    .card .meta span { display: inline-flex; align-items: center; gap: 0.25rem; }
-    .card .desc { font-size: 0.88rem; color: #ccc; line-height: 1.55; }
+    .card .meta { display: flex; flex-wrap: wrap; gap: 0.8rem; font-size: 0.9rem; color: var(--text-secondary); }
+    .card .meta span { display: inline-flex; align-items: center; gap: 0.3rem; background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    
+    .card .desc { font-size: 12pt; color: var(--text-main); line-height: 1.5; margin-top: 0.5rem; }
 
-    .card .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .card .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
     .tag-item {
-      font-size: 0.68rem; background: #2a2a2e; color: var(--text-secondary);
-      padding: 0.15rem 0.5rem; border-radius: 6px; border: 1px solid var(--border);
+      font-size: 0.8rem; background: #e2e8f0; color: var(--text-secondary);
+      padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid #cbd5e1;
     }
 
-    .card .sources { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.25rem; }
+    .card .sources { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid #e2e8f0; }
     .source-link {
-      font-size: 0.72rem; color: var(--accent-soft); text-decoration: none;
-      border-bottom: 1px dotted var(--accent-soft); padding-bottom: 1px;
+      font-size: 0.85rem; color: var(--accent); text-decoration: none;
+      background: #eff6ff; padding: 0.2rem 0.5rem; border-radius: 4px;
+      border: 1px solid #bfdbfe; transition: background 0.2s;
     }
-    .source-link:hover { color: #fff; border-bottom-color: #fff; }
+    .source-link:hover { background: #dbeafe; text-decoration: underline; }
 
     .empty-state {
-      grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;
-      color: var(--text-secondary); font-size: 0.95rem;
+      grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;
+      color: var(--text-secondary); font-size: 12pt; font-weight: 500;
+      background: var(--surface); border-radius: var(--radius); border: 1px dashed var(--border);
     }
 
     footer {
-      text-align: center; margin-top: 3rem; padding-top: 1.5rem;
-      border-top: 1px solid var(--border); font-size: 0.78rem;
-      color: var(--text-secondary);
+      text-align: center; margin-top: 4rem; padding-top: 2rem;
+      border-top: 1px solid var(--border); font-size: 0.9rem;
+      color: var(--text-secondary); line-height: 1.8;
     }
-    footer a { color: var(--accent-soft); text-decoration: none; }
+    footer strong { color: var(--text-main); }
   </style>
 </head>
 <body>
 <div class="container">
   <header class="header">
-    <h1>Violência <span>Bolsonarista</span> · 2018–2026</h1>
-    <p>Dashboard documental com filtros por ano, segmento social, estado e tipo específico de violência. Cada ficha indica o grau de comprovação (A–D) e fontes verificáveis.</p>
+    <h1>Inventário Documental: Violências Associadas ao <span>Bolsonarismo</span></h1>
+    <h2>Pesquisa de autoria de: João Batista de Oliveira</h2>
+    <p>Mapeamento de fatos, vítimas, gravidade e desdobramentos (2018–2026). Utilize os filtros abaixo para navegar por ano, segmento social, estado ou tipo específico de violência.</p>
   </header>
 
   <div class="filters">
@@ -134,7 +148,7 @@
       <select id="filter-ano"><option value="todos">Todos os anos</option></select>
     </div>
     <div class="filter-group">
-      <label for="filter-segmento">Segmento social</label>
+      <label for="filter-segmento">Segmento Social</label>
       <select id="filter-segmento"><option value="todos">Todos os segmentos</option></select>
     </div>
     <div class="filter-group">
@@ -142,7 +156,7 @@
       <select id="filter-estado"><option value="todos">Todos os estados</option></select>
     </div>
     <div class="filter-group">
-      <label for="filter-tipo">Tipo específico</label>
+      <label for="filter-tipo">Tipo Específico</label>
       <select id="filter-tipo"><option value="todos">Todos os tipos</option></select>
     </div>
   </div>
@@ -154,294 +168,617 @@
   <main class="cards-grid" id="cards-grid"></main>
 
   <footer>
-    Base documental: FENAJ, Cimi, MPT, Terra de Direitos/Justiça Global, Anistia Internacional e veículos de imprensa. Links verificados em novembro de 2026. 
-    <a href="https://www.global.org.br/" target="_blank">Justiça Global</a> · 
-    <a href="https://cimi.org.br/" target="_blank">Cimi</a> · 
-    <a href="https://mpt.mp.br/" target="_blank">MPT</a> · 
-    <a href="https://fenaj.org.br/" target="_blank">FENAJ</a>
+    <strong>Base Documental:</strong> FENAJ, Cimi, MPT, Terra de Direitos/Justiça Global, Anistia Internacional, APIB, Cofen e veículos de imprensa.<br>
+    Nota metodológica: As fichas respeitam os graus de comprovação originais (A, B, C, D) e as datas dos fatos, mesmo que julgamentos tenham ocorrido em anos posteriores.
   </footer>
 </div>
 
 <script>
 // ------------------------------------------------------------
-// BASE DE DADOS COMPLETA (2018–2026)
+// BASE DE DADOS COMPLETA (Fichas 01 a 58)
 // ------------------------------------------------------------
 const eventos = [
-  // ---------- 2018 ----------
+  // ---------- ANO DE 2018 ----------
   {
-    id: '2018-001', ano: 2018, estado: 'AC',
+    id: 1, ano: 2018, estado: 'AC',
     segmentos: ['Políticos', 'Sociedade Civil'],
     tipo: 'Ameaça verbal / Incitação',
-    titulo: 'Discurso de Bolsonaro no Acre: "Vamos fuzilar a petralhada"',
+    titulo: 'Discurso de Bolsonaro no Acre ("fuzilar a petralhada")',
     local: 'Rio Branco (AC)',
-    natureza: 'Ameaça verbal / Incitação à violência',
     gravidade: 'D',
-    descricao: 'Durante ato de campanha, Jair Bolsonaro simulou uma metralhadora com um tripé e declarou que "vamos fuzilar a petralhada toda aqui do Acre". A fala foi gravada e gerou representação no STF.',
-    fontes: [
-      'https://www.bbc.com/portuguese/brasil-62098719',
-      'https://g1.globo.com/politica/eleicoes/2018/noticia/2018/09/06/stf-da-10-dias-para-bolsonaro-explicar-declaracao-sobre-fuzilar-a-petralhada.ghtml',
-      'https://www.poder360.com.br/eleicoes/no-acre-bolsonaro-fala-em-fuzilar-a-petralhada-e-envia-los-a-venezuela/'
-    ]
+    descricao: 'Durante comício, o candidato simulou disparos com um tripé de câmera e declarou: "Vamos fuzilar a petralhada toda aqui do Acre", classificando depois o ato como "brincadeira".',
+    fontes: ['BBC News', 'G1', 'O Globo', 'Poder360']
   },
   {
-    id: '2018-002', ano: 2018, estado: 'BA',
-    segmentos: ['Políticos', 'Sociedade Civil'],
-    tipo: 'Assassinato',
-    titulo: 'Assassinato de Moa do Katendê após discussão política',
-    local: 'Salvador (BA)',
-    natureza: 'Assassinato',
-    gravidade: 'A',
-    descricao: 'O mestre de capoeira Romualdo Rosário da Costa, o Moa do Katendê, foi assassinado com 12 facadas após discutir política em um bar. O agressor, eleitor de Bolsonaro, confessou o crime e foi condenado a 22 anos de prisão.',
-    fontes: [
-      'https://brasil.elpais.com/brasil/2018/10/09/politica/1539112288_960840.html',
-      'https://www1.folha.uol.com.br/colunas/alvaro-costa-e-silva/2018/10/sinais-fortes-sinais.shtml',
-      'https://www.nexojornal.com.br/expresso/2022/07/11/de-2015-a-2022-a-violencia-na-rua-para-quem-faz-politica'
-    ]
-  },
-  // ---------- 2019 ----------
-  {
-    id: '2019-001', ano: 2019, estado: 'Nacional',
-    segmentos: ['Jornalistas'],
-    tipo: 'Violência verbal / Descredibilização',
-    titulo: 'Bolsonaro e os 116 ataques à imprensa registrados pela FENAJ',
-    local: 'Nacional',
-    natureza: 'Violência verbal / Descredibilização institucional',
+    id: 2, ano: 2018, estado: 'PR',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão armada',
+    titulo: 'Ataque à caravana de Lula no Paraná',
+    local: 'Quedas do Iguaçu / Laranjeiras do Sul (PR)',
     gravidade: 'B',
-    descricao: 'A FENAJ contabilizou 116 declarações e ataques de Jair Bolsonaro contra jornalistas e veículos de imprensa em 2019, incluindo tentativas de descredibilização e agressões verbais diretas.',
-    fontes: ['https://fenaj.org.br/wp-content/uploads/2020/01/relatorio_fenaj_2019.pdf']
+    descricao: 'Dois ônibus da caravana foram atingidos por tiros de calibre .32, pneus furados e pedradas. Laudo confirmou os disparos, mas a autoria foi classificada como inconclusiva pelo MP/PR em 2021.',
+    fontes: ['Polícia Científica do PR', 'Valor Econômico', 'Folha de S.Paulo', 'G1']
   },
   {
-    id: '2019-002', ano: 2019, estado: 'SC',
+    id: 3, ano: 2018, estado: 'BA',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato de Moa do Katendê',
+    local: 'Salvador (BA)',
+    gravidade: 'A',
+    descricao: 'O mestre de capoeira foi assassinado com 12 facadas em um bar. O autor confesso declarou que o crime ocorreu após discussão política (vítima defendia Haddad, autor era eleitor de Bolsonaro).',
+    fontes: ['El País', 'Folha de S.Paulo', 'Nexo Jornal']
+  },
+  {
+    id: 4, ano: 2018, estado: 'PR',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a estudante com boné do MST',
+    local: 'Curitiba (PR)',
+    gravidade: 'C',
+    descricao: 'Estudante da UFPR foi agredido por seis homens após ser identificado pelo boné do MST. Agressores gritavam "Aqui é Bolsonaro!".',
+    fontes: ['Jovem Pan', 'Vítimas da Intolerância', 'Agência Pública']
+  },
+  {
+    id: 5, ano: 2018, estado: 'RJ',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão física',
+    titulo: 'Agressões a estudantes da UFRJ',
+    local: 'Botafogo, Rio de Janeiro (RJ)',
+    gravidade: 'C',
+    descricao: 'Estudantes distribuindo panfletos pró-Haddad foram ameaçados e agredidos por seis homens. Um agressor usou barra de ferro, deixando um jovem inconsciente.',
+    fontes: ['Agência Pública']
+  },
+  {
+    id: 6, ano: 2018, estado: 'CE',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Ameaça / Intimidação',
+    titulo: 'Ameaças à comunidade indígena Tremembé',
+    local: 'Ceará',
+    gravidade: 'C',
+    descricao: 'Estudante indígena relatou ameaças à família e à comunidade via WhatsApp, com promessas de violência caso Bolsonaro vencesse.',
+    fontes: ['Agência Pública']
+  },
+  {
+    id: 7, ano: 2018, estado: 'PE',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Intimidação / Ameaça',
+    titulo: 'Carta anônima contra integrantes da UFPE',
+    local: 'Recife (PE)',
+    gravidade: 'C',
+    descricao: 'Carta anônima listou 15 docentes e estudantes (incluindo LGBT e pessoas de esquerda) que seriam afastados após a posse do presidente eleito.',
+    fontes: ['Agência Pública']
+  },
+  {
+    id: 8, ano: 2018, estado: 'SC',
     segmentos: ['Trabalhadores'],
     tipo: 'Assédio eleitoral',
-    titulo: 'Assédio eleitoral na Havan (início do caso)',
-    local: 'Santa Catarina',
-    natureza: 'Coerção econômica / Assédio eleitoral',
+    titulo: 'Assédio eleitoral na Havan e Condor',
+    local: 'Santa Catarina e Paraná',
     gravidade: 'A',
-    descricao: 'Funcionários da Havan relataram pressão para votar em Bolsonaro e uso de uniformes com símbolos de campanha. A Justiça do Trabalho condenou a empresa posteriormente.',
-    fontes: ['https://www.migalhas.com.br/quentes/408313/tst-mantem-condenacao-da-havan-por-assedio-eleitoral']
+    descricao: 'Luciano Hang associou resultado eleitoral à continuidade dos empregos. MPT recebeu 82 denúncias de trabalhadores pressionados a votar em Bolsonaro. Condenação posterior de R$ 85 milhões em 2024.',
+    fontes: ['MPT-SC', 'Brasil de Fato', 'CUT', 'UOL']
   },
-  // ---------- 2020 ----------
   {
-    id: '2020-001', ano: 2020, estado: 'DF',
+    id: 9, ano: 2018, estado: 'RS',
+    segmentos: ['Trabalhadores'],
+    tipo: 'Assédio eleitoral',
+    titulo: 'Construtora Mânica (pressão política no trabalho)',
+    local: 'Rio Grande do Sul',
+    gravidade: 'C',
+    descricao: 'Funcionários receberam camisetas pró-Bolsonaro e foram fotografados em manifestações da empresa durante o horário de trabalho. MPT investigou o uso da hierarquia.',
+    fontes: ['Agência Pública', 'UOL']
+  },
+
+  // ---------- ANO DE 2019 ----------
+  {
+    id: 10, ano: 2019, estado: 'DF',
+    segmentos: ['Jornalistas'],
+    tipo: 'Violência verbal / Exposição',
+    titulo: 'Ataque de Bolsonaro à jornalista Constança Rezende',
+    local: 'Brasília (DF)',
+    gravidade: 'B',
+    descricao: 'Bolsonaro divulgou gravação da jornalista do Estadão, atribuindo-lhe intenções escusas, o que desencadeou uma onda de ataques virtuais contra ela.',
+    fontes: ['Folha de S.Paulo', 'FENAJ']
+  },
+  {
+    id: 11, ano: 2019, estado: 'SP',
+    segmentos: ['Políticos'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a dirigente do PT em Atibaia',
+    local: 'Atibaia (SP)',
+    gravidade: 'B',
+    descricao: 'Geovani Doratiotto foi agredido no Carnaval por usar camiseta "Lula Livre". Sofreu nova violência na delegacia (braço quebrado por PMs, segundo relatos).',
+    fontes: ['Veja SP', 'IG Último Segundo']
+  },
+  {
+    id: 12, ano: 2019, estado: 'PR',
     segmentos: ['Jornalistas'],
     tipo: 'Agressão física',
-    titulo: 'Agressão a Dida Sampaio e equipe do Estadão na rampa do Planalto',
-    local: 'Brasília (DF)',
-    natureza: 'Agressão física / Intimidação',
-    gravidade: 'A',
-    descricao: 'Durante manifestação pró-Bolsonaro, o fotógrafo Dida Sampaio foi derrubado, chutado e socado por apoiadores do presidente. Outros jornalistas também foram agredidos e expulsos do local.',
-    fontes: [
-      'https://www1.folha.uol.com.br/poder/2020/05/manifestantes-pro-bolsonaro-agridem-e-ameacam-jornalistas-em-ato-no-planalto-veja-video.shtml',
-      'https://www.abraji.org.br/noticias/agressoes-a-jornalistas-sao-resultado-da-postura-de-bolsonaro'
-    ]
+    titulo: 'Agressões a jornalistas em ato pró-Bolsonaro em Curitiba',
+    local: 'Curitiba (PR)',
+    gravidade: 'C',
+    descricao: 'Fotógrafa e outros profissionais foram hostilizados e agredidos por manifestantes após serem chamados de "esquerdistas" no caminhão de som.',
+    fontes: ['Folha de S.Paulo']
   },
   {
-    id: '2020-002', ano: 2020, estado: 'DF',
+    id: 13, ano: 2019, estado: 'Nacional',
     segmentos: ['Jornalistas'],
-    tipo: 'Ameaça de agressão',
-    titulo: 'Bolsonaro ameaça repórter do O Globo: "vontade de encher tua boca de porrada"',
-    local: 'Brasília (DF)',
-    natureza: 'Ameaça de agressão física',
-    gravidade: 'D',
-    descricao: 'Após ser questionado sobre depósitos na conta da primeira-dama, Bolsonaro ameaçou fisicamente um jornalista do O Globo. Entidades de imprensa repudiaram a fala.',
-    fontes: [
-      'https://oglobo.globo.com/politica/entidades-criticam-ameaca-de-bolsonaro-reporter-do-globo-24602218',
-      'https://www.abraji.org.br/abraji-condena-ameaca-de-bolsonaro-de-agressao-fisica-a-jornalista'
-    ]
-  },
-  // ---------- 2021 ----------
-  {
-    id: '2021-001', ano: 2021, estado: 'DF',
-    segmentos: ['Jornalistas'],
-    tipo: 'Agressão física / Ameaça',
-    titulo: 'Agressões a jornalistas em atos de 7 de setembro',
-    local: 'Brasília, São Paulo, Manaus, Londrina, Ribeirão Preto',
-    natureza: 'Agressão física / Ameaça / Intimidação',
+    tipo: 'Violência verbal / Intimidação',
+    titulo: 'Ataques de Bolsonaro e Eduardo a jornalistas',
+    local: 'Nacional',
     gravidade: 'B',
-    descricao: 'A FENAJ e a ABERT registraram dezenas de ataques a jornalistas durante manifestações bolsonaristas. Profissionais foram cercados, xingados, agredidos fisicamente e impedidos de trabalhar.',
-    fontes: [
-      'https://fenaj.org.br/wp-content/uploads/2021/01/relatorio_fenaj_2021.pdf',
-      'https://www.abraji.org.br/noticias/abraji-e-jeduca-repudiam-invasao-golpista-em-brasilia-e-ataques-a-imprensa-por-criminosos'
-    ]
+    descricao: 'Jair Bolsonaro chamou a imprensa de "inimiga"; Eduardo Bolsonaro expôs dados de jornalistas. Bolsonaro cancelou assinaturas da Folha e ameaçou anunciantes. FENAJ registrou 116 ataques.',
+    fontes: ['Folha de S.Paulo', 'Abraji', 'BBC News']
   },
   {
-    id: '2021-002', ano: 2021, estado: 'PA',
-    segmentos: ['Povos Indígenas'],
-    tipo: 'Violência territorial / Ameaça',
-    titulo: 'Ataque armado e incêndio de casas de lideranças Munduruku',
-    local: 'Jacareacanga (PA)',
-    natureza: 'Violência territorial / Ameaça',
-    gravidade: 'C',
-    descricao: 'Garimpeiros ilegais atacaram a aldeia Fazenda Tapajós, incendiando casas e ameaçando lideranças contrárias à mineração. A APIB denunciou o caso no mesmo dia.',
-    fontes: [
-      'https://cimi.org.br/2022/08/relatorioviolencia2021/',
-      'https://apiboficial.org/2021/05/26/liderancas-munduruku-estao-sob-ataque-de-garimpeiros-no-para/'
-    ]
-  },
-  // ---------- 2022 ----------
-  {
-    id: '2022-001', ano: 2022, estado: 'PR',
-    segmentos: ['Políticos'],
-    tipo: 'Assassinato político',
-    titulo: 'Assassinato de Marcelo Arruda em Foz do Iguaçu',
-    local: 'Foz do Iguaçu (PR)',
-    natureza: 'Assassinato político',
-    gravidade: 'A',
-    descricao: 'O guarda municipal e tesoureiro do PT, Marcelo Arruda, foi morto a tiros por Jorge Guaranho, apoiador de Bolsonaro, durante sua festa de aniversário com temática petista. O caso teve grande repercussão nacional.',
-    fontes: [
-      'https://www1.folha.uol.com.br/poder/2022/07/petista-e-assassinado-no-pr-e-pt-fala-em-crime-de-odio-por-bolsonarista.shtml',
-      'https://www.estadao.com.br/politica/homicidio-de-tesoureiro-do-pt-integra-serie-de-atos-violentos-nas-eleicoes-2022/',
-      'https://valor.globo.com/politica/noticia/2022/07/11/tesoureiro-do-pt-e-morto-por-policial-bolsonarista.ghtml'
-    ]
-  },
-  {
-    id: '2022-002', ano: 2022, estado: 'MG',
-    segmentos: ['Trabalhadores'],
-    tipo: 'Assédio eleitoral',
-    titulo: 'Assédio eleitoral em frigoríficos de Betim (MG)',
-    local: 'Betim (MG)',
-    natureza: 'Coerção econômica / Assédio eleitoral',
-    gravidade: 'A',
-    descricao: 'Funcionários de frigoríficos foram obrigados a usar camisas com o número de Bolsonaro e participar de eventos políticos no horário de almoço. A Justiça do Trabalho reconheceu o assédio.',
-    fontes: [
-      'https://www1.folha.uol.com.br/mercado/2022/10/frigorifico-em-mg-faz-evento-pro-bolsonaro-em-intervalo-de-almoco-de-funcionarios-veja-videos.shtml',
-      'https://noticias.uol.com.br/eleicoes/2022/10/26/juiz-ve-assedio-eleitoral-de-frigorifico-e-ameaca-com-multa-de-ate-r-1-mi.htm'
-    ]
-  },
-  // ---------- 2023 ----------
-  {
-    id: '2023-001', ano: 2023, estado: 'DF',
+    id: 14, ano: 2019, estado: 'SP',
     segmentos: ['Jornalistas'],
-    tipo: 'Agressão física / Roubo',
-    titulo: 'Agressões a jornalistas durante o 8 de janeiro',
-    local: 'Brasília (DF)',
-    natureza: 'Agressão física / Roubo / Ameaça',
+    tipo: 'Agressão física',
+    titulo: 'Agressão de Augusto Nunes a Glenn Greenwald',
+    local: 'São Paulo (SP)',
     gravidade: 'A',
-    descricao: 'Ao menos 17 jornalistas foram agredidos, ameaçados e tiveram equipamentos roubados durante a invasão das sedes dos Três Poderes. Profissionais de diversos veículos foram atingidos.',
-    fontes: [
-      'https://abraji.org.br/noticias/abraji-e-jeduca-repudiam-invasao-golpista-em-brasilia-e-ataques-a-imprensa-por-criminosos',
-      'https://fenaj.org.br/wp-content/uploads/2023/01/relatorio_fenaj_2023.pdf'
-    ]
+    descricao: 'O comentarista bolsonarista agrediu fisicamente o jornalista do Intercept durante um programa ao vivo. O ato foi filmado e celebrado por apoiadores.',
+    fontes: ['The New York Times']
   },
   {
-    id: '2023-002', ano: 2023, estado: 'BA',
-    segmentos: ['Povos Indígenas'],
-    tipo: 'Violência territorial / Assassinato',
-    titulo: 'Assassinatos de Samuel e Nauí Pataxó',
-    local: 'Extremo Sul da Bahia',
-    natureza: 'Violência territorial / Assassinato',
-    gravidade: 'C',
-    descricao: 'Os jovens indígenas Samuel Cristiano do Amor Divino e Nauí Pataxó foram assassinados a tiros nas proximidades da Terra Indígena Barra Velha do Monte Pascoal. O Cimi relacionou o crime ao conflito territorial.',
-    fontes: ['https://cimi.org.br/2023/01/assassinatos-de-samuel-e-naui-pataxo/']
-  },
-  // ---------- 2024 ----------
-  {
-    id: '2024-001', ano: 2024, estado: 'SC',
-    segmentos: ['Trabalhadores'],
-    tipo: 'Assédio eleitoral',
-    titulo: 'Condenação da Havan por assédio eleitoral (R$ 85 milhões)',
-    local: 'Santa Catarina',
-    natureza: 'Coerção econômica / Assédio eleitoral',
-    gravidade: 'A',
-    descricao: 'A Justiça do Trabalho condenou Luciano Hang e a Havan a pagar R$ 85 milhões por assédio eleitoral durante a campanha de 2018, incluindo indenizações individuais a funcionários.',
-    fontes: [
-      'https://oglobo.globo.com/politica/noticia/2024/02/01/voce-esta-preparado-para-deixar-a-havan-entenda-a-condenacao-de-hang-por-coagir-funcionarios-a-votar-em-bolsonaro.ghtml',
-      'https://cultura.uol.com.br/noticias/64154_luciano-hang-e-havan-sao-condenados-em-r-85-milhoes-por-coagir-funcionarios-a-votar-em-bolsonaro.html'
-    ]
+    id: 15, ano: 2019, estado: 'SC',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato de idoso após discussão política',
+    local: 'Balneário Camboriú (SC)',
+    gravidade: 'B',
+    descricao: 'Fábio Schwindlein, apoiador de Bolsonaro, matou Antônio Carlos Furtado (61 anos) com socos e pontapés após discussão política.',
+    fontes: ['PCdoB']
   },
   {
-    id: '2024-002', ano: 2024, estado: 'RJ',
-    segmentos: ['Gênero'],
-    tipo: 'Violência política de gênero',
-    titulo: 'Condenação de Rodrigo Amorim por violência política de gênero',
-    local: 'Rio de Janeiro (RJ)',
-    natureza: 'Violência política de gênero',
-    gravidade: 'A',
-    descricao: 'O TRE-RJ condenou o deputado estadual Rodrigo Amorim por declarações que humilharam e constrangeram a vereadora Benny Briolly (PSOL), mulher trans, configurando violência política de gênero.',
-    fontes: ['https://www.tre-rj.jus.br/']
-  },
-  // ---------- 2025 ----------
-  {
-    id: '2025-001', ano: 2025, estado: 'PR',
+    id: 16, ano: 2019, estado: 'Nacional',
     segmentos: ['Povos Indígenas'],
     tipo: 'Violência territorial',
-    titulo: 'Ataques armados contra a comunidade Avá-Guarani (Yvy Okaju)',
-    local: 'Guaíra (PR)',
-    natureza: 'Violência territorial / Ameaça',
-    gravidade: 'C',
-    descricao: 'A comunidade sofreu quatro ataques em sete dias, com disparos, feridos e destruição de moradias. A Polícia Federal investigou a participação de moradores da região.',
-    fontes: [
-      'https://cimi.org.br/2025/01/ataques-contra-comunidade-ava-guarani-no-oeste-do-parana/',
-      'https://www.gov.br/pf/pt-br/assuntos/noticias/2025/03/pf-deflagra-operacao-mbarete-contra-ataques-a-comunidade-indigena-no-parana'
-    ]
+    titulo: 'Invasões em terras indígenas (Salto de 109 para 256)',
+    local: 'Nacional (23 estados)',
+    gravidade: 'B',
+    descricao: 'CIMI registrou 256 invasões, atingindo 151 terras e 143 povos. Invasores citavam o presidente. Inclui queimadas na comunidade Huni Kuí (AC) e morte de Emyra Wajäpi (AP).',
+    fontes: ['CIMI', 'Acervo Socioambiental', 'CNBB']
   },
+
+  // ---------- ANO DE 2020 ----------
   {
-    id: '2025-002', ano: 2025, estado: 'ES',
-    segmentos: ['Gênero'],
-    tipo: 'Violência política de gênero',
-    titulo: 'Condenação de Gilvan da Federal por violência política de gênero',
-    local: 'Espírito Santo',
-    natureza: 'Violência política de gênero',
+    id: 17, ano: 2020, estado: 'DF',
+    segmentos: ['Jornalistas', 'Gênero'],
+    tipo: 'Violência de gênero',
+    titulo: 'Insinuação sexual contra Patrícia Campos Mello',
+    local: 'Brasília (DF)',
     gravidade: 'A',
-    descricao: 'A Justiça Eleitoral condenou o deputado federal Gilvan da Federal (PL-ES) por ofensas à vereadora Camila Valadão (PSOL), incluindo os termos "satanista" e "assassina de bebês".',
-    fontes: [
-      'https://noticias.uol.com.br/politica/ultimas-noticias/2025/03/19/gilvan-da-federal-condenado-violencia-politica-de-genero.htm',
-      'https://www.seculodiario.com.br/'
-    ]
+    descricao: 'Bolsonaro disse que a jornalista "queria dar o furo a qualquer preço". Condenado pela Justiça de SP a indenizar em R$ 20 mil em 2021.',
+    fontes: ['Folha de S.Paulo', 'FENAJ']
   },
-  // ---------- 2026 ----------
   {
-    id: '2026-001', ano: 2026, estado: 'Nacional',
+    id: 18, ano: 2020, estado: 'DF',
+    segmentos: ['Jornalistas'],
+    tipo: 'Ameaça',
+    titulo: 'Ameaça de agressão a repórter do O Globo',
+    local: 'Brasília (DF)',
+    gravidade: 'D',
+    descricao: 'Bolsonaro disse ao repórter: "Minha vontade é eu encher a tua boca com porrada, tá? Seu safado", após pergunta sobre cheques de Queiroz.',
+    fontes: ['O Globo', 'Abraji']
+  },
+  {
+    id: 19, ano: 2020, estado: 'DF',
+    segmentos: ['Jornalistas'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a jornalistas na rampa do Planalto',
+    local: 'Brasília (DF)',
+    gravidade: 'A',
+    descricao: 'Fotógrafo Dida Sampaio foi derrubado e chutado. Outros jornalistas do Estadão, Poder360 e Folha foram agredidos. Bolsonaro atribuiu a "malucos infiltrados".',
+    fontes: ['Folha de S.Paulo', 'Estadão', 'CNN Brasil']
+  },
+  {
+    id: 20, ano: 2020, estado: 'DF',
+    segmentos: ['Trabalhadores'],
+    tipo: 'Intimidação / Constrangimento',
+    titulo: 'Hostilização de enfermeiras na Praça dos Três Poderes',
+    local: 'Brasília (DF)',
+    gravidade: 'B',
+    descricao: 'Enfermeiras homenageando mortos pela pandemia foram hostilizadas por bolsonaristas, com expressões como "Esquerdopatas". Três pessoas foram indiciadas.',
+    fontes: ['Cofen', 'Folha de S.Paulo']
+  },
+  {
+    id: 21, ano: 2020, estado: 'DF',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão e ameaça de morte em Taguatinga',
+    local: 'Taguatinga (DF)',
+    gravidade: 'C',
+    descricao: 'Bombeiro usando camiseta com o rosto de Bolsonaro agrediu e ameaçou de morte um jovem que defendeu uma mulher de assédio no metrô.',
+    fontes: ['CartaCapital']
+  },
+  {
+    id: 22, ano: 2020, estado: 'Nacional',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Violência territorial',
+    titulo: 'Aumento de assassinatos e invasões indígenas',
+    local: 'Nacional (19 estados)',
+    gravidade: 'B',
+    descricao: 'CIMI registrou 182 assassinatos (alta de 61%) e 263 invasões. Inclui o Massacre do Rio Abacaxis (AM), com 2 indígenas e 4 ribeirinhos mortos.',
+    fontes: ['CIMI']
+  },
+
+  // ---------- ANO DE 2021 ----------
+  {
+    id: 23, ano: 2021, estado: 'MG',
+    segmentos: ['Jornalistas'],
+    tipo: 'Agressão física',
+    titulo: 'Agressões a jornalistas em BH e Salvador',
+    local: 'Belo Horizonte (MG) e Salvador (BA)',
+    gravidade: 'B',
+    descricao: 'Fotógrafo do Estado de Minas sofreu pontapés e capacetadas. Fotojornalista Paula Fróes foi cercada e xingada de "vagabunda" e "palhaça".',
+    fontes: ['IstoÉ Dinheiro', 'FENAJ']
+  },
+  {
+    id: 24, ano: 2021, estado: 'SP',
+    segmentos: ['Políticos'],
+    tipo: 'Ameaça armada',
+    titulo: 'Ameaça armada a Lula por empresário',
+    local: 'Artur Nogueira (SP)',
+    gravidade: 'B',
+    descricao: 'Empresário gravou vídeo atirando e ameaçando Lula. Polícia apreendeu revólver e espingarda. Justiça proibiu a divulgação do vídeo.',
+    fontes: ['G1']
+  },
+  {
+    id: 25, ano: 2021, estado: 'RJ',
+    segmentos: ['Jornalistas'],
+    tipo: 'Intimidação',
+    titulo: 'Hostilização e expulsão de repórter da CNN no Rio',
+    local: 'Rio de Janeiro (RJ)',
+    gravidade: 'B',
+    descricao: 'Repórter Pedro Duran foi xingado de "lixo" e impedido de cobrir ato pró-Bolsonaro. O vereador Douglas Gomes comemorou a expulsão.',
+    fontes: ['Brasil de Fato', 'Folha de S.Paulo']
+  },
+  {
+    id: 26, ano: 2021, estado: 'SP',
+    segmentos: ['Jornalistas'],
+    tipo: 'Ameaça',
+    titulo: 'Ameaça armada a radialista em Campinas',
+    local: 'Campinas (SP)',
+    gravidade: 'C',
+    descricao: 'Radialista Jerry de Oliveira foi ameaçado por dois homens armados que disseram que "ninguém mais falaria mal do Bolsonaro".',
+    fontes: ['UOL', 'Vermelho']
+  },
+  {
+    id: 27, ano: 2021, estado: 'BA',
+    segmentos: ['Jornalistas'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a equipe da TV Bahia em Itamaraju',
+    local: 'Itamaraju (BA)',
+    gravidade: 'A',
+    descricao: 'Repórter Camila Marinho foi agarrada pelo pescoço ("mata-leão") por segurança presidencial. O repórter Chico Lopes levou um tapa.',
+    fontes: ['UOL', 'Mídia NINJA']
+  },
+  {
+    id: 28, ano: 2021, estado: 'PA',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Violência territorial',
+    titulo: 'Ataque armado às lideranças Munduruku',
+    local: 'Jacareacanga (PA)',
+    gravidade: 'C',
+    descricao: 'Garimpeiros atacaram sede de associação de mulheres, ameaçaram lideranças de morte e queimaram casas em represália à operação Mundurukânia.',
+    fontes: ['CIMI', 'APIB']
+  },
+  {
+    id: 29, ano: 2021, estado: 'Nacional',
+    segmentos: ['Povos Indígenas', 'Trabalhadores'],
+    tipo: 'Violência territorial',
+    titulo: 'Violência estrutural contra indígenas e quilombolas',
+    local: 'Nacional',
+    gravidade: 'B',
+    descricao: 'CIMI registrou 355 casos de violência (recorde desde 2013) e 176 assassinatos. CPT registrou 35 assassinatos no campo e dois massacres (Yanomami e Ademar Ferreira/RO).',
+    fontes: ['CIMI', 'Agência Pública', 'Marco Zero', 'Cedefes']
+  },
+
+  // ---------- ANO DE 2022 ----------
+  {
+    id: 30, ano: 2022, estado: 'PR',
+    segmentos: ['Políticos'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato de Marcelo Arruda',
+    local: 'Foz do Iguaçu (PR)',
+    gravidade: 'A',
+    descricao: 'Tesoureiro do PT foi assassinado em sua festa de aniversário temática pelo policial penal Jorge Guaranho, apoiador de Bolsonaro. Guaranho gritou "Aqui é Bolsonaro" antes de atirar.',
+    fontes: ['Folha de S.Paulo', 'Estadão', 'Valor', 'Correio Braziliense']
+  },
+  {
+    id: 31, ano: 2022, estado: 'MT',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato de Benedito Cardoso dos Santos',
+    local: 'Confresa (MT)',
+    gravidade: 'A',
+    descricao: 'Trabalhador rural apoiador de Lula foi morto a facadas e golpes de machado por Rafael Silva de Oliveira, apoiador de Bolsonaro, após discussão política. Agressor confessou.',
+    fontes: ['Valor', 'G1', 'O Globo', 'Brasil de Fato']
+  },
+  {
+    id: 32, ano: 2022, estado: 'SP',
+    segmentos: ['Jornalistas', 'Trabalhadores'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a pesquisador do Datafolha',
+    local: 'Ariranha (SP)',
+    gravidade: 'B',
+    descricao: 'Pesquisador foi agredido com socos e chutes por Rafael Bianchini, que gritou "só pega Lula". O agressor buscou uma faca em casa.',
+    fontes: ['Folha de S.Paulo', 'Brasil de Fato']
+  },
+  {
+    id: 33, ano: 2022, estado: 'PB',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão e depredação de carro de petista em João Pessoa',
+    local: 'João Pessoa (PB)',
+    gravidade: 'C',
+    descricao: 'Flávia Bonolo teve o carro depredado e foi agredida após furar bloqueio bolsonarista. Vídeo mostra manifestante empurrando sua cabeça contra o volante.',
+    fontes: ['G1']
+  },
+  {
+    id: 34, ano: 2022, estado: 'Nacional',
     segmentos: ['Trabalhadores'],
     tipo: 'Assédio eleitoral',
-    titulo: 'Campanha "Demita um petista": incentivo à demissão de eleitores de Lula',
+    titulo: 'Onda recorde de assédio eleitoral (1.633 denúncias no MPT)',
     local: 'Nacional',
-    natureza: 'Assédio eleitoral / Perseguição política',
-    gravidade: 'B',
-    descricao: 'Após a vitória de Lula, parlamentares e apoiadores de Flávio Bolsonaro publicaram mensagens incentivando empresários a demitir trabalhadores que votaram no PT. O MPT registrou mais de 3 mil denúncias.',
-    fontes: [
-      'https://mpt.mp.br/pgt/noticias/denuncias-sobre-assedio-eleitoral-chegam-a-1773-nesta-sexta-23',
-      'https://www1.folha.uol.com.br/mercado/2026/10/justica-proibe-deputada-de-incentivar-empregadores-a-demitirem-petistas.shtml'
-    ]
+    gravidade: 'A',
+    descricao: 'Frigoríficos em Betim/MG obrigaram uso de camisetas; ruralista na BA fechou TAC; Ypê teve inquérito instaurado por seminário tendencioso. Condenações posteriores em 2024-2026.',
+    fontes: ['DW', 'Valor', 'UOL', 'Folha de S.Paulo', 'ConJur']
   },
   {
-    id: '2026-002', ano: 2026, estado: 'MG',
-    segmentos: ['Políticos', 'Gênero'],
+    id: 35, ano: 2022, estado: 'SP',
+    segmentos: ['Políticos'],
+    tipo: 'Ameaça armada',
+    titulo: 'Perseguição armada de Carla Zambelli',
+    local: 'São Paulo (SP)',
+    gravidade: 'A',
+    descricao: 'Na véspera do segundo turno, a deputada perseguiu o jornalista e apoiador de Lula Luan Araújo portando arma. STF abriu investigação.',
+    fontes: ['CNN', 'Agência Pública']
+  },
+
+  // ---------- ANO DE 2023 ----------
+  {
+    id: 36, ano: 2023, estado: 'DF',
+    segmentos: ['Sociedade Civil', 'Jornalistas'],
+    tipo: 'Ataque antidemocrático',
+    titulo: 'Invasão e depredação dos Três Poderes (8 de Janeiro)',
+    local: 'Brasília (DF)',
+    gravidade: 'A',
+    descricao: 'Apoiadores de Bolsonaro invadiram e depredaram Congresso, STF e Planalto. Pelo menos 17 jornalistas foram agredidos com roubo de equipamentos.',
+    fontes: ['Abraji', 'Jeduca', 'MPF']
+  },
+  {
+    id: 37, ano: 2023, estado: 'Vários',
+    segmentos: ['Jornalistas'],
     tipo: 'Agressão física',
-    titulo: 'Agressão à vereadora Iara Pimentel em Montes Claros',
-    local: 'Montes Claros (MG)',
-    natureza: 'Agressão física / Violência política',
+    titulo: 'Agressões a jornalistas durante desmonte de acampamentos',
+    local: 'BH, Campo Grande, Curitiba, Recife, Rio Branco, Natal',
     gravidade: 'B',
-    descricao: 'A vereadora Iara Pimentel (PT) foi atingida no rosto por uma pedra durante carreata de apoio a Lula. Homens com camisetas de Flávio Bolsonaro foram identificados nas imagens.',
-    fontes: [
-      'https://g1.globo.com/politica/noticia/2026/10/27/violencia-politica-reta-final-das-eleicoes-tem-denuncias-de-agressoes-pelo-pais-veja-casos.ghtml',
-      'https://operamundi.uol.com.br/eleicoes-2026-brasil/violencia-politica-no-2o-turno-morte-espancamentos-e-ataques-a-apoiadores-de-lula/'
-    ]
+    descricao: 'Sequência de agressões a equipes de imprensa durante retirada de acampamentos golpistas que pediam intervenção militar.',
+    fontes: ['O Globo', 'A Gazeta', 'G1', 'FENAJ']
   },
   {
-    id: '2026-003', ano: 2026, estado: 'MS',
-    segmentos: ['Políticos', 'Sociedade Civil'],
-    tipo: 'Assassinato',
-    titulo: 'Assassinato em carreata bolsonarista em Bonito (MS)',
-    local: 'Bonito (MS)',
-    natureza: 'Assassinato / Violência armada',
+    id: 38, ano: 2023, estado: 'SP',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão a Débora Alba em São Paulo',
+    local: 'São Paulo (SP)',
+    gravidade: 'C',
+    descricao: 'Débora foi agredida com um tapa ao defender uma idosa com bandeira de Lula hostilizada por integrantes de carreata bolsonarista.',
+    fontes: ['UOL Notícias']
+  },
+  {
+    id: 39, ano: 2023, estado: 'BA',
+    segmentos: ['Jornalistas'],
+    tipo: 'Ameaça / Perseguição digital',
+    titulo: 'Ameaças de morte contra a jornalista Dandara Barreto',
+    local: 'Feira de Santana (BA)',
+    gravidade: 'C',
+    descricao: 'Jornalista teve dados pessoais vazados em grupos bolsonaristas e recebeu ameaças de morte após comentar os ataques de 8 de janeiro.',
+    fontes: ['ABI', 'UOL Notícias']
+  },
+  {
+    id: 40, ano: 2023, estado: 'DF',
+    segmentos: ['Jornalistas'],
+    tipo: 'Agressão física',
+    titulo: 'Agressão do deputado Mário Frias ao jornalista Guga Noblat',
+    local: 'Brasília (DF)',
+    gravidade: 'A',
+    descricao: 'O deputado federal agrediu o jornalista e tomou seu celular durante audiência pública na Câmara. Representação foi feita à Mesa Diretora.',
+    fontes: ['FENAJ', 'Metrópoles']
+  },
+  {
+    id: 41, ano: 2023, estado: 'DF',
+    segmentos: ['Gênero'],
+    tipo: 'Violência doméstica',
+    titulo: 'Denúncia de violência doméstica contra deputado Zé Trovão',
+    local: 'Brasília (DF)',
+    gravidade: 'C',
+    descricao: 'Ex-noiva registrou ocorrência acusando o deputado de agressão física, violência psicológica e ameaça. Justiça concedeu medidas protetivas, mas TJ-DF recusou prosseguimento em 2025.',
+    fontes: ['SBT News', 'Metrópoles']
+  },
+  {
+    id: 42, ano: 2023, estado: 'Nacional',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Violência territorial',
+    titulo: 'Assassinatos e violência territorial contra povos indígenas',
+    local: 'Nacional',
     gravidade: 'B',
-    descricao: 'Uma carreata bolsonarista terminou com a morte de Ewerton Rodrigues da Silva, de 34 anos, após uma discussão política. O suspeito, um adolescente de 16 anos, efetuou os disparos.',
-    fontes: [
-      'https://fpabramo.org.br/agressoes-e-atentados-ligados-a-extrema-direita-deixam-rastro-de-mortes-e-feridos-pelo-brasil/',
-      'https://www.cartacapital.com.br/carta-capital/violencia-da-extrema-direita-deixa-mortos-e-feridos-pelo-pais/'
-    ]
+    descricao: 'CIMI registrou 411 ocorrências, incluindo 208 assassinatos (destaque para Samuel e Nauí Pataxó na BA) e 276 casos de invasões e danos ao patrimônio.',
+    fontes: ['CIMI', 'Mapa de Conflitos (Fiocruz)']
+  },
+
+  // ---------- ANO DE 2024 ----------
+  {
+    id: 43, ano: 2024, estado: 'RJ',
+    segmentos: ['Jornalistas'],
+    tipo: 'Intimidação',
+    titulo: 'Hostilização de jornalista em Cabo Frio',
+    local: 'Cabo Frio (RJ)',
+    gravidade: 'B',
+    descricao: 'Jornalista Renata Cristiane foi acusada falsamente de pagar uma jovem e expulsa da praça por um grupo de 100 a 200 manifestantes bolsonaristas.',
+    fontes: ['FENAJ']
+  },
+  {
+    id: 44, ano: 2024, estado: 'RJ',
+    segmentos: ['Gênero'],
+    tipo: 'Violência de gênero',
+    titulo: 'Condenação do deputado Rodrigo Amorim por violência política de gênero',
+    local: 'Rio de Janeiro (RJ)',
+    gravidade: 'A',
+    descricao: 'TRE-RJ condenou o deputado por declarações que humilharam a vereadora Benny Briolly (PSOL), mulher trans, a 1 ano e 4 meses e 70 salários-mínimos.',
+    fontes: ['Justiça Eleitoral (TRE-RJ)']
+  },
+  {
+    id: 45, ano: 2024, estado: 'MG',
+    segmentos: ['Trabalhadores'],
+    tipo: 'Assédio eleitoral',
+    titulo: 'Trabalhador demitido após recusar adesivo de Bolsonaro',
+    local: 'Monte Azul (MG)',
+    gravidade: 'A',
+    descricao: 'TRT-MG manteve condenação de empresa de bioenergia a pagar R$ 30 mil. Encarregado colava adesivos de Bolsonaro; trabalhador recusou, declarou voto em Lula e foi demitido.',
+    fontes: ['TRT-MG']
+  },
+  {
+    id: 46, ano: 2024, estado: 'BA',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato da liderança Nega Pataxó',
+    local: 'Potiraguá (BA)',
+    gravidade: 'C',
+    descricao: 'Maria Fátima Muniz de Andrade foi assassinada durante ataque de fazendeiros a retomada territorial dos povos Pataxó Hã-Hã-Hãe.',
+    fontes: ['CIMI']
+  },
+  {
+    id: 47, ano: 2024, estado: 'PR',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Violência territorial',
+    titulo: 'Ataques contra comunidades Avá-Guarani e Guarani Kaiowá',
+    local: 'Paraná e Mato Grosso do Sul',
+    gravidade: 'C',
+    descricao: 'Mais de 30 ataques com pessoas baleadas e projéteis alojados. Ataques em Douradina (MS) envolveram fazendeiros e jagunços.',
+    fontes: ['CIMI']
+  },
+
+  // ---------- ANO DE 2025 ----------
+  {
+    id: 48, ano: 2025, estado: 'DF',
+    segmentos: ['Jornalistas'],
+    tipo: 'Agressão física',
+    titulo: 'Deputado Paulo Bilynskyj agride jornalista Guga Noblat',
+    local: 'Brasília (DF)',
+    gravidade: 'A',
+    descricao: 'O deputado empurrou e segurou pelo pescoço o jornalista nos corredores da Câmara durante abordagem. Representação foi protocolada.',
+    fontes: ['ICL Notícias', 'Câmara dos Deputados']
+  },
+  {
+    id: 49, ano: 2025, estado: 'ES',
+    segmentos: ['Gênero'],
+    tipo: 'Violência de gênero',
+    titulo: 'Condenação de Gilvan da Federal por violência política de gênero',
+    local: 'Vitória (ES)',
+    gravidade: 'A',
+    descricao: 'Justiça Eleitoral condenou o deputado por chamar a vereadora Camila Valadão de "satanista" e "assassina de bebês". Pena de 1 ano, 4 meses e 15 dias + R$ 10 mil.',
+    fontes: ['UOL', 'Ministério Público do ES']
+  },
+  {
+    id: 50, ano: 2025, estado: 'PR',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Agressão armada',
+    titulo: 'Ataques armados contra comunidade Avá-Guarani (Yvy Okaju)',
+    local: 'Guaíra (PR)',
+    gravidade: 'C',
+    descricao: 'Comunidade sofreu 4 ataques em 7 dias, com 6 indígenas feridos (um paraplégico). Operação Mbarete da PF cumpriu 11 mandados.',
+    fontes: ['CIMI', 'Agência Gov']
+  },
+  {
+    id: 51, ano: 2025, estado: 'BA',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Assassinato',
+    titulo: 'Assassinato do indígena Pataxó Vitor Braz',
+    local: 'Porto Seguro (BA)',
+    gravidade: 'C',
+    descricao: 'Vitor Braz foi assassinado durante ataque à retomada Terra à Vista. Outro indígena ficou ferido. Autoria sob investigação.',
+    fontes: ['CIMI']
+  },
+  {
+    id: 52, ano: 2025, estado: 'SP',
+    segmentos: ['Trabalhadores'],
+    tipo: 'Assédio eleitoral',
+    titulo: 'Condenações trabalhistas por assédio eleitoral pró-Bolsonaro',
+    local: 'RS, SP, ES',
+    gravidade: 'A',
+    descricao: 'Série de condenações: Agrícola DB (RS, R$ 20 mil), Havan Jacareí (SP, R$ 5.900) e Ihara (SP, R$ 1 milhão) por coagir trabalhadores a votar em Bolsonaro.',
+    fontes: ['JOTA', 'Folha de S.Paulo', 'UOL', 'Brasil de Fato']
+  },
+
+  // ---------- ANO DE 2026 (Parcial) ----------
+  {
+    id: 53, ano: 2026, estado: 'MG',
+    segmentos: ['Gênero'],
+    tipo: 'Ameaça racista/misógina',
+    titulo: 'Ameaças racistas e misóginas contra candidata Ana Elisa',
+    local: 'Minas Gerais',
+    gravidade: 'C',
+    descricao: 'Candidata do PT denunciou ameaças de morte, violência sexual e ataques racistas por e-mail. Remetente se apresentou como integrante da Ku Klux Klan.',
+    fontes: ['Agência Brasil']
+  },
+  {
+    id: 54, ano: 2026, estado: 'MG',
+    segmentos: ['Políticos'],
+    tipo: 'Agressão física',
+    titulo: 'Ataque à vereadora Iara Pimentel',
+    local: 'Montes Claros (MG)',
+    gravidade: 'B',
+    descricao: 'Vereadora petista foi atingida no rosto por uma pedra durante carreata de Lula. Homens com camisetas de Flávio Bolsonaro arremessaram objetos contra o carro de som.',
+    fontes: ['G1', 'Agência Brasil', 'Operamundi']
+  },
+  {
+    id: 55, ano: 2026, estado: 'MS',
+    segmentos: ['Povos Indígenas'],
+    tipo: 'Violência territorial',
+    titulo: 'Ameaças e ataques contra comunidades Guarani Kaiowá',
+    local: 'Mato Grosso do Sul',
+    gravidade: 'C',
+    descricao: 'Denúncias de agressões, atropelamento intencional em Coronel Sapucaia, áudio defendendo envenenamento de água (Tacuru) e incêndio da casa de rezadeira.',
+    fontes: ['Agência Brasil', 'MPF', 'APIB']
+  },
+  {
+    id: 56, ano: 2026, estado: 'Nacional',
+    segmentos: ['Trabalhadores'],
+    tipo: 'Assédio eleitoral',
+    titulo: 'Campanha "Demita um petista" e incentivos de parlamentares',
+    local: 'Nacional (PR, RJ)',
+    gravidade: 'B',
+    descricao: 'Parlamentares (Jesicão, Guilherme Kilter, Índia Armelau) incentivaram demissão de eleitores de Lula. MPT recebeu 3.396 denúncias; Justiça concedeu liminares.',
+    fontes: ['UOL', 'Folha de S.Paulo', 'MPT-RJ', 'JOTA']
+  },
+  {
+    id: 57, ano: 2026, estado: 'RN',
+    segmentos: ['Gênero'],
+    tipo: 'Tentativa de feminicídio',
+    titulo: 'Tentativa de feminicídio em Umarizal',
+    local: 'Umarizal (RN)',
+    gravidade: 'C',
+    descricao: 'Clara Thaís (18 anos) teve a garganta cortada pelo namorado Eduardo Ronald (18 anos) após comemorar a eleição de Lula. Suspeito participava de atos de Flávio Bolsonaro.',
+    fontes: ['O Globo', 'Correio 24 Horas', 'Diário Carioca']
+  },
+  {
+    id: 58, ano: 2026, estado: 'Nacional',
+    segmentos: ['Sociedade Civil'],
+    tipo: 'Violência generalizada',
+    titulo: 'Balanço do governo pós-segundo turno',
+    local: 'Nacional',
+    gravidade: 'B',
+    descricao: 'Governo federal contabilizou 45 ocorrências, 47 vítimas e 10 mortes (3 indígenas), além de 7 atropelamentos e 14 espancamentos. Vítimas majoritariamente apoiadores de Lula.',
+    fontes: ['Secretaria-Geral da Presidência', 'Agência Brasil']
   }
-  // ------------------------------------------------------------
-  // NOTA: Para incluir os demais casos dos arquivos, basta copiar
-  // o modelo acima e preencher os campos. A lista completa pode
-  // chegar a mais de 60 fichas.
-  // ------------------------------------------------------------
 ];
 
 // ------------------------------------------------------------
-// LÓGICA DE FILTRAGEM COMBINADA
+// LÓGICA DE FILTRAGEM E RENDERIZAÇÃO
 // ------------------------------------------------------------
 const selectAno = document.getElementById('filter-ano');
 const selectSegmento = document.getElementById('filter-segmento');
@@ -450,7 +787,7 @@ const selectTipo = document.getElementById('filter-tipo');
 const grid = document.getElementById('cards-grid');
 const countSpan = document.getElementById('count');
 
-// Preencher opções dinamicamente
+// Preencher Filtros Dinamicamente
 const anos = [...new Set(eventos.map(e => e.ano))].sort((a, b) => a - b);
 anos.forEach(ano => {
   const opt = document.createElement('option');
@@ -465,7 +802,7 @@ segmentos.forEach(seg => {
   selectSegmento.appendChild(opt);
 });
 
-const estados = [...new Set(eventos.map(e => e.estado))].filter(e => e !== 'Nacional').sort();
+const estados = [...new Set(eventos.map(e => e.estado))].sort();
 estados.forEach(uf => {
   const opt = document.createElement('option');
   opt.value = uf; opt.textContent = uf;
@@ -479,6 +816,7 @@ tipos.forEach(tp => {
   selectTipo.appendChild(opt);
 });
 
+// Função de Renderização
 function render() {
   const anoSel = selectAno.value;
   const segSel = selectSegmento.value;
@@ -503,35 +841,35 @@ function render() {
   grid.innerHTML = filtrados.map(ev => `
     <div class="card">
       <div class="card-header">
-        <h3>${ev.titulo}</h3>
+        <h3>Ficha ${ev.id}: ${ev.titulo}</h3>
         <span class="badge ano">${ev.ano}</span>
       </div>
       <div class="meta">
-        <span>📍 ${ev.local} (${ev.estado})</span>
-        <span>⚖️ ${ev.natureza}</span>
+        <span>📍 ${ev.local}</span>
+        <span>⚖️ Tipo: ${ev.tipo}</span>
       </div>
       <p class="desc">${ev.descricao}</p>
       <div class="tags">
         ${ev.segmentos.map(s => `<span class="tag-item">${s}</span>`).join('')}
-        <span class="tag-item">${ev.tipo}</span>
       </div>
-      <div class="card-header" style="margin-top:0.25rem;">
-        <span class="badge grau-${ev.gravidade}">Grau ${ev.gravidade}</span>
+      <div style="margin-top: 0.5rem;">
+        <span class="badge grau-${ev.gravidade}">Grau de Comprovação: ${ev.gravidade}</span>
       </div>
       <div class="sources">
-        ${ev.fontes.map(url => `<a href="${url}" target="_blank" rel="noopener" class="source-link">${new URL(url).hostname}</a>`).join('')}
+        ${ev.fontes.map(f => `<span class="source-link">${f}</span>`).join('')}
       </div>
     </div>
   `).join('');
 }
 
-// Event listeners
+// Event Listeners
 selectAno.addEventListener('change', render);
 selectSegmento.addEventListener('change', render);
 selectEstado.addEventListener('change', render);
 selectTipo.addEventListener('change', render);
 
-render(); // Renderização inicial
+// Renderização Inicial
+render();
 </script>
 </body>
 </html>
